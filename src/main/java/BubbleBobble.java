@@ -28,9 +28,10 @@ public class BubbleBobble extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("BubbleBobble");
+        Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
+        primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

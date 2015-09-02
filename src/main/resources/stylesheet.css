@@ -1,0 +1,4 @@
+.button {
+    -fx-min-width: 25px;
+    -fx-text-alignment: center;
+}
