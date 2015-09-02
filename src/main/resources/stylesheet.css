@@ -1,4 +1,5 @@
 .button {
-    -fx-min-width: 25px;
+    -fx-min-width: 300;
     -fx-text-alignment: center;
+    -fx-alignment: center;
 }

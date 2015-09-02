@@ -3,8 +3,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
 <?import java.net.URL?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <GridPane fx:controller="StartController"
           xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: black;" alignment="center" hgap="10" vgap="10" minHeight="1920" minWidth="1080">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"/>
+    </columnConstraints>
+
     <ImageView fx:id="imageView"
             fitHeight="360"
             fitWidth="640"
@@ -21,6 +27,8 @@
     <Button fx:id="startButton" styleClass="button" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
     <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
     <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+
 
     <stylesheets>
         <URL value="@stylesheet.css"/>
