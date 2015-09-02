@@ -31,7 +31,7 @@ public class BubbleBobble extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setFullScreen(true);
+//        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

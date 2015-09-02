@@ -2,4 +2,12 @@
     -fx-min-width: 300;
     -fx-text-alignment: center;
     -fx-alignment: center;
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+}
+
+.button:hover {
+    -fx-border-color: white;
+    -fx-border-width: 0 3 0 3;
 }
