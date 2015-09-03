@@ -62,11 +62,57 @@ public class StartController implements Initializable {
     }
 
     /**
-     * This method is run when the view is shown.
-     *
-     * This is where data can be put in tables, for example.
+     * Gets the help screen gridpane.
+     * @return The help screen
      */
-    public void show() {
+    public GridPane getHelpScreen() {
+        return helpScreen;
     }
+
+    /**
+     * Gets the Anchorpane stage.
+     * @return The stage
+     */
+    public AnchorPane getRoot() {
+        return root;
+    }
+
+    /**
+     * Gets the image of the logo
+     * @return The logo view
+     */
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    /**
+     * Gets the start button
+     * @return Start button
+     */
+    public Button getStartButton() {
+        return startButton;
+    }
+
+    /**
+     * Returns the Exit Button
+     * @return The Exit Button
+     */
+    public Button getExitButton() {
+        return exitButton;
+    }
+
+    /**
+     * Returns the help button
+     * @return The Help Button
+     */
+    public Button getHelpButton() {
+        return helpButton;
+    }
+
+    public void setHelpScreen(GridPane helpScreen) {
+        this.helpScreen = helpScreen;
+    }
+
+
 
 }
