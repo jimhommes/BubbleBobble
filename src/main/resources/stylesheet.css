@@ -11,3 +11,11 @@
     -fx-border-color: white;
     -fx-border-width: 0 3 0 3;
 }
+
+#helpScreen {
+    -fx-background-color: green;
+    -fx-min-width: 800;
+    -fx-min-height: 600;
+}
+
+

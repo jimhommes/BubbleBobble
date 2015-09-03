@@ -2,6 +2,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -12,11 +13,17 @@ import java.util.ResourceBundle;
  */
 
 public class StartController implements Initializable {
+
+    /**
+     * The help screen.
+     */
+    @FXML private GridPane helpScreen;
+
     /**
      * The @FXML annotation links the view element to this object in the controller.
      * The variable name of the object has to match the fx:id of the view element.
      */
-    @FXML private GridPane root;
+    @FXML private AnchorPane root;
 
     /**
      * The ImageView is the logo that is shown.
@@ -49,10 +56,10 @@ public class StartController implements Initializable {
             root.visibleProperty().setValue(false);
         });
         helpButton.setOnAction((event -> {
-            System.out.println("Help!");
+            helpScreen.visibleProperty().setValue(!helpScreen.isVisible());
         }));
         exitButton.setOnAction((event -> {
-            System.out.println("Exit!");
+            System.exit(0);
         }));
     }
 
