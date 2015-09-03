@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This class is responsible for the launch of the game.
+ */
 public class BubbleBobble extends Application {
 
     /**
@@ -13,7 +16,7 @@ public class BubbleBobble extends Application {
      *
      * @param args Command line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
@@ -27,11 +30,10 @@ public class BubbleBobble extends Application {
      * @throws IOException When the FXML file is not found.
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(final Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
-//        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

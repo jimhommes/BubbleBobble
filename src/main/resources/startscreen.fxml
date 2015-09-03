@@ -4,7 +4,9 @@
 <?import javafx.scene.control.Button?>
 <?import java.net.URL?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<GridPane fx:controller="StartController"
+<GridPane
+        fx:id="root"
+        fx:controller="StartController"
           xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: black;" alignment="center" hgap="10" vgap="10" minHeight="1920" minWidth="1080">
 
     <columnConstraints>
