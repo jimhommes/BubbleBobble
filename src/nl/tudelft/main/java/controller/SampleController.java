@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 /**
  * Created by toinehartman on 01/09/15.
@@ -32,4 +33,5 @@ public class SampleController {
      */
     public void show() {
     }
+
 }
