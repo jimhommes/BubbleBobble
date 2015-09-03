@@ -30,7 +30,7 @@ public class Launcher extends Application {
      * @throws IOException When the FXML file is not found.
      */
     @Override
-    public void start(final Stage primaryStage) throws IOException {
+    public final void start(final Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
