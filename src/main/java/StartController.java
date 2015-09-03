@@ -1,3 +1,4 @@
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -5,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,15 +54,13 @@ public class StartController implements Initializable {
      */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        startButton.setOnAction(event -> {
-            root.visibleProperty().setValue(false);
-        });
-        helpButton.setOnAction((event -> {
-            helpScreen.visibleProperty().setValue(!helpScreen.isVisible());
-        }));
-        exitButton.setOnAction((event -> {
-            System.exit(0);
-        }));
+        startButton.setOnAction(event ->
+                root.visibleProperty().setValue(false));
+        helpButton.setOnMousePressed((event ->
+                helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
+        root.setOnMousePressed(event -> helpScreen.visibleProperty().setValue(false));
+        exitButton.setOnAction((event ->
+                System.exit(0)));
     }
 
     /**

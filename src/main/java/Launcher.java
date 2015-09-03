@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * This class is responsible for the launch of the game.
  */
-public class BubbleBobble extends Application {
+public class Launcher extends Application {
 
     /**
      * The main method just launches the application.
