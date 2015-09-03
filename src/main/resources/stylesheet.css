@@ -1,3 +1,5 @@
+/*Start Screen*/
+
 .button {
     -fx-min-width: 300;
     -fx-text-alignment: center;
@@ -13,9 +15,21 @@
 }
 
 #helpScreen {
-    -fx-background-color: green;
+    -fx-background-color: #222222;
+    -fx-opacity: 0.99;
     -fx-min-width: 800;
     -fx-min-height: 600;
+    -fx-padding: 50;
+    -fx-border-color: white;
+    -fx-border-width: 15px;
 }
 
+.helpTitleText {
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
 
+.helpText {
+    -fx-font-size: 20px;
+    -fx-fill: white;
+}

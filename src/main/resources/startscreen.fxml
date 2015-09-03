@@ -35,7 +35,9 @@
               AnchorPane.bottomAnchor="200"
             visible="false">
         <Text text="Help Screen" GridPane.columnIndex="0"
-              GridPane.rowIndex="0"/>
+              GridPane.rowIndex="0" styleClass="helpTitleText"/>
+        <Text text="This is the help screen. Here the instructions for the game can be found." styleClass="helpText"
+                GridPane.columnIndex="0" GridPane.rowIndex="2"/>
     </GridPane>
 
 
