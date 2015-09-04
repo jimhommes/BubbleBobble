@@ -8,6 +8,55 @@
     <artifactId>BubbleBobble</artifactId>
     <version>0.1</version>
 
+    <description>
+        This is a game that we will be developing in the next two weeks. The game is called Bubble Bobble, an old
+        arcade game.
+    </description>
+    <url>https://github.com/jimhommes/BubbleBobble</url>
+
+    <organization>
+        <name>TUDelft</name>
+        <url>http://www.tudelft.nl/en/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Jim Hommes</name>
+            <email>J.Hommes@student.tudelft.nl</email>
+            <roles>
+                <role>SCRUM Master</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Matthijs Verzijl</name>
+            <email>M.A.R.C.M.Verzijl@student.tudelft.nl</email>
+            <roles>
+                <role>Product Owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Emilie de Bree</name>
+            <email>emiliedebree@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Jeffrey Helgers</name>
+            <email>jeffreyhelgers@hotmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Toine Hartman</name>
+            <email>tjbhartman@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
