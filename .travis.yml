@@ -1,9 +1,8 @@
-language: ruby
-rvm:
- - "1.8.7"
- - "1.9.2"
- - "1.9.3"
- - rbx
-# uncomment this line if your project needs to run something other than `rake`:
-# script: bundle exec rspec spec
+language: java
+jdk:
+- oraclejdk8
+after-script:
+- echo "----------CHECKSTYLE RESULT----------" && cat "target/checkstyle-result.xml" && echo "----------END CHECKSTYLE RESULT----------"
+- echo "----------PMD RESULT----------" && cat "target/pmd.xml" && echo "----------END PMD RESULT----------"
+- echo "----------FINDBUGS RESULT----------" && cat "target/findbugsXml.xml" && echo "----------END FINDBUGS RESULT----------"
 
