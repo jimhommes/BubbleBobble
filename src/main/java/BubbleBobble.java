@@ -1,18 +1,19 @@
-package model;
+package nl.tudelft.BubbleBobble;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import model.Input;
+import model.Player;
+import model.Settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class BubbleBobble extends Application {
 
