@@ -6,20 +6,20 @@ The functional requirements for the game Bubble Bobble are listed using the \fnu
 
 \begin{itemize}
 \itemsep0em 
- 	\item A start up screen is shown when the game starts.
-  	\item The startup screen has the ability to start a new game.
+ 	\item The game shall have a start up screen.
+  	\item The player shall have the ability to start a new game.
   	\item The game has a single level to play the game on.
-  	\item This level shall show a board with a few monsters and a character to play with.
-  	\item The character must be able to move around and jump.
-  	\item The monsters need to be able to walk around randomly.
- 	\item The player has the ability to win the game.
- 	\itme The game is won when all the monsters are dead.
- 	\item The player loses when a monster touches the character.
- 	\item The game shall show a game over schreen when the player dies.
+  	\item The game shall have one level to play the game on.
+  	\item The player's character must be able to move around horizontally.
+  	\item The player's character must be able to jump.
+  	\item The monsters will walk around vertically, and when they hit a wall they will change direction. 
+ 	\item The player has the ability to win the game when they have killed all the monsters.
+ 	\item The player loses the game when a monster touches the character.
+ 	\item The game shall show a game over screen when the player dies.
  	\item The game shall have a field where the character and monsters can move around.
- 	\item The character shall be able to shoot bubbles.
- 	\item The monster shall be caught by a bubble, when the monster is hit by a bubble.
- 	\item The monster shall die, when the monster is caught by a bubble and the character jumps on the bubble
+ 	\item The player's character shall be able to shoot bubbles.
+ 	\item The monster shall be caught by a bubble when it is hit by a bubble.
+ 	\item The monster shall die when it is caught in a bubble and the character collides with the bubble.
 \end{itemize}
 
 \section{Should Haves}
@@ -28,11 +28,13 @@ The functional requirements for the game Bubble Bobble are listed using the \fnu
 \itemsep0em 
  \item The player shall have multiple lives.
  \item The player shall lose a live, when a monster touches the character. 
- \item The game shall keep a score counter.
- \item The game shall have the ability to stop / pause the game. 
- \item The game shall have the ability to restart the game.
+ \item The game shall keep a track of the player's score.
+ \item The game shall have the ability to pause.
+ \item The game shall have the ability to unpause after the pause button have been pressed.
+ \item The game shall have the ability to stop, which closes the game.
+ \item The game shall have the ability to restart, which will return the game to it's original state.
  \item The monsters shall be able to drop pickups when they die.
- \item The pickups shall increase the players score.
+ \item The player has the ability to pick up pickups shall increase their score.
 \end{itemize}
 
 \section{Could Haves}
@@ -41,8 +43,10 @@ The functional requirements for the game Bubble Bobble are listed using the \fnu
 \itemsep0em 
   \item The game shall have multiple levels to play on.
   \item The monsters can find the character, so are more likely to walk closer to the character.
-  \item The monsters and character shall have smooth animations, better graphics.
-  \item The game shall have a theme music for different scenarios.
+  \item The monsters and character shall have the ability to be animated.
+  \item The game shall play a theme song when the player is player.
+  \item The game shall play a different song when the player dies.
+  \item The game shall play a third song when the level is won.
   \item The game shall keep a list of previous scores.
   \item The monsters shall be able to drop powerups when they die.
   \item The powerups shall increase, the speed of the bubble, the distance the bubble travels or the walking speed of the character.
