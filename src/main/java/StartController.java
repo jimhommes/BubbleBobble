@@ -1,10 +1,15 @@
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -52,8 +57,13 @@ public class StartController implements Initializable {
      */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        startButton.setOnAction(event ->
-                root.visibleProperty().setValue(false));
+        startButton.setOnAction(event -> {
+            try {
+                startLevel();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         helpButton.setOnMousePressed((event ->
                 helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
         root.setOnMousePressed(event -> helpScreen.visibleProperty().setValue(false));
@@ -62,57 +72,13 @@ public class StartController implements Initializable {
     }
 
     /**
-     * Gets the help screen gridpane.
-     * @return The help screen
+     * The function bound to the startbutton.
+     * @throws IOException The exception thrown.
      */
-    public GridPane getHelpScreen() {
-        return helpScreen;
+    private void startLevel() throws IOException {
+        Stage stage = (Stage) root.getScene().getWindow();
+        Parent newRoot = FXMLLoader.load(getClass().getResource("level.fxml"));
+        stage.setScene(new Scene(newRoot));
     }
-
-    /**
-     * Gets the Anchorpane stage.
-     * @return The stage
-     */
-    public AnchorPane getRoot() {
-        return root;
-    }
-
-    /**
-     * Gets the image of the logo
-     * @return The logo view
-     */
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    /**
-     * Gets the start button
-     * @return Start button
-     */
-    public Button getStartButton() {
-        return startButton;
-    }
-
-    /**
-     * Returns the Exit Button
-     * @return The Exit Button
-     */
-    public Button getExitButton() {
-        return exitButton;
-    }
-
-    /**
-     * Returns the help button
-     * @return The Help Button
-     */
-    public Button getHelpButton() {
-        return helpButton;
-    }
-
-    public void setHelpScreen(GridPane helpScreen) {
-        this.helpScreen = helpScreen;
-    }
-
-
 
 }

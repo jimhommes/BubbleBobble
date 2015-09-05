@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="root"
         fx:controller="StartController"
-          xmlns:fx="http://javafx.com/fxml" style="-fx-background-color: black;" minHeight="1920" minWidth="1080">
+          xmlns:fx="http://javafx.com/fxml">
 
     <VBox alignment="CENTER"
           AnchorPane.leftAnchor="0"

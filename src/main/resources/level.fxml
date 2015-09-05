@@ -1,0 +1,10 @@
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.StackPane?>
+<?import java.net.URL?>
+<StackPane fx:id="root" fx:controller="LevelController" xmlns:fx="http://javafx.com/fxml">
+    <Canvas fx:id="canvas" width="832" height="832"/>
+
+    <stylesheets>
+        <URL value="@stylesheet.css"/>
+    </stylesheets>
+</StackPane>
