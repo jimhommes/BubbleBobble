@@ -1,4 +1,9 @@
 /* Start Screen */
+#root {
+    -fx-background-color: black;
+    -fx-min-height: 1080px;
+    -fx-min-width: 1920px;
+}
 
 .button {
     -fx-min-width: 300;
