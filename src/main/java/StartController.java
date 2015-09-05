@@ -71,8 +71,11 @@ public class StartController implements Initializable {
                 System.exit(0)));
     }
 
+    /**
+     * The function bound to the startbutton.
+     * @throws IOException The exception thrown.
+     */
     private void startLevel() throws IOException {
-
         Stage stage = (Stage) root.getScene().getWindow();
         Parent newRoot = FXMLLoader.load(getClass().getResource("level.fxml"));
         stage.setScene(new Scene(newRoot));

@@ -13,17 +13,35 @@ import java.util.ResourceBundle;
  */
 public class LevelController implements Initializable {
 
+    /**
+     * The StackPane the level is drawn on.
+     */
     @FXML
-    StackPane root;
-    @FXML
-    Canvas canvas;
+    private StackPane root;
 
+    /**
+     * The canvas that is in the StackPane.
+     */
+    @FXML
+    private Canvas canvas;
+
+    /**
+     * The list of maps that the user is about to play.
+     */
     private ArrayList<String> maps;
+
+    /**
+     * The current level the user is playing.
+     */
     private int currLvl;
 
+    /**
+     * The init function.
+     * @param location The URL
+     * @param resources The ResourceBundle.
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
+    public final void initialize(final URL location, final ResourceBundle resources) {
         maps = new ArrayList<>();
         findMaps();
 
@@ -36,6 +54,9 @@ public class LevelController implements Initializable {
 
     }
 
+    /**
+     * This function scans the resources folder for maps.
+     */
     private void findMaps() {
         File folder = new File("c:/users/jim/workspace/bubblebobble/src/main/resources");
         File[] listOfFiles = folder.listFiles();
@@ -49,11 +70,17 @@ public class LevelController implements Initializable {
         }
     }
 
-    public void createLvl() {
+    /**
+     * This function creats the currLvl'th level.
+     */
+    public final void createLvl() {
         new Level(maps.get(currLvl), canvas);
     }
 
-    public void nextLevel() {
+    /**
+     * This function creates the next level.
+     */
+    public final void nextLevel() {
         currLvl++;
         createLvl();
     }
