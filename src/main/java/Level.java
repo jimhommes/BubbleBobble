@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Jim on 9/5/2015.
@@ -16,11 +17,11 @@ public class Level {
     protected static Integer map[][];
 
     private String lvlTitle;
-    private Canvas canvas;
+    private ArrayList<Wall> walls;
 
     public Level(final String lvlTitle, final Canvas canvas) {
         this.lvlTitle = lvlTitle;
-        this.canvas = canvas;
+        this.walls = new ArrayList<>();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawMap(gc);
@@ -29,10 +30,10 @@ public class Level {
     public void drawMap(GraphicsContext gc){
         Image image = new Image(getClass().getResourceAsStream("BubbleBobbleWall32b.png"));
         readMap();
-        System.out.println(map[0][0]);
         for(int row = 0; row < num_rows; row++) {
             for(int col = 0; col < num_cols; col++) {
                 if(map[row][col] == 1){
+                    walls.add(new Wall(col*32, row*32));
                     gc.drawImage(image, col*32, row*32);
                 }
             }

@@ -24,18 +24,13 @@ public class LevelController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //Scan folder for maps
-        //load first map
-        //otherwise output no maps found
-
         maps = new ArrayList<>();
         findMaps();
 
-        if(maps.size() > 0) {
-            //load first map
+        if (maps.size() > 0) {
             currLvl = 0;
             createLvl();
-        }else{
+        } else {
             System.out.println("No maps found!");
         }
 

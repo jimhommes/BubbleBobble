@@ -22,7 +22,7 @@ public class Launcher extends Application {
 
     /**
      * The start method sets up the application window.
-     *
+     * <p>
      * The view is loaded from an FXML file. A title for the window is set.
      * The loaded view is set as the current scene.
      *
