@@ -58,13 +58,13 @@ public class LevelController implements Initializable {
      * This function scans the resources folder for maps.
      */
     private void findMaps() {
-        File folder = new File("c:/users/jim/workspace/bubblebobble/src/main/resources");
+        File folder = new File("src/main/resources");
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
-        for (File listOfFile : listOfFiles) {
-            if (listOfFile.isFile()) {
-                if (listOfFile.getName().matches("map[0-9]*.txt")) {
-                    maps.add(listOfFile.getName());
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                if (file.getName().matches("map[0-9]*.txt")) {
+                    maps.add(file.getName());
                 }
             }
         }
