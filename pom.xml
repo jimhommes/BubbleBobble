@@ -8,11 +8,72 @@
     <artifactId>BubbleBobble</artifactId>
     <version>0.1</version>
 
+    <prerequisites>
+        <maven>2.2.1</maven>
+    </prerequisites>
+
+    <description>
+        This is a game that we will be developing in the next two weeks. The game is called Bubble Bobble, an old
+        arcade game.
+    </description>
+    <url>https://github.com/jimhommes/BubbleBobble</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <targetJdk>1.8</targetJdk>
+        <checkstyle.plugin.version>2.16</checkstyle.plugin.version>
+        <pmd.plugin.version>3.4</pmd.plugin.version>
+        <findbugs.version>3.0.0</findbugs.version>
+    </properties>
+
+    <organization>
+        <name>TUDelft</name>
+        <url>http://www.tudelft.nl/en/</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Jim Hommes</name>
+            <email>J.Hommes@student.tudelft.nl</email>
+            <roles>
+                <role>SCRUM Master</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Matthijs Verzijl</name>
+            <email>M.A.R.C.M.Verzijl@student.tudelft.nl</email>
+            <roles>
+                <role>Product Owner</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Emilie de Bree</name>
+            <email>emiliedebree@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Jeffrey Helgers</name>
+            <email>jeffreyhelgers@hotmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Toine Hartman</name>
+            <email>tjbhartman@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
         </dependency>
     </dependencies>
 
@@ -30,11 +91,124 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>launcher.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.14.1</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <configLocation>${basedir}/checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <configuration>
+                    <skipEmptyReport>false</skipEmptyReport>
+                    <includeTests>true</includeTests>
+                    <rulesets>
+                        <ruleset>pmd-rules.xml</ruleset>
+                    </rulesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>default</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <linkJavadoc>true</linkJavadoc>
+                </configuration>
+                <version>2.5</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <configLocation>${basedir}/checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin> <!-- JUnit report -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.18.1</version>
+            </plugin>
+
+            <!-- PMD configuration for JUnit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <configuration>
+                    <skipEmptyReport>false</skipEmptyReport>
+                    <includeTests>true</includeTests>
+                    <rulesets>
+                        <ruleset>pmd-rules.xml</ruleset>
+                    </rulesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs.version}</version>
+                                <configuration>
+                                        <xmlOutput>true</xmlOutput>
+                                        <includeTests>true</includeTests>
+                                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
 
 </project>

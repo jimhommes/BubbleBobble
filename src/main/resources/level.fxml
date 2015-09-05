@@ -1,0 +1,14 @@
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<StackPane fx:id="root" fx:controller="controller.LevelController" xmlns:fx="http://javafx.com/fxml" visible="true">
+    <Canvas fx:id="canvas" width="832" height="832"/>
+    <Pane fx:id="playfieldLayer" minWidth="832" minHeight="832"/>
+    <Text fx:id="startMessage" text="Click anywhere to start" styleClass="levelMessage"/>
+
+    <stylesheets>
+        <URL value="@stylesheet.css"/>
+    </stylesheets>
+</StackPane>
