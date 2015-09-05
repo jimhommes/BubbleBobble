@@ -32,14 +32,13 @@ public class LevelController implements Initializable {
     }
 
     public void drawMap(GraphicsContext gc){
-        Image image = new Image(getClass().getResourceAsStream("BubbleBobbleWall.png"));
-        //gc.drawImage(image, 0, 0);
+        Image image = new Image(getClass().getResourceAsStream("BubbleBobbleWall32b.png"));
         readMap();
         System.out.println(map[0][0]);
         for(int row = 0; row < num_rows; row++) {
             for(int col = 0; col < num_cols; col++) {
                 if(map[row][col] == 1){
-                    gc.drawImage(image, col*16, row*16);
+                    gc.drawImage(image, col*32, row*32);
                 }
             }
         }
@@ -50,7 +49,6 @@ public class LevelController implements Initializable {
         map = new Integer[num_rows][num_cols];
 
         BufferedReader reader = null;
-
 
         try {
             reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("map1.txt")));

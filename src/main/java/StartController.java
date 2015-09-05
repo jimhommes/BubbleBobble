@@ -75,24 +75,7 @@ public class StartController implements Initializable {
 
         Stage stage = (Stage) root.getScene().getWindow();
         Parent newRoot = FXMLLoader.load(getClass().getResource("level.fxml"));
-
-//        System.out.println(stage);
-//
-//        Group newRoot = new Group();
-//        StackPane holder = new StackPane();
-//        Canvas canvas = new Canvas(416, 416);
-//        GraphicsContext gc = canvas.getGraphicsContext2D();
-//
-//        drawMap(gc);
-//
-//        holder.getChildren().add(canvas);
-//        newRoot.getChildren().add(holder);
-//
-//        holder.setStyle("-fx-background-color: black");
-////        newRoot.setStyle("-fx-background-image: url('image1.jpg')");
-
         stage.setScene(new Scene(newRoot));
-        stage.show();
     }
 
 }
