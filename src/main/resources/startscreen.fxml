@@ -1,47 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.scene.text.Text?>
-<AnchorPane fx:id="root"
-        fx:controller="StartController"
-          xmlns:fx="http://javafx.com/fxml">
 
-    <VBox alignment="CENTER"
-          AnchorPane.leftAnchor="0"
-          AnchorPane.rightAnchor="0"
-            AnchorPane.bottomAnchor="0"
-            AnchorPane.topAnchor="0">
-        <ImageView fx:id="imageView"
-                   fitHeight="360"
-                   fitWidth="640"
-                   layoutX="61.0"
-                   layoutY="83.0"
-                   pickOnBounds="true"
-                   preserveRatio="true"
-                >
-            <Image url="BubbleBobbleLogo.png"/>
-        </ImageView>
-
-        <Button fx:id="startButton" styleClass="button" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-    </VBox>
-
-    <GridPane fx:id="helpScreen" AnchorPane.leftAnchor="200"
-              AnchorPane.rightAnchor="200"
-              AnchorPane.topAnchor="200"
-              AnchorPane.bottomAnchor="200"
-            visible="false">
-        <Text text="Help Screen" GridPane.columnIndex="0"
-              GridPane.rowIndex="0" styleClass="helpTitleText"/>
-        <Text text="This is the help screen. Here the instructions for the game can be found." styleClass="helpText"
-                GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-    </GridPane>
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartController">
+   <children>
+   
+       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+              <ImageView fx:id="imageView" fitHeight="360" fitWidth="640" layoutX="61.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                     <Image url="BubbleBobbleLogo.png" />
+                 </image>
+              </ImageView>
+      
+              <Button fx:id="startButton" styleClass="button" text="Start" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+              <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+              <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+      </children>
+       </VBox>
+   
+       <GridPane fx:id="helpScreen" visible="false" AnchorPane.bottomAnchor="200" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="200">
+      <children>
+              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Text>
+              <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" styleClass="helpImage" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <image>
+                  <Image url="@Instruction.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="S_RESIZE" />
+               </cursor>
+            </ImageView>
+      </children>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+       </GridPane>
+   </children>
 
 
     <stylesheets>
-        <URL value="@stylesheet.css"/>
+        <URL value="@stylesheet.css" />
     </stylesheets>
 </AnchorPane>
