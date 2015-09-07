@@ -5,8 +5,8 @@ package model;
  */
 public class Settings {
 
-    public static double SCENE_WIDTH = 600;
-    public static double SCENE_HEIGHT = 430;
+    public static double SCENE_WIDTH = 1000;
+    public static double SCENE_HEIGHT = 1000;
 
     public static double PLAYER_SPEED = 5.0;
     public static double PLAYER_HEALTH = 100.0;
