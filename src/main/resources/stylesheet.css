@@ -34,3 +34,8 @@
     -fx-font-size: 30px;
     -fx-fill: white;
 }
+
+.helpText {
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}

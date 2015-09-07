@@ -33,18 +33,16 @@
    
        <GridPane fx:id="helpScreen" visible="false" AnchorPane.bottomAnchor="200" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="200">
       <children>
-              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+              <Text styleClass="helpTitleText" text="Help Screen" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></Text>
-              <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" styleClass="helpImage" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-               <image>
-                  <Image url="@Instruction.png" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="S_RESIZE" />
-               </cursor>
-            </ImageView>
+            <Text styleClass="helpText" text="Left Arrow - Move Left" wrappingWidth="400.6416015625" GridPane.halignment="CENTER" GridPane.rowSpan="2" />
+            <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.halignment="CENTER" />
+            <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.halignment="CENTER" />
+            <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.halignment="CENTER" />
+            <Text styleClass="helpText" text="P key - Pause the game" GridPane.halignment="CENTER" />
+            <Text styleClass="helpText" text="Click to return to the menu." GridPane.halignment="CENTER" />
       </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -53,6 +51,7 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
        </GridPane>
    </children>
