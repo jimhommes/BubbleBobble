@@ -8,7 +8,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Player;
+import model.Settings;
+import model.SpriteBase;
 
 import java.io.File;
 import java.net.URL;
@@ -16,45 +20,57 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jim on 9/5/2015.
+ * @author Jim
+ * @since 9/5/2015
+ * @version 0.1
  */
 public class LevelController implements Initializable {
+
+    /**
+     * The list of players in the game.
+     */
+    private ArrayList<Player> players;
+
+    /**
+     * The image of the player.
+     */
+    private Image playerImage;
+
+    /**
+     * The message that says "Click when ready".
+     */
+    @FXML
+    private Text startMessage;
+
+    /**
+     * The layer the player "moves" in.
+     */
+    @FXML
+    private Pane playfieldLayer;
 
     /**
      * The StackPane the level is drawn on.
      */
     @FXML
     private StackPane root;
-
     /**
      * The canvas that is in the StackPane.
      */
     @FXML
     private Canvas canvas;
-
     /**
      * The list of maps that the user is about to play.
      */
     private ArrayList<String> maps;
-
     /**
      * The current level the user is playing.
      */
     private int currLvl;
 
-    ArrayList<Player> players;
-
-    Image playerImage;
-
-    @FXML
-    Text startMessage;
-
-    @FXML
-    Pane playfieldLayer;
-
     /**
      * The init function.
-     * @param location The URL
+     *
+     * @param location  The URL
      * @param resources The ResourceBundle.
      */
     @Override
@@ -86,6 +102,9 @@ public class LevelController implements Initializable {
 
     }
 
+    /**
+     * The function that is used to create the player.
+     */
     private void createPlayer() {
         playerImage = new Image(getClass().getResource("../player.png").toExternalForm());
         Input input = new Input(playfieldLayer.getScene());
@@ -96,7 +115,8 @@ public class LevelController implements Initializable {
         double x = (Settings.SCENE_WIDTH - image.getWidth()) / 2.0;
         double y = Settings.SCENE_HEIGHT * 0.7;
 
-        Player player = new Player(playfieldLayer, image, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
+        Player player = new Player(playfieldLayer,
+                image, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
         players.add(player);
     }
 

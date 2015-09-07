@@ -10,7 +10,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by Jim on 9/5/2015.
+ * @author Jim
+ * @since 9/5/2015
+ * @version 0.1
  */
 public class Level {
 
@@ -80,11 +82,11 @@ public class Level {
     public final void readMap() {
         int row = 0;
         map = new Integer[NUM_ROWS][NUM_COLS];
-
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("../"+lvlTitle)));
+            reader = new BufferedReader(
+                    new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle)));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
