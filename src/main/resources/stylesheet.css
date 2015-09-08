@@ -44,3 +44,9 @@
     -fx-fill: white;
     -fx-alignment: center;
 }
+
+.gameOver {
+	-fx-font-size: 70px;
+    -fx-fill: red;
+    -fx-alignment: center;
+}
