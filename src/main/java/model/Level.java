@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
@@ -56,7 +54,6 @@ public class Level {
     /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
-     * @param canvas The canvas the level should be drawn in.
      */
     public Level(final String lvlTitle, final Pane playfieldLayer) {
         this.lvlTitle = lvlTitle;
@@ -78,9 +75,9 @@ public class Level {
                 if (map[row][col] == 1) {
                     walls.add(new Wall(playfieldLayer, new Image(getClass().getResourceAsStream(Wall.WALL_SPRITE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0, Settings.MONSTER_SPEED, true));
+                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, true));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0, Settings.MONSTER_SPEED, false));
+                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, false));
                 }
             }
         }
