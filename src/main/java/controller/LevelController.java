@@ -28,11 +28,6 @@ public class LevelController implements Initializable {
     private ArrayList<Player> players;
 
     /**
-     * The list of Monsters in the game.
-     */
-    private ArrayList<Monster> monsters;
-
-    /**
      * The image of the player.
      */
     private Image playerImage;
@@ -69,9 +64,14 @@ public class LevelController implements Initializable {
      */
     private ArrayList<String> maps;
     /**
-     * The current level the user is playing.
+     * The current index of the level the user is playing.
      */
-    private int currLvl;
+    private int indexCurrLvl;
+
+    /**
+     * THe current level the user is playing.
+     */
+    private Level currLvl;
 
     /**
      * The init function.
@@ -83,7 +83,6 @@ public class LevelController implements Initializable {
     public final void initialize(final URL location, final ResourceBundle resources) {
         maps = new ArrayList<>();
         players = new ArrayList<>();
-        monsters = new ArrayList<>();
         findMaps();
 
         AnimationTimer gameLoop = new AnimationTimer() {
@@ -92,8 +91,8 @@ public class LevelController implements Initializable {
                 players.forEach(Player::processInput);
                 players.forEach(Player::move);
                 players.forEach(SpriteBase::updateUI);
-                monsters.forEach(Monster::move);
-                monsters.forEach(SpriteBase::updateUI);
+                currLvl.getMonsters().forEach(Monster::move);
+                currLvl.getMonsters().forEach(SpriteBase::updateUI);
             }
         };
 
@@ -118,21 +117,6 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function creates a few monsters.
-     */
-    private void createMonster() {
-        monsterImage = new Image(getClass().getResource("../Angry-Expresicon.png").toExternalForm());
-
-        double x = (Settings.SCENE_WIDTH - monsterImage.getWidth()) / 2.0;
-        double y = Settings.SCENE_HEIGHT * 0.7;
-
-        Monster monster = new Monster(playfieldLayer, monsterImage, x, y, 0, 0, 0, 0, Settings.MONSTER_SPEED, true);
-        Monster monster2 = new Monster(playfieldLayer, monsterImage, x, y + 100, 0, 0, 0, 0, Settings.MONSTER_SPEED, true);
-        monsters.add(monster);
-        monsters.add(monster2);
-    }
-
-    /**
      * This function scans the resources folder for maps.
      */
     private void findMaps() {
@@ -152,14 +136,14 @@ public class LevelController implements Initializable {
      * This function creats the currLvl'th level.
      */
     public final void createLvl() {
-        new Level(maps.get(currLvl), canvas);
+        currLvl = new Level(maps.get(indexCurrLvl), canvas, playfieldLayer);
     }
 
     /**
      * This function creates the next level.
      */
     public final void nextLevel() {
-        currLvl++;
+        indexCurrLvl++;
         createLvl();
     }
 
@@ -168,11 +152,10 @@ public class LevelController implements Initializable {
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
-            currLvl = 0;
+            indexCurrLvl = 0;
             createLvl();
             playfieldLayer.setOnMousePressed(event -> {
                 createPlayer();
-                createMonster();
                 startMessage.setVisible(false);
                 gameLoop.start();
             });
