@@ -3,6 +3,8 @@ package model;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 /**
  * This is the player class. It has a sprite to display.
  */
@@ -39,6 +41,18 @@ public class Player extends GravityObject {
     private double speed;
 
     /**
+     * The bubbles the player fired.
+     */
+    private ArrayList<Bubble> bubbles;
+
+    /**
+     * The boolean for which dir the player is facing.
+     */
+    private boolean facingRight;
+
+    private int counter;
+
+    /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
      * @param image The image the player takes.
@@ -66,6 +80,8 @@ public class Player extends GravityObject {
 
         this.speed = speed;
         this.input = input;
+        this.bubbles = new ArrayList<>();
+        this.counter = 16;
 
         init();
     }
@@ -108,11 +124,20 @@ public class Player extends GravityObject {
         if (input.isMoveLeft()) {
             dx = -speed;
             image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
+            facingRight = false;
         } else if (input.isMoveRight()) {
             dx = speed;
             image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
+            facingRight = true;
         } else {
             dx = 0d;
+        }
+
+        if (input.isFirePrimaryWeapon() && counter > 30) {
+            bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), x, y, 0, 0, 0, 0, facingRight));
+            counter = 0;
+        } else {
+            counter++;
         }
 
     }
@@ -153,6 +178,13 @@ public class Player extends GravityObject {
             x = playerMaxX;
         }
 
+    }
+
+    /**
+     * This function returns the bubble list.
+     */
+    public ArrayList<Bubble> getBubbles() {
+        return bubbles;
     }
 
 
