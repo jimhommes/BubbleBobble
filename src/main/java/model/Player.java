@@ -50,6 +50,8 @@ public class Player extends GravityObject {
      */
     private boolean facingRight;
 
+    private int counter;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
@@ -79,6 +81,7 @@ public class Player extends GravityObject {
         this.speed = speed;
         this.input = input;
         this.bubbles = new ArrayList<>();
+        this.counter = 16;
 
         init();
     }
@@ -130,8 +133,11 @@ public class Player extends GravityObject {
             dx = 0d;
         }
 
-        if (input.isFirePrimaryWeapon()) {
+        if (input.isFirePrimaryWeapon() && counter > 30) {
             bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), (playerMinX + playerMaxX) / 2, (playerMinY + playerMaxY) / 2, 0, 0, 0, 0, facingRight));
+            counter = 0;
+        } else {
+            counter++;
         }
 
     }
