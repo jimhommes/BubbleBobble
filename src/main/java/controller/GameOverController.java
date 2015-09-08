@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -14,11 +13,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import java.net.URL;
 
-public class GameOverController implements Initializable{
+/**
+ * @author Lili de Bree
+ * This controller controls what happens when the character is killed and there is a game over.
+ *
+ */
+public class GameOverController implements Initializable {
 
 	    /**
-	     * The help screen.
+	     * The game over screen.
 	     */
 	    @FXML private GridPane gameOverScreen;
 
@@ -29,24 +34,23 @@ public class GameOverController implements Initializable{
 	    @FXML private AnchorPane root;
 
 	    /**
-	     * The ImageView is the logo that is shown.
+	     * The ImageView is the skull that is shown on the game over screen.
 	     */
 	    @FXML private ImageView gameOverImage;
 
 	    /**
-	     * The start button. If you press this the game will start.
+	     * The restart button. When pressed the game will restart.
 	     */
 	    @FXML private Button restartButton;
 
 	    /**
-	     * The exit button. If you press this the application will close.
+	     * The quit button. If pressed the application will close.
 	     */
 	    @FXML private Button quitButton;
 
 
 	    /**
 	     * Initializes the view.
-	     *
 	     * This is the place for setting onclick handlers, for example.
 	     */
 	    @Override
