@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 /**
  * This is the player class. It has a sprite to display.
  */
-public class Player extends SpriteBase {
+public class Player extends GravityObject {
 
     /**
      * This is the minimal X coordinate.
@@ -62,7 +62,7 @@ public class Player extends SpriteBase {
                   double speed,
                   Input input) {
 
-        super(layer, image, x, y, r, dx, dy, dr);
+        super(layer, image, x, y, r, dx, dy, dr, speed, input);
 
         this.speed = speed;
         this.input = input;
@@ -122,6 +122,9 @@ public class Player extends SpriteBase {
      */
     @Override
     public void move() {
+
+        // IF NOT COLLIDING
+        this.y -= calculateGravity();
 
         super.move();
 
