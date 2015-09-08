@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
@@ -14,10 +12,10 @@
 <?import java.net.URL?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartController">
+<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="StartController">
    <children>
    
-       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
       <children>
               <ImageView fx:id="imageView" fitHeight="360" fitWidth="640" layoutX="61.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
                  <image>
@@ -33,16 +31,16 @@
    
        <GridPane fx:id="helpScreen" visible="false" AnchorPane.bottomAnchor="200" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="200">
       <children>
-              <Text styleClass="helpTitleText" text="Help Screen" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin></Text>
-            <Text styleClass="helpText" text="Left Arrow - Move Left" wrappingWidth="400.6416015625" GridPane.halignment="CENTER" GridPane.rowSpan="2" />
-            <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.halignment="CENTER" />
-            <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.halignment="CENTER" />
-            <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.halignment="CENTER" />
-            <Text styleClass="helpText" text="P key - Pause the game" GridPane.halignment="CENTER" />
-            <Text styleClass="helpText" text="Click to return to the menu." GridPane.halignment="CENTER" />
+              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+              <Text text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+     
       </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -51,7 +49,6 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
        </GridPane>
    </children>
