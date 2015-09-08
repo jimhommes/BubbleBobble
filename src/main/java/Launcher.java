@@ -34,6 +34,7 @@ public class Launcher extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }
