@@ -5,7 +5,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.text.Text?>
 <AnchorPane fx:id="root"
-        fx:controller="StartController"
+        fx:controller="controller.StartController"
           xmlns:fx="http://javafx.com/fxml">
 
     <VBox alignment="CENTER"

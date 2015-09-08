@@ -38,3 +38,9 @@
     -fx-font-size: 20px;
     -fx-fill: white;
 }
+
+.levelMessage{
+    -fx-font-size: 50px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}

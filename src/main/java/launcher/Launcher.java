@@ -1,3 +1,5 @@
+package launcher;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,7 +33,7 @@ public class Launcher extends Application {
      */
     @Override
     public final void start(final Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("startscreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

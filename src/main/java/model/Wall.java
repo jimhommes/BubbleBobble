@@ -1,5 +1,9 @@
+package model;
+
 /**
- * Created by Jim on 9/5/2015.
+ * @author Jim
+ * @since 9/5/2015
+ * @version 0.1
  */
 
 
