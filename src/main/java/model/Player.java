@@ -134,7 +134,7 @@ public class Player extends GravityObject {
         }
 
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), (playerMinX + playerMaxX) / 2, (playerMinY + playerMaxY) / 2, 0, 0, 0, 0, facingRight));
+            bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), x, y, 0, 0, 0, 0, facingRight));
             counter = 0;
         } else {
             counter++;

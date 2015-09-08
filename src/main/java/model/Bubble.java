@@ -18,6 +18,8 @@ public class Bubble extends SpriteBase {
 
     private boolean firedRight;
 
+    private boolean ableToCatch;
+
     public Bubble(Pane layer,
                   Image image,
                   double x,
@@ -31,10 +33,11 @@ public class Bubble extends SpriteBase {
 
         counter = 0;
         this.firedRight = firedRight;
+        this.ableToCatch = true;
     }
 
     public void move() {
-        if (counter < 20) {
+        if (counter < 30) {
             counter++;
             if (firedRight) {
                 dx = 7;
@@ -44,6 +47,7 @@ public class Bubble extends SpriteBase {
         } else {
             dx = 0;
             dy = -5;
+            ableToCatch = false;
         }
 
         super.move();
