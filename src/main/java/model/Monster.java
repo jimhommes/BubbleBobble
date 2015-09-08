@@ -25,9 +25,9 @@ public class Monster extends SpriteBase {
 
     public void move() {
         if (facingRight) {
-            dx += speed;
+            dx = speed;
         } else {
-            dx -= speed;
+            dx = -speed;
         }
 
         super.move();
