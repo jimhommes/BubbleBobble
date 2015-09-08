@@ -69,6 +69,11 @@ public class LevelController implements Initializable {
     private Level currLvl;
 
     /**
+     * A boolean to see if the game is going on or not.
+     */
+    private boolean gameStarted = false;
+
+    /**
      * The init function.
      *
      * @param location  The URL
@@ -150,9 +155,12 @@ public class LevelController implements Initializable {
             indexCurrLvl = 0;
             createLvl();
             playfieldLayer.setOnMousePressed(event -> {
-                createPlayer();
-                startMessage.setVisible(false);
-                gameLoop.start();
+                if(!gameStarted) {
+                    gameStarted = true;
+                    createPlayer();
+                    startMessage.setVisible(false);
+                    gameLoop.start();
+                }
             });
         } else {
             System.out.println("No maps found!");

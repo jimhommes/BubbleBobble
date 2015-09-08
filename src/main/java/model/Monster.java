@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
  * @version 0.1
  * @since 9/8/2015
  */
-public class Monster extends SpriteBase {
+public class Monster extends GravityObject {
 
     private final double speed;
     private boolean facingRight;
@@ -29,6 +29,8 @@ public class Monster extends SpriteBase {
         } else {
             dx = -speed;
         }
+
+        dy = -calculateGravity();
 
         super.move();
     }
