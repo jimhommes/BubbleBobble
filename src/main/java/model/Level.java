@@ -58,28 +58,25 @@ public class Level {
      * @param lvlTitle The title of the file.
      * @param canvas The canvas the level should be drawn in.
      */
-    public Level(final String lvlTitle, final Canvas canvas, final Pane playfieldLayer) {
+    public Level(final String lvlTitle, final Pane playfieldLayer) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.playfieldLayer = playfieldLayer;
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawMap(gc);
+        drawMap();
     }
 
     /**
      * The function that draws the map.
-     * @param gc The GraphicsContext it will use.
      */
-    public final void drawMap(final GraphicsContext gc) {
+    public final void drawMap() {
         Image image = new Image(getClass().getResourceAsStream("../BubbleBobbleWall32b.png"));
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE));
-                    gc.drawImage(image, col * SPRITE_SIZE, row * SPRITE_SIZE);
+                    walls.add(new Wall(playfieldLayer, new Image(getClass().getResourceAsStream(Wall.WALL_SPRITE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
                     monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0, Settings.MONSTER_SPEED, true));
                 } else if (map[row][col] == 3) {

@@ -3,7 +3,6 @@ package controller;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -54,11 +53,7 @@ public class LevelController implements Initializable {
      */
     @FXML
     private StackPane root;
-    /**
-     * The canvas that is in the StackPane.
-     */
-    @FXML
-    private Canvas canvas;
+
     /**
      * The list of maps that the user is about to play.
      */
@@ -136,7 +131,7 @@ public class LevelController implements Initializable {
      * This function creats the currLvl'th level.
      */
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), canvas, playfieldLayer);
+        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
     }
 
     /**
