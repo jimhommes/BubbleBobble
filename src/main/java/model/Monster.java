@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 public class Monster extends SpriteBase {
 
     private final double speed;
-    private final boolean facingRight;
+    private boolean facingRight;
 
     public Monster(Pane layer, Image image, double x, double y, double r,
                    double dx, double dy, double dr, double speed, boolean facingRight) {
@@ -31,6 +31,10 @@ public class Monster extends SpriteBase {
         }
 
         super.move();
+    }
+
+    public void switchDirection() {
+        facingRight = !facingRight;
     }
 
 }
