@@ -27,8 +27,6 @@ public abstract class GravityObject extends SpriteBase {
      * @param dx The dx.
      * @param dy The dy.
      * @param dr The dr.
-     * @param speed The speed of the player.
-     * @param input The input the player will use.
      */
     public GravityObject(Pane layer,
                   Image image,
@@ -37,14 +35,10 @@ public abstract class GravityObject extends SpriteBase {
                   double r,
                   double dx,
                   double dy,
-                  double dr,
-                  double speed,
-                  Input input) {
+                  double dr) {
 
         super(layer, image, x, y, r, dx, dy, dr);
 
-        this.speed = speed;
-        this.input = input;
     }
 
     public float calculateGravity() {

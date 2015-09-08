@@ -1,8 +1,8 @@
 /* Start Screen */
 #root {
     -fx-background-color: black;
-    -fx-min-height: 1000px;
-    -fx-min-width: 1000px;
+    -fx-min-height: 832px;
+    -fx-min-width: 832px;
     -fx-font-size: 40px;
 }
 
@@ -54,8 +54,14 @@
     -fx-fill: white;
 }
 
+/* Level */
 .levelMessage{
     -fx-font-size: 50px;
     -fx-fill: white;
     -fx-alignment: center;
+}
+
+#playfieldLayer {
+    -fx-min-width: 832px;
+    -fx-min-height: 832px;
 }

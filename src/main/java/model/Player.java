@@ -62,7 +62,7 @@ public class Player extends GravityObject {
                   double speed,
                   Input input) {
 
-        super(layer, image, x, y, r, dx, dy, dr, speed, input);
+        super(layer, image, x, y, r, dx, dy, dr);
 
         this.speed = speed;
         this.input = input;
