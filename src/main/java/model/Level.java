@@ -1,8 +1,7 @@
 package model;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +34,7 @@ public class Level {
      * The map in a 2 dim array.
      */
     private static Integer[][] map;
+    private final Pane playfieldLayer;
 
     /**
      * The title of the file that is loaded.
@@ -47,30 +47,37 @@ public class Level {
     private ArrayList<Wall> walls;
 
     /**
+     * The list of the monsters that spawn.
+     */
+    private ArrayList<Monster> monsters;
+
+    /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
-     * @param canvas The canvas the level should be drawn in.
      */
-    public Level(final String lvlTitle, final Canvas canvas) {
+    public Level(final String lvlTitle, final Pane playfieldLayer) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
+        this.monsters = new ArrayList<>();
+        this.playfieldLayer = playfieldLayer;
 
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawMap(gc);
+        drawMap();
     }
 
     /**
      * The function that draws the map.
-     * @param gc The GraphicsContext it will use.
      */
-    public final void drawMap(final GraphicsContext gc) {
+    public final void drawMap() {
         Image image = new Image(getClass().getResourceAsStream("../BubbleBobbleWall32b.png"));
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE));
-                    gc.drawImage(image, col * SPRITE_SIZE, row * SPRITE_SIZE);
+                    walls.add(new Wall(playfieldLayer, new Image(getClass().getResourceAsStream(Wall.WALL_SPRITE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
+                } else if (map[row][col] == 2) {
+                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, true));
+                } else if (map[row][col] == 3) {
+                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, false));
                 }
             }
         }
@@ -108,5 +115,13 @@ public class Level {
                 }
             }
         }
+    }
+
+    /**
+     * The function that returns the arraylist of monsters.
+     * @return The arraylist of monsters.
+     */
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
     }
 }

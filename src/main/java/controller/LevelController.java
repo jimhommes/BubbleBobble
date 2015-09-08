@@ -3,16 +3,11 @@ package controller;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Settings;
-import model.SpriteBase;
+import model.*;
 
 import java.io.File;
 import java.net.URL;
@@ -37,6 +32,11 @@ public class LevelController implements Initializable {
     private Image playerImage;
 
     /**
+     * The image of the monster.
+     */
+    private Image monsterImage;
+
+    /**
      * The message that says "Click when ready".
      */
     @FXML
@@ -53,19 +53,25 @@ public class LevelController implements Initializable {
      */
     @FXML
     private StackPane root;
-    /**
-     * The canvas that is in the StackPane.
-     */
-    @FXML
-    private Canvas canvas;
+
     /**
      * The list of maps that the user is about to play.
      */
     private ArrayList<String> maps;
     /**
-     * The current level the user is playing.
+     * The current index of the level the user is playing.
      */
-    private int currLvl;
+    private int indexCurrLvl;
+
+    /**
+     * THe current level the user is playing.
+     */
+    private Level currLvl;
+
+    /**
+     * A boolean to see if the game is going on or not.
+     */
+    private boolean gameStarted = false;
 
     /**
      * The init function.
@@ -85,20 +91,12 @@ public class LevelController implements Initializable {
                 players.forEach(Player::processInput);
                 players.forEach(Player::move);
                 players.forEach(SpriteBase::updateUI);
+                currLvl.getMonsters().forEach(Monster::move);
+                currLvl.getMonsters().forEach(SpriteBase::updateUI);
             }
         };
 
-        if (maps.size() > 0) {
-            currLvl = 0;
-            createLvl();
-            playfieldLayer.setOnMousePressed(event -> {
-                createPlayer();
-                startMessage.setVisible(false);
-                gameLoop.start();
-            });
-        } else {
-            System.out.println("No maps found!");
-        }
+        startLevel(gameLoop);
 
     }
 
@@ -110,13 +108,11 @@ public class LevelController implements Initializable {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
-        Image image = playerImage;
-
-        double x = (Settings.SCENE_WIDTH - image.getWidth()) / 2.0;
+        double x = (Settings.SCENE_WIDTH - playerImage.getWidth()) / 2.0;
         double y = Settings.SCENE_HEIGHT * 0.7;
 
         Player player = new Player(playfieldLayer,
-                image, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
+                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
         players.add(player);
     }
 
@@ -140,15 +136,35 @@ public class LevelController implements Initializable {
      * This function creats the currLvl'th level.
      */
     public final void createLvl() {
-        new Level(maps.get(currLvl), canvas);
+        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
     }
 
     /**
      * This function creates the next level.
      */
     public final void nextLevel() {
-        currLvl++;
+        indexCurrLvl++;
         createLvl();
+    }
+
+    /**
+     * This function initialises the level.
+     */
+    public final void startLevel(AnimationTimer gameLoop) {
+        if (maps.size() > 0) {
+            indexCurrLvl = 0;
+            createLvl();
+            playfieldLayer.setOnMousePressed(event -> {
+                if(!gameStarted) {
+                    gameStarted = true;
+                    createPlayer();
+                    startMessage.setVisible(false);
+                    gameLoop.start();
+                }
+            });
+        } else {
+            System.out.println("No maps found!");
+        }
     }
 
 }

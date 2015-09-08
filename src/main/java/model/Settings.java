@@ -11,4 +11,6 @@ public class Settings {
     public static double PLAYER_SPEED = 5.0;
     public static double PLAYER_HEALTH = 100.0;
 
+    public static double MONSTER_SPEED = 5;
+
 }
