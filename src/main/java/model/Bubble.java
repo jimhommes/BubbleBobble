@@ -34,16 +34,16 @@ public class Bubble extends SpriteBase {
     }
 
     public void move() {
-        if (counter < 1000) {
+        if (counter < 20) {
             counter++;
             if (firedRight) {
-                dx = 30;
+                dx = 7;
             } else {
-                dx = -30;
+                dx = -7;
             }
         } else {
             dx = 0;
-            dy = -10;
+            dy = -5;
         }
 
         super.move();
