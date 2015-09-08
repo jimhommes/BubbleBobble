@@ -8,11 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Settings;
-import model.SpriteBase;
+import model.*;
 
 import java.io.File;
 import java.net.URL;
@@ -32,9 +28,19 @@ public class LevelController implements Initializable {
     private ArrayList<Player> players;
 
     /**
+     * The list of Monsters in the game.
+     */
+    private ArrayList<Monster> monsters;
+
+    /**
      * The image of the player.
      */
     private Image playerImage;
+
+    /**
+     * The image of the monster.
+     */
+    private Image monsterImage;
 
     /**
      * The message that says "Click when ready".
@@ -77,6 +83,7 @@ public class LevelController implements Initializable {
     public final void initialize(final URL location, final ResourceBundle resources) {
         maps = new ArrayList<>();
         players = new ArrayList<>();
+        monsters = new ArrayList<>();
         findMaps();
 
         AnimationTimer gameLoop = new AnimationTimer() {
@@ -85,20 +92,12 @@ public class LevelController implements Initializable {
                 players.forEach(Player::processInput);
                 players.forEach(Player::move);
                 players.forEach(SpriteBase::updateUI);
+                monsters.forEach(Monster::move);
+                monsters.forEach(SpriteBase::updateUI);
             }
         };
 
-        if (maps.size() > 0) {
-            currLvl = 0;
-            createLvl();
-            playfieldLayer.setOnMousePressed(event -> {
-                createPlayer();
-                startMessage.setVisible(false);
-                gameLoop.start();
-            });
-        } else {
-            System.out.println("No maps found!");
-        }
+        startLevel(gameLoop);
 
     }
 
@@ -110,14 +109,27 @@ public class LevelController implements Initializable {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
-        Image image = playerImage;
-
-        double x = (Settings.SCENE_WIDTH - image.getWidth()) / 2.0;
+        double x = (Settings.SCENE_WIDTH - playerImage.getWidth()) / 2.0;
         double y = Settings.SCENE_HEIGHT * 0.7;
 
         Player player = new Player(playfieldLayer,
-                image, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
+                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
         players.add(player);
+    }
+
+    /**
+     * This function creates a few monsters.
+     */
+    private void createMonster() {
+        monsterImage = new Image(getClass().getResource("../Angry-Expresicon.png").toExternalForm());
+
+        double x = (Settings.SCENE_WIDTH - monsterImage.getWidth()) / 2.0;
+        double y = Settings.SCENE_HEIGHT * 0.7;
+
+        Monster monster = new Monster(playfieldLayer, monsterImage, x, y, 0, 0, 0, 0, Settings.MONSTER_SPEED, true);
+        Monster monster2 = new Monster(playfieldLayer, monsterImage, x, y + 100, 0, 0, 0, 0, Settings.MONSTER_SPEED, true);
+        monsters.add(monster);
+        monsters.add(monster2);
     }
 
     /**
@@ -149,6 +161,24 @@ public class LevelController implements Initializable {
     public final void nextLevel() {
         currLvl++;
         createLvl();
+    }
+
+    /**
+     * This function initialises the level.
+     */
+    public final void startLevel(AnimationTimer gameLoop) {
+        if (maps.size() > 0) {
+            currLvl = 0;
+            createLvl();
+            playfieldLayer.setOnMousePressed(event -> {
+                createPlayer();
+                createMonster();
+                startMessage.setVisible(false);
+                gameLoop.start();
+            });
+        } else {
+            System.out.println("No maps found!");
+        }
     }
 
 }
