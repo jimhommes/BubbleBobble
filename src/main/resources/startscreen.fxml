@@ -12,9 +12,11 @@
 <?import java.net.URL?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartController">
+<AnchorPane fx:id="root"
+        fx:controller="controller.StartController"
+          xmlns:fx="http://javafx.com/fxml">
+
    <children>
-   
        <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
       <children>
               <ImageView fx:id="imageView" fitHeight="360" fitWidth="640" layoutX="61.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">

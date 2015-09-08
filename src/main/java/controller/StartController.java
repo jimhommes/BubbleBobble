@@ -1,3 +1,5 @@
+package controller;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -77,8 +79,9 @@ public class StartController implements Initializable {
      */
     private void startLevel() throws IOException {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getResource("level.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass().getResource("../level.fxml"));
         stage.setScene(new Scene(newRoot));
+        stage.show();
     }
 
 }

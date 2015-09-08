@@ -1,3 +1,5 @@
+package model;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,7 +10,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Created by Jim on 9/5/2015.
+ * @author Jim
+ * @since 9/5/2015
+ * @version 0.1
  */
 public class Level {
 
@@ -60,7 +64,7 @@ public class Level {
      * @param gc The GraphicsContext it will use.
      */
     public final void drawMap(final GraphicsContext gc) {
-        Image image = new Image(getClass().getResourceAsStream("BubbleBobbleWall32b.png"));
+        Image image = new Image(getClass().getResourceAsStream("../BubbleBobbleWall32b.png"));
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
@@ -78,11 +82,11 @@ public class Level {
     public final void readMap() {
         int row = 0;
         map = new Integer[NUM_ROWS][NUM_COLS];
-
         BufferedReader reader = null;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(lvlTitle)));
+            reader = new BufferedReader(
+                    new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle)));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
