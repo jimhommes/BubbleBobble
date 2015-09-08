@@ -42,8 +42,11 @@ public class Bubble extends SpriteBase {
                 dx = -30;
             }
         } else {
+            dx = 0;
             dy = -10;
         }
+
+        super.move();
     }
 
 }

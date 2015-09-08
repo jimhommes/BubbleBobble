@@ -94,6 +94,7 @@ public class LevelController implements Initializable {
                 currLvl.getMonsters().forEach(Monster::move);
                 currLvl.getMonsters().forEach(SpriteBase::updateUI);
                 players.forEach(player -> player.getBubbles().forEach(Bubble::move));
+                players.forEach(player -> player.getBubbles().forEach(SpriteBase::updateUI));
             }
         };
 
