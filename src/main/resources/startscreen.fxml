@@ -12,7 +12,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="StartController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartController">
    <children>
    
        <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -33,19 +33,29 @@
       <children>
               <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
               <Text text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-              <Text styleClass="helpText" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-     
+              <Text styleClass="helpTextDescription" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+              <Text styleClass="helpText" text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+              <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+              <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+              <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+              <Text styleClass="helpText" text="P key - Pause the game" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+              <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+     			
       </children>
          <columnConstraints>
             <ColumnConstraints />
          </columnConstraints>
          <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
