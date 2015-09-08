@@ -88,11 +88,19 @@ public class LevelController implements Initializable {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                players.forEach(Player::processInput);
-                players.forEach(Player::move);
-                players.forEach(SpriteBase::updateUI);
-                currLvl.getMonsters().forEach(Monster::move);
-                currLvl.getMonsters().forEach(SpriteBase::updateUI);
+                players.forEach(player -> {
+                    player.processInput();
+                    player.move();
+                    player.getBubbles().forEach(bubble -> {
+                        bubble.move();
+                        bubble.updateUI();
+                    });
+                    player.updateUI();
+                });
+                currLvl.getMonsters().forEach(monster -> {
+                    monster.move();
+                    monster.updateUI();
+                });
             }
         };
 
