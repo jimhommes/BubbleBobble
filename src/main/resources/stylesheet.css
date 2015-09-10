@@ -62,11 +62,18 @@
 }
 
 
-.gameOver {
-	-fx-font-size: 70px;
+.gameOverText {
+	-fx-font-size: 60px;
     -fx-fill: red;
     -fx-alignment: center;
 }
+
+.gameOver {
+	-fx-font-size: 25px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
 
 #playfieldLayer {
     -fx-min-width: 832px;
