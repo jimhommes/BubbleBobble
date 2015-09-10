@@ -1,22 +1,25 @@
 package controller;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Player;
+import model.Settings;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 
 /**
  * @author Jim
@@ -131,6 +134,7 @@ public class LevelController implements Initializable {
                         player.updateUI();
                     });
                     currLvl.getMonsters().forEach(monster -> {
+                        players.forEach(player -> player.getBubbles().forEach(monster::checkCollision));
                         monster.move();
                         monster.updateUI();
                     });

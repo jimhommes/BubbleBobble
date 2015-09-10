@@ -27,13 +27,20 @@ public class Monster extends GravityObject {
     }
 
     public void move() {
-        if (facingRight) {
-            dx = speed;
-        } else {
-            dx = -speed;
-        }
+        if (!caughtByBubble) {
+            if (facingRight) {
+                dx = speed;
+            } else {
+                dx = -speed;
+            }
 
-        dy = -calculateGravity();
+            dy = -calculateGravity();
+        } else {
+            dx = 0;
+            dy = 0;
+            x = prisonBubble.getX();
+            y = prisonBubble.getY();
+        }
 
         super.move();
     }
