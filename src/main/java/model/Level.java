@@ -79,12 +79,12 @@ public class Level {
                     		col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
                     monsters.add(new Walker(playfieldLayer, 
-                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), 
+                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE_RIGHT)), 
                     		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
                     		Settings.MONSTER_SPEED, true));
                 } else if (map[row][col] == 3) {
                     monsters.add(new Walker(playfieldLayer, 
-                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)),
+                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE_LEFT)),
                     		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
                     		Settings.MONSTER_SPEED, false));
                 }

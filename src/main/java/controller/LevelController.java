@@ -120,9 +120,10 @@ public class LevelController implements Initializable {
         players = new ArrayList<>();
         findMaps();
         AnimationTimer gameLoop = new AnimationTimer() {
-            @Override
+           
+        	@Override
             public void handle(long now) {
-                if(players.get(0).getGameOver()) {
+                if (players.get(0).getGameOver()) {
                     stop();
                 } else if (!checkGamePaused()) {
                     players.forEach(player -> {
@@ -135,7 +136,8 @@ public class LevelController implements Initializable {
                         player.updateUI();
                     });
                     currLvl.getMonsters().forEach(monster -> {
-                        players.forEach(player -> player.getBubbles().forEach(monster::checkCollision));
+                        players.forEach(player -> 
+                        player.getBubbles().forEach(monster::checkCollision));
                         players.forEach(player -> player.checkCollideMonster(monster));
                         monster.move();
                         monster.updateUI();
@@ -143,9 +145,7 @@ public class LevelController implements Initializable {
                 }
             }
         };
-
         startLevel(gameLoop);
-
     }
     
     /**
@@ -187,7 +187,7 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     private void createPlayer() {
-        playerImage = new Image(getClass().getResource("../player.png").toExternalForm());
+        playerImage = new Image(getClass().getResource("../BubRight.png").toExternalForm());
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 

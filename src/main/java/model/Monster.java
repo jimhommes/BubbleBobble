@@ -68,17 +68,21 @@ public class Monster extends GravityObject {
         facingRight = !facingRight;
     }
 
+    /**
+     * Checks to see if the bubble has collided with the monster.
+     * @param bubble the bubble that is shot from the character.
+     */
     public void checkCollision(final Bubble bubble) {
         Image bubbleImage = bubble.getImage();
         double bubbleX = bubble.getX();
         double bubbleY = bubble.getY();
         double bubbleX2 = bubbleX + bubbleImage.getWidth();
         double bubbleY2 = bubbleY + bubbleImage.getHeight();
-        if(bubble.getAbleToCatch() && !caughtByBubble &&
-                (bubbleX >= x && bubbleX <= x + image.getWidth()) ||
-                (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) {
-            if ((bubbleY >= y && bubbleY <= y + image.getHeight()) ||
-                    bubbleY2 >= y && bubbleY2 <= y + image.getHeight()) {
+        if (bubble.getAbleToCatch() && !caughtByBubble 
+        		&& (bubbleX >= x && bubbleX <= x + image.getWidth()) 
+                || (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) {
+            if ((bubbleY >= y && bubbleY <= y + image.getHeight()) 
+            		|| bubbleY2 >= y && bubbleY2 <= y + image.getHeight()) {
                 prisonBubble = bubble;
                 caughtByBubble = true;
             }

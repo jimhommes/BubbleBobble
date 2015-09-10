@@ -120,26 +120,35 @@ public class Player extends GravityObject {
         // movement
         // ------------------------------------
 
-        if(!isDead) {
-            // vertical direction
-            if (input.isMoveUp()) {
-                dy = -speed;
-                image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
-            } else if (input.isMoveDown()) {
-                dy = speed;
-                image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
-            } else {
-                dy = 0d;
-            }
+    	if (!isDead) {
+    		// vertical direction
+    		if (input.isMoveUp()) {
+    			dy = -speed;
+    			if (facingRight) {
+    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+    			} else {
+    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+    			}  
+    		} else if (input.isMoveDown()) {
+    			dy = speed;
+
+    			if (facingRight) {
+    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+    			} else {
+    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+    			}
+    		} else {
+    			dy = 0d;
+    		}
 
             // horizontal direction
             if (input.isMoveLeft()) {
                 dx = -speed;
-                image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
+                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
                 facingRight = false;
             } else if (input.isMoveRight()) {
                 dx = speed;
-                image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
+                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
                 facingRight = true;
             } else {
                 dx = 0d;
@@ -154,7 +163,7 @@ public class Player extends GravityObject {
                 counter++;
             }
         } else {
-            if(counter > 50) {
+            if (counter > 50) {
                 gameOver = true;
                 Stage stage = (Stage) layer.getScene().getWindow();
                 Parent root = null;
@@ -218,21 +227,28 @@ public class Player extends GravityObject {
         return bubbles;
     }
 
+    /**
+     * This method checks if the monster has collides with the character.
+     * @param monster is the monster that is being checked for collisions.
+     */
     public void checkCollideMonster(final Monster monster) {
         double monsterX = monster.getX();
         double monsterMaxX = monsterX + monster.getImage().getWidth();
         double monsterY = monster.getY();
         double monsterMaxY = monsterY + monster.getImage().getHeight();
 
-        if((monsterX > x && monsterX < x + image.getWidth()) ||
-                (monsterMaxX > x && monsterMaxX < x + image.getWidth())) {
-            if((monsterY > y && monsterY < y + image.getHeight()) ||
-                    (monsterMaxY > y && monsterMaxX < y + image.getHeight())) {
+        if ((monsterX > x && monsterX < x + image.getWidth())
+        		|| (monsterMaxX > x && monsterMaxX < x + image.getWidth())) {
+            if ((monsterY > y && monsterY < y + image.getHeight()) 
+            		|| (monsterMaxY > y && monsterMaxX < y + image.getHeight())) {
                 die();
             }
         }
     }
 
+    /**
+     * This method is used when the character is killed.
+     */
     public void die() {
         this.isDead = true;
         counter = 0;
@@ -240,10 +256,18 @@ public class Player extends GravityObject {
     }
 
 
+    /**
+     * This method checks if the character is dead or not.
+     * @return isDead when the character is dead.
+     */
     public boolean getDead() {
         return isDead;
     }
 
+    /**
+     * This method  checks if there is a game over.
+     * @return gameOver if the game is over.
+     */
     public boolean getGameOver() {
         return gameOver;
     }

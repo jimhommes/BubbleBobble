@@ -136,14 +136,26 @@ public abstract class SpriteBase {
 
     }
 
+    /**
+     * This method gets the image of the level.
+     * @return the image.
+     */
     public Image getImage() {
         return image;
     }
 
+    /**
+     * This method returns the X coordinate.
+     * @return x coordinate
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * This method return the Y coordinate.
+     * @return y coordinate.
+     */
     public double getY() {
         return y;
     }
