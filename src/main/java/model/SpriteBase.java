@@ -136,15 +136,16 @@ public abstract class SpriteBase {
 
     }
 
-    public double getX() {
-        return x;
-    }
-
     public Image getImage() {
         return image;
+    }
+
+    public double getX() {
+        return x;
     }
 
     public double getY() {
         return y;
     }
+    
 }

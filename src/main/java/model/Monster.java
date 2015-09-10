@@ -14,6 +14,8 @@ public class Monster extends GravityObject {
 
     private final double speed;
     private boolean facingRight;
+    private Bubble prisonBubble;
+    private boolean caughtByBubble;
 
     /**
      * The monster that is trying to catch the character.
@@ -34,19 +36,27 @@ public class Monster extends GravityObject {
 
         this.speed = speed;
         this.facingRight = facingRight;
+        this.caughtByBubble = false;
     }
 
     /**
      * The movement of the monster.
      */
     public void move() {
-        if (facingRight) {
-            dx = speed;
-        } else {
-            dx = -speed;
-        }
+        if (!caughtByBubble) {
+            if (facingRight) {
+                dx = speed;
+            } else {
+                dx = -speed;
+            }
 
-        dy = -calculateGravity();
+            dy = -calculateGravity();
+        } else {
+            dx = 0;
+            dy = 0;
+            x = prisonBubble.getX();
+            y = prisonBubble.getY();
+        }
 
         super.move();
     }
@@ -56,6 +66,24 @@ public class Monster extends GravityObject {
      */
     public void switchDirection() {
         facingRight = !facingRight;
+    }
+
+    public void checkCollision(final Bubble bubble) {
+        Image bubbleImage = bubble.getImage();
+        double bubbleX = bubble.getX();
+        double bubbleY = bubble.getY();
+        double bubbleX2 = bubbleX + bubbleImage.getWidth();
+        double bubbleY2 = bubbleY + bubbleImage.getHeight();
+        if(bubble.getAbleToCatch() && !caughtByBubble &&
+                (bubbleX >= x && bubbleX <= x + image.getWidth()) ||
+                (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) {
+            if ((bubbleY >= y && bubbleY <= y + image.getHeight()) ||
+                    bubbleY2 >= y && bubbleY2 <= y + image.getHeight()) {
+                prisonBubble = bubble;
+                caughtByBubble = true;
+            }
+        }
+        bubble.setAbleToCatch(false);
     }
 
 }

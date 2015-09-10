@@ -46,6 +46,7 @@ public class Bubble extends SpriteBase {
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+
     }
 
     /**
@@ -68,4 +69,11 @@ public class Bubble extends SpriteBase {
         super.move();
     }
 
+    public void setAbleToCatch(final boolean bool) {
+        ableToCatch = bool;
+    }
+
+    public boolean getAbleToCatch() {
+        return ableToCatch;
+    }
 }
