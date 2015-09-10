@@ -12,7 +12,8 @@ import javafx.scene.layout.Pane;
  */
 public class Walker extends Monster {
 
-    public static String WALKER_IMAGE = "../Angry-Expresicon.png";
+    public static String WALKER_IMAGE_LEFT = "../ZenChanLeft.png";
+    public static String WALKER_IMAGE_RIGHT = "../ZenChanRight.png";
 
     /**
      * A walking monster.
