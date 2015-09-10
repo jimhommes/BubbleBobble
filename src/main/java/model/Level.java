@@ -102,7 +102,7 @@ public class Level {
 
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle)));
+                  new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle), "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
