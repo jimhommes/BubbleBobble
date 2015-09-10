@@ -25,7 +25,7 @@ public class Wall extends SpriteBase {
      */
     private int y;
 
-    public static String WALL_SPRITE = "../BubbleBobbleWall32b.png";
+    public static final String WALL_SPRITE = "../BubbleBobbleWall32b.png";
 
     /**
      * The constructor that implements the X and Y coordinate.

@@ -33,7 +33,7 @@ public class Level {
     /**
      * The map in a 2 dim array.
      */
-    private static Integer[][] map;
+    private Integer[][] map;
     private final Pane playfieldLayer;
 
     /**
