@@ -232,18 +232,18 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double monsterX = monster.getX();
-        double monsterMaxX = monsterX + monster.getImage().getWidth();
-        double monsterY = monster.getY();
-        double monsterMaxY = monsterY + monster.getImage().getHeight();
+    	double monsterX = monster.getX();
+    	double monsterMaxX = monsterX + monster.getImage().getWidth();
+    	double monsterY = monster.getY();
+    	double monsterMaxY = monsterY + monster.getImage().getHeight();
 
-        if ((monsterX > x && monsterX < x + image.getWidth())
-        		|| (monsterMaxX > x && monsterMaxX < x + image.getWidth())) {
-            if ((monsterY > y && monsterY < y + image.getHeight()) 
-            		|| (monsterMaxY > y && monsterMaxX < y + image.getHeight())) {
-                die();
-            }
-        }
+    	if (((monsterX > x && monsterX < x + image.getWidth()) 
+    			|| (monsterMaxX > x && monsterMaxX < x + image.getWidth())) 
+    			&& ((monsterY > y && monsterY < y + image.getHeight()) 
+    			|| (monsterMaxY > y && monsterMaxX < y + image.getHeight()))) {
+    		die();
+    	}
+
     }
 
     /**
