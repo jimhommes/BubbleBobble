@@ -132,4 +132,8 @@ public class Level {
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
+
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
 }
