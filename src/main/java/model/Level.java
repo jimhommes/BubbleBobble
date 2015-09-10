@@ -54,6 +54,7 @@ public class Level {
     /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
+     * @param playfieldLayer The field where the play will happen.
      */
     public Level(final String lvlTitle, final Pane playfieldLayer) {
         this.lvlTitle = lvlTitle;
@@ -73,11 +74,19 @@ public class Level {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(playfieldLayer, new Image(getClass().getResourceAsStream(Wall.WALL_SPRITE)), col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
+                    walls.add(new Wall(playfieldLayer, 
+                    		new Image(getClass().getResourceAsStream(Wall.WALL_SPRITE)), 
+                    		col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, true));
+                    monsters.add(new Walker(playfieldLayer, 
+                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), 
+                    		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
+                    		Settings.MONSTER_SPEED, true));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(playfieldLayer, new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)), col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, Settings.MONSTER_SPEED, false));
+                    monsters.add(new Walker(playfieldLayer, 
+                    		new Image(getClass().getResourceAsStream(Walker.WALKER_IMAGE)),
+                    		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
+                    		Settings.MONSTER_SPEED, false));
                 }
             }
         }

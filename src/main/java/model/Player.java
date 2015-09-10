@@ -134,7 +134,9 @@ public class Player extends GravityObject {
         }
 
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), x, y, 0, 0, 0, 0, facingRight));
+            bubbles.add(new Bubble(layer, 
+            		new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
+            		x, y, 0, 0, 0, 0, facingRight));
             counter = 0;
         } else {
             counter++;
@@ -182,6 +184,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the bubble list.
+     * @return the bubbles.
      */
     public ArrayList<Bubble> getBubbles() {
         return bubbles;

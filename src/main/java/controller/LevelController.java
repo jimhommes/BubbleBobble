@@ -7,7 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Player;
+import model.Settings;
 
 import java.io.File;
 import java.net.URL;
@@ -157,13 +160,14 @@ public class LevelController implements Initializable {
 
     /**
      * This function initialises the level.
+     * @param gameLoop is the loop of the game.
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
             createLvl();
             playfieldLayer.setOnMousePressed(event -> {
-                if(!gameStarted) {
+                if (!gameStarted) {
                     gameStarted = true;
                     createPlayer();
                     startMessage.setVisible(false);

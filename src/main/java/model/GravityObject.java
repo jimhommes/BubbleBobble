@@ -41,6 +41,10 @@ public abstract class GravityObject extends SpriteBase {
 
     }
 
+    /**
+     * This method calculates the gravity.
+     * @return The gravity constant.
+     */
     public float calculateGravity() {
         return -GRAVITY_CONSTANT;
     }
