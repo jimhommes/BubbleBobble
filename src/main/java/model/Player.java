@@ -129,7 +129,7 @@ public class Player extends GravityObject {
     		// vertical direction
             // If isMoveUp AND does not cause a collision
     		if (input.isMoveUp()) {
-                if (!levelController.causesCollision(x, x + image.getWidth(), y - speed, y + image.getHeight())) {
+                if (!levelController.causesCollision(x, x + image.getWidth(), y - speed, y + image.getHeight() - speed)) {
                     dy = -speed;
                 } else {
                     dy = 0;
@@ -142,7 +142,7 @@ public class Player extends GravityObject {
     			}  
     		} else if (input.isMoveDown()) {
 
-                if (!levelController.causesCollision(x, x + image.getWidth(), y + speed, y + image.getHeight())) {
+                if (!levelController.causesCollision(x, x + image.getWidth(), y + speed, y + image.getHeight() + speed)) {
                     dy = speed;
                 } else {
                     dy = 0;
@@ -159,7 +159,7 @@ public class Player extends GravityObject {
 
             // horizontal direction
             if (input.isMoveLeft()) {
-                if (!levelController.causesCollision(x - speed, x + image.getWidth(), y, y + image.getHeight())) {
+                if (!levelController.causesCollision(x - speed, x + image.getWidth() - speed, y, y + image.getHeight())) {
                     dx = -speed;
                 } else {
                     dx = 0;
@@ -168,7 +168,7 @@ public class Player extends GravityObject {
                 image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
                 facingRight = false;
             } else if (input.isMoveRight()) {
-                if (!levelController.causesCollision(x + speed, x + image.getWidth(), y, y + image.getHeight())) {
+                if (!levelController.causesCollision(x + speed, x + image.getWidth() + speed, y, y + image.getHeight())) {
                     dx = speed;
                 } else {
                     dx = 0;
@@ -188,6 +188,7 @@ public class Player extends GravityObject {
             } else {
                 counter++;
             }
+
         } else {
             if (counter > 50) {
                 gameOver = true;
@@ -213,7 +214,7 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(x, x + image.getWidth(), y - calculateGravity(), y + image.getHeight())) {
+        if (!levelController.causesCollision(x, x + image.getWidth(), y - calculateGravity(), y + image.getHeight() - calculateGravity())) {
             this.y -= calculateGravity();
         }
 

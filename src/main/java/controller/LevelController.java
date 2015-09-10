@@ -188,8 +188,8 @@ public class LevelController implements Initializable {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
-        double x = (Settings.SCENE_WIDTH - playerImage.getWidth()) / 2.0;
-        double y = Settings.SCENE_HEIGHT * 0.7;
+        double x = 200;
+        double y = 700;
 
         Player player = new Player(playfieldLayer,
                 playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
