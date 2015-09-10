@@ -122,61 +122,12 @@ public class Player extends GravityObject {
 
     	if (!isDead) {
     		// vertical direction
-    		if (input.isMoveUp()) {
-    			dy = -speed;
-    			if (facingRight) {
-    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
-    			} else {
-    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
-    			}  
-    		} else if (input.isMoveDown()) {
-    			dy = speed;
-
-    			if (facingRight) {
-    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
-    			} else {
-    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
-    			}
-    		} else {
-    			dy = 0d;
-    		}
+    		moveVertical();
 
             // horizontal direction
-            if (input.isMoveLeft()) {
-                dx = -speed;
-                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
-                facingRight = false;
-            } else if (input.isMoveRight()) {
-                dx = speed;
-                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
-                facingRight = true;
-            } else {
-                dx = 0d;
-            }
-
-            if (input.isFirePrimaryWeapon() && counter > 30) {
-                bubbles.add(new Bubble(layer,
-                        new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
-                        x, y, 0, 0, 0, 0, facingRight));
-                counter = 0;
-            } else {
-                counter++;
-            }
+            moveHorizontal();
         } else {
-            if (counter > 50) {
-                gameOver = true;
-                Stage stage = (Stage) layer.getScene().getWindow();
-                Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                stage.setScene(new Scene(root));
-                stage.show();
-            } else {
-                counter++;
-            }
+            checkIfGameOver();
         }
 
     }
@@ -270,5 +221,75 @@ public class Player extends GravityObject {
      */
     public boolean getGameOver() {
         return gameOver;
+    }
+
+    /**
+     * This function checks how to move vertically.
+     */
+    private void moveVertical() {
+        if (input.isMoveUp()) {
+            dy = -speed;
+            if (facingRight) {
+                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+            } else {
+                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+            }
+        } else if (input.isMoveDown()) {
+            dy = speed;
+
+            if (facingRight) {
+                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+            } else {
+                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+            }
+        } else {
+            dy = 0d;
+        }
+    }
+
+    /**
+     * This function checks how to move horizontally.
+     */
+    private void moveHorizontal() {
+        if (input.isMoveLeft()) {
+            dx = -speed;
+            image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+            facingRight = false;
+        } else if (input.isMoveRight()) {
+            dx = speed;
+            image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+            facingRight = true;
+        } else {
+            dx = 0d;
+        }
+
+        if (input.isFirePrimaryWeapon() && counter > 30) {
+            bubbles.add(new Bubble(layer,
+                    new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
+                    x, y, 0, 0, 0, 0, facingRight));
+            counter = 0;
+        } else {
+            counter++;
+        }
+    }
+
+    /**
+     * This function checks if the game is over. And if so, loads the gamover screen.
+     */
+    private void checkIfGameOver() {
+        if (counter > 50) {
+            gameOver = true;
+            Stage stage = (Stage) layer.getScene().getWindow();
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+            stage.show();
+        } else {
+            counter++;
+        }
     }
 }

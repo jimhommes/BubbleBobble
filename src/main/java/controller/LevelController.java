@@ -38,11 +38,6 @@ public class LevelController implements Initializable {
     private Image playerImage;
 
     /**
-     * The image of the monster.
-     */
-    private Image monsterImage;
-
-    /**
      * The message that says "Click when ready".
      */
     @FXML
