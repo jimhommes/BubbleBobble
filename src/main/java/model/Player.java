@@ -127,7 +127,7 @@ public class Player extends GravityObject {
             facingRight = false;
         } else if (input.isMoveRight()) {
             dx = speed;
-            image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
+            image = new Image(getClass().getResource("/Bub2.png").toExternalForm());
             facingRight = true;
         } else {
             dx = 0d;
