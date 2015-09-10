@@ -54,18 +54,6 @@ public class Bubble extends SpriteBase {
         super.move();
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
     public void setAbleToCatch(final boolean bool) {
         ableToCatch = bool;
     }
