@@ -61,6 +61,16 @@
     -fx-alignment: center;
 }
 
+.levelMessageSub{
+    -fx-font-size: 20px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.pauseVBox{
+    -fx-alignment: center;
+}
+
 #playfieldLayer {
     -fx-min-width: 832px;
     -fx-min-height: 832px;
