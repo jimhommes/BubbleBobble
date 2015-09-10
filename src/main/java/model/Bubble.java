@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
  */
 public class Bubble extends SpriteBase {
 
-    final static String BUBBLE_SPRITE = "../bubble.png";
+    static final String BUBBLE_SPRITE = "../bubble.png";
 
     private int counter;
 
@@ -69,10 +69,18 @@ public class Bubble extends SpriteBase {
         super.move();
     }
 
+    /**
+     * This method sets the boolean to whether it is able to be caught.
+     * @param bool set to the boolean of whether the monsters can be caught.
+     */
     public void setAbleToCatch(final boolean bool) {
         ableToCatch = bool;
     }
 
+    /**
+     * This method checks to see if a monster is able to be caught.
+     * @return true if the monster can be caught.
+     */
     public boolean getAbleToCatch() {
         return ableToCatch;
     }

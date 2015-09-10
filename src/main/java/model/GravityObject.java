@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class GravityObject extends SpriteBase {
 
-    private final static float GRAVITY_CONSTANT = 2.f;
+    private static final float GRAVITY_CONSTANT = 2.f;
 
     private double playerMinX;
     private double playerMaxX;
