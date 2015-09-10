@@ -1,8 +1,13 @@
 package model;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -52,7 +57,9 @@ public class Player extends GravityObject {
 
     private int counter;
 
-    private boolean dead;
+    private boolean isDead;
+    
+    private boolean gameOver;
 
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
@@ -84,7 +91,8 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 16;
-        this.dead = false;
+        this.isDead = false;
+        this.gameOver = false;
 
         init();
     }
@@ -112,7 +120,7 @@ public class Player extends GravityObject {
         // movement
         // ------------------------------------
 
-        if(!dead) {
+        if(!isDead) {
             // vertical direction
             if (input.isMoveUp()) {
                 dy = -speed;
@@ -142,6 +150,21 @@ public class Player extends GravityObject {
                         new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
                         x, y, 0, 0, 0, 0, facingRight));
                 counter = 0;
+            } else {
+                counter++;
+            }
+        } else {
+            if(counter > 50) {
+                gameOver = true;
+                Stage stage = (Stage) layer.getScene().getWindow();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(new Scene(root));
+                stage.show();
             } else {
                 counter++;
             }
@@ -211,9 +234,17 @@ public class Player extends GravityObject {
     }
 
     public void die() {
-        this.dead = true;
+        this.isDead = true;
+        counter = 0;
         image = new Image(getClass().getResource("/BubbleBobbleLogo.png").toExternalForm());
     }
 
 
+    public boolean getDead() {
+        return isDead;
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
 }

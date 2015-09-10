@@ -122,7 +122,9 @@ public class LevelController implements Initializable {
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (!checkGamePaused()) {
+                if(players.get(0).getGameOver()) {
+                    stop();
+                } else if (!checkGamePaused()) {
                     players.forEach(player -> {
                         player.processInput();
                         player.move();
