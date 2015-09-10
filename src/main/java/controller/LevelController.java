@@ -103,7 +103,7 @@ public class LevelController implements Initializable {
     /**
      * KeyCode for pausing the game. 
      */
-    private KeyCode pauseKey = KeyCode.P;
+    private static final KeyCode PAUSE_KEY = KeyCode.P;
     
     /**
      * The init function.
@@ -160,16 +160,16 @@ public class LevelController implements Initializable {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on keypress pauseKey
-            if(event.getCode() == pauseKey) {
+            // pause game on keypress PAUSE_KEY
+            if(event.getCode() == PAUSE_KEY) {
                 pauseVBox.setVisible(true);
                 pauseMessage.setVisible(true);
                 pauseMessageSub.setVisible(true);
                 gamePaused = true;
             }
             
-            //unpause game on keypress anything except pauseKey
-            if(gamePaused && event.getCode() != pauseKey) {
+            //unpause game on keypress anything except PAUSE_KEY
+            if(gamePaused && event.getCode() != PAUSE_KEY) {
                 pauseVBox.setVisible(true);
                 pauseMessage.setVisible(false);
                 pauseMessageSub.setVisible(false);
@@ -212,7 +212,7 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function creats the currLvl'th level.
+     * This function creates the currLvl'th level.
      */
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
@@ -227,7 +227,7 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function initialises the level.
+     * This function initializes the level.
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
