@@ -7,7 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Player;
+import model.Settings;
 
 import java.io.File;
 import java.net.URL;
@@ -116,11 +119,10 @@ public class LevelController implements Initializable {
         maps = new ArrayList<>();
         players = new ArrayList<>();
         findMaps();
-        
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(!checkGamePaused()) {
+                if (!checkGamePaused()) {
                     players.forEach(player -> {
                         player.processInput();
                         player.move();
@@ -135,8 +137,6 @@ public class LevelController implements Initializable {
                         monster.updateUI();
                     });
                 }
-                
-                
             }
         };
 
@@ -161,7 +161,7 @@ public class LevelController implements Initializable {
         public void handle(KeyEvent event) {
 
             // pause game on keypress PAUSE_KEY
-            if(event.getCode() == PAUSE_KEY) {
+            if (event.getCode() == PAUSE_KEY) {
                 pauseVBox.setVisible(true);
                 pauseMessage.setVisible(true);
                 pauseMessageSub.setVisible(true);
@@ -169,7 +169,7 @@ public class LevelController implements Initializable {
             }
             
             //unpause game on keypress anything except PAUSE_KEY
-            if(gamePaused && event.getCode() != PAUSE_KEY) {
+            if (gamePaused && event.getCode() != PAUSE_KEY) {
                 pauseVBox.setVisible(true);
                 pauseMessage.setVisible(false);
                 pauseMessageSub.setVisible(false);
@@ -228,17 +228,19 @@ public class LevelController implements Initializable {
 
     /**
      * This function initializes the level.
+     * @param gameLoop is the loop of the game.
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
             createLvl();
             playfieldLayer.setOnMousePressed(event -> {
-                if(!gameStarted) {
+                if (!gameStarted) {
                     gameStarted = true;
                     createPlayer();
                     startMessage.setVisible(false);
-                    playfieldLayer.getScene().addEventFilter(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                    playfieldLayer.getScene().addEventFilter(
+                    		KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
             });
