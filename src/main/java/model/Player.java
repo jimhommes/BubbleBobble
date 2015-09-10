@@ -67,7 +67,7 @@ public class Player extends GravityObject {
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
-     * @param image The image the player takes.
+     * @param imageLoc The path of the image the player takes.
      * @param x The start x coordinate.
      * @param y The start y coordinate.
      * @param r The r.
@@ -78,7 +78,7 @@ public class Player extends GravityObject {
      * @param input The input the player will use.
      */
     public Player(Pane layer,
-                  Image image,
+                  String imageLoc,
                   double x,
                   double y,
                   double r,
@@ -89,7 +89,7 @@ public class Player extends GravityObject {
                   Input input,
                   LevelController levelController) {
 
-        super(layer, image, x, y, r, dx, dy, dr);
+        super(layer, imageLoc, x, y, r, dx, dy, dr);
 
         this.speed = speed;
         this.input = input;
@@ -292,7 +292,7 @@ public class Player extends GravityObject {
 
         if (input.isFirePrimaryWeapon() && counter > 30) {
             bubbles.add(new Bubble(layer,
-                    new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
+                    Bubble.BUBBLE_SPRITE,
                     x, y, 0, 0, 0, 0, facingRight));
             counter = 0;
         } else {

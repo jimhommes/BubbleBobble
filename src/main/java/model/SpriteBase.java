@@ -72,7 +72,7 @@ public abstract class SpriteBase {
     /**
      * The constructor. It needs all the paramaters and creates the image where planned.
      * @param layer The layer the image moves in.
-     * @param image The image to load.
+     * @param imageLoc The path to the image to load.
      * @param x The x coordinate.
      * @param y The y coordinate.
      * @param r The r coordinate.
@@ -80,11 +80,11 @@ public abstract class SpriteBase {
      * @param dy The difference in y.
      * @param dr The difference in r.
      */
-    public SpriteBase(Pane layer, Image image, double x, double y, double r,
+    public SpriteBase(Pane layer, String imageLoc, double x, double y, double r,
                       double dx, double dy, double dr) {
 
         this.layer = layer;
-        this.image = image;
+        this.image = new Image(getClass().getResource(imageLoc).toExternalForm());
         this.x = x;
         this.y = y;
         this.r = r;

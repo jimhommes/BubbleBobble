@@ -20,7 +20,7 @@ public class Monster extends GravityObject {
 	/**
 	 * The monster that is trying to catch the character.
 	 * @param layer The level in where the game is played.
-	 * @param image The image of the monster.
+	 * @param imageLoc The path of the image of the monster.
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param r The rotation.
@@ -30,9 +30,9 @@ public class Monster extends GravityObject {
 	 * @param speed The speed at which the monster is travelling.
 	 * @param facingRight Whether the monster is facing to the right or not.
 	 */
-	public Monster(Pane layer, Image image, double x, double y, double r,
+	public Monster(Pane layer, String imageLoc, double x, double y, double r,
 			double dx, double dy, double dr, double speed, boolean facingRight) {
-		super(layer, image, x, y, r, dx, dy, dr);
+		super(layer, imageLoc, x, y, r, dx, dy, dr);
 
 		this.speed = speed;
 		this.facingRight = facingRight;

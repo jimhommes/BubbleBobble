@@ -147,7 +147,6 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     private void createPlayer() {
-        playerImage = new Image(getClass().getResource("../BubRight.png").toExternalForm());
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
@@ -155,7 +154,7 @@ public class LevelController implements Initializable {
         double y = 700;
 
         Player player = new Player(playfieldLayer,
-                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+                "../BubRight.png", x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.add(player);
     }
 

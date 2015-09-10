@@ -7,7 +7,6 @@ package model;
  */
 
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 /**
@@ -22,14 +21,14 @@ public class Wall extends SpriteBase {
      * @param x The X coordinate
      * @param y The Y coordinate
      * @param layer The wall layer
-     * @param image The image used for the wall
+     * @param imageLoc The path of the image used for the wall
      * @param r The rotation
      * @param dx The dx of x
      * @param dy The dy of y
      * @param dr The dr of r
      */
-    public Wall(Pane layer, Image image, double x, double y, double r,
+    public Wall(Pane layer, String imageLoc, double x, double y, double r,
                 double dx, double dy, double dr) {
-        super(layer, image, x, y, r, dx, dy, dr);
+        super(layer, imageLoc, x, y, r, dx, dy, dr);
     }
 }

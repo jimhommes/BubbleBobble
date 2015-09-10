@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 /**
@@ -23,7 +22,7 @@ public class Bubble extends SpriteBase {
     /**
      * The bubble that will be shot to catch the monsters.
      * @param layer The level in where the layer is
-     * @param image The image of the bubble
+     * @param imageLoc The path of the image of the bubble
      * @param x The x coordinate 
      * @param y The y coordinate
      * @param r The rotation
@@ -33,7 +32,7 @@ public class Bubble extends SpriteBase {
      * @param firedRight If the bubble was fired to the right.
      */
     public Bubble(Pane layer,
-                  Image image,
+                  String imageLoc,
                   double x,
                   double y,
                   double r,
@@ -41,7 +40,7 @@ public class Bubble extends SpriteBase {
                   double dy,
                   double dr,
                   boolean firedRight) {
-        super(layer, image, x, y, r, dx, dy, dr);
+        super(layer, imageLoc, x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;

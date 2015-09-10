@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 /**
@@ -13,7 +12,7 @@ public abstract class GravityObject extends SpriteBase {
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
-     * @param image The image the player takes.
+     * @param imageLoc The path of the image the player takes.
      * @param x The start x coordinate.
      * @param y The start y coordinate.
      * @param r The r.
@@ -22,7 +21,7 @@ public abstract class GravityObject extends SpriteBase {
      * @param dr The dr.
      */
     public GravityObject(Pane layer,
-                  Image image,
+                  String imageLoc,
                   double x,
                   double y,
                   double r,
@@ -30,7 +29,7 @@ public abstract class GravityObject extends SpriteBase {
                   double dy,
                   double dr) {
 
-        super(layer, image, x, y, r, dx, dy, dr);
+        super(layer, imageLoc, x, y, r, dx, dy, dr);
 
     }
 
