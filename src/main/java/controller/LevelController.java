@@ -107,32 +107,7 @@ public class LevelController implements Initializable {
         maps = new ArrayList<>();
         players = new ArrayList<>();
         findMaps();
-        AnimationTimer gameLoop = new AnimationTimer() {
-           
-        	@Override
-            public void handle(long now) {
-                if (players.get(0).getGameOver()) {
-                    stop();
-                } else if (!checkGamePaused()) {
-                    players.forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.getBubbles().forEach(bubble -> {
-                            bubble.move();
-                            bubble.updateUI();
-                        });
-                        player.updateUI();
-                    });
-                    currLvl.getMonsters().forEach(monster -> {
-                        players.forEach(player -> 
-                        player.getBubbles().forEach(monster::checkCollision));
-                        players.forEach(player -> player.checkCollideMonster(monster));
-                        monster.move();
-                        monster.updateUI();
-                    });
-                }
-            }
-        };
+        AnimationTimer gameLoop = createTimer();
         startLevel(gameLoop);
     }
     
@@ -239,4 +214,31 @@ public class LevelController implements Initializable {
         }
     }
 
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (players.get(0).getGameOver()) {
+                    stop();
+                } else if (!checkGamePaused()) {
+                    players.forEach(player -> {
+                        player.processInput();
+                        player.move();
+                        player.getBubbles().forEach(bubble -> {
+                            bubble.move();
+                            bubble.updateUI();
+                        });
+                        player.updateUI();
+                    });
+                    currLvl.getMonsters().forEach(monster -> {
+                        players.forEach(player ->
+                                player.getBubbles().forEach(monster::checkCollision));
+                        players.forEach(player -> player.checkCollideMonster(monster));
+                        monster.move();
+                        monster.updateUI();
+                    });
+                }
+            }
+        };
+    }
 }
