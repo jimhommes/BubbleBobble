@@ -14,6 +14,8 @@ public class Monster extends GravityObject {
 
     private final double speed;
     private boolean facingRight;
+    private Bubble prisonBubble;
+    private boolean caughtByBubble;
 
     public Monster(Pane layer, Image image, double x, double y, double r,
                    double dx, double dy, double dr, double speed, boolean facingRight) {
@@ -21,6 +23,7 @@ public class Monster extends GravityObject {
 
         this.speed = speed;
         this.facingRight = facingRight;
+        this.caughtByBubble = false;
     }
 
     public void move() {
@@ -37,6 +40,23 @@ public class Monster extends GravityObject {
 
     public void switchDirection() {
         facingRight = !facingRight;
+    }
+
+    public void checkCollision(final Bubble bubble) {
+        Image bubbleImage = bubble.getImage();
+        double bubbleX = bubble.getX();
+        double bubbleY = bubble.getY();
+        double bubbleX2 = bubbleX + bubbleImage.getWidth();
+        double bubbleY2 = bubbleY + bubbleImage.getHeight();
+        if(!caughtByBubble &&
+                (bubbleX >= x && bubbleX <= x + image.getWidth()) ||
+                (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) {
+            if ((bubbleY >= y && bubbleY <= y + image.getHeight()) ||
+                    bubbleY2 >= y && bubbleY2 <= y + image.getHeight()) {
+                prisonBubble = bubble;
+                caughtByBubble = true;
+            }
+        }
     }
 
 }
