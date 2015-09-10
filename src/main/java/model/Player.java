@@ -120,17 +120,26 @@ public class Player extends GravityObject {
         // movement
         // ------------------------------------
 
-        if (!isDead) {
-            // vertical direction
-            if (input.isMoveUp()) {
-                dy = -speed;
-                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
-            } else if (input.isMoveDown()) {
-                dy = speed;
-                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
-            } else {
-                dy = 0d;
-            }
+    	if (!isDead) {
+    		// vertical direction
+    		if (input.isMoveUp()) {
+    			dy = -speed;
+    			if (facingRight) {
+    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+    			} else {
+    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+    			}  
+    		} else if (input.isMoveDown()) {
+    			dy = speed;
+
+    			if (facingRight) {
+    				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+    			} else {
+    				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+    			}
+    		} else {
+    			dy = 0d;
+    		}
 
             // horizontal direction
             if (input.isMoveLeft()) {
