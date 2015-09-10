@@ -112,10 +112,10 @@ public class Player extends GravityObject {
         // vertical direction
         if (input.isMoveUp()) {
             dy = -speed;
-            image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
+            image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
         } else if (input.isMoveDown()) {
             dy = speed;
-            image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
+            image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
         } else {
             dy = 0d;
         }
@@ -123,11 +123,11 @@ public class Player extends GravityObject {
         // horizontal direction
         if (input.isMoveLeft()) {
             dx = -speed;
-            image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
+            image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
             facingRight = false;
         } else if (input.isMoveRight()) {
             dx = speed;
-            image = new Image(getClass().getResource("/Bub2.png").toExternalForm());
+            image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
             facingRight = true;
         } else {
             dx = 0d;

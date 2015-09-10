@@ -183,7 +183,7 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     private void createPlayer() {
-        playerImage = new Image(getClass().getResource("../player.png").toExternalForm());
+        playerImage = new Image(getClass().getResource("../BubRight.png").toExternalForm());
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
