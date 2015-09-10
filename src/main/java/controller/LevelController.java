@@ -11,10 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Settings;
+import model.*;
 
 import java.io.File;
 import java.net.URL;
@@ -195,7 +192,7 @@ public class LevelController implements Initializable {
         double y = Settings.SCENE_HEIGHT * 0.7;
 
         Player player = new Player(playfieldLayer,
-                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input);
+                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.add(player);
     }
 
@@ -251,6 +248,28 @@ public class LevelController implements Initializable {
         } else {
             System.out.println("No maps found!");
         }
+    }
+
+    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+
+        for (Wall wall : currLvl.getWalls()) {
+            double wallMinX = wall.getX();
+            double wallMaxX = wallMinX + wall.getImage().getWidth();
+            double wallMinY = wall.getY();
+            double wallMaxY = wallMinY + wall.getImage().getHeight();
+            if (((minX > wallMinX && minX < wallMaxX) ||
+                    (maxX > wallMinX && maxX < wallMaxX) ||
+                    (wallMinX > minX && wallMinX < maxX) ||
+                    (wallMaxX > minX && wallMaxX < maxX)) &&
+                    ((minY > wallMinY && minY < wallMaxY) ||
+                            (maxY > wallMinY && maxY < wallMaxY) ||
+                            (wallMinY > minY && wallMinY < maxY) ||
+                            (wallMaxY > minY && wallMaxY < maxY))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

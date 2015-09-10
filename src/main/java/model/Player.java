@@ -1,5 +1,6 @@
 package model;
 
+import controller.LevelController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -61,6 +62,8 @@ public class Player extends GravityObject {
     
     private boolean gameOver;
 
+    private LevelController levelController;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
@@ -83,7 +86,8 @@ public class Player extends GravityObject {
                   double dy,
                   double dr,
                   double speed,
-                  Input input) {
+                  Input input,
+                  LevelController levelController) {
 
         super(layer, image, x, y, r, dx, dy, dr);
 
@@ -93,6 +97,7 @@ public class Player extends GravityObject {
         this.counter = 16;
         this.isDead = false;
         this.gameOver = false;
+        this.levelController = levelController;
 
         init();
     }
@@ -122,15 +127,26 @@ public class Player extends GravityObject {
 
     	if (!isDead) {
     		// vertical direction
+            // If isMoveUp AND does not cause a collision
     		if (input.isMoveUp()) {
-    			dy = -speed;
+                if (!levelController.causesCollision(x, x + image.getWidth(), y - speed, y + image.getHeight())) {
+                    dy = -speed;
+                } else {
+                    dy = 0;
+                }
+
     			if (facingRight) {
     				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
     			} else {
     				image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
     			}  
     		} else if (input.isMoveDown()) {
-    			dy = speed;
+
+                if (!levelController.causesCollision(x, x + image.getWidth(), y + speed, y + image.getHeight())) {
+                    dy = speed;
+                } else {
+                    dy = 0;
+                }
 
     			if (facingRight) {
     				image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
@@ -143,11 +159,21 @@ public class Player extends GravityObject {
 
             // horizontal direction
             if (input.isMoveLeft()) {
-                dx = -speed;
+                if (!levelController.causesCollision(x - speed, x + image.getWidth(), y, y + image.getHeight())) {
+                    dx = -speed;
+                } else {
+                    dx = 0;
+                }
+
                 image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
                 facingRight = false;
             } else if (input.isMoveRight()) {
-                dx = speed;
+                if (!levelController.causesCollision(x + speed, x + image.getWidth(), y, y + image.getHeight())) {
+                    dx = speed;
+                } else {
+                    dx = 0;
+                }
+
                 image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
                 facingRight = true;
             } else {
