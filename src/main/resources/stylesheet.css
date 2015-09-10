@@ -72,6 +72,18 @@
     -fx-alignment: center;
 }
 
+.winText {
+	-fx-font-size: 60px;
+    -fx-fill: green;
+    -fx-alignment: center;
+}
+
+.win {
+	-fx-font-size: 25px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
 .levelMessageSub{
     -fx-font-size: 20px;
     -fx-fill: white;
