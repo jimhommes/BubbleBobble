@@ -15,17 +15,7 @@ import javafx.scene.layout.Pane;
  */
 public class Wall extends SpriteBase {
 
-    /**
-     * The X coordinate.
-     */
-    private int x;
-
-    /**
-     * The Y coordinate.
-     */
-    private int y;
-
-    public static String WALL_SPRITE = "../BubbleBobbleWall32b.png";
+    public static final String WALL_SPRITE = "../BubbleBobbleWall32b.png";
 
     /**
      * The constructor that implements the X and Y coordinate.

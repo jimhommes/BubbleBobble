@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.*;
@@ -34,11 +33,6 @@ public class LevelController implements Initializable {
      * The image of the player.
      */
     private Image playerImage;
-
-    /**
-     * The image of the monster.
-     */
-    private Image monsterImage;
 
     /**
      * The message that says "Click when ready".
@@ -69,12 +63,6 @@ public class LevelController implements Initializable {
      */
     @FXML
     private Pane playfieldLayer;
-
-    /**
-     * The StackPane the level is drawn on.
-     */
-    @FXML
-    private StackPane root;
 
     /**
      * The list of maps that the user is about to play.
@@ -116,32 +104,7 @@ public class LevelController implements Initializable {
         maps = new ArrayList<>();
         players = new ArrayList<>();
         findMaps();
-        AnimationTimer gameLoop = new AnimationTimer() {
-           
-        	@Override
-            public void handle(long now) {
-                if (players.get(0).getGameOver()) {
-                    stop();
-                } else if (!checkGamePaused()) {
-                    players.forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.getBubbles().forEach(bubble -> {
-                            bubble.move();
-                            bubble.updateUI();
-                        });
-                        player.updateUI();
-                    });
-                    currLvl.getMonsters().forEach(monster -> {
-                        players.forEach(player -> 
-                        player.getBubbles().forEach(monster::checkCollision));
-                        players.forEach(player -> player.checkCollideMonster(monster));
-                        monster.move();
-                        monster.updateUI();
-                    });
-                }
-            }
-        };
+        AnimationTimer gameLoop = createTimer();
         startLevel(gameLoop);
     }
     
@@ -200,16 +163,14 @@ public class LevelController implements Initializable {
      * This function scans the resources folder for maps.
      */
     private void findMaps() {
-        File folder = new File("src/main/resources");
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                if (file.getName().matches("map[0-9]*.txt")) {
-                    maps.add(file.getName());
-                }
-            }
-        }
+    	File folder = new File("src/main/resources");
+    	File[] listOfFiles = folder.listFiles();
+    	assert listOfFiles != null;
+    	for (File file : listOfFiles) {
+    		if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
+    			maps.add(file.getName());
+    		}
+    	}
     }
 
     /**
@@ -248,6 +209,35 @@ public class LevelController implements Initializable {
         } else {
             System.out.println("No maps found!");
         }
+    }
+
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (players.get(0).getGameOver()) {
+                    stop();
+                } else if (!checkGamePaused()) {
+                    players.forEach(player -> {
+                        player.processInput();
+                        player.move();
+                        player.getBubbles().forEach(bubble -> {
+                            bubble.move();
+                            bubble.updateUI();
+                        });
+                        player.updateUI();
+                    });
+                    currLvl.getMonsters().forEach(monster -> {
+                        players.forEach(player ->
+                                player.getBubbles().forEach(monster::checkCollision));
+                        players.forEach(player -> player.checkCollideMonster(monster));
+                        monster.move();
+                        monster.updateUI();
+                    });
+                }
+            }
+        };
     }
 
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {

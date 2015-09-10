@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -31,11 +30,6 @@ public class StartController implements Initializable {
      * The variable name of the object has to match the fx:id of the view element.
      */
     @FXML private AnchorPane root;
-
-    /**
-     * The ImageView is the logo that is shown.
-     */
-    @FXML private ImageView imageView;
 
     /**
      * The start button. If you press this the game will start.

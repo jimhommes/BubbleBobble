@@ -33,7 +33,7 @@ public class Level {
     /**
      * The map in a 2 dim array.
      */
-    private static Integer[][] map;
+    private Integer[][] map;
     private final Pane playfieldLayer;
 
     /**
@@ -69,7 +69,6 @@ public class Level {
      * The function that draws the map.
      */
     public final void drawMap() {
-        Image image = new Image(getClass().getResourceAsStream("../BubbleBobbleWall32b.png"));
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
@@ -102,7 +101,7 @@ public class Level {
 
         try {
             reader = new BufferedReader(
-                    new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle)));
+                  new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle), "UTF-8"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
