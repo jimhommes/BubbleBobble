@@ -147,5 +147,5 @@ public abstract class SpriteBase {
     public double getY() {
         return y;
     }
-
+    
 }

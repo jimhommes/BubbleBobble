@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class GravityObject extends SpriteBase {
 
-    private final float GRAVITY_CONSTANT = 2.f;
+    private final static float GRAVITY_CONSTANT = 2.f;
 
     private double playerMinX;
     private double playerMaxX;
@@ -41,6 +41,10 @@ public abstract class GravityObject extends SpriteBase {
 
     }
 
+    /**
+     * This method calculates the gravity.
+     * @return The gravity constant.
+     */
     public float calculateGravity() {
         return -GRAVITY_CONSTANT;
     }

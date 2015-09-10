@@ -31,6 +31,12 @@ public class Wall extends SpriteBase {
      * The constructor that implements the X and Y coordinate.
      * @param x The X coordinate
      * @param y The Y coordinate
+     * @param layer The wall layer
+     * @param image The image used for the wall
+     * @param r The rotation
+     * @param dx The dx of x
+     * @param dy The dy of y
+     * @param dr The dr of r
      */
     public Wall(Pane layer, Image image, double x, double y, double r,
                 double dx, double dy, double dr) {

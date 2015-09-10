@@ -15,7 +15,7 @@ public class Input {
     /**
      * The scene the player moves in.
      */
-    Scene scene;
+    private Scene scene;
 
     // -------------------------------------------------
     // default key codes

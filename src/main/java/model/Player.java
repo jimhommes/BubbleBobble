@@ -1,8 +1,13 @@
 package model;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -52,6 +57,10 @@ public class Player extends GravityObject {
 
     private int counter;
 
+    private boolean isDead;
+    
+    private boolean gameOver;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
@@ -82,6 +91,8 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 16;
+        this.isDead = false;
+        this.gameOver = false;
 
         init();
     }
@@ -109,35 +120,54 @@ public class Player extends GravityObject {
         // movement
         // ------------------------------------
 
-        // vertical direction
-        if (input.isMoveUp()) {
-            dy = -speed;
-            image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
-        } else if (input.isMoveDown()) {
-            dy = speed;
-            image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
-        } else {
-            dy = 0d;
-        }
+        if(!isDead) {
+            // vertical direction
+            if (input.isMoveUp()) {
+                dy = -speed;
+                image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
+            } else if (input.isMoveDown()) {
+                dy = speed;
+                image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
+            } else {
+                dy = 0d;
+            }
 
-        // horizontal direction
-        if (input.isMoveLeft()) {
-            dx = -speed;
-            image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
-            facingRight = false;
-        } else if (input.isMoveRight()) {
-            dx = speed;
-            image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
-            facingRight = true;
-        } else {
-            dx = 0d;
-        }
+            // horizontal direction
+            if (input.isMoveLeft()) {
+                dx = -speed;
+                image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
+                facingRight = false;
+            } else if (input.isMoveRight()) {
+                dx = speed;
+                image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
+                facingRight = true;
+            } else {
+                dx = 0d;
+            }
 
-        if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(layer, new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()), x, y, 0, 0, 0, 0, facingRight));
-            counter = 0;
+            if (input.isFirePrimaryWeapon() && counter > 30) {
+                bubbles.add(new Bubble(layer,
+                        new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
+                        x, y, 0, 0, 0, 0, facingRight));
+                counter = 0;
+            } else {
+                counter++;
+            }
         } else {
-            counter++;
+            if(counter > 50) {
+                gameOver = true;
+                Stage stage = (Stage) layer.getScene().getWindow();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setScene(new Scene(root));
+                stage.show();
+            } else {
+                counter++;
+            }
         }
 
     }
@@ -182,10 +212,39 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the bubble list.
+     * @return the bubbles.
      */
     public ArrayList<Bubble> getBubbles() {
         return bubbles;
     }
 
+    public void checkCollideMonster(final Monster monster) {
+        double monsterX = monster.getX();
+        double monsterMaxX = monsterX + monster.getImage().getWidth();
+        double monsterY = monster.getY();
+        double monsterMaxY = monsterY + monster.getImage().getHeight();
 
+        if((monsterX > x && monsterX < x + image.getWidth()) ||
+                (monsterMaxX > x && monsterMaxX < x + image.getWidth())) {
+            if((monsterY > y && monsterY < y + image.getHeight()) ||
+                    (monsterMaxY > y && monsterMaxX < y + image.getHeight())) {
+                die();
+            }
+        }
+    }
+
+    public void die() {
+        this.isDead = true;
+        counter = 0;
+        image = new Image(getClass().getResource("/BubbleBobbleLogo.png").toExternalForm());
+    }
+
+
+    public boolean getDead() {
+        return isDead;
+    }
+
+    public boolean getGameOver() {
+        return gameOver;
+    }
 }
