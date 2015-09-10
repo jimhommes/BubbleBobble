@@ -55,7 +55,7 @@ public class Monster extends GravityObject {
         double bubbleY = bubble.getY();
         double bubbleX2 = bubbleX + bubbleImage.getWidth();
         double bubbleY2 = bubbleY + bubbleImage.getHeight();
-        if(!caughtByBubble &&
+        if(bubble.getAbleToCatch() && !caughtByBubble &&
                 (bubbleX >= x && bubbleX <= x + image.getWidth()) ||
                 (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) {
             if ((bubbleY >= y && bubbleY <= y + image.getHeight()) ||
@@ -64,6 +64,7 @@ public class Monster extends GravityObject {
                 caughtByBubble = true;
             }
         }
+        bubble.setAbleToCatch(false);
     }
 
 }
