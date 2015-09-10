@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
  */
 public class Bubble extends SpriteBase {
 
-    public static String BUBBLE_SPRITE = "../bubble.png";
+    public static String BUBBLE_SPRITE = "../bubbleWithoutBackground.png";
 
     private int counter;
 
