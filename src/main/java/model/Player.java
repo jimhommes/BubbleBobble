@@ -213,8 +213,9 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        // IF NOT COLLIDING
-        this.y -= calculateGravity();
+        if (!levelController.causesCollision(x, x + image.getWidth(), y - calculateGravity(), y + image.getHeight())) {
+            this.y -= calculateGravity();
+        }
 
         super.move();
 
