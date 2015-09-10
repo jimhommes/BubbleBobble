@@ -52,6 +52,8 @@ public class Player extends GravityObject {
 
     private int counter;
 
+    private boolean dead;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.
@@ -82,6 +84,7 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 16;
+        this.dead = false;
 
         init();
     }
@@ -109,37 +112,39 @@ public class Player extends GravityObject {
         // movement
         // ------------------------------------
 
-        // vertical direction
-        if (input.isMoveUp()) {
-            dy = -speed;
-            image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
-        } else if (input.isMoveDown()) {
-            dy = speed;
-            image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
-        } else {
-            dy = 0d;
-        }
+        if(!dead) {
+            // vertical direction
+            if (input.isMoveUp()) {
+                dy = -speed;
+                image = new Image(getClass().getResource("/playerUp.png").toExternalForm());
+            } else if (input.isMoveDown()) {
+                dy = speed;
+                image = new Image(getClass().getResource("/playerDown.png").toExternalForm());
+            } else {
+                dy = 0d;
+            }
 
-        // horizontal direction
-        if (input.isMoveLeft()) {
-            dx = -speed;
-            image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
-            facingRight = false;
-        } else if (input.isMoveRight()) {
-            dx = speed;
-            image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
-            facingRight = true;
-        } else {
-            dx = 0d;
-        }
+            // horizontal direction
+            if (input.isMoveLeft()) {
+                dx = -speed;
+                image = new Image(getClass().getResource("/playerLeft.png").toExternalForm());
+                facingRight = false;
+            } else if (input.isMoveRight()) {
+                dx = speed;
+                image = new Image(getClass().getResource("/playerRight.png").toExternalForm());
+                facingRight = true;
+            } else {
+                dx = 0d;
+            }
 
-        if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(layer, 
-            		new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
-            		x, y, 0, 0, 0, 0, facingRight));
-            counter = 0;
-        } else {
-            counter++;
+            if (input.isFirePrimaryWeapon() && counter > 30) {
+                bubbles.add(new Bubble(layer,
+                        new Image(getClass().getResource(Bubble.BUBBLE_SPRITE).toExternalForm()),
+                        x, y, 0, 0, 0, 0, facingRight));
+                counter = 0;
+            } else {
+                counter++;
+            }
         }
 
     }
@@ -206,6 +211,7 @@ public class Player extends GravityObject {
     }
 
     public void die() {
+        this.dead = true;
         image = new Image(getClass().getResource("/BubbleBobbleLogo.png").toExternalForm());
     }
 
