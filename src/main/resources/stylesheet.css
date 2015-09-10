@@ -39,7 +39,6 @@
 }
 
 .helpTextDescription {
-	
     -fx-font-size: 30px;
     -fx-fill: white;
 }
@@ -61,7 +60,6 @@
     -fx-alignment: center;
 }
 
-
 .gameOverText {
 	-fx-font-size: 60px;
     -fx-fill: red;
@@ -74,6 +72,15 @@
     -fx-alignment: center;
 }
 
+.levelMessageSub{
+    -fx-font-size: 20px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.pauseVBox{
+    -fx-alignment: center;
+}
 
 #playfieldLayer {
     -fx-min-width: 832px;

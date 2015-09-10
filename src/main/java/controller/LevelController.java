@@ -13,6 +13,10 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
 /**
  * @author Jim
@@ -41,7 +45,25 @@ public class LevelController implements Initializable {
      */
     @FXML
     private Text startMessage;
+    
+    /**
+     * The message that says "Game Paused".
+     */
+    @FXML
+    private Text pauseMessage;
+    
+    /**
+     * The message that gives extra information when game is paused.
+     */
+    @FXML
+    private Text pauseMessageSub;
 
+    /**
+     * The VBox that contains pauseMessage and pauseMessageSub.
+     */
+    @FXML
+    private VBox pauseVBox;
+    
     /**
      * The layer the player "moves" in.
      */
@@ -72,7 +94,17 @@ public class LevelController implements Initializable {
      * A boolean to see if the game is going on or not.
      */
     private boolean gameStarted = false;
+    
+    /**
+     * A boolean to see if the game is going on or not.
+     */
+    private boolean gamePaused = false;
 
+    /**
+     * KeyCode for pausing the game. 
+     */
+    private static final KeyCode PAUSE_KEY = KeyCode.P;
+    
     /**
      * The init function.
      *
@@ -84,29 +116,68 @@ public class LevelController implements Initializable {
         maps = new ArrayList<>();
         players = new ArrayList<>();
         findMaps();
-
+        
         AnimationTimer gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                players.forEach(player -> {
-                    player.processInput();
-                    player.move();
-                    player.getBubbles().forEach(bubble -> {
-                        bubble.move();
-                        bubble.updateUI();
+                if(!checkGamePaused()) {
+                    players.forEach(player -> {
+                        player.processInput();
+                        player.move();
+                        player.getBubbles().forEach(bubble -> {
+                            bubble.move();
+                            bubble.updateUI();
+                        });
+                        player.updateUI();
                     });
-                    player.updateUI();
-                });
-                currLvl.getMonsters().forEach(monster -> {
-                    monster.move();
-                    monster.updateUI();
-                });
+                    currLvl.getMonsters().forEach(monster -> {
+                        monster.move();
+                        monster.updateUI();
+                    });
+                }
+                
+                
             }
         };
 
         startLevel(gameLoop);
 
     }
+    
+    /**
+     * This is the boolean to check if the game is paused or not.
+     *
+     * @return True if the gamePaused is true.
+     */
+    public boolean checkGamePaused() {
+        return this.gamePaused;
+    }
+    
+    /**
+     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     */
+    private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+
+            // pause game on keypress PAUSE_KEY
+            if(event.getCode() == PAUSE_KEY) {
+                pauseVBox.setVisible(true);
+                pauseMessage.setVisible(true);
+                pauseMessageSub.setVisible(true);
+                gamePaused = true;
+            }
+            
+            //unpause game on keypress anything except PAUSE_KEY
+            if(gamePaused && event.getCode() != PAUSE_KEY) {
+                pauseVBox.setVisible(true);
+                pauseMessage.setVisible(false);
+                pauseMessageSub.setVisible(false);
+                gamePaused = false;
+            }
+
+        }
+    };
 
     /**
      * The function that is used to create the player.
@@ -141,7 +212,7 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function creats the currLvl'th level.
+     * This function creates the currLvl'th level.
      */
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
@@ -156,7 +227,7 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function initialises the level.
+     * This function initializes the level.
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
@@ -167,6 +238,7 @@ public class LevelController implements Initializable {
                     gameStarted = true;
                     createPlayer();
                     startMessage.setVisible(false);
+                    playfieldLayer.getScene().addEventFilter(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
             });
