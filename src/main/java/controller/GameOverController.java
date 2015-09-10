@@ -22,59 +22,59 @@ import java.net.URL;
  */
 public class GameOverController implements Initializable {
 
-	/**
-	 * The game over screen.
-	 */
-	@FXML private GridPane gameOverScreen;
+    /**
+     * The game over screen.
+     */
+    @FXML private GridPane gameOverScreen;
 
-	/**
-	 * The @FXML annotation links the view element to this object in the controller.
-	 * The variable name of the object has to match the fx:id of the view element.
-	 */
-	@FXML private AnchorPane root;
+    /**
+     * The @FXML annotation links the view element to this object in the controller.
+     * The variable name of the object has to match the fx:id of the view element.
+     */
+    @FXML private AnchorPane root;
 
-	/**
-	 * The ImageView is the skull that is shown on the game over screen.
-	 */
-	@FXML private ImageView gameOverImage;
+    /**
+     * The ImageView is the skull that is shown on the game over screen.
+     */
+    @FXML private ImageView gameOverImage;
 
-	/**
-	 * The restart button. When pressed the game will restart.
-	 */
-	@FXML private Button restartButton;
+    /**
+     * The restart button. When pressed the game will restart.
+     */
+    @FXML private Button restartButton;
 
-	/**
-	 * The quit button. If pressed the application will close.
-	 */
-	@FXML private Button quitButton;
+    /**
+     * The quit button. If pressed the application will close.
+     */
+    @FXML private Button quitButton;
 
 
-	/**
-	 * Initializes the view.
-	 * This is the place for setting onclick handlers, for example.
-	 */
-	@Override
-	public final void initialize(final URL location, final ResourceBundle resources) {
-		restartButton.setOnAction(event -> {
-			try {
-				returnToMenu();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-		quitButton.setOnAction((event ->
-		System.exit(0)));
-	}
+    /**
+     * Initializes the view.
+     * This is the place for setting onclick handlers, for example.
+     */
+    @Override
+    public final void initialize(final URL location, final ResourceBundle resources) {
+        restartButton.setOnAction(event -> {
+            try {
+                returnToMenu();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        quitButton.setOnAction((event ->
+                System.exit(0)));
+    }
 
-	/**
-	 * The function bound to the startbutton.
-	 * @throws IOException The exception thrown.
-	 */
-	private void returnToMenu() throws IOException {
-		Stage stage = (Stage) root.getScene().getWindow();
-		Parent newRoot = FXMLLoader.load(getClass().getResource("../startscreen.fxml"));
-		stage.setScene(new Scene(newRoot));
-		stage.show();
-	}
+    /**
+     * The function bound to the startbutton.
+     * @throws IOException The exception thrown.
+     */
+    private void returnToMenu() throws IOException {
+        Stage stage = (Stage) root.getScene().getWindow();
+        Parent newRoot = FXMLLoader.load(getClass().getResource("../startscreen.fxml"));
+        stage.setScene(new Scene(newRoot));
+        stage.show();
+    }
 
 }
