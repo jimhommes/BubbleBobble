@@ -10,13 +10,6 @@ public abstract class GravityObject extends SpriteBase {
 
     private static final float GRAVITY_CONSTANT = 2.f;
 
-    private double playerMinX;
-    private double playerMaxX;
-    private double playerMinY;
-    private double playerMaxY;
-    private Input input;
-    private double speed;
-
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param layer The layer the player moves in.

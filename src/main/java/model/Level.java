@@ -69,7 +69,6 @@ public class Level {
      * The function that draws the map.
      */
     public final void drawMap() {
-        Image image = new Image(getClass().getResourceAsStream("../BubbleBobbleWall32b.png"));
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
