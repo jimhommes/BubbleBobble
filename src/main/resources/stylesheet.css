@@ -39,7 +39,6 @@
 }
 
 .helpTextDescription {
-	
     -fx-font-size: 30px;
     -fx-fill: white;
 }
@@ -58,6 +57,28 @@
 .levelMessage{
     -fx-font-size: 50px;
     -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.gameOverText {
+	-fx-font-size: 60px;
+    -fx-fill: red;
+    -fx-alignment: center;
+}
+
+.gameOver {
+	-fx-font-size: 25px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.levelMessageSub{
+    -fx-font-size: 20px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.pauseVBox{
     -fx-alignment: center;
 }
 
