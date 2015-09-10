@@ -135,6 +135,7 @@ public class LevelController implements Initializable {
                         player.updateUI();
                     });
                     currLvl.getMonsters().forEach(monster -> {
+                        players.forEach(player -> player.getBubbles().forEach(monster::checkCollision));
                         players.forEach(player -> player.checkCollideMonster(monster));
                         monster.move();
                         monster.updateUI();
