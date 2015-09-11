@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -27,12 +26,7 @@ public class LevelController implements Initializable {
     /**
      * The list of players in the game.
      */
-    private ArrayList<Player> players;
-
-    /**
-     * The image of the player.
-     */
-    private Image playerImage;
+    private ArrayList players;
 
     /**
      * The message that says "Click when ready".
@@ -92,6 +86,8 @@ public class LevelController implements Initializable {
      * KeyCode for pausing the game. 
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
+
+    private ScreenController screenController;
     
     /**
      * The init function.
@@ -104,7 +100,9 @@ public class LevelController implements Initializable {
         maps = new ArrayList<>();
         players = new ArrayList<>();
         findMaps();
+
         AnimationTimer gameLoop = createTimer();
+        this.screenController = new ScreenController(playfieldLayer);
         startLevel(gameLoop);
     }
     
@@ -147,16 +145,15 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     private void createPlayer() {
-        playerImage = new Image(getClass().getResource("../BubRight.png").toExternalForm());
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
         double x = 200;
         double y = 700;
 
-        Player player = new Player(playfieldLayer,
-                playerImage, x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.add(player);
+        screenController.addToSprites(players);
     }
 
     /**
@@ -178,6 +175,8 @@ public class LevelController implements Initializable {
      */
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
+        screenController.addToSprites(currLvl.getWalls());
+        screenController.addToSprites(currLvl.getMonsters());
     }
 
     /**
@@ -195,10 +194,10 @@ public class LevelController implements Initializable {
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
-            createLvl();
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
+                    createLvl();
                     createPlayer();
                     startMessage.setVisible(false);
                     playfieldLayer.getScene().addEventFilter(
@@ -216,25 +215,24 @@ public class LevelController implements Initializable {
         return new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (players.get(0).getGameOver()) {
+                if (((Player) players.get(0)).getGameOver()) {
                     stop();
                 } else if (!checkGamePaused()) {
-                    players.forEach(player -> {
+                    ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
                         player.move();
                         player.getBubbles().forEach(bubble -> {
                             bubble.move();
-                            bubble.updateUI();
                         });
-                        player.updateUI();
                     });
-                    currLvl.getMonsters().forEach(monster -> {
-                        players.forEach(player ->
-                                player.getBubbles().forEach(monster::checkCollision));
-                        players.forEach(player -> player.checkCollideMonster(monster));
+                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                        ((ArrayList<Player>) players).forEach(player -> {
+                            player.getBubbles().forEach(monster::checkCollision);
+                            player.checkCollideMonster(monster);
+                        });
                         monster.move();
-                        monster.updateUI();
                     });
+                    screenController.updateUI();
                 }
             }
         };
@@ -242,11 +240,11 @@ public class LevelController implements Initializable {
 
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
-        for (Wall wall : currLvl.getWalls()) {
+        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
             double wallMinX = wall.getX();
-            double wallMaxX = wallMinX + wall.getImage().getWidth();
+            double wallMaxX = wallMinX + wall.getWidth();
             double wallMinY = wall.getY();
-            double wallMaxY = wallMinY + wall.getImage().getHeight();
+            double wallMaxY = wallMinY + wall.getHeight();
             if (((minX > wallMinX && minX < wallMaxX) ||
                     (maxX > wallMinX && maxX < wallMaxX) ||
                     (wallMinX > minX && wallMinX < maxX) ||
@@ -260,6 +258,10 @@ public class LevelController implements Initializable {
         }
 
         return false;
+    }
+
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
     }
 
 }

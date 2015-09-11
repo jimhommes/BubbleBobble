@@ -1,8 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -12,18 +9,24 @@ import javafx.scene.layout.Pane;
  */
 public class Bubble extends SpriteBase {
 
-    static final String BUBBLE_SPRITE = "../bubble.png";
-
+    /**
+     * The counter that is needed for the movement of the bubble.
+     */
     private int counter;
 
+    /**
+     * This boolean indicates whether it is fired to the right.
+     */
     private boolean firedRight;
 
+    /**
+     * Only in the first stage of firing the bubble, the bubble is able to catch monsters.
+     * This boolean indicates if the bubble can catch a monster.
+     */
     private boolean ableToCatch;
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param layer The level in where the layer is
-     * @param image The image of the bubble
      * @param x The x coordinate 
      * @param y The y coordinate
      * @param r The rotation
@@ -32,16 +35,14 @@ public class Bubble extends SpriteBase {
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
      */
-    public Bubble(Pane layer,
-                  Image image,
-                  double x,
+    public Bubble(double x,
                   double y,
                   double r,
                   double dx,
                   double dy,
                   double dr,
                   boolean firedRight) {
-        super(layer, image, x, y, r, dx, dy, dr);
+        super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
@@ -56,13 +57,13 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                dx = 7;
+                setDx(7);
             } else {
-                dx = -7;
+                setDx(-7);
             }
         } else {
-            dx = 0;
-            dy = -5;
+            setDx(0);
+            setDy(-5);
             ableToCatch = false;
         }
 

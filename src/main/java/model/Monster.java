@@ -1,8 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -19,8 +16,6 @@ public class Monster extends GravityObject {
 
 	/**
 	 * The monster that is trying to catch the character.
-	 * @param layer The level in where the game is played.
-	 * @param image The image of the monster.
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param r The rotation.
@@ -30,9 +25,9 @@ public class Monster extends GravityObject {
 	 * @param speed The speed at which the monster is travelling.
 	 * @param facingRight Whether the monster is facing to the right or not.
 	 */
-	public Monster(Pane layer, Image image, double x, double y, double r,
+	public Monster(String imagePath, double x, double y, double r,
 			double dx, double dy, double dr, double speed, boolean facingRight) {
-		super(layer, image, x, y, r, dx, dy, dr);
+		super(imagePath, x, y, r, dx, dy, dr);
 
 		this.speed = speed;
 		this.facingRight = facingRight;
@@ -43,29 +38,7 @@ public class Monster extends GravityObject {
 	 * The movement of the monster.
 	 */
 	public void move() {
-		if (!caughtByBubble) {
-			if (facingRight) {
-				dx = speed;
-			} else {
-				dx = -speed;
-			}
-
-			dy = -calculateGravity();
-		} else {
-			dx = 0;
-			dy = 0;
-			x = prisonBubble.getX();
-			y = prisonBubble.getY();
-		}
-
 		super.move();
-	}
-
-	/**
-	 * Switching the direction that the monster is facing.
-	 */
-	public void switchDirection() {
-		facingRight = !facingRight;
 	}
 
 	/**
@@ -73,20 +46,60 @@ public class Monster extends GravityObject {
 	 * @param bubble the bubble that is shot from the character.
 	 */
 	public void checkCollision(final Bubble bubble) {
-		Image bubbleImage = bubble.getImage();
 		double bubbleX = bubble.getX();
 		double bubbleY = bubble.getY();
-		double bubbleX2 = bubbleX + bubbleImage.getWidth();
-		double bubbleY2 = bubbleY + bubbleImage.getHeight();
+		double bubbleX2 = bubbleX + getWidth();
+		double bubbleY2 = bubbleY + getHeight();
 		if ((bubble.getAbleToCatch() && !caughtByBubble 
-				&& (bubbleX >= x && bubbleX <= x + image.getWidth()) 
-				|| (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) 
-				&& ((bubbleY >= y && bubbleY <= y + image.getHeight()) 
-				|| bubbleY2 >= y && bubbleY2 <= y + image.getHeight())) {
+				&& (bubbleX >= getX() && bubbleX <= getX() + getWidth())
+				|| (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
+				&& ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
+				|| bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
 			prisonBubble = bubble;
 			caughtByBubble = true;
 		}
+
 		bubble.setAbleToCatch(false);
+	}
+
+	/**
+	 * This function returns the speed.
+	 * @return The speed.
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * This function sets the boolean that indicates if the monster is facing right.
+	 * @return True if facing right.
+	 */
+	public boolean isFacingRight() {
+		return facingRight;
+	}
+
+	/**
+	 * This function returns the bubble that imprisons the monster.
+	 * @return The bubble that imprisons the monster.
+	 */
+	public Bubble getPrisonBubble() {
+		return prisonBubble;
+	}
+
+	/**
+	 * This boolean indicates if the monster is caught by a bubble.
+	 * @return True if caught by a bubble.
+	 */
+	public boolean isCaughtByBubble() {
+		return caughtByBubble;
+	}
+
+	/**
+	 * This functions sets the boolean if the monster is facing right.
+	 * @param facingRight The boolean if the monster is facing right.
+	 */
+	public void setFacingRight(boolean facingRight) {
+		this.facingRight = facingRight;
 	}
 
 }
