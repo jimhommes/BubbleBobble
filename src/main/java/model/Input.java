@@ -30,27 +30,27 @@ public class Input {
     /**
      * KeyCode for the up key.
      */
-    private KeyCode upKey = KeyCode.UP;
+    public static final KeyCode UP_KEY = KeyCode.UP;
     /**
      * KeyCode for the down key.
      */
-    private KeyCode downKey = KeyCode.DOWN;
+    public static final KeyCode DOWN_KEY = KeyCode.DOWN;
     /**
      * KeyCode for the left key.
      */
-    private KeyCode leftKey = KeyCode.LEFT;
+    public static final KeyCode LEFT_KEY = KeyCode.LEFT;
     /**
      * KeyCode for the right key.
      */
-    private KeyCode rightKey = KeyCode.RIGHT;
+    public static final KeyCode RIGHT_KEY = KeyCode.RIGHT;
     /**
      * KeyCode for the space key. (fire primary weapon)
      */
-    private KeyCode primaryWeaponKey = KeyCode.SPACE;
+    public static final KeyCode PRIMARY_WEAPON_KEY = KeyCode.SPACE;
     /**
      * KeyCode for the control key. (fire secondary weapon)
      */
-    private KeyCode secondaryWeaponKey = KeyCode.CONTROL;
+    public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
     /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
      */
@@ -118,7 +118,7 @@ public class Input {
      * @return True if the up key is pressed.
      */
     public boolean isMoveUp() {
-        return keyboardBitSet.get(upKey.ordinal()) && !keyboardBitSet.get(downKey.ordinal());
+        return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
     }
 
     /**
@@ -127,7 +127,7 @@ public class Input {
      * @return True if the down key is pressed.
      */
     public boolean isMoveDown() {
-        return keyboardBitSet.get(downKey.ordinal()) && !keyboardBitSet.get(upKey.ordinal());
+        return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
     }
 
     /**
@@ -136,7 +136,7 @@ public class Input {
      * @return True if the left key is pressed.
      */
     public boolean isMoveLeft() {
-        return keyboardBitSet.get(leftKey.ordinal()) && !keyboardBitSet.get(rightKey.ordinal());
+        return keyboardBitSet.get(LEFT_KEY.ordinal()) && !keyboardBitSet.get(RIGHT_KEY.ordinal());
     }
 
 
@@ -146,7 +146,7 @@ public class Input {
      * @return True if the right key is pressed.
      */
     public boolean isMoveRight() {
-        return keyboardBitSet.get(rightKey.ordinal()) && !keyboardBitSet.get(leftKey.ordinal());
+        return keyboardBitSet.get(RIGHT_KEY.ordinal()) && !keyboardBitSet.get(LEFT_KEY.ordinal());
     }
 
     /**
@@ -155,7 +155,7 @@ public class Input {
      * @return True if the space key is pressed.
      */
     public boolean isFirePrimaryWeapon() {
-        return keyboardBitSet.get(primaryWeaponKey.ordinal());
+        return keyboardBitSet.get(PRIMARY_WEAPON_KEY.ordinal());
     }
 
 
@@ -165,7 +165,10 @@ public class Input {
      * @return True if the control key is pressed.
      */
     public boolean isFireSecondaryWeapon() {
-        return keyboardBitSet.get(secondaryWeaponKey.ordinal());
+        return keyboardBitSet.get(SECONDARY_WEAPON_KEY.ordinal());
     }
 
+    public void setKeyboardBitSet(BitSet keyboardBitSet) {
+        this.keyboardBitSet = keyboardBitSet;
+    }
 }
