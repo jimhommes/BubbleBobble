@@ -30,7 +30,7 @@ public class MonsterTest {
 	}
 	
 	@Test
-	public void testCheckCollision() throws Exception {
+	public void testCheckCollision1() throws Exception {
 		Bubble bubble = mock(Bubble.class);
 		when(bubble.getX()).thenReturn(1.0);
         when(bubble.getY()).thenReturn(1.0);
@@ -42,6 +42,20 @@ public class MonsterTest {
         monster.checkCollision(bubble);
         assertTrue(monster.isCaughtByBubble());
         assertEquals(monster.getPrisonBubble(), bubble);
+	}
+	
+	@Test
+	public void testCheckCollision2() throws Exception {
+		Bubble bubble = mock(Bubble.class);
+		when(bubble.getX()).thenReturn(1.0);
+        when(bubble.getY()).thenReturn(1.0);
+        when(bubble.getWidth()).thenReturn(300.0);
+        when(bubble.getHeight()).thenReturn(300.0);
+        when(bubble.getAbleToCatch()).thenReturn(true);
+        monster.checkCollision(bubble);
+        System.out.println("hier");
+        monster.checkCollision(bubble);
+        assertTrue(monster.isCaughtByBubble());
 	}
 	
 	@Test
