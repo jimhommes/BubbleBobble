@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.layout.Pane;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,7 +31,6 @@ public class Level {
      * The map in a 2 dim array.
      */
     private Integer[][] map;
-    private final Pane playfieldLayer;
 
     /**
      * The title of the file that is loaded.
@@ -53,13 +50,11 @@ public class Level {
     /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
-     * @param playfieldLayer The field where the play will happen.
      */
-    public Level(final String lvlTitle, final Pane playfieldLayer) {
+    public Level(final String lvlTitle) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
-        this.playfieldLayer = playfieldLayer;
 
         drawMap();
     }
