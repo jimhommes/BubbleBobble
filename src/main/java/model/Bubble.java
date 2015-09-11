@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -26,6 +28,11 @@ public class Bubble extends SpriteBase {
     private boolean ableToCatch;
 
     /**
+     * The levelController that created the player.
+     */
+    private LevelController levelController;
+
+    /**
      * The bubble that will be shot to catch the monsters.
      * @param x The x coordinate 
      * @param y The y coordinate
@@ -41,12 +48,14 @@ public class Bubble extends SpriteBase {
                   double dx,
                   double dy,
                   double dr,
-                  boolean firedRight) {
+                  boolean firedRight,
+                  LevelController levelController) {
         super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+        this.levelController = levelController;
 
     }
 
@@ -57,13 +66,33 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                setDx(7);
+                if(!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+                        getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
+                        getY(),
+                        getY() + getHeight())) {
+                    setDx(Settings.BUBBLE_INIT_SPEED);
+                } else {
+                    setDx(0);
+                }
             } else {
-                setDx(-7);
+                if(!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+                        getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
+                        getY(),
+                        getY() + getHeight())) {
+                    setDx(-Settings.BUBBLE_INIT_SPEED);
+                } else {
+                    setDx(0);
+                }
             }
         } else {
             setDx(0);
-            setDy(-5);
+            if(!levelController.causesCollision(getX(), getX() + getWidth(),
+                    getY() - Settings.BUBBLE_FLY_SPEED,
+                    getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+                setDy(-Settings.BUBBLE_FLY_SPEED);
+            }else{
+                setDy(0);
+            }
             ableToCatch = false;
         }
 
