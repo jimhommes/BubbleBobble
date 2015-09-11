@@ -1,10 +1,8 @@
+package model;
+
 import controller.LevelController;
 import controller.ScreenController;
 import junit.framework.TestCase;
-import model.Input;
-import model.Monster;
-import model.Player;
-import model.Settings;
 import org.junit.Before;
 import org.junit.Test;
 
