@@ -66,13 +66,31 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                setDx(Settings.BUBBLE_INIT_SPEED);
+                if(!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+                        getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
+                        getY(),
+                        getY() + getHeight())) {
+                    setDx(Settings.BUBBLE_INIT_SPEED);
+                } else {
+                    setDx(0);
+                }
             } else {
-                setDx(-Settings.BUBBLE_INIT_SPEED);
+                if(!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+                        getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
+                        getY(),
+                        getY() + getHeight())) {
+                    setDx(-Settings.BUBBLE_INIT_SPEED);
+                } else {
+                    setDx(0);
+                }
             }
         } else {
             setDx(0);
-            setDy(-Settings.BUBBLE_FLY_SPEED);
+            if(!levelController.causesCollision(getX(), getX() + getWidth(),
+                    getY() - Settings.BUBBLE_FLY_SPEED,
+                    getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+                setDy(-Settings.BUBBLE_FLY_SPEED);
+            }
             ableToCatch = false;
         }
 
