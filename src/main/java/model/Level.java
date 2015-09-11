@@ -27,7 +27,7 @@ public class Level {
     /**
      * The size in pixels of a sprite.
      */
-    public static final int SPRITE_SIZE = 32;
+    public static final double SPRITE_SIZE = 32.0;
 
     /**
      * The controller of this class.

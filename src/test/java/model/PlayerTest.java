@@ -63,8 +63,8 @@ public class PlayerTest extends TestCase {
         player.processInput();
         assertEquals(-Settings.PLAYER_SPEED, player.getDx());
         assertEquals(0.0, player.getDy());
-        assertEquals(0.0, player.getX());
-        assertEquals(0.0, player.getY());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getY());
     }
     
 
@@ -91,8 +91,8 @@ public class PlayerTest extends TestCase {
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(-Settings.PLAYER_SPEED, player.getX());
-        assertEquals(0.0 - player.calculateGravity(), player.getY());
+        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY());
     }
 
     /**
@@ -147,7 +147,7 @@ public class PlayerTest extends TestCase {
         assertEquals(0.0, player.getX());
         player.processInput();
         player.move();
-        assertEquals(Settings.PLAYER_SPEED, player.getX());
+        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -163,7 +163,7 @@ public class PlayerTest extends TestCase {
                 any(Double.class))).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(0.0, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -180,7 +180,7 @@ public class PlayerTest extends TestCase {
 
         player.processInput();
         player.move();
-        assertEquals(0.0, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -198,7 +198,7 @@ public class PlayerTest extends TestCase {
         player.move();
 
         //Gravity also doesn't work if for all doubles there is a collision
-        assertEquals(0.0, player.getY());
+        assertEquals(Level.SPRITE_SIZE, player.getY());
     }
 
 }

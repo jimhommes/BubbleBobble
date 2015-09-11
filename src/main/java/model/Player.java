@@ -139,13 +139,13 @@ public class Player extends GravityObject {
      */
     private void checkBounds() {
         if(getX() < playerMinX) {
-            setX(playerMinX + 1);
+            setX(playerMinX);
         } else if(getX() + getWidth() > playerMaxX) {
             setX(playerMaxX - getWidth());
         }
 
         if(getY() < playerMinY) {
-            setY(playerMinY + 1);
+            setY(playerMinY);
         }else if(getY() + getHeight() > playerMaxY) {
             setY(playerMaxY - getHeight());
         }
