@@ -122,6 +122,10 @@ public class Monster extends GravityObject {
 		this.facingRight = facingRight;
 	}
 
+	/**
+	 * This method checks if the player is dead.
+	 * @return true if they are dead.
+	 */
 	public boolean isDead() {
 		return dead;
 	}

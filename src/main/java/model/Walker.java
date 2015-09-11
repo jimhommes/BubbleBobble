@@ -44,36 +44,32 @@ public class Walker extends Monster {
     public void move() {
         if (!isCaughtByBubble()) {
             if (isFacingRight()) {
-                if (!levelController.causesCollision(getX() + getSpeed(), getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
+                if (!levelController.causesCollision(getX() + getSpeed(), 
+                		getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
                     setDx(getSpeed());
                 } else {
                     switchDirection();
                 }
             } else {
-                if (!levelController.causesCollision(getX() - getSpeed(), getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
+                if (!levelController.causesCollision(getX() - getSpeed(), 
+                		getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
                     setDx(-getSpeed());
                 } else {
                     switchDirection();
                 }
             }
-
-            if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+            if (!levelController.causesCollision(getX(), getX() + getWidth(), 
+            		getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
                 setDy(-calculateGravity());
             } else {
                 setDy(0);
             }
-
-
         } else {
             setDx(0);
             setDy(0);
             setX(getPrisonBubble().getX());
             setY(getPrisonBubble().getY());
         }
-
-
-
-
         super.move();
     }
 

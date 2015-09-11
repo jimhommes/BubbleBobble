@@ -140,10 +140,14 @@ public class Level {
         return walls;
     }
 
+    /**
+     * This method updates the monster list, to see if all the monsters have died.
+     * @return true is the monster list is empty.
+     */
     public boolean update() {
         ArrayList<Monster> newMonsters = new ArrayList<>();
         monsters.forEach(monster -> {
-            if(!monster.isDead()) {
+            if (!monster.isDead()) {
                 newMonsters.add(monster);
             }
         });

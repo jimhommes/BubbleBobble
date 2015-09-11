@@ -161,7 +161,7 @@ public class LevelController implements Initializable {
                         monster.move();
                     });
                     screenController.updateUI();
-                    if(currLvl.update()) {
+                    if (currLvl.update()) {
                         nextLevel();
                     }
                 }
@@ -247,9 +247,9 @@ public class LevelController implements Initializable {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        if(indexCurrLvl < maps.size()) {
+        if (indexCurrLvl < maps.size()) {
             createLvl();
-        }else{
+        } else {
             winGame();
         }
     }
@@ -316,6 +316,9 @@ public class LevelController implements Initializable {
         }
     }
 
+    /**
+     * This method calls the win screen when the game has been won.
+     */
     public void winGame() {
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
