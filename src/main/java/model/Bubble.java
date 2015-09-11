@@ -41,6 +41,7 @@ public class Bubble extends SpriteBase {
      * @param dy The dy of y
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
+     * @param levelController that controller of the level where the bubble is in.
      */
     public Bubble(double x,
                   double y,
@@ -66,7 +67,7 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                if(!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+                if (!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
                         getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
                         getY(),
                         getY() + getHeight())) {
@@ -75,7 +76,7 @@ public class Bubble extends SpriteBase {
                     setDx(0);
                 }
             } else {
-                if(!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+                if (!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
                         getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
                         getY(),
                         getY() + getHeight())) {
@@ -86,11 +87,11 @@ public class Bubble extends SpriteBase {
             }
         } else {
             setDx(0);
-            if(!levelController.causesCollision(getX(), getX() + getWidth(),
+            if (!levelController.causesCollision(getX(), getX() + getWidth(),
                     getY() - Settings.BUBBLE_FLY_SPEED,
                     getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
                 setDy(-Settings.BUBBLE_FLY_SPEED);
-            }else{
+            } else {
                 setDy(0);
             }
             ableToCatch = false;

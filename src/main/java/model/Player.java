@@ -60,6 +60,7 @@ public class Player extends GravityObject {
      * @param dr The dr.
      * @param speed The speed of the player.
      * @param input The input the player will use.
+     * @param levelController The controller that controls the level.
      */
     public Player(double x,
                   double y,
@@ -105,7 +106,8 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+        if (!levelController.causesCollision(getX(), getX() + getWidth(), 
+        		getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setY(getY() - calculateGravity());
         }
 
@@ -124,13 +126,13 @@ public class Player extends GravityObject {
     	double monsterMaxY = monsterY + monster.getHeight();
 
     	if (((monsterX > getX() && monsterX < getX() + getWidth())
-    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) ||
-                (getX() > monsterX && getX() < monsterMaxX) ||
-                (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
+    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) 
+    			|| (getX() > monsterX && getX() < monsterMaxX) 
+                || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
     			&& ((monsterY > getY() && monsterY < getY() + getHeight())
-    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) ||
-                (getY() > monsterY && getY() < monsterMaxX) ||
-                (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
+    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) 
+    			|| (getY() > monsterY && getY() < monsterMaxX) 
+                || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
     		if (!monster.isCaughtByBubble()) {
                 die();
             } else {
@@ -162,14 +164,12 @@ public class Player extends GravityObject {
             } else {
                 setDy(0);
             }
-
             if (facingRight) {
                 setImage("/BubRight.png");
             } else {
                 setImage("/BubLeft.png");
             }
         } else if (input.isMoveDown()) {
-
             if (!levelController.causesCollision(getX(),
                     getX() + getWidth(),
                     getY() + speed,
@@ -178,7 +178,6 @@ public class Player extends GravityObject {
             } else {
                 setDy(0);
             }
-
             if (facingRight) {
                 setImage("/BubRight.png");
             } else {

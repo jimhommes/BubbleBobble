@@ -8,6 +8,9 @@ import junit.framework.TestCase;
 public class SettingsTest extends TestCase {
     private static Settings settings;
 
+    /**
+     * This tests that the settings are correct.
+     */
     public void testSettings() {
         assertEquals(832.d, Settings.SCENE_HEIGHT);
         assertEquals(832.d, Settings.SCENE_WIDTH);

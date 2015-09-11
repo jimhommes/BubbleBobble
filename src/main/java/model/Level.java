@@ -60,8 +60,10 @@ public class Level {
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
      * @param playfieldLayer The field where the play will happen.
+     * @param levelController the controller that controls the level.
      */
-    public Level(final String lvlTitle, final Pane playfieldLayer, final LevelController levelController) {
+    public Level(final String lvlTitle, final Pane playfieldLayer, 
+    		final LevelController levelController) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
@@ -81,10 +83,12 @@ public class Level {
                 if (map[row][col] == 1) {
                     walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
+                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
+                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, false, levelController));
                 }
             }
@@ -133,6 +137,10 @@ public class Level {
         return monsters;
     }
 
+    /**
+     * This method gets the walls in the game.
+     * @return
+     */
     public ArrayList getWalls() {
         return walls;
     }

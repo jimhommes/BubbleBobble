@@ -13,7 +13,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Settings;
+import model.Wall;
 
 import java.io.File;
 import java.io.IOException;
@@ -255,14 +260,14 @@ public class LevelController implements Initializable {
             double wallMaxX = wallMinX + wall.getWidth();
             double wallMinY = wall.getY();
             double wallMaxY = wallMinY + wall.getHeight();
-            if (((minX > wallMinX && minX < wallMaxX) ||
-                    (maxX > wallMinX && maxX < wallMaxX) ||
-                    (wallMinX > minX && wallMinX < maxX) ||
-                    (wallMaxX > minX && wallMaxX < maxX)) &&
-                    ((minY > wallMinY && minY < wallMaxY) ||
-                            (maxY > wallMinY && maxY < wallMaxY) ||
-                            (wallMinY > minY && wallMinY < maxY) ||
-                            (wallMaxY > minY && wallMaxY < maxY))) {
+            if (((minX > wallMinX && minX < wallMaxX) 
+            		|| (maxX > wallMinX && maxX < wallMaxX) 
+            		|| (wallMinX > minX && wallMinX < maxX) 
+                    || (wallMaxX > minX && wallMaxX < maxX))
+            		&& ((minY > wallMinY && minY < wallMaxY) 
+                    		|| (maxY > wallMinY && maxY < wallMaxY) 
+                            || (wallMinY > minY && wallMinY < maxY) 
+                            || (wallMaxY > minY && wallMaxY < maxY))) {
                 return true;
             }
         }
