@@ -79,6 +79,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.isDead = false;
         this.gameOver = false;
+        this.facingRight = true;
         this.levelController = levelController;
 
     }
