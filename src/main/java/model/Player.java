@@ -55,6 +55,14 @@ public class Player extends GravityObject {
 
     private int jumpCounter;
 
+    private double playerMinX;
+
+    private double playerMaxX;
+
+    private double playerMinY;
+
+    private double playerMaxY;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
@@ -92,6 +100,11 @@ public class Player extends GravityObject {
         this.facingRight = true;
         this.levelController = levelController;
 
+        playerMinX = Level.SPRITE_SIZE;
+        playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
+        playerMinY = Level.SPRITE_SIZE;
+        playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
+
     }
 
     /**
@@ -117,6 +130,25 @@ public class Player extends GravityObject {
             checkIfGameOver();
         }
 
+        checkBounds();
+
+    }
+
+    /**
+     * This function returns the player if it is out of bounds.
+     */
+    private void checkBounds() {
+        if(getX() < playerMinX) {
+            setX(playerMinX + 1);
+        } else if(getX() + getWidth() > playerMaxX) {
+            setX(playerMaxX - getWidth());
+        }
+
+        if(getY() < playerMinY) {
+            setY(playerMinY + 1);
+        }else if(getY() + getHeight() > playerMaxY) {
+            setY(playerMaxY - getHeight());
+        }
     }
 
     /**

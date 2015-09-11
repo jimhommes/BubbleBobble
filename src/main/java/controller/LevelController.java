@@ -209,7 +209,7 @@ public class LevelController implements Initializable {
         input.addListeners();
 
         double x = 200;
-        double y = 700;
+        double y = 200;
 
         Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.add(player);
