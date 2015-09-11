@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import controller.LevelController;
 import junit.framework.TestCase;
