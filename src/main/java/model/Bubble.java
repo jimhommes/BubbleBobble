@@ -66,38 +66,52 @@ public class Bubble extends SpriteBase {
     public void move() {
         if (counter < 30) {
             counter++;
-            if (firedRight) {
-                if (!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
-                        getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
-                        getY(),
-                        getY() + getHeight())) {
-                    setDx(Settings.BUBBLE_INIT_SPEED);
-                } else {
-                    setDx(0);
-                }
-            } else {
-                if (!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
-                        getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
-                        getY(),
-                        getY() + getHeight())) {
-                    setDx(-Settings.BUBBLE_INIT_SPEED);
-                } else {
-                    setDx(0);
-                }
-            }
+            moveHorizontally();
         } else {
-            setDx(0);
-            if (!levelController.causesCollision(getX(), getX() + getWidth(),
-                    getY() - Settings.BUBBLE_FLY_SPEED,
-                    getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
-                setDy(-Settings.BUBBLE_FLY_SPEED);
-            } else {
-                setDy(0);
-            }
-            ableToCatch = false;
+            moveVertically();
         }
 
         super.move();
+    }
+
+    /**
+     * This function handles the vertical movement.
+     */
+    private void moveVertically() {
+        setDx(0);
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+                getY() - Settings.BUBBLE_FLY_SPEED,
+                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+            setDy(-Settings.BUBBLE_FLY_SPEED);
+        } else {
+            setDy(0);
+        }
+        ableToCatch = false;
+    }
+
+    /**
+     * This function handles the horizontal movement.
+     */
+    private void moveHorizontally() {
+        if (firedRight) {
+            if (!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+                    getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    getY(),
+                    getY() + getHeight())) {
+                setDx(Settings.BUBBLE_INIT_SPEED);
+            } else {
+                setDx(0);
+            }
+        } else {
+            if (!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+                    getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    getY(),
+                    getY() + getHeight())) {
+                setDx(-Settings.BUBBLE_INIT_SPEED);
+            } else {
+                setDx(0);
+            }
+        }
     }
 
     /**
