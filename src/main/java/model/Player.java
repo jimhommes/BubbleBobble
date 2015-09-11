@@ -81,7 +81,7 @@ public class Player extends GravityObject {
         this.speed = speed;
         this.input = input;
         this.bubbles = new ArrayList<>();
-        this.counter = 16;
+        this.counter = 31;
         this.isDead = false;
         this.gameOver = false;
         this.levelController = levelController;

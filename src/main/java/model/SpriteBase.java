@@ -246,4 +246,28 @@ public abstract class SpriteBase {
     public void setDr(double dr) {
         this.dr = dr;
     }
+
+    /**
+     * Gets the Dx.
+     * @return The Dx.
+     */
+    public double getDx() {
+        return dx;
+    }
+
+    /**
+     * Gets the Dy.
+     * @return The Dy.
+     */
+    public double getDy() {
+        return dy;
+    }
+
+    /**
+     * Gets the Dr.
+     * @return The Dr.
+     */
+    public double getDr() {
+        return dr;
+    }
 }

@@ -1,9 +1,9 @@
 package test;
 
 import controller.LevelController;
-import javafx.scene.layout.Pane;
 import junit.framework.TestCase;
 import model.Input;
+import model.Monster;
 import model.Player;
 import model.Settings;
 
@@ -20,12 +20,10 @@ import static org.mockito.Mockito.when;
 public class PlayerTest extends TestCase {
 
     private static Player player;
-    private static Pane layer;
     private static Input input;
     private static LevelController levelController;
 
     public void setUp() throws Exception {
-        layer = mock(Pane.class);
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         player = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
@@ -33,31 +31,47 @@ public class PlayerTest extends TestCase {
 
     public void testProcessInput() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
+        when(input.isMoveLeft()).thenReturn(true);
+        assertEquals(0.0, player.getDy());
+        assertEquals(0.0, player.getDx());
         player.processInput();
-        assertEquals(player.getY(), Settings.PLAYER_SPEED);
+        assertEquals(-Settings.PLAYER_SPEED, player.getDx());
+        assertEquals(Settings.PLAYER_SPEED, player.getDy());
+        assertEquals(0.0, player.getX());
+        assertEquals(0.0, player.getY());
     }
 
     public void testMove() throws Exception {
-
+        when(input.isMoveDown()).thenReturn(true);
+        when(input.isMoveLeft()).thenReturn(true);
+        player.processInput();
+        player.move();
+        assertEquals(-Settings.PLAYER_SPEED, player.getX());
+        assertEquals(Settings.PLAYER_SPEED - player.calculateGravity(), player.getY());
     }
 
     public void testGetBubbles() throws Exception {
-
+        when(input.isFirePrimaryWeapon()).thenReturn(true);
+        assertTrue(player.getBubbles().size() == 0);
+        player.processInput();
+        assertTrue(player.getBubbles().size() > 0);
     }
 
     public void testCheckCollideMonster() throws Exception {
-
+        Monster monster = mock(Monster.class);
+        when(monster.getX()).thenReturn(0.0);
+        when(monster.getY()).thenReturn(0.0);
+        when(monster.getWidth()).thenReturn(300.0);
+        when(monster.getHeight()).thenReturn(300.0);
+        player.checkCollideMonster(monster);
+        assertTrue(player.getDead());
     }
 
     public void testDie() throws Exception {
-
+        assertFalse(player.getDead());
+        player.die();
+        assertTrue(player.getDead());
+        assertTrue(player.getImagePath().equals("/BubbleBobbleLogo.png"));
     }
-
-    public void testGetDead() throws Exception {
-
-    }
-
-    public void testGetGameOver() throws Exception {
-
-    }
+    
 }
