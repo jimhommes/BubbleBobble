@@ -1,51 +1,74 @@
 package model;
 
-import controller.LevelController;
-import junit.framework.TestCase;
-
 import static org.mockito.Mockito.mock;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+
+import controller.LevelController;
+import junit.framework.TestCase;
 
 /**
  * Created by toinehartman on 11/09/15.
  */
 public class BubbleTest extends TestCase {
-    private Bubble bubble;
-    private LevelController levelController;
-
+    private Bubble bubbleRight;
+    private Bubble bubbleLeft;
+    
     /**
-     * This method happens before all the tests.
+     * This method is run before all the tests to initialize them.
      */
-    @BeforeClass
+    @Before
     public void setUp() {
-        levelController = mock(LevelController.class);
-        bubble = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
+    	LevelController levelController = mock(LevelController.class);
+        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
+        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, levelController);
     }
 
     /**
-     * This tests the movement of the bubbles.
+     * This tests what happens when a bubble moves right.
      */
     @Test
-    public void testMove() {
-        assertTrue(bubble.getAbleToCatch());
+    public void testMoveRight() {
+        assertTrue(bubbleRight.getAbleToCatch());
+
         for (int i = 1; i <= 30; i++) {
-            bubble.move();
-            assertEquals((double) 1.f + i * 7, bubble.getX());
-            assertEquals((double) 1.f, bubble.getY());
+            bubbleRight.move();
+
+            assertEquals((double) 1.f + i * 7, bubbleRight.getX());
+            assertEquals((double) 1.f, bubbleRight.getY());
         }
-        assertTrue(bubble.getAbleToCatch());
-        bubble.move();
-        assertFalse(bubble.getAbleToCatch());
+
+        assertTrue(bubbleRight.getAbleToCatch());
+        bubbleRight.move();
+        assertFalse(bubbleRight.getAbleToCatch());
     }
 
     /**
-     * This tests if the bubble is able to catch a monster.
+     * This tests what happens when a bubble moves left.
+     */
+    @Test
+    public void testMoveLeft() {
+        assertTrue(bubbleLeft.getAbleToCatch());
+
+        for (int i = 1; i <= 30; i++) {
+            bubbleLeft.move();
+
+            assertEquals((double) 1.f + i * -7, bubbleLeft.getX());
+            assertEquals((double) 1.f, bubbleLeft.getY());
+        }
+
+        assertTrue(bubbleLeft.getAbleToCatch());
+        bubbleLeft.move();
+        assertFalse(bubbleLeft.getAbleToCatch());
+    }
+
+    /**
+     * This tests if a bubble is able to catch a monster or not.
      */
     @Test
     public void testSetAbleToCatch() {
-        bubble.setAbleToCatch(false);
-        assertFalse(bubble.getAbleToCatch());
+        bubbleRight.setAbleToCatch(false);
+        assertFalse(bubbleRight.getAbleToCatch());
     }
 }
