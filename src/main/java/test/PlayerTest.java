@@ -21,11 +21,10 @@ public class PlayerTest extends TestCase {
 
     private static Player player;
     private static Input input;
-    private static LevelController levelController;
 
     public void setUp() throws Exception {
         input = mock(Input.class);
-        levelController = mock(LevelController.class);
+        LevelController levelController = mock(LevelController.class);
         player = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
     }
 
@@ -59,8 +58,8 @@ public class PlayerTest extends TestCase {
 
     public void testCheckCollideMonster() throws Exception {
         Monster monster = mock(Monster.class);
-        when(monster.getX()).thenReturn(0.0);
-        when(monster.getY()).thenReturn(0.0);
+        when(monster.getX()).thenReturn(1.0);
+        when(monster.getY()).thenReturn(1.0);
         when(monster.getWidth()).thenReturn(300.0);
         when(monster.getHeight()).thenReturn(300.0);
         player.checkCollideMonster(monster);
@@ -73,5 +72,5 @@ public class PlayerTest extends TestCase {
         assertTrue(player.getDead());
         assertTrue(player.getImagePath().equals("/BubbleBobbleLogo.png"));
     }
-    
+
 }
