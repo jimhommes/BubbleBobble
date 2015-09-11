@@ -127,9 +127,13 @@ public class Player extends GravityObject {
     	double monsterMaxY = monsterY + monster.getHeight();
 
     	if (((monsterX > getX() && monsterX < getX() + getWidth())
-    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()))
+    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) ||
+                (getX() > monsterX && getX() < monsterMaxX) ||
+                (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
     			&& ((monsterY > getY() && monsterY < getY() + getHeight())
-    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()))) {
+    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) ||
+                (getY() > monsterY && getY() < monsterMaxX) ||
+                (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
     		die();
     	}
 
