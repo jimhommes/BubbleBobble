@@ -5,16 +5,20 @@ import junit.framework.TestCase;
 
 import static org.mockito.Mockito.mock;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 /**
  * Created by toinehartman on 11/09/15.
  */
 public class BubbleTest extends TestCase {
-    private static Bubble bubble;
-    private static LevelController levelController;
+    private Bubble bubble;
+    private LevelController levelController;
 
     /**
      * This method happens before all the tests.
      */
+    @BeforeClass
     public void setUp() {
         levelController = mock(LevelController.class);
         bubble = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
@@ -23,6 +27,7 @@ public class BubbleTest extends TestCase {
     /**
      * This tests the movement of the bubbles.
      */
+    @Test
     public void testMove() {
         assertTrue(bubble.getAbleToCatch());
         for (int i = 1; i <= 30; i++) {
@@ -38,6 +43,7 @@ public class BubbleTest extends TestCase {
     /**
      * This tests if the bubble is able to catch a monster.
      */
+    @Test
     public void testSetAbleToCatch() {
         bubble.setAbleToCatch(false);
         assertFalse(bubble.getAbleToCatch());

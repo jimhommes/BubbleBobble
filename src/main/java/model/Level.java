@@ -1,7 +1,6 @@
 package model;
 
 import controller.LevelController;
-import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,10 +57,9 @@ public class Level {
     /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
-     * @param playfieldLayer The field where the play will happen.
      * @param levelController the controller that controls the level.
      */
-    public Level(final String lvlTitle, final Pane playfieldLayer, 
+    public Level(final String lvlTitle, 
     		final LevelController levelController) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();

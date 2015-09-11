@@ -6,7 +6,7 @@ import junit.framework.TestCase;
  * Created by toinehartman on 11/09/15.
  */
 public class WallTest extends TestCase {
-    private static Wall wall;
+    private Wall wall;
 
     /**
      * This tests that there is a wall, that isn't null.

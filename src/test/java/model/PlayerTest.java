@@ -21,10 +21,10 @@ import static org.mockito.Mockito.any;
  */
 public class PlayerTest extends TestCase {
 
-    private static Player player;
-    private static Input input;
-    private static LevelController levelController;
-    private static ScreenController screenController;
+    private Player player;
+    private Input input;
+    private LevelController levelController;
+    private ScreenController screenController;
 
     /**
      * This method is used to initialize the tests. 
