@@ -52,20 +52,21 @@ public class Monster extends GravityObject {
 	 * @param bubble the bubble that is shot from the character.
 	 */
 	public void checkCollision(final Bubble bubble) {
-		double bubbleX = bubble.getX();
-		double bubbleY = bubble.getY();
-		double bubbleX2 = bubbleX + getWidth();
-		double bubbleY2 = bubbleY + getHeight();
-		if ((bubble.getAbleToCatch() && !caughtByBubble 
-				&& (bubbleX >= getX() && bubbleX <= getX() + getWidth())
-				|| (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
-				&& ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
-				|| bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
-			prisonBubble = bubble;
-			caughtByBubble = true;
+		if(bubble.getAbleToCatch()) {
+			double bubbleX = bubble.getX();
+			double bubbleY = bubble.getY();
+			double bubbleX2 = bubbleX + getWidth();
+			double bubbleY2 = bubbleY + getHeight();
+			if ((!caughtByBubble
+					&& (bubbleX >= getX() && bubbleX <= getX() + getWidth())
+					|| (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
+					&& ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
+					|| bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
+				prisonBubble = bubble;
+				prisonBubble.setAbleToCatch(false);
+				caughtByBubble = true;
+			}
 		}
-
-		bubble.setAbleToCatch(false);
 	}
 
 	public void die() {
