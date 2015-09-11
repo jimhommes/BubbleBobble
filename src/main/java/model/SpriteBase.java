@@ -1,8 +1,5 @@
 package model;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-
 /**
  * The SpriteBase that will load the sprite (image).
  */
@@ -11,106 +8,84 @@ public abstract class SpriteBase {
     /**
      * Image to be loaded.
      */
-    public String image;
-
-    /**
-     * ImageView to view the Image.
-     */
-    public ImageView imageView;
-
-    /**
-     * The layer the image will be displayed in.
-     */
-    public Pane layer;
+    private String imagePath;
 
     /**
      * The x coordinate.
      */
-    public double x;
+    private double x;
 
     /**
      * The y coordinate.
      */
-    public double y;
+    private double y;
 
     /**
      * The r coordinate.
      */
-    public double r;
+    private double r;
 
     /**
      * The difference in x.
      */
-    public double dx;
+    private double dx;
 
     /**
      * The difference in y.
      */
-    public double dy;
+    private double dy;
 
     /**
      * The difference in r.
      */
-    public double dr;
+    private double dr;
 
     /**
      * The width.
      */
-    public double w;
+    private double w;
 
     /**
      * The height.
      */
-    public double h;
+    private double h;
 
     /**
      * The boolean that resembles if the image should be able to move or not.
      */
-    public boolean canMove = true;
-    
-    private double width;
-    
-    private double height;
+    private boolean canMove;
 
+    /**
+     * The boolean to check if the sprite has changed or not.
+     */
     private boolean spriteChanged;
 
     /**
      * The constructor. It needs all the paramaters and creates the image where planned.
-     * @param layer The layer the image moves in.
-     * @param imageLoc The path to the image to load.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @param r The r coordinate.
-     * @param dx The difference in x.
-     * @param dy The difference in y.
-     * @param dr The difference in r.
+     *
+     * @param imagePath The path to the image to load.
+     * @param x         The x coordinate.
+     * @param y         The y coordinate.
+     * @param r         The r coordinate.
+     * @param dx        The difference in x.
+     * @param dy        The difference in y.
+     * @param dr        The difference in r.
      */
-    public SpriteBase(Pane layer, String imageLoc, double x, double y, double r,
+    public SpriteBase(String imagePath, double x, double y, double r,
                       double dx, double dy, double dr) {
 
-        this.layer = layer;
-        this.image = imageLoc;
+        this.imagePath = imagePath;
         this.x = x;
         this.y = y;
         this.r = r;
         this.dx = dx;
         this.dy = dy;
         this.dr = dr;
+        this.h = 0;
+        this.w = 0;
+        this.canMove = true;
         this.spriteChanged = false;
 
-//        this.imageView = new ImageView(image);
-//        this.imageView.relocate(x, y);
-//        this.imageView.setRotate(r);
-
-//        addToLayer();
-
-    }
-
-    /**
-     * The function that adds the image view to the layer.
-     */
-    public void addToLayer() {
-        this.layer.getChildren().add(this.imageView);
     }
 
     /**
@@ -129,26 +104,17 @@ public abstract class SpriteBase {
     }
 
     /**
-     * The function to update the UI.
-     */
-//    public void updateUI() {
-//
-//        imageView.setImage(image);
-//        imageView.relocate(x, y);
-//        imageView.setRotate(r);
-//
-//    }
-
-    /**
      * This method gets the image of the level.
+     *
      * @return the image.
      */
-    public String getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
     /**
      * This method returns the X coordinate.
+     *
      * @return x coordinate
      */
     public double getX() {
@@ -157,47 +123,103 @@ public abstract class SpriteBase {
 
     /**
      * This method return the Y coordinate.
+     *
      * @return y coordinate.
      */
     public double getY() {
         return y;
     }
 
-
+    /**
+     * This method returns the rotation degree.
+     *
+     * @return The rotation degree.
+     */
     public double getR() {
         return r;
     }
-    
-    public void setWidth(double width) {
-        this.width = width; 
-    }
-    
-    public void setHeight(double height) {
-        this.height = height;
-    }
 
+    /**
+     * This function returns the height of the SpriteBase.
+     * @return The height of the SpriteBase.
+     */
     public double getHeight() {
-        return height;
+        return h;
     }
 
+    /**
+     * This method sets the height of the SpriteBase.
+     *
+     * @param height The height to be set
+     */
+    public void setHeight(double height) {
+        this.h = height;
+    }
+
+    /**
+     * This function returns the width of the SpriteBase.
+     * @return The width of the SpriteBase.
+     */
     public double getWidth() {
-        return width;
+        return w;
     }
 
+    /**
+     * This method sets the width of the SpriteBase.
+     *
+     * @param width The width to be set
+     */
+    public void setWidth(double width) {
+        this.w = width;
+    }
+
+    /**
+     * This function returns whether the sprite has changed or not.
+     * @return The boolean if the sprite changed
+     */
     public boolean getSpriteChanged() {
         return spriteChanged;
     }
 
-    public boolean isSpriteChanged() {
-        return spriteChanged;
-    }
-
+    /**
+     * With this function you can set whether you have changed the sprite or not.
+     * @param spriteChanged The boolean whether the sprite has changed.
+     */
     public void setSpriteChanged(boolean spriteChanged) {
         this.spriteChanged = spriteChanged;
     }
 
-    public void setImage(final String imageLoc) {
-        image = imageLoc;
+    /**
+     * With this function you can set another image. Because the boolean spriteChanged
+     * is set to true, the screenController loads it again.
+     * @param imagePath The path to the image to be loaded.
+     */
+    public void setImage(final String imagePath) {
+        this.imagePath = imagePath;
         spriteChanged = true;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setR(double r) {
+        this.r = r;
+    }
+
+    public void setDx(double dx) {
+        this.dx = dx;
+    }
+
+    public void setDy(double dy) {
+        this.dy = dy;
+    }
+
+    public void setDr(double dr) {
+        this.dr = dr;
     }
 }

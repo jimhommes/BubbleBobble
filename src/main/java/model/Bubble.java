@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.layout.Pane;
-
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -21,7 +19,6 @@ public class Bubble extends SpriteBase {
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param layer The level in where the layer is
      * @param imageLoc The path of the image of the bubble
      * @param x The x coordinate 
      * @param y The y coordinate
@@ -31,8 +28,7 @@ public class Bubble extends SpriteBase {
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
      */
-    public Bubble(Pane layer,
-                  String imageLoc,
+    public Bubble(String imageLoc,
                   double x,
                   double y,
                   double r,
@@ -40,7 +36,7 @@ public class Bubble extends SpriteBase {
                   double dy,
                   double dr,
                   boolean firedRight) {
-        super(layer, imageLoc, x, y, r, dx, dy, dr);
+        super(imageLoc, x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
@@ -55,13 +51,13 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                dx = 7;
+                setDx(7);
             } else {
-                dx = -7;
+                setDx(-7);
             }
         } else {
-            dx = 0;
-            dy = -5;
+            setDx(0);
+            setDy(-5);
             ableToCatch = false;
         }
 

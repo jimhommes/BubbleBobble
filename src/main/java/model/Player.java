@@ -143,8 +143,8 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(x, x + getWidth(), y - calculateGravity(), y + getHeight() - calculateGravity())) {
-            this.y -= calculateGravity();
+        if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+            setY(getY() - calculateGravity());
         }
 
         super.move();
@@ -161,17 +161,17 @@ public class Player extends GravityObject {
     private void checkBounds() {
 
         // vertical
-        if (Double.compare(y, playerMinY) < 0) {
-            y = playerMinY;
-        } else if (Double.compare(y, playerMaxY) > 0) {
-            y = playerMaxY;
+        if (Double.compare(getY(), playerMinY) < 0) {
+            setY(playerMinY);
+        } else if (Double.compare(getY(), playerMaxY) > 0) {
+            setY(playerMaxY);
         }
 
         // horizontal
-        if (Double.compare(x, playerMinX) < 0) {
-            x = playerMinX;
-        } else if (Double.compare(x, playerMaxX) > 0) {
-            x = playerMaxX;
+        if (Double.compare(getX(), playerMinX) < 0) {
+            setX(playerMinX);
+        } else if (Double.compare(getX(), playerMaxX) > 0) {
+            setX(playerMaxX);
         }
 
     }
@@ -194,10 +194,10 @@ public class Player extends GravityObject {
     	double monsterY = monster.getY();
     	double monsterMaxY = monsterY + monster.getHeight();
 
-    	if (((monsterX > x && monsterX < x + getWidth())
-    			|| (monsterMaxX > x && monsterMaxX < x + getWidth()))
-    			&& ((monsterY > y && monsterY < y + getHeight())
-    			|| (monsterMaxY > y && monsterMaxX < y + getHeight()))) {
+    	if (((monsterX > getX() && monsterX < getX() + getWidth())
+    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()))
+    			&& ((monsterY > getY() && monsterY < getY() + getHeight())
+    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()))) {
     		die();
     	}
 
@@ -209,7 +209,7 @@ public class Player extends GravityObject {
     public void die() {
         this.isDead = true;
         counter = 0;
-        image = "/BubbleBobbleLogo.png";
+        setImage("/BubbleBobbleLogo.png");
         //refresh sprite
     }
 
@@ -235,10 +235,10 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp()) {
-            if (!levelController.causesCollision(x, x + getWidth(), y - speed, y + getHeight() - speed)) {
-                dy = -speed;
+            if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - speed, getY() + getHeight() - speed)) {
+                setDy(-speed);
             } else {
-                dy = 0;
+                setDy(0);
             }
 
             if (facingRight) {
@@ -248,10 +248,10 @@ public class Player extends GravityObject {
             }
         } else if (input.isMoveDown()) {
 
-            if (!levelController.causesCollision(x, x + getWidth(), y + speed, y + getHeight() + speed)) {
-                dy = speed;
+            if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() + speed, getY() + getHeight() + speed)) {
+                setDy(speed);
             } else {
-                dy = 0;
+                setDy(0);
             }
 
             if (facingRight) {
@@ -260,7 +260,7 @@ public class Player extends GravityObject {
                 setImage("/BubLeft.png");
             }
         } else {
-            dy = 0d;
+            setDy(0d);
         }
     }
 
@@ -269,31 +269,30 @@ public class Player extends GravityObject {
      */
     private void moveHorizontal() {
         if (input.isMoveLeft()) {
-            if (!levelController.causesCollision(x - speed, x + getWidth() - speed, y, y + getHeight())) {
-                dx = -speed;
+            if (!levelController.causesCollision(getX() - speed, getX() + getWidth() - speed, getY(), getY() + getHeight())) {
+                setDx(-speed);
             } else {
-                dx = 0;
+                setDx(0);
             }
 
             setImage("/BubLeft.png");
             facingRight = false;
         } else if (input.isMoveRight()) {
-            if (!levelController.causesCollision(x + speed, x + getWidth() + speed, y, y + getHeight())) {
-                dx = speed;
+            if (!levelController.causesCollision(getX() + speed, getX() + getWidth() + speed, getY(), getY() + getHeight())) {
+                setDx(speed);
             } else {
-                dx = 0;
+                setDx(0);
             }
 
             setImage("/BubRight.png");
             facingRight = true;
         } else {
-            dx = 0d;
+            setDx(0d);
         }
 
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(layer,
-                    Bubble.BUBBLE_SPRITE,
-                    x, y, 0, 0, 0, 0, facingRight));
+            bubbles.add(new Bubble(Bubble.BUBBLE_SPRITE,
+                    getX(), getY(), 0, 0, 0, 0, facingRight));
             counter = 0;
         } else {
             counter++;
@@ -306,7 +305,7 @@ public class Player extends GravityObject {
     private void checkIfGameOver() {
         if (counter > 50) {
             gameOver = true;
-            Stage stage = (Stage) layer.getScene().getWindow();
+            Stage stage = (Stage) levelController.getPlayfieldLayer().getScene().getWindow();
             Parent root = null;
             try {
                 root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));

@@ -29,6 +29,6 @@ public class Wall extends SpriteBase {
      */
     public Wall(Pane layer, String imageLoc, double x, double y, double r,
                 double dx, double dy, double dr) {
-        super(layer, imageLoc, x, y, r, dx, dy, dr);
+        super(imageLoc, x, y, r, dx, dy, dr);
     }
 }

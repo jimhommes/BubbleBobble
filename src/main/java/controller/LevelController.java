@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -28,11 +27,6 @@ public class LevelController implements Initializable {
      * The list of players in the game.
      */
     private ArrayList players;
-
-    /**
-     * The image of the player.
-     */
-    private Image playerImage;
 
     /**
      * The message that says "Click when ready".
@@ -265,6 +259,10 @@ public class LevelController implements Initializable {
         }
 
         return false;
+    }
+
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
     }
 
 }

@@ -44,17 +44,17 @@ public class Monster extends GravityObject {
 	public void move() {
 		if (!caughtByBubble) {
 			if (facingRight) {
-				dx = speed;
+				setDx(speed);
 			} else {
-				dx = -speed;
+				setDx(-speed);
 			}
 
-			dy = -calculateGravity();
+			setDy(-calculateGravity());
 		} else {
-			dx = 0;
-			dy = 0;
-			x = prisonBubble.getX();
-			y = prisonBubble.getY();
+			setDx(0);
+			setDy(0);
+			setX(prisonBubble.getX());
+			setY(prisonBubble.getY());
 		}
 
 		super.move();
@@ -77,14 +77,15 @@ public class Monster extends GravityObject {
 		double bubbleX2 = bubbleX + getWidth();
 		double bubbleY2 = bubbleY + getHeight();
 		if ((bubble.getAbleToCatch() && !caughtByBubble 
-				&& (bubbleX >= x && bubbleX <= x + getWidth())
-				|| (bubbleX2 >= x && bubbleX2 <= x + getWidth()))
-				&& ((bubbleY >= y && bubbleY <= y + getHeight())
-				|| bubbleY2 >= y && bubbleY2 <= y + getHeight())) {
+				&& (bubbleX >= getX() && bubbleX <= getX() + getWidth())
+				|| (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
+				&& ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
+				|| bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
 			prisonBubble = bubble;
 			caughtByBubble = true;
 		}
 		bubble.setAbleToCatch(false);
 	}
+
 
 }

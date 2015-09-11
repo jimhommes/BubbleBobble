@@ -29,7 +29,7 @@ public abstract class GravityObject extends SpriteBase {
                   double dy,
                   double dr) {
 
-        super(layer, imageLoc, x, y, r, dx, dy, dr);
+        super(imageLoc, x, y, r, dx, dy, dr);
 
     }
 

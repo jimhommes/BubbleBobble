@@ -31,7 +31,7 @@ public class ScreenController {
     public void addToSprites(final ArrayList<SpriteBase> list) {
         sprites.addAll(list);
         list.forEach(element -> {
-            ImageView imageView = new ImageView(new Image(getClass().getResource(element.getImage()).toExternalForm()));
+            ImageView imageView = new ImageView(new Image(getClass().getResource(element.getImagePath()).toExternalForm()));
             element.setHeight(imageView.getImage().getHeight());
             element.setWidth(imageView.getImage().getWidth());
             imageView.relocate(element.getX(), element.getY());
@@ -43,7 +43,7 @@ public class ScreenController {
 
     public void addToSprites(final SpriteBase sprite) {
         sprites.add(sprite);
-        ImageView imageView = new ImageView(new Image(getClass().getResource(sprite.getImage()).toExternalForm()));
+        ImageView imageView = new ImageView(new Image(getClass().getResource(sprite.getImagePath()).toExternalForm()));
         sprite.setHeight(imageView.getImage().getHeight());
         sprite.setWidth(imageView.getImage().getWidth());
         imageView.relocate(sprite.getX(), sprite.getY());
@@ -60,7 +60,7 @@ public class ScreenController {
         ImageView image = images.get(sprites.indexOf(sprite));
         image.relocate(sprite.getX(), sprite.getY());
         if(sprite.getSpriteChanged()) {
-            image.setImage(new Image(getClass().getResource(sprite.getImage()).toExternalForm()));
+            image.setImage(new Image(getClass().getResource(sprite.getImagePath()).toExternalForm()));
             sprite.setSpriteChanged(false);
         }
         image.setRotate(sprite.getR());
