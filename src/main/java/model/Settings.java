@@ -16,4 +16,5 @@ public class Settings {
     public static final double BUBBLE_INIT_SPEED = 7;
     public static final double BUBBLE_FLY_SPEED = 3;
 
+    public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
 }
