@@ -199,26 +199,50 @@ public abstract class SpriteBase {
         spriteChanged = true;
     }
 
+    /**
+     * Sets the X coordinate.
+     * @param x The X coordinate.
+     */
     public void setX(double x) {
         this.x = x;
     }
 
+    /**
+     * Sets the Y coordinate.
+     * @param y The Y coordinate.
+     */
     public void setY(double y) {
         this.y = y;
     }
 
+    /**
+     * Sets the R coordinate.
+     * @param r The R coordinate.
+     */
     public void setR(double r) {
         this.r = r;
     }
 
+    /**
+     * Sets the Dx.
+     * @param dx The Dx.
+     */
     public void setDx(double dx) {
         this.dx = dx;
     }
 
+    /**
+     * Sets the Dy.
+     * @param dy The Dy.
+     */
     public void setDy(double dy) {
         this.dy = dy;
     }
 
+    /**
+     * Sets the Dr.
+     * @param dr The Dr.
+     */
     public void setDr(double dr) {
         this.dr = dr;
     }
