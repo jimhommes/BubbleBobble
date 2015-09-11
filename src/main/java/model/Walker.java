@@ -30,4 +30,33 @@ public class Walker extends Monster {
                   boolean facingRight) {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight);
     }
+
+    /**
+     * The movement of the monster.
+     */
+    public void move() {
+        if (!isCaughtByBubble()) {
+            if (isFacingRight()) {
+                setDx(getSpeed());
+            } else {
+                setDx(-getSpeed());
+            }
+
+            setDy(-calculateGravity());
+        } else {
+            setDx(0);
+            setDy(0);
+            setX(getPrisonBubble().getX());
+            setY(getPrisonBubble().getY());
+        }
+
+        super.move();
+    }
+
+    /**
+     * Switching the direction that the monster is facing.
+     */
+    public void switchDirection() {
+        setFacingRight(!isFacingRight());
+    }
 }

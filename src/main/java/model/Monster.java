@@ -38,29 +38,7 @@ public class Monster extends GravityObject {
 	 * The movement of the monster.
 	 */
 	public void move() {
-		if (!caughtByBubble) {
-			if (facingRight) {
-				setDx(speed);
-			} else {
-				setDx(-speed);
-			}
-
-			setDy(-calculateGravity());
-		} else {
-			setDx(0);
-			setDy(0);
-			setX(prisonBubble.getX());
-			setY(prisonBubble.getY());
-		}
-
 		super.move();
-	}
-
-	/**
-	 * Switching the direction that the monster is facing.
-	 */
-	public void switchDirection() {
-		facingRight = !facingRight;
 	}
 
 	/**
@@ -80,8 +58,48 @@ public class Monster extends GravityObject {
 			prisonBubble = bubble;
 			caughtByBubble = true;
 		}
+
 		bubble.setAbleToCatch(false);
 	}
 
+	/**
+	 * This function returns the speed.
+	 * @return The speed.
+	 */
+	public double getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * This function sets the boolean that indicates if the monster is facing right.
+	 * @return True if facing right.
+	 */
+	public boolean isFacingRight() {
+		return facingRight;
+	}
+
+	/**
+	 * This function returns the bubble that imprisons the monster.
+	 * @return The bubble that imprisons the monster.
+	 */
+	public Bubble getPrisonBubble() {
+		return prisonBubble;
+	}
+
+	/**
+	 * This boolean indicates if the monster is caught by a bubble.
+	 * @return True if caught by a bubble.
+	 */
+	public boolean isCaughtByBubble() {
+		return caughtByBubble;
+	}
+
+	/**
+	 * This functions sets the boolean if the monster is facing right.
+	 * @param facingRight The boolean if the monster is facing right.
+	 */
+	public void setFacingRight(boolean facingRight) {
+		this.facingRight = facingRight;
+	}
 
 }

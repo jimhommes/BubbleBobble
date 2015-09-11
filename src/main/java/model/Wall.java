@@ -6,16 +6,10 @@ package model;
  * @version 0.1
  */
 
-
 /**
  * The class that represents a wall in the game.
  */
 public class Wall extends SpriteBase {
-
-    /**
-     * This is the location of the image.
-     */
-    public static final String WALL_SPRITE = "../BubbleBobbleWall32b.png";
 
     /**
      * The constructor that implements the X and Y coordinate.
