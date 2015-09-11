@@ -52,6 +52,6 @@ public class WalkerTest {
         when(bubble.getAbleToCatch()).thenReturn(true);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(0, walker.getX(), 0);
+        assertEquals(5.0, walker.getX(), 0);
 	}
 }
