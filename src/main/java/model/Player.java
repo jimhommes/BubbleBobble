@@ -79,6 +79,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.isDead = false;
         this.gameOver = false;
+        this.facingRight = true;
         this.levelController = levelController;
 
     }
@@ -130,7 +131,11 @@ public class Player extends GravityObject {
     			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) ||
                 (getY() > monsterY && getY() < monsterMaxX) ||
                 (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
-    		die();
+    		if (!monster.isCaughtByBubble()) {
+                die();
+            } else {
+                monster.die();
+            }
     	}
 
     }

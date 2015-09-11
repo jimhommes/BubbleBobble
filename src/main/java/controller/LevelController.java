@@ -186,7 +186,7 @@ public class LevelController implements Initializable {
      * This function creates the currLvl'th level.
      */
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
+        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer, this);
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }

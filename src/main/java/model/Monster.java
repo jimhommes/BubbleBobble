@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -10,9 +12,11 @@ package model;
 public class Monster extends GravityObject {
 
 	private final double speed;
+	private final LevelController levelController;
 	private boolean facingRight;
 	private Bubble prisonBubble;
 	private boolean caughtByBubble;
+	private boolean dead;
 
 	/**
 	 * The monster that is trying to catch the character.
@@ -26,12 +30,14 @@ public class Monster extends GravityObject {
 	 * @param facingRight Whether the monster is facing to the right or not.
 	 */
 	public Monster(String imagePath, double x, double y, double r,
-			double dx, double dy, double dr, double speed, boolean facingRight) {
+			double dx, double dy, double dr, double speed, boolean facingRight, LevelController levelController) {
 		super(imagePath, x, y, r, dx, dy, dr);
 
 		this.speed = speed;
 		this.facingRight = facingRight;
 		this.caughtByBubble = false;
+		this.levelController = levelController;
+		this.dead = false;
 	}
 
 	/**
@@ -60,6 +66,14 @@ public class Monster extends GravityObject {
 		}
 
 		bubble.setAbleToCatch(false);
+	}
+
+	public void die() {
+		if(!dead) {
+			levelController.getScreenController().removeSprite(this);
+			levelController.getScreenController().removeSprite(prisonBubble);
+			dead = true;
+		}
 	}
 
 	/**

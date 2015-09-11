@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -27,8 +29,9 @@ public class Walker extends Monster {
                   double dy,
                   double dr,
                   double speed,
-                  boolean facingRight) {
-        super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight);
+                  boolean facingRight,
+                  LevelController levelController) {
+        super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
     }
 
     /**
