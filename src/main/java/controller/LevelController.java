@@ -108,14 +108,97 @@ public class LevelController implements Initializable {
         this.screenController = new ScreenController(playfieldLayer);
         startLevel(gameLoop);
     }
-    
+
     /**
-     * This is the boolean to check if the game is paused or not.
-     *
-     * @return True if the gamePaused is true.
+     * This function scans the resources folder for maps.
      */
-    public boolean checkGamePaused() {
-        return this.gamePaused;
+    private void findMaps() {
+        File folder = new File("src/main/resources");
+        File[] listOfFiles = folder.listFiles();
+        assert listOfFiles != null;
+        for (File file : listOfFiles) {
+            if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
+                maps.add(file.getName());
+            }
+        }
+    }
+
+    /**
+     * This function returns the gameLoop.
+     * @return The gameLoop.
+     */
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (((Player) players.get(0)).getGameOver()) {
+                    stop();
+                } else if (!isGamePaused()) {
+                    ((ArrayList<Player>) players).forEach(player -> {
+                        player.processInput();
+                        player.move();
+                        player.getBubbles().forEach(bubble -> {
+                            bubble.move();
+                        });
+                    });
+                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                        ((ArrayList<Player>) players).forEach(player -> {
+                            player.getBubbles().forEach(monster::checkCollision);
+                            player.checkCollideMonster(monster);
+                        });
+                        monster.move();
+                    });
+                    screenController.updateUI();
+                }
+            }
+        };
+    }
+
+    /**
+     * This function initializes the level.
+     * @param gameLoop is the loop of the game.
+     */
+    public final void startLevel(AnimationTimer gameLoop) {
+        if (maps.size() > 0) {
+            indexCurrLvl = 0;
+            playfieldLayer.setOnMousePressed(event -> {
+                if (!gameStarted) {
+                    gameStarted = true;
+                    createLvl();
+                    createPlayer();
+                    startMessage.setVisible(false);
+                    playfieldLayer.getScene().addEventFilter(
+                            KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                    gameLoop.start();
+                }
+            });
+        } else {
+            System.out.println("No maps found!");
+        }
+    }
+
+    /**
+     * This function creates the currLvl'th level.
+     */
+    public final void createLvl() {
+        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
+        screenController.addToSprites(currLvl.getWalls());
+        screenController.addToSprites(currLvl.getMonsters());
+    }
+
+    /**
+     * The function that is used to create the player.
+     */
+    private void createPlayer() {
+        Input input = new Input(playfieldLayer.getScene());
+        input.addListeners();
+
+        double x = 200;
+        double y = 700;
+
+        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+        players.add(player);
+        screenController.addToSprites(players);
     }
     
     /**
@@ -145,44 +228,6 @@ public class LevelController implements Initializable {
     };
 
     /**
-     * The function that is used to create the player.
-     */
-    private void createPlayer() {
-        Input input = new Input(playfieldLayer.getScene());
-        input.addListeners();
-
-        double x = 200;
-        double y = 700;
-
-        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
-        players.add(player);
-        screenController.addToSprites(players);
-    }
-
-    /**
-     * This function scans the resources folder for maps.
-     */
-    private void findMaps() {
-    	File folder = new File("src/main/resources");
-    	File[] listOfFiles = folder.listFiles();
-    	assert listOfFiles != null;
-    	for (File file : listOfFiles) {
-    		if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
-    			maps.add(file.getName());
-    		}
-    	}
-    }
-
-    /**
-     * This function creates the currLvl'th level.
-     */
-    public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer);
-        screenController.addToSprites(currLvl.getWalls());
-        screenController.addToSprites(currLvl.getMonsters());
-    }
-
-    /**
      * This function creates the next level.
      */
     public final void nextLevel() {
@@ -191,56 +236,13 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function initializes the level.
-     * @param gameLoop is the loop of the game.
+     * This function checks whether a set of coordinates collide with a wall.
+     * @param minX The smallest X
+     * @param maxX The highest X
+     * @param minY The smallest Y
+     * @param maxY The highest Y
+     * @return True if a collision was caused.
      */
-    public final void startLevel(AnimationTimer gameLoop) {
-        if (maps.size() > 0) {
-            indexCurrLvl = 0;
-            playfieldLayer.setOnMousePressed(event -> {
-                if (!gameStarted) {
-                    gameStarted = true;
-                    createLvl();
-                    createPlayer();
-                    startMessage.setVisible(false);
-                    playfieldLayer.getScene().addEventFilter(
-                    		KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
-                    gameLoop.start();
-                }
-            });
-        } else {
-            System.out.println("No maps found!");
-        }
-    }
-
-
-    private AnimationTimer createTimer() {
-        return new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (((Player) players.get(0)).getGameOver()) {
-                    stop();
-                } else if (!checkGamePaused()) {
-                    ((ArrayList<Player>) players).forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.getBubbles().forEach(bubble -> {
-                            bubble.move();
-                        });
-                    });
-                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
-                        ((ArrayList<Player>) players).forEach(player -> {
-                            player.getBubbles().forEach(monster::checkCollision);
-                            player.checkCollideMonster(monster);
-                        });
-                        monster.move();
-                    });
-                    screenController.updateUI();
-                }
-            }
-        };
-    }
-
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
@@ -263,6 +265,10 @@ public class LevelController implements Initializable {
         return false;
     }
 
+    /**
+     * This function returns the layer all sprites play in.
+     * @return The playfieldLayer
+     */
     public Pane getPlayfieldLayer() {
         return playfieldLayer;
     }
@@ -273,5 +279,14 @@ public class LevelController implements Initializable {
      */
     public ScreenController getScreenController() {
         return screenController;
+    }
+
+    /**
+     * This is the boolean to check if the game is paused or not.
+     *
+     * @return True if the gamePaused is true.
+     */
+    public boolean isGamePaused() {
+        return this.gamePaused;
     }
 }
