@@ -20,6 +20,7 @@ public class Monster extends GravityObject {
 
 	/**
 	 * The monster that is trying to catch the character.
+	 * @param imagePath the path to the image.
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param r The rotation.
@@ -28,9 +29,11 @@ public class Monster extends GravityObject {
 	 * @param dr The dr of r.
 	 * @param speed The speed at which the monster is travelling.
 	 * @param facingRight Whether the monster is facing to the right or not.
+	 * @param levelController is the controller that controls the level.
 	 */
 	public Monster(String imagePath, double x, double y, double r,
-			double dx, double dy, double dr, double speed, boolean facingRight, LevelController levelController) {
+			double dx, double dy, double dr, double speed, boolean facingRight, 
+			LevelController levelController) {
 		super(imagePath, x, y, r, dx, dy, dr);
 
 		this.speed = speed;
@@ -68,8 +71,11 @@ public class Monster extends GravityObject {
 		bubble.setAbleToCatch(false);
 	}
 
+	/**
+	 * This method is used when the monsters are killed.
+	 */
 	public void die() {
-		if(!dead) {
+		if (!dead) {
 			levelController.getScreenController().removeSprite(this);
 			levelController.getScreenController().removeSprite(prisonBubble);
 			dead = true;
@@ -116,6 +122,10 @@ public class Monster extends GravityObject {
 		this.facingRight = facingRight;
 	}
 
+	/**
+	 * This method checks if the player is dead.
+	 * @return true if they are dead.
+	 */
 	public boolean isDead() {
 		return dead;
 	}

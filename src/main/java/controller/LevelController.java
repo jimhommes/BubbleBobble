@@ -13,7 +13,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Settings;
+import model.Wall;
 
 import java.io.File;
 import java.io.IOException;
@@ -156,7 +161,7 @@ public class LevelController implements Initializable {
                         monster.move();
                     });
                     screenController.updateUI();
-                    if(currLvl.update()) {
+                    if (currLvl.update()) {
                         nextLevel();
                     }
                 }
@@ -191,7 +196,7 @@ public class LevelController implements Initializable {
      * This function creates the currLvl'th level.
      */
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), playfieldLayer, this);
+        currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }
@@ -242,9 +247,9 @@ public class LevelController implements Initializable {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        if(indexCurrLvl < maps.size()) {
+        if (indexCurrLvl < maps.size()) {
             createLvl();
-        }else{
+        } else {
             winGame();
         }
     }
@@ -264,14 +269,14 @@ public class LevelController implements Initializable {
             double wallMaxX = wallMinX + wall.getWidth();
             double wallMinY = wall.getY();
             double wallMaxY = wallMinY + wall.getHeight();
-            if (((minX > wallMinX && minX < wallMaxX) ||
-                    (maxX > wallMinX && maxX < wallMaxX) ||
-                    (wallMinX > minX && wallMinX < maxX) ||
-                    (wallMaxX > minX && wallMaxX < maxX)) &&
-                    ((minY > wallMinY && minY < wallMaxY) ||
-                            (maxY > wallMinY && maxY < wallMaxY) ||
-                            (wallMinY > minY && wallMinY < maxY) ||
-                            (wallMaxY > minY && wallMaxY < maxY))) {
+            if (((minX > wallMinX && minX < wallMaxX) 
+            		|| (maxX > wallMinX && maxX < wallMaxX) 
+            		|| (wallMinX > minX && wallMinX < maxX) 
+                    || (wallMaxX > minX && wallMaxX < maxX))
+            		&& ((minY > wallMinY && minY < wallMaxY) 
+                    		|| (maxY > wallMinY && maxY < wallMaxY) 
+                            || (wallMinY > minY && wallMinY < maxY) 
+                            || (wallMaxY > minY && wallMaxY < maxY))) {
                 return true;
             }
         }
@@ -311,6 +316,9 @@ public class LevelController implements Initializable {
         }
     }
 
+    /**
+     * This method calls the win screen when the game has been won.
+     */
     public void winGame() {
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
