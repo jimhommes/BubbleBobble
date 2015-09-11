@@ -101,6 +101,8 @@ public class LevelController implements Initializable {
      * The screenController that handles all GUI.
      */
     private ScreenController screenController;
+
+    private AnimationTimer gameLoop;
     
     /**
      * The init function.
@@ -114,7 +116,7 @@ public class LevelController implements Initializable {
         players = new ArrayList<>();
         findMaps();
 
-        AnimationTimer gameLoop = createTimer();
+        gameLoop = createTimer();
         this.screenController = new ScreenController(playfieldLayer);
         startLevel(gameLoop);
     }
@@ -159,6 +161,9 @@ public class LevelController implements Initializable {
                         monster.move();
                     });
                     screenController.updateUI();
+                    if(currLvl.update()) {
+                        nextLevel();
+                    }
                 }
             }
         };
@@ -242,7 +247,11 @@ public class LevelController implements Initializable {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        createLvl();
+        if(indexCurrLvl < maps.size()) {
+            createLvl();
+        }else{
+            winGame();
+        }
     }
 
     /**
@@ -296,9 +305,22 @@ public class LevelController implements Initializable {
      * This function is called when it's game over.
      */
     public void gameOver() {
+        gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void winGame() {
+        gameLoop.stop();
+        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

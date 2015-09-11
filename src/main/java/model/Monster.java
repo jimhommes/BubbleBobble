@@ -122,4 +122,7 @@ public class Monster extends GravityObject {
 		this.facingRight = facingRight;
 	}
 
+	public boolean isDead() {
+		return dead;
+	}
 }

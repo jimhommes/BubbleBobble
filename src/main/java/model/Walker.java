@@ -11,6 +11,8 @@ import controller.LevelController;
  */
 public class Walker extends Monster {
 
+    LevelController levelController;
+
     /**
      * A walking monster.
      * @param x The x coordinate.
@@ -33,6 +35,7 @@ public class Walker extends Monster {
                   boolean facingRight,
                   LevelController levelController) {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        this.levelController = levelController;
     }
 
     /**
@@ -41,18 +44,35 @@ public class Walker extends Monster {
     public void move() {
         if (!isCaughtByBubble()) {
             if (isFacingRight()) {
-                setDx(getSpeed());
+                if (!levelController.causesCollision(getX() + getSpeed(), getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
+                    setDx(getSpeed());
+                } else {
+                    switchDirection();
+                }
             } else {
-                setDx(-getSpeed());
+                if (!levelController.causesCollision(getX() - getSpeed(), getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
+                    setDx(-getSpeed());
+                } else {
+                    switchDirection();
+                }
             }
 
-            setDy(-calculateGravity());
+            if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+                setDy(-calculateGravity());
+            } else {
+                setDy(0);
+            }
+
+
         } else {
             setDx(0);
             setDy(0);
             setX(getPrisonBubble().getX());
             setY(getPrisonBubble().getY());
         }
+
+
+
 
         super.move();
     }
