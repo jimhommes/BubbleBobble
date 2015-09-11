@@ -72,18 +72,12 @@ public class Level {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(playfieldLayer, 
-                    		Wall.WALL_SPRITE,
-                    		col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
+                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(playfieldLayer, 
-                    		Walker.WALKER_IMAGE_RIGHT,
-                    		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, true));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(playfieldLayer, 
-                    		Walker.WALKER_IMAGE_LEFT,
-                    		col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0, 
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, false));
                 }
             }

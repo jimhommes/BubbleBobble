@@ -10,11 +10,6 @@ package model;
 public class Bubble extends SpriteBase {
 
     /**
-     * The location of the image.
-     */
-    static final String BUBBLE_SPRITE = "../bubble.png";
-
-    /**
      * The counter that is needed for the movement of the bubble.
      */
     private int counter;
@@ -32,7 +27,6 @@ public class Bubble extends SpriteBase {
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param imageLoc The path of the image of the bubble
      * @param x The x coordinate 
      * @param y The y coordinate
      * @param r The rotation
@@ -41,15 +35,14 @@ public class Bubble extends SpriteBase {
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
      */
-    public Bubble(String imageLoc,
-                  double x,
+    public Bubble(double x,
                   double y,
                   double r,
                   double dx,
                   double dy,
                   double dr,
                   boolean firedRight) {
-        super(imageLoc, x, y, r, dx, dy, dr);
+        super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;

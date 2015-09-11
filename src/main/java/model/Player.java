@@ -4,7 +4,6 @@ import controller.LevelController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -58,8 +57,6 @@ public class Player extends GravityObject {
 
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
-     * @param layer The layer the player moves in.
-     * @param imageLoc The path of the image the player takes.
      * @param x The start x coordinate.
      * @param y The start y coordinate.
      * @param r The r.
@@ -69,9 +66,7 @@ public class Player extends GravityObject {
      * @param speed The speed of the player.
      * @param input The input the player will use.
      */
-    public Player(Pane layer,
-                  String imageLoc,
-                  double x,
+    public Player(double x,
                   double y,
                   double r,
                   double dx,
@@ -81,7 +76,7 @@ public class Player extends GravityObject {
                   Input input,
                   LevelController levelController) {
 
-        super(layer, imageLoc, x, y, r, dx, dy, dr);
+        super("../BubRight.png", x, y, r, dx, dy, dr);
 
         this.speed = speed;
         this.input = input;
@@ -222,8 +217,7 @@ public class Player extends GravityObject {
         }
 
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(Bubble.BUBBLE_SPRITE,
-                    getX(), getY(), 0, 0, 0, 0, facingRight));
+            bubbles.add(new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight));
             counter = 0;
         } else {
             counter++;

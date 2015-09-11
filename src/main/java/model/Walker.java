@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.layout.Pane;
-
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -11,13 +9,8 @@ import javafx.scene.layout.Pane;
  */
 public class Walker extends Monster {
 
-    public static final String WALKER_IMAGE_LEFT = "../ZenChanLeft.png";
-    public static final String WALKER_IMAGE_RIGHT = "../ZenChanRight.png";
-
     /**
      * A walking monster.
-     * @param layer The level in which the monster is walking.
-     * @param imageLoc The path of the image of the walking monster.
      * @param x The x coordinate.
      * @param y The y coordinate.
      * @param r The rotation of the walker.
@@ -27,9 +20,7 @@ public class Walker extends Monster {
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
      */
-    public Walker(Pane layer,
-                  String imageLoc,
-                  double x,
+    public Walker(double x,
                   double y,
                   double r,
                   double dx,
@@ -37,6 +28,6 @@ public class Walker extends Monster {
                   double dr,
                   double speed,
                   boolean facingRight) {
-        super(layer, imageLoc, x, y, r, dx, dy, dr, speed, facingRight);
+        super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight);
     }
 }

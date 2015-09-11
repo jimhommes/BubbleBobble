@@ -28,7 +28,7 @@ public class PlayerTest extends TestCase {
         layer = mock(Pane.class);
         input = mock(Input.class);
         levelController = mock(LevelController.class);
-        player = new Player(layer, "../BubRight.png", 0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+        player = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
     }
 
     public void testProcessInput() throws Exception {

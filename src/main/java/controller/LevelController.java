@@ -151,8 +151,7 @@ public class LevelController implements Initializable {
         double x = 200;
         double y = 700;
 
-        Player player = new Player(playfieldLayer,
-                "../BubRight.png", x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.add(player);
         screenController.addToSprites(players);
     }
