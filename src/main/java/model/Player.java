@@ -50,6 +50,10 @@ public class Player extends GravityObject {
      */
     private LevelController levelController;
 
+    private boolean ableToJump;
+
+    private int jumpCounter;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      * @param x The start x coordinate.
@@ -77,6 +81,8 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 31;
+        this.jumpCounter = 30;
+        this.ableToJump = false;
         this.isDead = false;
         this.gameOver = false;
         this.facingRight = true;
@@ -90,6 +96,15 @@ public class Player extends GravityObject {
     public void processInput() {
 
     	if (!isDead) {
+
+            if(jumpCounter < 12) {
+                jumpCounter++;
+            }
+
+            if (jumpCounter == 12) {
+                setDy(0);
+            }
+
     		moveVertical();
             moveHorizontal();
             checkFirePrimary();
@@ -107,6 +122,9 @@ public class Player extends GravityObject {
 
         if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setY(getY() - calculateGravity());
+            ableToJump = false;
+        } else {
+            ableToJump = true;
         }
 
         super.move();
@@ -154,40 +172,20 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp()) {
-            if (!levelController.causesCollision(getX(),
-                    getX() + getWidth(),
-                    getY() - speed,
-                    getY() + getHeight() - speed)) {
-                setDy(-speed);
-            } else {
-                setDy(0);
+            if (ableToJump) {
+                ableToJump = false;
+                setDy(-3 * speed);
+                jumpCounter = 0;
             }
+        }
 
-            if (facingRight) {
-                setImage("/BubRight.png");
-            } else {
-                setImage("/BubLeft.png");
-            }
-        } else if (input.isMoveDown()) {
-
-            if (!levelController.causesCollision(getX(),
-                    getX() + getWidth(),
-                    getY() + speed,
-                    getY() + getHeight() + speed)) {
-                setDy(speed);
-            } else {
-                setDy(0);
-            }
-
-            if (facingRight) {
-                setImage("/BubRight.png");
-            } else {
-                setImage("/BubLeft.png");
-            }
+        if (facingRight) {
+            setImage("/BubRight.png");
         } else {
-            setDy(0d);
+            setImage("/BubLeft.png");
         }
     }
+
 
     /**
      * This function checks how to move horizontally.
