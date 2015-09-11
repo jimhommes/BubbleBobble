@@ -90,6 +90,8 @@ public class Bubble extends SpriteBase {
                     getY() - Settings.BUBBLE_FLY_SPEED,
                     getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
                 setDy(-Settings.BUBBLE_FLY_SPEED);
+            }else{
+                setDy(0);
             }
             ableToCatch = false;
         }
