@@ -154,6 +154,7 @@ public class LevelController implements Initializable {
                         monster.move();
                     });
                     screenController.updateUI();
+                    currLvl.update();
                 }
             }
         };
@@ -299,5 +300,9 @@ public class LevelController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Level getCurrLvl() {
+        return currLvl;
     }
 }

@@ -136,4 +136,14 @@ public class Level {
     public ArrayList getWalls() {
         return walls;
     }
+
+    public void update() {
+        ArrayList<Monster> newMonsters = new ArrayList<>();
+        monsters.forEach(monster -> {
+            if(!monster.isDead()) {
+                newMonsters.add(monster);
+            }
+        });
+        monsters = newMonsters;
+    }
 }
