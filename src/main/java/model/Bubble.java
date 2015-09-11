@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -26,6 +28,11 @@ public class Bubble extends SpriteBase {
     private boolean ableToCatch;
 
     /**
+     * The levelController that created the player.
+     */
+    private LevelController levelController;
+
+    /**
      * The bubble that will be shot to catch the monsters.
      * @param x The x coordinate 
      * @param y The y coordinate
@@ -41,12 +48,14 @@ public class Bubble extends SpriteBase {
                   double dx,
                   double dy,
                   double dr,
-                  boolean firedRight) {
+                  boolean firedRight,
+                  LevelController levelController) {
         super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+        this.levelController = levelController;
 
     }
 
@@ -57,13 +66,13 @@ public class Bubble extends SpriteBase {
         if (counter < 30) {
             counter++;
             if (firedRight) {
-                setDx(7);
+                setDx(Settings.BUBBLE_INIT_SPEED);
             } else {
-                setDx(-7);
+                setDx(-Settings.BUBBLE_INIT_SPEED);
             }
         } else {
             setDx(0);
-            setDy(-5);
+            setDy(-Settings.BUBBLE_FLY_SPEED);
             ableToCatch = false;
         }
 

@@ -13,4 +13,7 @@ public class Settings {
 
     public static final double MONSTER_SPEED = 5;
 
+    public static final double BUBBLE_INIT_SPEED = 7;
+    public static final double BUBBLE_FLY_SPEED = 3;
+
 }
