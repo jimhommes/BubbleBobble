@@ -1,0 +1,8 @@
+language: java
+jdk:
+- oraclejdk8
+after-script:
+- echo "----------CHECKSTYLE RESULT----------" && cat "target/checkstyle-result.xml" && echo "----------END CHECKSTYLE RESULT----------"
+- echo "----------PMD RESULT----------" && cat "target/pmd.xml" && echo "----------END PMD RESULT----------"
+- echo "----------FINDBUGS RESULT----------" && cat "target/findbugsXml.xml" && echo "----------END FINDBUGS RESULT----------"
+

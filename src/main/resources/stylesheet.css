@@ -1,0 +1,101 @@
+/* Start Screen */
+#root {
+    -fx-background-color: black;
+    -fx-min-height: 832px;
+    -fx-min-width: 832px;
+    -fx-font-size: 40px;
+}
+
+
+.button {
+    -fx-min-width: 300;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+}
+
+.button:hover {
+    -fx-border-color: white;
+    -fx-border-width: 0 3 0 3;
+}
+
+#helpScreen {
+    -fx-background-color: #222222;
+    -fx-opacity: 0.99;
+    -fx-min-width: 800;
+    -fx-min-height: 600;
+    -fx-max-width: 1200;
+    -fx-max-height: 700;
+    -fx-padding: 50;
+    -fx-border-color: white;
+    -fx-border-width: 15px;
+}
+
+.helpTitleText {
+	-fx-underline: true;
+    -fx-font-size: 40px;
+    -fx-fill: white;
+}
+
+.helpTextDescription {
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
+.helpText {
+    -fx-font-size: 30px;
+    -fx-fill: #0099FF;
+}
+
+.helpTextClick {
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
+/* Level */
+.levelMessage{
+    -fx-font-size: 50px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.gameOverText {
+	-fx-font-size: 60px;
+    -fx-fill: red;
+    -fx-alignment: center;
+}
+
+.gameOver {
+	-fx-font-size: 25px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.winText {
+	-fx-font-size: 60px;
+    -fx-fill: green;
+    -fx-alignment: center;
+}
+
+.win {
+	-fx-font-size: 25px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.levelMessageSub{
+    -fx-font-size: 20px;
+    -fx-fill: white;
+    -fx-alignment: center;
+}
+
+.pauseVBox{
+    -fx-alignment: center;
+}
+
+#playfieldLayer {
+    -fx-min-width: 832px;
+    -fx-min-height: 832px;
+}
