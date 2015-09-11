@@ -138,15 +138,15 @@ public class Player extends GravityObject {
      * This function returns the player if it is out of bounds.
      */
     private void checkBounds() {
-        if(getX() < playerMinX) {
+        if (getX() < playerMinX) {
             setX(playerMinX);
-        } else if(getX() + getWidth() > playerMaxX) {
+        } else if (getX() + getWidth() > playerMaxX) {
             setX(playerMaxX - getWidth());
         }
 
-        if(getY() < playerMinY) {
+        if (getY() < playerMinY) {
             setY(playerMinY);
-        }else if(getY() + getHeight() > playerMaxY) {
+        } else if (getY() + getHeight() > playerMaxY) {
             setY(playerMaxY - getHeight());
         }
     }

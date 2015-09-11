@@ -168,6 +168,10 @@ public class Input {
         return keyboardBitSet.get(SECONDARY_WEAPON_KEY.ordinal());
     }
 
+    /**
+     * This method sets the keyboardbitset.
+     * @param keyboardBitSet the BitSet that is being set.
+     */
     public void setKeyboardBitSet(BitSet keyboardBitSet) {
         this.keyboardBitSet = keyboardBitSet;
     }

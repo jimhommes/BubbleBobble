@@ -12,13 +12,18 @@ public class BubbleTest extends TestCase {
     private static Bubble bubbleRight;
     private static Bubble bubbleLeft;
     
-
+    /**
+     * This method is run before all the tests to initialize them.
+     */
     public void setUp() {
     	LevelController levelController = mock(LevelController.class);
         bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
         bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, levelController);
     }
 
+    /**
+     * This tests what happens when a bubble moves right.
+     */
     public void testMoveRight() {
         assertTrue(bubbleRight.getAbleToCatch());
 
@@ -34,6 +39,9 @@ public class BubbleTest extends TestCase {
         assertFalse(bubbleRight.getAbleToCatch());
     }
 
+    /**
+     * This tests what happens when a bubble moves left.
+     */
     public void testMoveLeft() {
         assertTrue(bubbleLeft.getAbleToCatch());
 
@@ -49,6 +57,9 @@ public class BubbleTest extends TestCase {
         assertFalse(bubbleLeft.getAbleToCatch());
     }
 
+    /**
+     * This tests if a bubble is able to catch a monster or not.
+     */
     public void testSetAbleToCatch() {
         bubbleRight.setAbleToCatch(false);
         assertFalse(bubbleRight.getAbleToCatch());
