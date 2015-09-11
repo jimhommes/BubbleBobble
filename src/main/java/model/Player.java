@@ -242,9 +242,9 @@ public class Player extends GravityObject {
             }
 
             if (facingRight) {
-                image = "/BubRight.png";
+                setImage("/BubRight.png");
             } else {
-                image = "/BubLeft.png";
+                setImage("/BubLeft.png");
             }
         } else if (input.isMoveDown()) {
 
@@ -255,9 +255,9 @@ public class Player extends GravityObject {
             }
 
             if (facingRight) {
-                image = "/BubRight.png";
+                setImage("/BubRight.png");
             } else {
-                image = "/BubLeft.png";
+                setImage("/BubLeft.png");
             }
         } else {
             dy = 0d;
@@ -275,7 +275,7 @@ public class Player extends GravityObject {
                 dx = 0;
             }
 
-            image = "/BubLeft.png";
+            setImage("/BubLeft.png");
             facingRight = false;
         } else if (input.isMoveRight()) {
             if (!levelController.causesCollision(x + speed, x + getWidth() + speed, y, y + getHeight())) {
@@ -284,7 +284,7 @@ public class Player extends GravityObject {
                 dx = 0;
             }
 
-            image = "/BubRight.png";
+            setImage("/BubRight.png");
             facingRight = true;
         } else {
             dx = 0d;
