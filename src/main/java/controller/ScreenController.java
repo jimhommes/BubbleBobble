@@ -18,10 +18,13 @@ public class ScreenController {
 
     private ArrayList<SpriteBase> sprites;
 
+    private ArrayList<ImageView> images;
+
     private Pane playfieldLayer;
 
     public ScreenController(Pane layer) {
         sprites = new ArrayList<>();
+        images = new ArrayList<>();
         playfieldLayer = layer;
     }
 
@@ -33,6 +36,7 @@ public class ScreenController {
             element.setWidth(imageView.getImage().getWidth());
             imageView.relocate(element.getX(), element.getY());
             imageView.setRotate(element.getR());
+            images.add(imageView);
             playfieldLayer.getChildren().add(imageView);
         });
     }
@@ -44,6 +48,7 @@ public class ScreenController {
         sprite.setWidth(imageView.getImage().getWidth());
         imageView.relocate(sprite.getX(), sprite.getY());
         imageView.setRotate(sprite.getR());
+        images.add(imageView);
         playfieldLayer.getChildren().add(imageView);
     }
 
@@ -52,7 +57,10 @@ public class ScreenController {
     }
 
     private void update(SpriteBase sprite) {
-
+        ImageView image = images.get(sprites.indexOf(sprite));
+        image.relocate(sprite.getX(), sprite.getY());
+        image.setImage(new Image(getClass().getResource(sprite.getImage()).toExternalForm()));
+        image.setRotate(sprite.getR());
     }
 
 
