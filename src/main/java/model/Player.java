@@ -1,12 +1,7 @@
 package model;
 
 import controller.LevelController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -234,15 +229,7 @@ public class Player extends GravityObject {
     private void checkIfGameOver() {
         if (counter > 50) {
             gameOver = true;
-            Stage stage = (Stage) levelController.getPlayfieldLayer().getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setScene(new Scene(root));
-            stage.show();
+            levelController.gameOver();
         } else {
             counter++;
         }
@@ -271,4 +258,5 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
+
 }
