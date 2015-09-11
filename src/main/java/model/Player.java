@@ -96,6 +96,7 @@ public class Player extends GravityObject {
     	if (!isDead) {
     		moveVertical();
             moveHorizontal();
+            checkFirePrimary();
         } else {
             checkIfGameOver();
         }
@@ -219,13 +220,6 @@ public class Player extends GravityObject {
         } else {
             setDx(0d);
         }
-
-        if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight));
-            counter = 0;
-        } else {
-            counter++;
-        }
     }
 
     /**
@@ -243,6 +237,20 @@ public class Player extends GravityObject {
             }
             stage.setScene(new Scene(root));
             stage.show();
+        } else {
+            counter++;
+        }
+    }
+
+    /**
+     * This function checks if it should fire a bubble.
+     */
+    private void checkFirePrimary() {
+        if (input.isFirePrimaryWeapon() && counter > 30) {
+            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight);
+            bubbles.add(bubble);
+            levelController.getScreenController().addToSprites(bubble);
+            counter = 0;
         } else {
             counter++;
         }

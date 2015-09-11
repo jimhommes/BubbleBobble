@@ -87,6 +87,9 @@ public class LevelController implements Initializable {
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
 
+    /**
+     * The screenController that handles all GUI.
+     */
     private ScreenController screenController;
     
     /**
@@ -264,4 +267,11 @@ public class LevelController implements Initializable {
         return playfieldLayer;
     }
 
+    /**
+     * Gets the screenController.
+     * @return The screencontroller.
+     */
+    public ScreenController getScreenController() {
+        return screenController;
+    }
 }
