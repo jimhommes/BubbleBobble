@@ -62,9 +62,9 @@ public class PlayerTest extends TestCase {
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         assertEquals(-Settings.PLAYER_SPEED, player.getDx());
-        assertEquals(Settings.PLAYER_SPEED, player.getDy());
-        assertEquals(0.0, player.getX());
-        assertEquals(0.0, player.getY());
+        assertEquals(0.0, player.getDy());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getY());
     }
     
 
@@ -88,12 +88,11 @@ public class PlayerTest extends TestCase {
      */
     @Test
     public void testMove() throws Exception {
-        when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(-Settings.PLAYER_SPEED, player.getX());
-        assertEquals(Settings.PLAYER_SPEED - player.calculateGravity(), player.getY());
+        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY());
     }
 
     /**
@@ -135,7 +134,7 @@ public class PlayerTest extends TestCase {
         assertFalse(player.getDead());
         player.die();
         assertTrue(player.getDead());
-        assertTrue(player.getImagePath().equals("/BubbleBobbleLogo.png"));
+        assertTrue(player.getImagePath().equals("/BubbleBobbleDeath.png"));
     }
 
     /**
@@ -148,7 +147,7 @@ public class PlayerTest extends TestCase {
         assertEquals(0.0, player.getX());
         player.processInput();
         player.move();
-        assertEquals(Settings.PLAYER_SPEED, player.getX());
+        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -164,7 +163,7 @@ public class PlayerTest extends TestCase {
                 any(Double.class))).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(0.0, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -181,21 +180,7 @@ public class PlayerTest extends TestCase {
 
         player.processInput();
         player.move();
-        assertEquals(0.0, player.getX());
-    }
-
-    /**
-     * Tests what happens when the player moves upwards.
-     * @throws Exception .
-     */
-    @Test
-    public void testMoveUp() throws Exception {
-        when(input.isMoveUp()).thenReturn(true);
-        player.processInput();
-        player.move();
-
-        assertEquals(-Settings.PLAYER_SPEED - player.calculateGravity(), player.getY());
-        assertEquals(0.0, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX());
     }
 
     /**
@@ -213,7 +198,7 @@ public class PlayerTest extends TestCase {
         player.move();
 
         //Gravity also doesn't work if for all doubles there is a collision
-        assertEquals(0.0, player.getY());
+        assertEquals(Level.SPRITE_SIZE, player.getY());
     }
 
 }

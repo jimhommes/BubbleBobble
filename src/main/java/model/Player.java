@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Player extends GravityObject {
 
+    private boolean jumping;
     /**
      * The input that defines the movement of the player.
      */
@@ -50,16 +51,29 @@ public class Player extends GravityObject {
      */
     private LevelController levelController;
 
+    private boolean ableToJump;
+
+    private int jumpCounter;
+
+    private double playerMinX;
+
+    private double playerMaxX;
+
+    private double playerMinY;
+
+    private double playerMaxY;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
-     * @param x The start x coordinate.
-     * @param y The start y coordinate.
-     * @param r The r.
-     * @param dx The dx.
-     * @param dy The dy.
-     * @param dr The dr.
-     * @param speed The speed of the player.
-     * @param input The input the player will use.
+     *
+     * @param x               The start x coordinate.
+     * @param y               The start y coordinate.
+     * @param r               The r.
+     * @param dx              The dx.
+     * @param dy              The dy.
+     * @param dr              The dr.
+     * @param speed           The speed of the player.
+     * @param input           The input the player will use.
      * @param levelController The controller that controls the level.
      */
     public Player(double x,
@@ -78,10 +92,18 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 31;
+        this.jumpCounter = 30;
+        this.ableToJump = false;
+        this.jumping = false;
         this.isDead = false;
         this.gameOver = false;
         this.facingRight = true;
         this.levelController = levelController;
+
+        playerMinX = Level.SPRITE_SIZE;
+        playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
+        playerMinY = Level.SPRITE_SIZE;
+        playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
     }
 
@@ -90,14 +112,43 @@ public class Player extends GravityObject {
      */
     public void processInput() {
 
-    	if (!isDead) {
-    		moveVertical();
+        if (!isDead) {
+
+            if (jumpCounter < 12) {
+                jumpCounter++;
+            }
+
+            if (jumpCounter == 12) {
+                setDy(0);
+                jumping = false;
+            }
+
+            moveVertical();
             moveHorizontal();
             checkFirePrimary();
         } else {
             checkIfGameOver();
         }
 
+        checkBounds();
+
+    }
+
+    /**
+     * This function returns the player if it is out of bounds.
+     */
+    private void checkBounds() {
+        if(getX() < playerMinX) {
+            setX(playerMinX);
+        } else if(getX() + getWidth() > playerMaxX) {
+            setX(playerMaxX - getWidth());
+        }
+
+        if(getY() < playerMinY) {
+            setY(playerMinY);
+        }else if(getY() + getHeight() > playerMaxY) {
+            setY(playerMaxY - getHeight());
+        }
     }
 
     /**
@@ -106,9 +157,18 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(getX(), getX() + getWidth(), 
-        		getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-            setY(getY() - calculateGravity());
+        if (!levelController.causesCollision(getX(),
+                getX() + getWidth(),
+                getY() - calculateGravity(),
+                getY() + getHeight() - calculateGravity())) {
+            if (!jumping) {
+                setY(getY() - calculateGravity());
+            }
+            ableToJump = false;
+        } else {
+            if (!jumping) {
+                ableToJump = true;
+            }
         }
 
         super.move();
@@ -117,28 +177,29 @@ public class Player extends GravityObject {
 
     /**
      * This method checks if the monster has collides with the character.
+     *
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-    	double monsterX = monster.getX();
-    	double monsterMaxX = monsterX + monster.getWidth();
-    	double monsterY = monster.getY();
-    	double monsterMaxY = monsterY + monster.getHeight();
+        double monsterX = monster.getX();
+        double monsterMaxX = monsterX + monster.getWidth();
+        double monsterY = monster.getY();
+        double monsterMaxY = monsterY + monster.getHeight();
 
-    	if (((monsterX > getX() && monsterX < getX() + getWidth())
-    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) 
-    			|| (getX() > monsterX && getX() < monsterMaxX) 
+        if (((monsterX > getX() && monsterX < getX() + getWidth())
+                || (monsterMaxX > getX() && monsterMaxX < getX() + getWidth())
+                || (getX() > monsterX && getX() < monsterMaxX)
                 || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
-    			&& ((monsterY > getY() && monsterY < getY() + getHeight())
-    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) 
-    			|| (getY() > monsterY && getY() < monsterMaxX) 
+                && ((monsterY > getY() && monsterY < getY() + getHeight())
+                || (monsterMaxY > getY() && monsterMaxY < getY() + getHeight())
+                || (getY() > monsterY && getY() < monsterMaxY)
                 || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
-    		if (!monster.isCaughtByBubble()) {
+            if (!monster.isCaughtByBubble()) {
                 die();
             } else {
                 monster.die();
             }
-    	}
+        }
 
     }
 
@@ -148,7 +209,7 @@ public class Player extends GravityObject {
     public void die() {
         this.isDead = true;
         counter = 0;
-        setImage("/BubbleBobbleLogo.png");
+        setImage("/BubbleBobbleDeath.png");
     }
 
     /**
@@ -156,69 +217,70 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp()) {
-            if (!levelController.causesCollision(getX(),
-                    getX() + getWidth(),
-                    getY() - speed,
-                    getY() + getHeight() - speed)) {
-                setDy(-speed);
-            } else {
-                setDy(0);
+            if (ableToJump) {
+                ableToJump = false;
+                jumping = true;
+                setDy(-Settings.JUMP_SPEED);
+                jumpCounter = 0;
             }
-            if (facingRight) {
-                setImage("/BubRight.png");
-            } else {
-                setImage("/BubLeft.png");
-            }
-        } else if (input.isMoveDown()) {
-            if (!levelController.causesCollision(getX(),
-                    getX() + getWidth(),
-                    getY() + speed,
-                    getY() + getHeight() + speed)) {
-                setDy(speed);
-            } else {
-                setDy(0);
-            }
-            if (facingRight) {
-                setImage("/BubRight.png");
-            } else {
-                setImage("/BubLeft.png");
-            }
+        }
+        if (facingRight) {
+            setImage("/BubRight.png");
         } else {
-            setDy(0d);
+            setImage("/BubLeft.png");
         }
     }
+
 
     /**
      * This function checks how to move horizontally.
      */
     private void moveHorizontal() {
         if (input.isMoveLeft()) {
-            if (!levelController.causesCollision(getX() - speed,
-                    getX() + getWidth() - speed,
-                    getY(),
-                    getY() + getHeight())) {
-                setDx(-speed);
-            } else {
-                setDx(0);
-            }
-
-            setImage("/BubLeft.png");
-            facingRight = false;
+            moveLeft();
         } else if (input.isMoveRight()) {
-            if (!levelController.causesCollision(getX() + speed,
-                    getX() + getWidth() + speed,
-                    getY(),
-                    getY() + getHeight())) {
-                setDx(speed);
-            } else {
-                setDx(0);
-            }
-
-            setImage("/BubRight.png");
-            facingRight = true;
+            moveRight();
         } else {
             setDx(0d);
         }
+    }
+
+    /**
+     * This function handles moving to the right.
+     */
+    private void moveRight() {
+        if (!levelController.causesCollision(getX() + speed,
+                getX() + getWidth() + speed,
+                getY(),
+                getY() + getHeight())) {
+            setDx(speed);
+        } else {
+            if (!jumping) {
+                setDx(0);
+            }
+        }
+
+        setImage("/BubRight.png");
+        facingRight = true;
+    }
+
+    /**
+     * This function handles moving to the left.
+     */
+    private void moveLeft() {
+        if (!levelController.causesCollision(getX() - speed,
+                getX() + getWidth() - speed,
+                getY(),
+                getY() + getHeight())) {
+            setDx(-speed);
+        } else {
+            if (!jumping) {
+                setDx(0);
+            }
+        }
+
+        setImage("/BubLeft.png");
+        facingRight = false;
     }
 
     /**
@@ -249,6 +311,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the bubble list.
+     *
      * @return the bubbles.
      */
     public ArrayList<Bubble> getBubbles() {
@@ -257,6 +320,7 @@ public class Player extends GravityObject {
 
     /**
      * This method checks if the character is dead or not.
+     *
      * @return isDead when the character is dead.
      */
     public boolean getDead() {
@@ -265,6 +329,7 @@ public class Player extends GravityObject {
 
     /**
      * This method  checks if there is a game over.
+     *
      * @return gameOver if the game is over.
      */
     public boolean getGameOver() {
