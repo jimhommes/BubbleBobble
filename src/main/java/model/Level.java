@@ -1,5 +1,6 @@
 package model;
 
+import controller.LevelController;
 import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
@@ -30,6 +31,11 @@ public class Level {
     private static final int SPRITE_SIZE = 32;
 
     /**
+     * The controller of this class.
+     */
+    private final LevelController levelController;
+
+    /**
      * The map in a 2 dim array.
      */
     private Integer[][] map;
@@ -55,11 +61,12 @@ public class Level {
      * @param lvlTitle The title of the file.
      * @param playfieldLayer The field where the play will happen.
      */
-    public Level(final String lvlTitle, final Pane playfieldLayer) {
+    public Level(final String lvlTitle, final Pane playfieldLayer, final LevelController levelController) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.playfieldLayer = playfieldLayer;
+        this.levelController = levelController;
 
         drawMap();
     }
@@ -75,10 +82,10 @@ public class Level {
                     walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
                     monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                    		Settings.MONSTER_SPEED, true));
+                    		Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
                     monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                    		Settings.MONSTER_SPEED, false));
+                    		Settings.MONSTER_SPEED, false, levelController));
                 }
             }
         }

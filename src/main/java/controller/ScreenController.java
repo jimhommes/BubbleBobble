@@ -66,4 +66,7 @@ public class ScreenController {
         image.setRotate(sprite.getR());
     }
 
+    public void removeSprite(SpriteBase sprite) {
+        sprites.remove(sprite);
+    }
 }

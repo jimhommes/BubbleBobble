@@ -131,7 +131,11 @@ public class Player extends GravityObject {
     			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) ||
                 (getY() > monsterY && getY() < monsterMaxX) ||
                 (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
-    		die();
+    		if (!monster.isCaughtByBubble()) {
+                die();
+            } else {
+                monster.die();
+            }
     	}
 
     }

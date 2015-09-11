@@ -85,4 +85,5 @@ public class Bubble extends SpriteBase {
     public boolean getAbleToCatch() {
         return ableToCatch;
     }
+
 }
