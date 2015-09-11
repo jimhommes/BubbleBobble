@@ -137,7 +137,7 @@ public class Level {
         return walls;
     }
 
-    public void update() {
+    public boolean update() {
         ArrayList<Monster> newMonsters = new ArrayList<>();
         monsters.forEach(monster -> {
             if(!monster.isDead()) {
@@ -145,5 +145,7 @@ public class Level {
             }
         });
         monsters = newMonsters;
+
+        return monsters.size() == 0;
     }
 }
