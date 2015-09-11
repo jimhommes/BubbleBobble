@@ -16,6 +16,7 @@ public class Monster extends GravityObject {
 	private boolean facingRight;
 	private Bubble prisonBubble;
 	private boolean caughtByBubble;
+	private boolean dead;
 
 	/**
 	 * The monster that is trying to catch the character.
@@ -36,6 +37,7 @@ public class Monster extends GravityObject {
 		this.facingRight = facingRight;
 		this.caughtByBubble = false;
 		this.levelController = levelController;
+		this.dead = false;
 	}
 
 	/**
@@ -67,8 +69,11 @@ public class Monster extends GravityObject {
 	}
 
 	public void die() {
-		levelController.getScreenController().removeSprite(this);
-		levelController.getScreenController().removeSprite(prisonBubble);
+		if(!dead) {
+			levelController.getScreenController().removeSprite(this);
+			levelController.getScreenController().removeSprite(prisonBubble);
+			dead = true;
+		}
 	}
 
 	/**

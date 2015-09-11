@@ -67,6 +67,10 @@ public class ScreenController {
     }
 
     public void removeSprite(SpriteBase sprite) {
-        sprites.remove(sprite);
+        int index = sprites.indexOf(sprite);
+        System.out.println(index);
+        images.get(index).setVisible(false);
+        images.remove(index);
+        sprites.remove(index);
     }
 }
