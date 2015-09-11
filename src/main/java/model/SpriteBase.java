@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -12,7 +11,7 @@ public abstract class SpriteBase {
     /**
      * Image to be loaded.
      */
-    public Image image;
+    public String image;
 
     /**
      * ImageView to view the Image.
@@ -68,6 +67,10 @@ public abstract class SpriteBase {
      * The boolean that resembles if the image should be able to move or not.
      */
     public boolean canMove = true;
+    
+    private double width;
+    
+    private double height;
 
     /**
      * The constructor. It needs all the paramaters and creates the image where planned.
@@ -84,7 +87,7 @@ public abstract class SpriteBase {
                       double dx, double dy, double dr) {
 
         this.layer = layer;
-        this.image = new Image(getClass().getResource(imageLoc).toExternalForm());
+        this.image = imageLoc;
         this.x = x;
         this.y = y;
         this.r = r;
@@ -92,14 +95,11 @@ public abstract class SpriteBase {
         this.dy = dy;
         this.dr = dr;
 
-        this.imageView = new ImageView(image);
-        this.imageView.relocate(x, y);
-        this.imageView.setRotate(r);
+//        this.imageView = new ImageView(image);
+//        this.imageView.relocate(x, y);
+//        this.imageView.setRotate(r);
 
-        this.w = image.getWidth();
-        this.h = image.getHeight();
-
-        addToLayer();
+//        addToLayer();
 
     }
 
@@ -128,19 +128,19 @@ public abstract class SpriteBase {
     /**
      * The function to update the UI.
      */
-    public void updateUI() {
-
-        imageView.setImage(image);
-        imageView.relocate(x, y);
-        imageView.setRotate(r);
-
-    }
+//    public void updateUI() {
+//
+//        imageView.setImage(image);
+//        imageView.relocate(x, y);
+//        imageView.setRotate(r);
+//
+//    }
 
     /**
      * This method gets the image of the level.
      * @return the image.
      */
-    public Image getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -159,5 +159,25 @@ public abstract class SpriteBase {
     public double getY() {
         return y;
     }
+
+
+    public double getR() {
+        return r;
+    }
     
+    public void setWidth(double width) {
+        this.width = width; 
+    }
+    
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
 }

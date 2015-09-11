@@ -1,6 +1,5 @@
 package model;
 
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 /**
@@ -73,16 +72,15 @@ public class Monster extends GravityObject {
 	 * @param bubble the bubble that is shot from the character.
 	 */
 	public void checkCollision(final Bubble bubble) {
-		Image bubbleImage = bubble.getImage();
 		double bubbleX = bubble.getX();
 		double bubbleY = bubble.getY();
-		double bubbleX2 = bubbleX + bubbleImage.getWidth();
-		double bubbleY2 = bubbleY + bubbleImage.getHeight();
+		double bubbleX2 = bubbleX + getWidth();
+		double bubbleY2 = bubbleY + getHeight();
 		if ((bubble.getAbleToCatch() && !caughtByBubble 
-				&& (bubbleX >= x && bubbleX <= x + image.getWidth()) 
-				|| (bubbleX2 >= x && bubbleX2 <= x + image.getWidth())) 
-				&& ((bubbleY >= y && bubbleY <= y + image.getHeight()) 
-				|| bubbleY2 >= y && bubbleY2 <= y + image.getHeight())) {
+				&& (bubbleX >= x && bubbleX <= x + getWidth())
+				|| (bubbleX2 >= x && bubbleX2 <= x + getWidth()))
+				&& ((bubbleY >= y && bubbleY <= y + getHeight())
+				|| bubbleY2 >= y && bubbleY2 <= y + getHeight())) {
 			prisonBubble = bubble;
 			caughtByBubble = true;
 		}

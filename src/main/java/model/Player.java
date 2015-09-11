@@ -4,7 +4,6 @@ import controller.LevelController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -109,10 +108,10 @@ public class Player extends GravityObject {
 
         // calculate movement bounds of the player
         // allow half of the player to be outside of the screen
-        playerMinX = 0 - image.getWidth() / 2.0;
-        playerMaxX = Settings.SCENE_WIDTH - image.getWidth() / 2.0;
-        playerMinY = 0 - image.getHeight() / 2.0;
-        playerMaxY = Settings.SCENE_HEIGHT - image.getHeight() / 2.0;
+        playerMinX = 0 - getWidth() / 2.0;
+        playerMaxX = Settings.SCENE_WIDTH - getWidth() / 2.0;
+        playerMinY = 0 - getHeight() / 2.0;
+        playerMaxY = Settings.SCENE_HEIGHT - getHeight() / 2.0;
 
     }
 
@@ -144,7 +143,7 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(x, x + image.getWidth(), y - calculateGravity(), y + image.getHeight() - calculateGravity())) {
+        if (!levelController.causesCollision(x, x + getWidth(), y - calculateGravity(), y + getHeight() - calculateGravity())) {
             this.y -= calculateGravity();
         }
 
@@ -191,14 +190,14 @@ public class Player extends GravityObject {
      */
     public void checkCollideMonster(final Monster monster) {
     	double monsterX = monster.getX();
-    	double monsterMaxX = monsterX + monster.getImage().getWidth();
+    	double monsterMaxX = monsterX + monster.getWidth();
     	double monsterY = monster.getY();
-    	double monsterMaxY = monsterY + monster.getImage().getHeight();
+    	double monsterMaxY = monsterY + monster.getHeight();
 
-    	if (((monsterX > x && monsterX < x + image.getWidth()) 
-    			|| (monsterMaxX > x && monsterMaxX < x + image.getWidth())) 
-    			&& ((monsterY > y && monsterY < y + image.getHeight()) 
-    			|| (monsterMaxY > y && monsterMaxX < y + image.getHeight()))) {
+    	if (((monsterX > x && monsterX < x + getWidth())
+    			|| (monsterMaxX > x && monsterMaxX < x + getWidth()))
+    			&& ((monsterY > y && monsterY < y + getHeight())
+    			|| (monsterMaxY > y && monsterMaxX < y + getHeight()))) {
     		die();
     	}
 
@@ -210,7 +209,8 @@ public class Player extends GravityObject {
     public void die() {
         this.isDead = true;
         counter = 0;
-        image = new Image(getClass().getResource("/BubbleBobbleLogo.png").toExternalForm());
+        image = "/BubbleBobbleLogo.png";
+        //refresh sprite
     }
 
 
@@ -235,29 +235,29 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp()) {
-            if (!levelController.causesCollision(x, x + image.getWidth(), y - speed, y + image.getHeight() - speed)) {
+            if (!levelController.causesCollision(x, x + getWidth(), y - speed, y + getHeight() - speed)) {
                 dy = -speed;
             } else {
                 dy = 0;
             }
 
             if (facingRight) {
-                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+                image = "/BubRight.png";
             } else {
-                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+                image = "/BubLeft.png";
             }
         } else if (input.isMoveDown()) {
 
-            if (!levelController.causesCollision(x, x + image.getWidth(), y + speed, y + image.getHeight() + speed)) {
+            if (!levelController.causesCollision(x, x + getWidth(), y + speed, y + getHeight() + speed)) {
                 dy = speed;
             } else {
                 dy = 0;
             }
 
             if (facingRight) {
-                image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+                image = "/BubRight.png";
             } else {
-                image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+                image = "/BubLeft.png";
             }
         } else {
             dy = 0d;
@@ -269,22 +269,22 @@ public class Player extends GravityObject {
      */
     private void moveHorizontal() {
         if (input.isMoveLeft()) {
-            if (!levelController.causesCollision(x - speed, x + image.getWidth() - speed, y, y + image.getHeight())) {
+            if (!levelController.causesCollision(x - speed, x + getWidth() - speed, y, y + getHeight())) {
                 dx = -speed;
             } else {
                 dx = 0;
             }
 
-            image = new Image(getClass().getResource("/BubLeft.png").toExternalForm());
+            image = "/BubLeft.png";
             facingRight = false;
         } else if (input.isMoveRight()) {
-            if (!levelController.causesCollision(x + speed, x + image.getWidth() + speed, y, y + image.getHeight())) {
+            if (!levelController.causesCollision(x + speed, x + getWidth() + speed, y, y + getHeight())) {
                 dx = speed;
             } else {
                 dx = 0;
             }
 
-            image = new Image(getClass().getResource("/BubRight.png").toExternalForm());
+            image = "/BubRight.png";
             facingRight = true;
         } else {
             dx = 0d;

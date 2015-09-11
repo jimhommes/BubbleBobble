@@ -128,11 +128,11 @@ public class Level {
      * The function that returns the arraylist of monsters.
      * @return The arraylist of monsters.
      */
-    public ArrayList<Monster> getMonsters() {
+    public ArrayList getMonsters() {
         return monsters;
     }
 
-    public ArrayList<Wall> getWalls() {
+    public ArrayList getWalls() {
         return walls;
     }
 }
