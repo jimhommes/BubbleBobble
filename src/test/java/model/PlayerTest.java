@@ -134,7 +134,7 @@ public class PlayerTest extends TestCase {
         assertFalse(player.getDead());
         player.die();
         assertTrue(player.getDead());
-        assertTrue(player.getImagePath().equals("/BubbleBobbleLogo.png"));
+        assertTrue(player.getImagePath().equals("/BubbleBobbleDeath.png"));
     }
 
     /**
