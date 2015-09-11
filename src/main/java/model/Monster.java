@@ -55,13 +55,12 @@ public class Monster extends GravityObject {
 	 * @param bubble the bubble that is shot from the character.
 	 */
 	public void checkCollision(final Bubble bubble) {
-		if(bubble.getAbleToCatch()) {
+		if(bubble.getAbleToCatch() && !caughtByBubble) {
 			double bubbleX = bubble.getX();
 			double bubbleY = bubble.getY();
 			double bubbleX2 = bubbleX + getWidth();
 			double bubbleY2 = bubbleY + getHeight();
-			if ((!caughtByBubble
-					&& (bubbleX >= getX() && bubbleX <= getX() + getWidth())
+			if (((bubbleX >= getX() && bubbleX <= getX() + getWidth())
 					|| (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
 					&& ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
 					|| bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
