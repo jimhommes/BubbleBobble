@@ -1,12 +1,7 @@
 package model;
 
 import controller.LevelController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -96,6 +91,7 @@ public class Player extends GravityObject {
     	if (!isDead) {
     		moveVertical();
             moveHorizontal();
+            checkFirePrimary();
         } else {
             checkIfGameOver();
         }
@@ -219,13 +215,6 @@ public class Player extends GravityObject {
         } else {
             setDx(0d);
         }
-
-        if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController));
-            counter = 0;
-        } else {
-            counter++;
-        }
     }
 
     /**
@@ -234,15 +223,21 @@ public class Player extends GravityObject {
     private void checkIfGameOver() {
         if (counter > 50) {
             gameOver = true;
-            Stage stage = (Stage) levelController.getPlayfieldLayer().getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setScene(new Scene(root));
-            stage.show();
+            levelController.gameOver();
+        } else {
+            counter++;
+        }
+    }
+
+    /**
+     * This function checks if it should fire a bubble.
+     */
+    private void checkFirePrimary() {
+        if (input.isFirePrimaryWeapon() && counter > 30) {
+            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
+            bubbles.add(bubble);
+            levelController.getScreenController().addToSprites(bubble);
+            counter = 0;
         } else {
             counter++;
         }
@@ -271,4 +266,5 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
+
 }
