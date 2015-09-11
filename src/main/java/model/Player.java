@@ -188,7 +188,7 @@ public class Player extends GravityObject {
             if (ableToJump) {
                 ableToJump = false;
                 jumping = true;
-                setDy(-3 * speed);
+                setDy(-Settings.JUMP_SPEED);
                 jumpCounter = 0;
             }
         }

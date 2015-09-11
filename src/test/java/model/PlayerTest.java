@@ -62,7 +62,7 @@ public class PlayerTest extends TestCase {
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         assertEquals(-Settings.PLAYER_SPEED, player.getDx());
-        assertEquals(Settings.PLAYER_SPEED, player.getDy());
+        assertEquals(0.0, player.getDy());
         assertEquals(0.0, player.getX());
         assertEquals(0.0, player.getY());
     }
@@ -88,12 +88,11 @@ public class PlayerTest extends TestCase {
      */
     @Test
     public void testMove() throws Exception {
-        when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         player.move();
         assertEquals(-Settings.PLAYER_SPEED, player.getX());
-        assertEquals(Settings.PLAYER_SPEED - player.calculateGravity(), player.getY());
+        assertEquals(0.0 - player.calculateGravity(), player.getY());
     }
 
     /**
@@ -181,20 +180,6 @@ public class PlayerTest extends TestCase {
 
         player.processInput();
         player.move();
-        assertEquals(0.0, player.getX());
-    }
-
-    /**
-     * Tests what happens when the player moves upwards.
-     * @throws Exception .
-     */
-    @Test
-    public void testMoveUp() throws Exception {
-        when(input.isMoveUp()).thenReturn(true);
-        player.processInput();
-        player.move();
-
-        assertEquals(-Settings.PLAYER_SPEED - player.calculateGravity(), player.getY());
         assertEquals(0.0, player.getX());
     }
 
