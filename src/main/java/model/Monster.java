@@ -20,6 +20,7 @@ public class Monster extends GravityObject {
 
 	/**
 	 * The monster that is trying to catch the character.
+	 * @param imagePath the path to the image.
 	 * @param x The x coordinate.
 	 * @param y The y coordinate.
 	 * @param r The rotation.

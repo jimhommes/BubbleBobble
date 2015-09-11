@@ -21,6 +21,7 @@ public class Walker extends Monster {
      * @param dr The dr of r.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
+     * @param levelController The controllers that controls the level.
      */
     public Walker(double x,
                   double y,

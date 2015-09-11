@@ -139,7 +139,7 @@ public class Level {
 
     /**
      * This method gets the walls in the game.
-     * @return
+     * @return The walls in the game.
      */
     public ArrayList getWalls() {
         return walls;
