@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Launcher extends Application {
 
     /**
-     * The main method just launches the application.
+     * The main method just l   aunches the application.
      *
      * @param args Command line arguments.
      */

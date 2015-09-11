@@ -234,7 +234,7 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight);
+            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
             bubbles.add(bubble);
             levelController.getScreenController().addToSprites(bubble);
             counter = 0;

@@ -1,15 +1,20 @@
 package model;
 
+import controller.LevelController;
 import junit.framework.TestCase;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by toinehartman on 11/09/15.
  */
 public class BubbleTest extends TestCase {
     private static Bubble bubble;
+    private static LevelController levelController;
 
     public void setUp() {
-        bubble = new Bubble(1, 1, 0, 0, 0, 0, true);
+        levelController = mock(LevelController.class);
+        bubble = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
     }
 
     public void testMove() {
