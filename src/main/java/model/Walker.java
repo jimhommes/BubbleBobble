@@ -11,7 +11,10 @@ import controller.LevelController;
  */
 public class Walker extends Monster {
 
-    LevelController levelController;
+    /**
+     * This is the levelController.
+     */
+    private LevelController levelController;
 
     /**
      * A walking monster.
@@ -23,6 +26,7 @@ public class Walker extends Monster {
      * @param dr The dr of r.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
+     * @param levelController The controllers that controls the level.
      */
     public Walker(double x,
                   double y,
@@ -42,38 +46,48 @@ public class Walker extends Monster {
      */
     public void move() {
         if (!isCaughtByBubble()) {
-            if (isFacingRight()) {
-                if (!levelController.causesCollision(getX() + getSpeed(), getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
-                    setDx(getSpeed());
-                } else {
-                    switchDirection();
-                }
-            } else {
-                if (!levelController.causesCollision(getX() - getSpeed(), getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
-                    setDx(-getSpeed());
-                } else {
-                    switchDirection();
-                }
-            }
-
-            if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-                setDy(-calculateGravity());
-            } else {
-                setDy(0);
-            }
-
-
+            moveHorizontal();
+            moveVertical();
         } else {
             setDx(0);
             setDy(0);
             setX(getPrisonBubble().getX());
             setY(getPrisonBubble().getY());
         }
-
-
-
-
         super.move();
+    }
+
+    /**
+     * This function handles the vertical movement.
+     */
+    private void moveVertical() {
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+            setDy(-calculateGravity());
+        } else {
+            setDy(0);
+        }
+    }
+
+    /**
+     * This function handles the horizontal movement.
+     */
+    private void moveHorizontal() {
+        if (isFacingRight()) {
+            if (!levelController.causesCollision(getX() + getSpeed(),
+                    getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
+                setDx(getSpeed());
+            } else {
+                switchDirection();
+            }
+        } else {
+            if (!levelController.causesCollision(getX() - getSpeed(),
+                    getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
+                setDx(-getSpeed());
+            } else {
+                switchDirection();
+            }
+        }
     }
 
     /**

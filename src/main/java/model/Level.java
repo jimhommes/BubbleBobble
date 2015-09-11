@@ -1,7 +1,6 @@
 package model;
 
 import controller.LevelController;
-import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +38,6 @@ public class Level {
      * The map in a 2 dim array.
      */
     private Integer[][] map;
-    private final Pane playfieldLayer;
 
     /**
      * The title of the file that is loaded.
@@ -59,15 +57,14 @@ public class Level {
     /**
      * When a level is created in the levelcontroller, it is immediately drawn.
      * @param lvlTitle The title of the file.
-     * @param playfieldLayer The field where the play will happen.
+     * @param levelController the controller that controls the level.
      */
-    public Level(final String lvlTitle, final Pane playfieldLayer, final LevelController levelController) {
+    public Level(final String lvlTitle, 
+    		final LevelController levelController) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
-        this.playfieldLayer = playfieldLayer;
         this.levelController = levelController;
-
         drawMap();
     }
 
@@ -81,10 +78,12 @@ public class Level {
                 if (map[row][col] == 1) {
                     walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
+                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
+                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                     		Settings.MONSTER_SPEED, false, levelController));
                 }
             }
@@ -133,14 +132,22 @@ public class Level {
         return monsters;
     }
 
+    /**
+     * This method gets the walls in the game.
+     * @return The walls in the game.
+     */
     public ArrayList getWalls() {
         return walls;
     }
 
+    /**
+     * This method updates the monster list, to see if all the monsters have died.
+     * @return true is the monster list is empty.
+     */
     public boolean update() {
         ArrayList<Monster> newMonsters = new ArrayList<>();
         monsters.forEach(monster -> {
-            if(!monster.isDead()) {
+            if (!monster.isDead()) {
                 newMonsters.add(monster);
             }
         });

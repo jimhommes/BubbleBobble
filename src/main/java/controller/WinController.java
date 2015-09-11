@@ -9,9 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.net.URL;
 
@@ -23,20 +21,10 @@ import java.net.URL;
 public class WinController implements Initializable {
 
     /**
-     * The game over screen.
-     */
-    @FXML private GridPane winScreen;
-
-    /**
      * The @FXML annotation links the view element to this object in the controller.
      * The variable name of the object has to match the fx:id of the view element.
      */
     @FXML private AnchorPane root;
-
-    /**
-     * The ImageView is the skull that is shown on the game over screen.
-     */
-    @FXML private ImageView winImage;
 
     /**
      * The restart button. When pressed the game will restart.
