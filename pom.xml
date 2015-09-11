@@ -6,7 +6,7 @@
 
     <groupId>nl.tudelft.BubbleBobble</groupId>
     <artifactId>BubbleBobble</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
 
     <prerequisites>
         <maven>2.2.1</maven>
