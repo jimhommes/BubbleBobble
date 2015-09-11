@@ -14,6 +14,7 @@ target/
 .idea/tasks.xml
 .idea/dictionaries
 .idea/compiler.xml
+.idea/codeStyleSettings.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
