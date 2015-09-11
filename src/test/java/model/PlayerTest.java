@@ -39,21 +39,34 @@ public class PlayerTest extends TestCase {
     }
 
     /**
-     * Tests the process when the player is not dead.
+     * Tests the process when the player is not dead, 
+     * and checks that correct dx and dy are returned. .
      * @throws Exception .
      */
     @Test
-    public void testProcessInputNotDead() throws Exception {
+    public void testProcessInputNotDeadGetDs() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         assertEquals(0.0, player.getDy());
         assertEquals(0.0, player.getDx());
+    }
+    
+    /**
+     * This test process when the player is not dead, 
+     * and checks that the correct x and y are returned. 
+     * @throws Exception .
+     */
+    @Test
+    public void testProcessInputNotDeadGetXY() throws Exception {
+        when(input.isMoveDown()).thenReturn(true);
+        when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         assertEquals(-Settings.PLAYER_SPEED, player.getDx());
         assertEquals(Settings.PLAYER_SPEED, player.getDy());
         assertEquals(0.0, player.getX());
         assertEquals(0.0, player.getY());
     }
+    
 
     /**
      * Tests the process when the player is dead.
@@ -91,7 +104,7 @@ public class PlayerTest extends TestCase {
     public void testGetBubbles() throws Exception {
         when(input.isFirePrimaryWeapon()).thenReturn(true);
         when(levelController.getScreenController()).thenReturn(screenController);
-        assertTrue(player.getBubbles().size() == 0);
+        assertSame(player.getBubbles().size(), 0);
         player.processInput();
         assertTrue(player.getBubbles().size() > 0);
     }

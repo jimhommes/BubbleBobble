@@ -39,7 +39,6 @@ public class Level {
      * The map in a 2 dim array.
      */
     private Integer[][] map;
-    private final Pane playfieldLayer;
 
     /**
      * The title of the file that is loaded.
@@ -67,9 +66,7 @@ public class Level {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
-        this.playfieldLayer = playfieldLayer;
         this.levelController = levelController;
-
         drawMap();
     }
 
