@@ -2,6 +2,9 @@ package model;
 
 import javafx.scene.Scene;
 import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import java.util.BitSet;
@@ -13,13 +16,14 @@ import static org.mockito.Mockito.when;
  * Created by toinehartman on 11/09/15.
  */
 public class InputTest extends TestCase {
-    private static BitSet keyboardBitSet;
-    @Mock private static Scene scene;
-    @InjectMocks private static Input input;
+    private BitSet keyboardBitSet;
+    @Mock private Scene scene;
+    @InjectMocks private Input input;
 
     /**
      * This is run before all the tests to initialize them.
      */
+    @Before
     public void setUp() {
         input = new Input(scene);
         keyboardBitSet = mock(BitSet.class);
@@ -29,6 +33,7 @@ public class InputTest extends TestCase {
     /**
      * This tests that the input isn't null.
      */
+    @Test
     public void testInput() {
         assertNotNull(input);
     }
@@ -37,6 +42,7 @@ public class InputTest extends TestCase {
     /**
      * This tests what happens when the input is either the up or the down button.
      */
+    @Test
     public void testIsMoveUpDown() {
         when(keyboardBitSet.get(Input.UP_KEY.ordinal())).thenReturn(true);
         when(keyboardBitSet.get(Input.DOWN_KEY.ordinal())).thenReturn(false);
@@ -66,6 +72,7 @@ public class InputTest extends TestCase {
     /**
      * This tests what happens when the input is either the left or the right button.
      */
+    @Test
     public void testIsMoveLeftRight() {
         when(keyboardBitSet.get(Input.LEFT_KEY.ordinal())).thenReturn(true);
         when(keyboardBitSet.get(Input.RIGHT_KEY.ordinal())).thenReturn(false);
@@ -95,6 +102,7 @@ public class InputTest extends TestCase {
     /**
      * This tests if the bubbles can be shot.
      */
+    @Test
     public void testIsFirePrimaryWeapon() {
         when(keyboardBitSet.get(Input.PRIMARY_WEAPON_KEY.ordinal())).thenReturn(true);
         assertTrue(input.isFirePrimaryWeapon());
@@ -106,6 +114,7 @@ public class InputTest extends TestCase {
     /**
      * This tests if the bubbles can be shot as a secondary weapon.
      */
+    @Test
     public void testIsFireSecondaryWeapon() {
         when(keyboardBitSet.get(Input.SECONDARY_WEAPON_KEY.ordinal())).thenReturn(true);
         assertTrue(input.isFireSecondaryWeapon());

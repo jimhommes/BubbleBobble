@@ -1,6 +1,8 @@
 package model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,7 +36,7 @@ public class WalkerTest {
 	@Test
 	public void testSwitchingDirectionFalse() {
 		walker.switchDirection();
-		assertEquals(false, walker.isFacingRight());
+		assertFalse(walker.isFacingRight());
 	}
 	
 	/**
@@ -44,7 +46,7 @@ public class WalkerTest {
 	public void testSwitchingDirectionTrue() {
 		walker.setFacingRight(false);
 		walker.switchDirection();
-		assertEquals(true, walker.isFacingRight());
+		assertTrue(walker.isFacingRight());
 	}
 
 	/**

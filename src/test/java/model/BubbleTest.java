@@ -2,6 +2,9 @@ package model;
 
 import static org.mockito.Mockito.mock;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import controller.LevelController;
 import junit.framework.TestCase;
 
@@ -9,12 +12,13 @@ import junit.framework.TestCase;
  * Created by toinehartman on 11/09/15.
  */
 public class BubbleTest extends TestCase {
-    private static Bubble bubbleRight;
-    private static Bubble bubbleLeft;
+    private Bubble bubbleRight;
+    private Bubble bubbleLeft;
     
     /**
      * This method is run before all the tests to initialize them.
      */
+    @Before
     public void setUp() {
     	LevelController levelController = mock(LevelController.class);
         bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
@@ -24,6 +28,7 @@ public class BubbleTest extends TestCase {
     /**
      * This tests what happens when a bubble moves right.
      */
+    @Test
     public void testMoveRight() {
         assertTrue(bubbleRight.getAbleToCatch());
 
@@ -42,6 +47,7 @@ public class BubbleTest extends TestCase {
     /**
      * This tests what happens when a bubble moves left.
      */
+    @Test
     public void testMoveLeft() {
         assertTrue(bubbleLeft.getAbleToCatch());
 
@@ -60,6 +66,7 @@ public class BubbleTest extends TestCase {
     /**
      * This tests if a bubble is able to catch a monster or not.
      */
+    @Test
     public void testSetAbleToCatch() {
         bubbleRight.setAbleToCatch(false);
         assertFalse(bubbleRight.getAbleToCatch());

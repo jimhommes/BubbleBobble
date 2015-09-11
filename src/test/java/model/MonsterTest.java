@@ -3,6 +3,9 @@ package model;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import controller.LevelController;
 import junit.framework.TestCase;
 
@@ -14,13 +17,13 @@ import junit.framework.TestCase;
  */
 public class MonsterTest extends TestCase {
 
-	private static Monster monster;
-	private static Input input;
+	private Monster monster;
 	
     /**
      * This is run before all the tests to initialize them.
      * @throws Exception .
      */
+	@Before
 	public void setUp() throws Exception {
 		LevelController levelController = mock(LevelController.class);
 		monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, 
@@ -31,6 +34,7 @@ public class MonsterTest extends TestCase {
 	 * This tests that collisions can occur.
 	 * @throws Exception .
 	 */
+	@Test
 	public void testCheckCollision1() throws Exception {
 		Bubble bubble = mock(Bubble.class);
 		when(bubble.getX()).thenReturn(1.0);
@@ -49,6 +53,7 @@ public class MonsterTest extends TestCase {
 	 * This tests that collisions occur.
 	 * @throws Exception .
 	 */
+	@Test
 	public void testCheckCollision2() throws Exception {
 		Bubble bubble = mock(Bubble.class);
 		when(bubble.getX()).thenReturn(1.0);
@@ -65,6 +70,7 @@ public class MonsterTest extends TestCase {
 	 * This tests if the monster is facing right.
 	 * @throws Exception .
 	 */
+	@Test
 	public void testIsFacingRight() throws Exception {
 		assertTrue(monster.isFacingRight());
 		monster.setFacingRight(false);
@@ -75,6 +81,7 @@ public class MonsterTest extends TestCase {
 	 * This tests the getspeed method. 
 	 * @throws Exception .
 	 */
+	@Test
 	public void testGetSpeed() throws Exception {
 		assertEquals(monster.getSpeed(), Settings.MONSTER_SPEED, 0);
 	}
@@ -83,6 +90,7 @@ public class MonsterTest extends TestCase {
 	 * This tests that the monsters move. 
 	 * @throws Exception .
 	 */
+	@Test
 	public void testMove() throws Exception {
 		monster.move();
 		assertEquals(monster.getX(), 2, 0);
@@ -92,6 +100,7 @@ public class MonsterTest extends TestCase {
 	 * This tests getting the rotation.
 	 * @throws Exception .
 	 */
+	@Test
 	public void testR() throws Exception {
     	monster.setR(10);
     	assertEquals(10.0, monster.getR());
@@ -103,6 +112,7 @@ public class MonsterTest extends TestCase {
 	 * This tests getting the height and width.
 	 * @throws Exception .
 	 */
+	@Test
     public void testHeightWidth() throws Exception {
     	monster.setHeight(100);
     	assertEquals(100.0, monster.getHeight());
@@ -114,6 +124,7 @@ public class MonsterTest extends TestCase {
      * This tests that the sprite changed.
      * @throws Exception .
      */
+	@Test
     public void testSpriteChanged() throws Exception {
     	monster.setSpriteChanged(false);
     	assertFalse(monster.getSpriteChanged());
@@ -123,6 +134,7 @@ public class MonsterTest extends TestCase {
      * This tests if the monster can actually move.
      * @throws Exception .
      */
+	@Test
     public void testCanMove() throws Exception {
     	monster.setCanMove(false);
     	monster.move();

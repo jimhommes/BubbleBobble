@@ -216,13 +216,11 @@ public class Player extends GravityObject {
      * This function checks how to move vertically.
      */
     private void moveVertical() {
-        if (input.isMoveUp()) {
-            if (ableToJump) {
+        if (input.isMoveUp() && ableToJump) {
                 ableToJump = false;
                 jumping = true;
                 setDy(-Settings.JUMP_SPEED);
                 jumpCounter = 0;
-            }
         }
         if (facingRight) {
             setImage("/BubRight.png");
