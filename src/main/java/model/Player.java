@@ -60,6 +60,7 @@ public class Player extends GravityObject {
      * @param dr The dr.
      * @param speed The speed of the player.
      * @param input The input the player will use.
+     * @param levelController The controller that controls the level.
      */
     public Player(double x,
                   double y,
@@ -79,6 +80,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.isDead = false;
         this.gameOver = false;
+        this.facingRight = true;
         this.levelController = levelController;
 
     }
@@ -91,6 +93,7 @@ public class Player extends GravityObject {
     	if (!isDead) {
     		moveVertical();
             moveHorizontal();
+            checkFirePrimary();
         } else {
             checkIfGameOver();
         }
@@ -103,7 +106,8 @@ public class Player extends GravityObject {
     @Override
     public void move() {
 
-        if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
+        if (!levelController.causesCollision(getX(), getX() + getWidth(), 
+        		getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setY(getY() - calculateGravity());
         }
 
@@ -122,14 +126,18 @@ public class Player extends GravityObject {
     	double monsterMaxY = monsterY + monster.getHeight();
 
     	if (((monsterX > getX() && monsterX < getX() + getWidth())
-    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) ||
-                (getX() > monsterX && getX() < monsterMaxX) ||
-                (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
+    			|| (monsterMaxX > getX() && monsterMaxX < getX() + getWidth()) 
+    			|| (getX() > monsterX && getX() < monsterMaxX) 
+                || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
     			&& ((monsterY > getY() && monsterY < getY() + getHeight())
-    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) ||
-                (getY() > monsterY && getY() < monsterMaxX) ||
-                (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
-    		die();
+    			|| (monsterMaxY > getY() && monsterMaxX < getY() + getHeight()) 
+    			|| (getY() > monsterY && getY() < monsterMaxX) 
+                || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
+    		if (!monster.isCaughtByBubble()) {
+                die();
+            } else {
+                monster.die();
+            }
     	}
 
     }
@@ -156,14 +164,12 @@ public class Player extends GravityObject {
             } else {
                 setDy(0);
             }
-
             if (facingRight) {
                 setImage("/BubRight.png");
             } else {
                 setImage("/BubLeft.png");
             }
         } else if (input.isMoveDown()) {
-
             if (!levelController.causesCollision(getX(),
                     getX() + getWidth(),
                     getY() + speed,
@@ -172,7 +178,6 @@ public class Player extends GravityObject {
             } else {
                 setDy(0);
             }
-
             if (facingRight) {
                 setImage("/BubRight.png");
             } else {
@@ -214,13 +219,6 @@ public class Player extends GravityObject {
         } else {
             setDx(0d);
         }
-
-        if (input.isFirePrimaryWeapon() && counter > 30) {
-            bubbles.add(new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight));
-            counter = 0;
-        } else {
-            counter++;
-        }
     }
 
     /**
@@ -230,6 +228,20 @@ public class Player extends GravityObject {
         if (counter > 50) {
             gameOver = true;
             levelController.gameOver();
+        } else {
+            counter++;
+        }
+    }
+
+    /**
+     * This function checks if it should fire a bubble.
+     */
+    private void checkFirePrimary() {
+        if (input.isFirePrimaryWeapon() && counter > 30) {
+            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
+            bubbles.add(bubble);
+            levelController.getScreenController().addToSprites(bubble);
+            counter = 0;
         } else {
             counter++;
         }

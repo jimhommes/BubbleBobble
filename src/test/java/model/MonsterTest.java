@@ -25,7 +25,7 @@ public class MonsterTest extends TestCase {
 	
 	public void setUp() throws Exception{
 		LevelController levelController = mock(LevelController.class);
-		monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, Settings.MONSTER_SPEED, true);
+		monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, Settings.MONSTER_SPEED, true, levelController);
 	}
 	
 	public void testCheckCollision1() throws Exception {

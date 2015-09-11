@@ -21,10 +21,5 @@ public class LevelControllerTest {
 	public static void before() {
 		lc = new LevelController();
 	}
-	
-	@Test
-	public void testGamePaused() {
-		assertEquals(false, lc.checkGamePaused());
-	}	
 
 }

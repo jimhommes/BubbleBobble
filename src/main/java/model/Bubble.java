@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -26,6 +28,11 @@ public class Bubble extends SpriteBase {
     private boolean ableToCatch;
 
     /**
+     * The levelController that created the player.
+     */
+    private LevelController levelController;
+
+    /**
      * The bubble that will be shot to catch the monsters.
      * @param x The x coordinate 
      * @param y The y coordinate
@@ -34,6 +41,7 @@ public class Bubble extends SpriteBase {
      * @param dy The dy of y
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
+     * @param levelController that controller of the level where the bubble is in.
      */
     public Bubble(double x,
                   double y,
@@ -41,12 +49,14 @@ public class Bubble extends SpriteBase {
                   double dx,
                   double dy,
                   double dr,
-                  boolean firedRight) {
+                  boolean firedRight,
+                  LevelController levelController) {
         super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+        this.levelController = levelController;
 
     }
 
@@ -56,18 +66,52 @@ public class Bubble extends SpriteBase {
     public void move() {
         if (counter < 30) {
             counter++;
-            if (firedRight) {
-                setDx(7);
-            } else {
-                setDx(-7);
-            }
+            moveHorizontally();
         } else {
-            setDx(0);
-            setDy(-5);
-            ableToCatch = false;
+            moveVertically();
         }
 
         super.move();
+    }
+
+    /**
+     * This function handles the vertical movement.
+     */
+    private void moveVertically() {
+        setDx(0);
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+                getY() - Settings.BUBBLE_FLY_SPEED,
+                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+            setDy(-Settings.BUBBLE_FLY_SPEED);
+        } else {
+            setDy(0);
+        }
+        ableToCatch = false;
+    }
+
+    /**
+     * This function handles the horizontal movement.
+     */
+    private void moveHorizontally() {
+        if (firedRight) {
+            if (!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+                    getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    getY(),
+                    getY() + getHeight())) {
+                setDx(Settings.BUBBLE_INIT_SPEED);
+            } else {
+                setDx(0);
+            }
+        } else {
+            if (!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+                    getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    getY(),
+                    getY() + getHeight())) {
+                setDx(-Settings.BUBBLE_INIT_SPEED);
+            } else {
+                setDx(0);
+            }
+        }
     }
 
     /**
@@ -85,4 +129,5 @@ public class Bubble extends SpriteBase {
     public boolean getAbleToCatch() {
         return ableToCatch;
     }
+
 }

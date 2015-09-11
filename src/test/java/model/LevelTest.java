@@ -9,7 +9,7 @@ public class LevelTest extends TestCase {
     private static Level level;
 
     public void setUp() {
-        level = new Level("map1.txt");
+        level = new Level("map1.txt", null);
     }
 
     public void testDrawMap() {

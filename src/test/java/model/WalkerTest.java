@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import controller.LevelController;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,7 +16,8 @@ public class WalkerTest {
 	
 	@BeforeClass
 	public static void before() {
-		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true);
+		LevelController levelcontroller = mock(LevelController.class);
+		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelcontroller);
 	}
 	
 	@Test

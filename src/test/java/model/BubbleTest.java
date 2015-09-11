@@ -1,5 +1,8 @@
 package model;
 
+import static org.mockito.Mockito.mock;
+
+import controller.LevelController;
 import junit.framework.TestCase;
 
 /**
@@ -8,10 +11,12 @@ import junit.framework.TestCase;
 public class BubbleTest extends TestCase {
     private static Bubble bubbleRight;
     private static Bubble bubbleLeft;
+    
 
     public void setUp() {
-        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true);
-        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false);
+    	LevelController levelController = mock(LevelController.class);
+        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
+        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, levelController);
     }
 
     public void testMoveRight() {
