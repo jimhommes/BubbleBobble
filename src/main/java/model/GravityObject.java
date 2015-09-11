@@ -5,7 +5,7 @@ package model;
  */
 public abstract class GravityObject extends SpriteBase {
 
-    private static final float GRAVITY_CONSTANT = 2.f;
+    private static final float GRAVITY_CONSTANT = 5.f;
 
     /**
      * The constructor that takes all parameters and creates a SpriteBase.

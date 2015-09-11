@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Player extends GravityObject {
 
+    private boolean jumping;
     /**
      * The input that defines the movement of the player.
      */
@@ -83,6 +84,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.jumpCounter = 30;
         this.ableToJump = false;
+        this.jumping = false;
         this.isDead = false;
         this.gameOver = false;
         this.facingRight = true;
@@ -103,6 +105,7 @@ public class Player extends GravityObject {
 
             if (jumpCounter == 12) {
                 setDy(0);
+                jumping = false;
             }
 
     		moveVertical();
@@ -121,10 +124,14 @@ public class Player extends GravityObject {
     public void move() {
 
         if (!levelController.causesCollision(getX(), getX() + getWidth(), getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-            setY(getY() - calculateGravity());
+            if(!jumping) {
+                setY(getY() - calculateGravity());
+            }
             ableToJump = false;
         } else {
-            ableToJump = true;
+            if(!jumping) {
+                ableToJump = true;
+            }
         }
 
         super.move();
@@ -174,6 +181,7 @@ public class Player extends GravityObject {
         if (input.isMoveUp()) {
             if (ableToJump) {
                 ableToJump = false;
+                jumping = true;
                 setDy(-3 * speed);
                 jumpCounter = 0;
             }
@@ -198,7 +206,9 @@ public class Player extends GravityObject {
                     getY() + getHeight())) {
                 setDx(-speed);
             } else {
-                setDx(0);
+                if(!jumping) {
+                    setDx(0);
+                }
             }
 
             setImage("/BubLeft.png");
@@ -210,7 +220,9 @@ public class Player extends GravityObject {
                     getY() + getHeight())) {
                 setDx(speed);
             } else {
-                setDx(0);
+                if(!jumping) {
+                    setDx(0);
+                }
             }
 
             setImage("/BubRight.png");
