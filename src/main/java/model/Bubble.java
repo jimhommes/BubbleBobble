@@ -9,12 +9,25 @@ package model;
  */
 public class Bubble extends SpriteBase {
 
+    /**
+     * The location of the image.
+     */
     static final String BUBBLE_SPRITE = "../bubble.png";
 
+    /**
+     * The counter that is needed for the movement of the bubble.
+     */
     private int counter;
 
+    /**
+     * This boolean indicates whether it is fired to the right.
+     */
     private boolean firedRight;
 
+    /**
+     * Only in the first stage of firing the bubble, the bubble is able to catch monsters.
+     * This boolean indicates if the bubble can catch a monster.
+     */
     private boolean ableToCatch;
 
     /**
