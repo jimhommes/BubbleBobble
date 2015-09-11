@@ -59,10 +59,11 @@ public class ScreenController {
     private void update(SpriteBase sprite) {
         ImageView image = images.get(sprites.indexOf(sprite));
         image.relocate(sprite.getX(), sprite.getY());
-        image.setImage(new Image(getClass().getResource(sprite.getImage()).toExternalForm()));
+        if(sprite.getSpriteChanged()) {
+            image.setImage(new Image(getClass().getResource(sprite.getImage()).toExternalForm()));
+            sprite.setSpriteChanged(false);
+        }
         image.setRotate(sprite.getR());
     }
-
-
 
 }

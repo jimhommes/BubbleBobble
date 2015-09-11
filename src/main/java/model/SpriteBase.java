@@ -72,6 +72,8 @@ public abstract class SpriteBase {
     
     private double height;
 
+    private boolean spriteChanged;
+
     /**
      * The constructor. It needs all the paramaters and creates the image where planned.
      * @param layer The layer the image moves in.
@@ -94,6 +96,7 @@ public abstract class SpriteBase {
         this.dx = dx;
         this.dy = dy;
         this.dr = dr;
+        this.spriteChanged = false;
 
 //        this.imageView = new ImageView(image);
 //        this.imageView.relocate(x, y);
@@ -179,5 +182,22 @@ public abstract class SpriteBase {
 
     public double getWidth() {
         return width;
+    }
+
+    public boolean getSpriteChanged() {
+        return spriteChanged;
+    }
+
+    public boolean isSpriteChanged() {
+        return spriteChanged;
+    }
+
+    public void setSpriteChanged(boolean spriteChanged) {
+        this.spriteChanged = spriteChanged;
+    }
+
+    public void setImage(final String imageLoc) {
+        image = imageLoc;
+        spriteChanged = true;
     }
 }
