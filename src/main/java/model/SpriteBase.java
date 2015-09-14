@@ -96,7 +96,7 @@ public abstract class SpriteBase {
         if (!canMove) {
             return;
         }
-
+        
         x += dx;
         y += dy;
         r += dr;
@@ -269,5 +269,13 @@ public abstract class SpriteBase {
      */
     public double getDr() {
         return dr;
+    }
+    
+    /**
+     * Sets the canMove.
+     * @param canMove The canMove.
+     */
+    public void setCanMove(Boolean canMove) {
+    	this.canMove = canMove;
     }
 }
