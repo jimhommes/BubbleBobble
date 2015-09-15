@@ -31,6 +31,10 @@ import java.util.ResourceBundle;
  * @since 9/5/2015
  * @version 0.1
  */
+
+/**
+ * This is the level controller. Here all the interactions with the level happens, and it's kind of the main controller.
+ */
 public class LevelController implements Initializable {
 
     /**

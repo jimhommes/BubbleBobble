@@ -18,6 +18,9 @@ import java.util.ResourceBundle;
  * Created by toinehartman on 01/09/15.
  */
 
+/**
+ * This is the StartScreen controller. This controller handles all 
+ */
 public class StartController implements Initializable {
 
     /**
