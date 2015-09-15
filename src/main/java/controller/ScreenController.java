@@ -112,4 +112,10 @@ public class ScreenController {
         images.remove(index);
         sprites.remove(index);
     }
+
+    public void removeSprites() {
+        sprites.clear();
+        images.clear();
+        playfieldLayer.getChildren().clear();
+    }
 }

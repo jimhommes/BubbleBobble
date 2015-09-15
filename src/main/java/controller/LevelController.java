@@ -190,7 +190,7 @@ public class LevelController implements Initializable {
                 if (!gameStarted) {
                     gameStarted = true;
                     createLvl();
-                    createPlayer();
+
                     startMessage.setVisible(false);
                     playfieldLayer.getScene().addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
@@ -208,6 +208,9 @@ public class LevelController implements Initializable {
     @SuppressWarnings("unchecked")
 	public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
+        screenController.removeSprites();
+
+        createPlayer();
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }
@@ -224,6 +227,7 @@ public class LevelController implements Initializable {
         double y = 200;
 
         Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+        players.clear();
         players.add(player);
         screenController.addToSprites(players);
     }
