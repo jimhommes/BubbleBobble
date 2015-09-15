@@ -1,17 +1,16 @@
 package model;
 
-import static org.mockito.Mockito.mock;
-
+import controller.LevelController;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.LevelController;
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by toinehartman on 11/09/15.
  */
-public class BubbleTest extends TestCase {
+public class BubbleTest {
     private Bubble bubbleRight;
     private Bubble bubbleLeft;
     
@@ -35,8 +34,8 @@ public class BubbleTest extends TestCase {
         for (int i = 1; i <= 30; i++) {
             bubbleRight.move();
 
-            assertEquals((double) 1.f + i * 7, bubbleRight.getX());
-            assertEquals((double) 1.f, bubbleRight.getY());
+            assertEquals((double) 1.f + i * 7, bubbleRight.getX(), 0.001);
+            assertEquals((double) 1.f, bubbleRight.getY(), 0.001);
         }
 
         assertTrue(bubbleRight.getAbleToCatch());
@@ -54,8 +53,8 @@ public class BubbleTest extends TestCase {
         for (int i = 1; i <= 30; i++) {
             bubbleLeft.move();
 
-            assertEquals((double) 1.f + i * -7, bubbleLeft.getX());
-            assertEquals((double) 1.f, bubbleLeft.getY());
+            assertEquals((double) 1.f + i * -7, bubbleLeft.getX(), 0.001);
+            assertEquals((double) 1.f, bubbleLeft.getY(), 0.001);
         }
 
         assertTrue(bubbleLeft.getAbleToCatch());

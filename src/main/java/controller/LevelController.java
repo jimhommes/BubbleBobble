@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Monster;
@@ -31,12 +32,19 @@ import java.util.ResourceBundle;
  * @since 9/5/2015
  * @version 0.1
  */
+
+/**
+ * This is the level controller.
+ * Here all the interactions with the level happens.
+ * It's kind of the main controller.
+ */
 public class LevelController implements Initializable {
 
     /**
      * The list of players in the game.
      */
-    private ArrayList players;
+    @SuppressWarnings("rawtypes")
+	private ArrayList players;
 
     /**
      * The message that says "Click when ready".
@@ -102,6 +110,9 @@ public class LevelController implements Initializable {
      */
     private ScreenController screenController;
 
+    /**
+     * The gameloop timer. This timer is the main timer.
+     */
     private AnimationTimer gameLoop;
     
     /**
@@ -141,7 +152,8 @@ public class LevelController implements Initializable {
      */
     private AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
@@ -149,9 +161,7 @@ public class LevelController implements Initializable {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
                         player.move();
-                        player.getBubbles().forEach(bubble -> {
-                            bubble.move();
-                        });
+                        player.getBubbles().forEach(Bubble::move);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
                         ((ArrayList<Player>) players).forEach(player -> {
@@ -195,7 +205,8 @@ public class LevelController implements Initializable {
     /**
      * This function creates the currLvl'th level.
      */
-    public final void createLvl() {
+    @SuppressWarnings("unchecked")
+	public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
@@ -204,7 +215,8 @@ public class LevelController implements Initializable {
     /**
      * The function that is used to create the player.
      */
-    private void createPlayer() {
+    @SuppressWarnings("unchecked")
+	private void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
@@ -263,7 +275,8 @@ public class LevelController implements Initializable {
      * @param maxY The highest Y
      * @return True if a collision was caused.
      */
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
             double wallMinX = wall.getX();
