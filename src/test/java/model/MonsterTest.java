@@ -1,23 +1,23 @@
 package model;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import controller.LevelController;
 import org.junit.Before;
 import org.junit.Test;
 
-import controller.LevelController;
-import junit.framework.TestCase;
-
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * 
  * @author jeffrey
  *
  */
-public class MonsterTest extends TestCase {
+public class MonsterTest {
 
 	private Monster monster;
+
+	private static double EPSILON = 0.001;
 	
     /**
      * This is run before all the tests to initialize them.
@@ -103,9 +103,9 @@ public class MonsterTest extends TestCase {
 	@Test
 	public void testR() throws Exception {
     	monster.setR(10);
-    	assertEquals(10.0, monster.getR());
+    	assertEquals(10.0, monster.getR(), EPSILON);
     	monster.setDr(10);
-    	assertEquals(10.0, monster.getDr());
+    	assertEquals(10.0, monster.getDr(), EPSILON);
     }
 
 	/**
@@ -115,9 +115,9 @@ public class MonsterTest extends TestCase {
 	@Test
     public void testHeightWidth() throws Exception {
     	monster.setHeight(100);
-    	assertEquals(100.0, monster.getHeight());
+    	assertEquals(100.0, monster.getHeight(), EPSILON);
     	monster.setWidth(100);
-    	assertEquals(100.0, monster.getWidth());
+    	assertEquals(100.0, monster.getWidth(), EPSILON);
     }
     
     /**
@@ -138,6 +138,6 @@ public class MonsterTest extends TestCase {
     public void testCanMove() throws Exception {
     	monster.setCanMove(false);
     	monster.move();
-    	assertEquals(1.0, monster.getX());
+    	assertEquals(1.0, monster.getX(), EPSILON);
     }
 }
