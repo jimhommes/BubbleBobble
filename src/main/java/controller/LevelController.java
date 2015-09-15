@@ -43,7 +43,8 @@ public class LevelController implements Initializable {
     /**
      * The list of players in the game.
      */
-    private ArrayList players;
+    @SuppressWarnings("rawtypes")
+	private ArrayList players;
 
     /**
      * The message that says "Click when ready".
@@ -151,7 +152,8 @@ public class LevelController implements Initializable {
      */
     private AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
@@ -203,7 +205,8 @@ public class LevelController implements Initializable {
     /**
      * This function creates the currLvl'th level.
      */
-    public final void createLvl() {
+    @SuppressWarnings("unchecked")
+	public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
@@ -212,7 +215,8 @@ public class LevelController implements Initializable {
     /**
      * The function that is used to create the player.
      */
-    private void createPlayer() {
+    @SuppressWarnings("unchecked")
+	private void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
@@ -271,7 +275,8 @@ public class LevelController implements Initializable {
      * @param maxY The highest Y
      * @return True if a collision was caused.
      */
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
             double wallMinX = wall.getX();
