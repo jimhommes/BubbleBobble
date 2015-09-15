@@ -9,7 +9,11 @@ import java.util.ArrayList;
  */
 public class Player extends GravityObject {
 
+    /**
+     * This boolean indicates whether the player is jumping.
+     */
     private boolean jumping;
+
     /**
      * The input that defines the movement of the player.
      */
@@ -51,16 +55,34 @@ public class Player extends GravityObject {
      */
     private LevelController levelController;
 
+    /**
+     * This boolean indicates whether the player is ready for a jump.
+     */
     private boolean ableToJump;
 
+    /**
+     * This counter is used to check how long the player is in the air.
+     */
     private int jumpCounter;
 
+    /**
+     * This is the minimal X coordinate the player can move around in.
+     */
     private double playerMinX;
 
+    /**
+     * This is the maximal X coordinate the player can move around in.
+     */
     private double playerMaxX;
 
+    /**
+     * This is the minimal Y coordinate the player can move around in.
+     */
     private double playerMinY;
 
+    /**
+     * This is the maximal Y coordinate the player can move around in.
+     */
     private double playerMaxY;
 
     /**

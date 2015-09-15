@@ -2,6 +2,9 @@ package controller;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
+
 /**
  * Tests the creation of a LevelController.
  * @author Lili
@@ -14,7 +17,8 @@ public class LevelControllerTest {
 	 */
 	@Test
 	public void testInitialisation() {
-		new LevelController();
+		LevelController levelController = new LevelController();
+		assertTrue(levelController != null);
 	}
 
 }
