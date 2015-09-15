@@ -128,6 +128,7 @@ public class Level {
      * The function that returns the arraylist of monsters.
      * @return The arraylist of monsters.
      */
+    @SuppressWarnings("rawtypes")
     public ArrayList getMonsters() {
         return monsters;
     }
@@ -136,6 +137,7 @@ public class Level {
      * This method gets the walls in the game.
      * @return The walls in the game.
      */
+    @SuppressWarnings("rawtypes")
     public ArrayList getWalls() {
         return walls;
     }

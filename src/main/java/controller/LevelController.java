@@ -271,7 +271,6 @@ public class LevelController implements Initializable {
      * @param maxY The highest Y
      * @return True if a collision was caused.
      */
-    @SuppressWarnings("unchecked")
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {

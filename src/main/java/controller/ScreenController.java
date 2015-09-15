@@ -21,10 +21,19 @@ import java.util.ArrayList;
  */
 public class ScreenController {
 
+    /**
+     * All the sprites that are drawn on the board.
+     */
     private ArrayList<SpriteBase> sprites;
 
+    /**
+     * All the images that are linked to the sprites.
+     */
     private ArrayList<ImageView> images;
 
+    /**
+     * The pane where everything is drawed in.
+     */
     private Pane playfieldLayer;
 
     /**
@@ -78,6 +87,10 @@ public class ScreenController {
         sprites.forEach(this::update);
     }
 
+    /**
+     * This funcion updates all locations of the sprites.
+     * @param sprite Sprite that the location is updated from.
+     */
     private void update(SpriteBase sprite) {
         ImageView image = images.get(sprites.indexOf(sprite));
         image.relocate(sprite.getX(), sprite.getY());
