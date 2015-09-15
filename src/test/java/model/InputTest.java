@@ -51,22 +51,10 @@ public class InputTest extends TestCase {
         assertFalse(input.isMoveDown());
 
         when(keyboardBitSet.get(Input.UP_KEY.ordinal())).thenReturn(false);
-        when(keyboardBitSet.get(Input.DOWN_KEY.ordinal())).thenReturn(false);
-
-        assertFalse(input.isMoveUp());
-        assertFalse(input.isMoveDown());
-
-        when(keyboardBitSet.get(Input.UP_KEY.ordinal())).thenReturn(false);
         when(keyboardBitSet.get(Input.DOWN_KEY.ordinal())).thenReturn(true);
 
         assertFalse(input.isMoveUp());
         assertTrue(input.isMoveDown());
-
-        when(keyboardBitSet.get(Input.UP_KEY.ordinal())).thenReturn(true);
-        when(keyboardBitSet.get(Input.DOWN_KEY.ordinal())).thenReturn(true);
-
-        assertFalse(input.isMoveUp());
-        assertFalse(input.isMoveDown());
     }
 
     /**
@@ -81,22 +69,10 @@ public class InputTest extends TestCase {
         assertFalse(input.isMoveRight());
 
         when(keyboardBitSet.get(Input.LEFT_KEY.ordinal())).thenReturn(false);
-        when(keyboardBitSet.get(Input.RIGHT_KEY.ordinal())).thenReturn(false);
-
-        assertFalse(input.isMoveLeft());
-        assertFalse(input.isMoveRight());
-
-        when(keyboardBitSet.get(Input.LEFT_KEY.ordinal())).thenReturn(false);
         when(keyboardBitSet.get(Input.RIGHT_KEY.ordinal())).thenReturn(true);
 
         assertFalse(input.isMoveLeft());
         assertTrue(input.isMoveRight());
-
-        when(keyboardBitSet.get(Input.LEFT_KEY.ordinal())).thenReturn(true);
-        when(keyboardBitSet.get(Input.RIGHT_KEY.ordinal())).thenReturn(true);
-
-        assertFalse(input.isMoveLeft());
-        assertFalse(input.isMoveRight());
     }
 
     /**

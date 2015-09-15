@@ -2,7 +2,7 @@ package controller;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -18,7 +18,7 @@ public class LevelControllerTest {
 	@Test
 	public void testInitialisation() {
 		LevelController levelController = new LevelController();
-		assertEquals(true, levelController != null);
+		assertTrue(levelController != null);
 	}
 
 }

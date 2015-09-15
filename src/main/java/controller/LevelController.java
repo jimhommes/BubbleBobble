@@ -13,7 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
+import model.Bubble;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Settings;
+import model.Wall;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,7 +149,6 @@ public class LevelController implements Initializable {
      * This function returns the gameLoop.
      * @return The gameLoop.
      */
-    @SuppressWarnings("unchecked")
     private AnimationTimer createTimer() {
         return new AnimationTimer() {
             @Override
@@ -198,7 +203,6 @@ public class LevelController implements Initializable {
     /**
      * This function creates the currLvl'th level.
      */
-    @SuppressWarnings("unchecked")
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.addToSprites(currLvl.getWalls());
@@ -208,7 +212,6 @@ public class LevelController implements Initializable {
     /**
      * The function that is used to create the player.
      */
-    @SuppressWarnings("unchecked")
     private void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
