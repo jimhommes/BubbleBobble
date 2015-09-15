@@ -13,12 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Input;
-import model.Level;
-import model.Monster;
-import model.Player;
-import model.Settings;
-import model.Wall;
+import model.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,6 +143,7 @@ public class LevelController implements Initializable {
      * This function returns the gameLoop.
      * @return The gameLoop.
      */
+    @SuppressWarnings("unchecked")
     private AnimationTimer createTimer() {
         return new AnimationTimer() {
             @Override
@@ -158,9 +154,7 @@ public class LevelController implements Initializable {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
                         player.move();
-                        player.getBubbles().forEach(bubble -> {
-                            bubble.move();
-                        });
+                        player.getBubbles().forEach(Bubble::move);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
                         ((ArrayList<Player>) players).forEach(player -> {
@@ -204,6 +198,7 @@ public class LevelController implements Initializable {
     /**
      * This function creates the currLvl'th level.
      */
+    @SuppressWarnings("unchecked")
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.addToSprites(currLvl.getWalls());
@@ -213,6 +208,7 @@ public class LevelController implements Initializable {
     /**
      * The function that is used to create the player.
      */
+    @SuppressWarnings("unchecked")
     private void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
@@ -272,6 +268,7 @@ public class LevelController implements Initializable {
      * @param maxY The highest Y
      * @return True if a collision was caused.
      */
+    @SuppressWarnings("unchecked")
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {

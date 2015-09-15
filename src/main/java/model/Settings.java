@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by Matthijs on 03-09-15.
+ * Class used for storing default settings.
  */
 public final class Settings {
 
