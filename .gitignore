@@ -13,6 +13,8 @@ target/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/dictionaries
+.idea/compiler.xml
+.idea/codeStyleSettings.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
@@ -62,6 +64,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
+.checkstyle
 
 # Eclipse Core
 .project

@@ -1,0 +1,74 @@
+\documentclass[a4paper]{report}
+
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings, color}
+\usepackage{graphicx}
+\usepackage{chngpage}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{comment}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{epstopdf}
+\usepackage{titlesec}
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[nodisplayskipstretch]{setspace}
+\usepackage[top=2cm,bottom=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{caption} 
+\usepackage{natbib}
+\usepackage[nottoc,numbib]{tocbibind}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Matlab,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{black},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+\newcommand{\tab}{\hspace*{2em}}
+\titleformat{\chapter}{\normalfont\huge\bf}{\thechapter.}{20pt}{\huge\bf}
+
+\newcommand\fnurl[2]{%
+  \href{#2}{#1}\footnote{\url{#2}}%
+}
+
+
+\begin{document} 
+
+\input{tex/titel.tex}
+\tableofcontents
+\thispagestyle{empty}
+\setcounter{page}{0}
+\input{tex/core_1.tex}
+\input{tex/core_2.tex}
+\input{tex/core_3.tex}
+\input{tex/core_4.tex}
+\input{tex/core_5.tex}
+\input{tex/uml_1.tex}
+\input{tex/uml_2.tex}
+\input{tex/uml_3.tex}
+\input{tex/logger_1.tex}
+\input{tex/logger_2.tex}
+%Your text files go here
+\nocite{*}
+\bibliographystyle{newapa}
+\end{document}
