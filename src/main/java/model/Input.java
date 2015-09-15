@@ -61,6 +61,8 @@ public class Input {
             // register key down
             keyboardBitSet.set(event.getCode().ordinal(), true);
 
+            Logger.logToFile(String.format("Key %s was pressed", event.getCode().getName()));
+
         }
     };
     /**
