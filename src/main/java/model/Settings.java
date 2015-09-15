@@ -3,7 +3,7 @@ package model;
 /**
  * Created by Matthijs on 03-09-15.
  */
-public class Settings {
+public final class Settings {
 
     public static final double SCENE_WIDTH = 832;
     public static final double SCENE_HEIGHT = 832;
@@ -17,4 +17,13 @@ public class Settings {
     public static final double BUBBLE_FLY_SPEED = 3;
 
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
+
+    /**
+     * The private constructor that does nothing.
+     * This is a utility class.
+     */
+    private Settings() {
+
+    }
+
 }

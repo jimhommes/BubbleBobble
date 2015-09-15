@@ -33,7 +33,9 @@ import java.util.ResourceBundle;
  */
 
 /**
- * This is the level controller. Here all the interactions with the level happens, and it's kind of the main controller.
+ * This is the level controller.
+ * Here all the interactions with the level happens.
+ * It's kind of the main controller.
  */
 public class LevelController implements Initializable {
 
@@ -106,6 +108,9 @@ public class LevelController implements Initializable {
      */
     private ScreenController screenController;
 
+    /**
+     * The gameloop timer. This timer is the main timer.
+     */
     private AnimationTimer gameLoop;
     
     /**

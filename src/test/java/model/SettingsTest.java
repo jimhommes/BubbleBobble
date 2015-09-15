@@ -6,15 +6,6 @@ import junit.framework.TestCase;
  * Created by toinehartman on 11/09/15.
  */
 public class SettingsTest extends TestCase {
-    private Settings settings;
-
-    /**
-     * This method is used to initialize the tests.
-     */
-    public void setUp() {
-    	 settings = new Settings();
-         assertNotNull(settings);
-    }
     
     /**
      * This tests that the height settings are correct.
