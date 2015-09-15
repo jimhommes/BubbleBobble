@@ -113,6 +113,11 @@ public class ScreenController {
         sprites.remove(index);
     }
 
+    /**
+     * Removes all sprites.
+     *
+     * Prepares the screen for loading a new level.
+     */
     public void removeSprites() {
         sprites.clear();
         images.clear();
