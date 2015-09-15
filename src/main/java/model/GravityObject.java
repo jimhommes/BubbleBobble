@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by toinehartman on 08/09/15.
+ * Class that represents object affected by gravity.
  */
 public abstract class GravityObject extends SpriteBase {
 
