@@ -1,48 +1,41 @@
-\chapter{The Core: Question 2}
-
+\subsection{Exercise 1.2}
 ``Following the Responsibility Driven Design, describe the main classes you implemented in your project in terms of responsibilities and collaborations''
+
+\subsection{Launcher}
+Responsibility: \\
+The Launcher launches the game by loading the StartorEndController. \\
+Collaborations: \\
+The Launcher collaborates with the StartorEndController. 
+
+\subsubsection{StartorEndController}
+Responsibility: \\
+The StartorEndController starts the game, or ends it. \\
+Collaborations: \\
+The StartorEndController collaborates with LevelController toe load the Level which will be placed. 
+
+\subsubsection{LevelController}
+Responsibilities: \\
+The LevelController-class is responsible for handling interaction between a Level and Players. It is also runs the gameLoop which renders the game every frame. Therefor it is also able to pause the game, win a game and go to a next Level. \\
+Collaborations: \\
+The LevelController-class collaborates with a Level and the Players.
+
+\subsubsection{ScreenController}
+Responsibilities: \\
+The ScreenController is responsible for drawing everything on a screen. \\
+Collaborations: \\
+The ScreenController works together with the LevelController as well as SpriteBase to draw every sprite on the screen. 
 
 \subsubsection{Level}
 Responsibilities: \\
 The Level-class is responsible for constructing the level a customer plays. A level has to be created from loading a text-file in which is defined where to place the walls and the monsters. \\
 Collaborations: \\
-The Level-class collaborates with the Wall-class as well as the Monster-class. 
-
-\subsubsection{Wall}
-Responsibilities: \\
-The Wall-class represents a piece of wall in the game. \\
-Collaborations: \\
-As a part of the screen it collaborates with SpriteBase to have standard attributes as x,y coordinates. 
+The Level-class collaborates with SpriteBase to display every element in the Level.  
 
 \subsubsection{SpriteBase}
 Responsibilities: \\
 Every element in Level has certain standard attributes such as an x,y coordinate, but also the speed in every direction and an image. All of these attributes are defined in SpriteBase. \\
 Collaborations: \\
-Spritebase is the superclass for every element in the screen (such as Player, Monster, Wall and Bubble)
-
-\subsubsection{GravityObject}
-Responsibility: \\
-The GravityObject class is responsible for the gravity, which is attached to all moving objects in a Level. \\
-Collaborations: \\
-The GravityObject class works together with SpriteBase and because of that adds gravity to all moving objects. 
-
-\subsubsection{Player}
-Responsibilities: \\
-The Player class displays the sprite which moves over the screen. It can move left and right, as well as it has the ability to jump. When touched by a monster, the Player dies. In return the Player has the ability to shoot bubbles in which it can catch a Monster and by doing that, kill the monster. \\
-Collaborations: \\
-The Player class collaborates with the Level since it is a part of it. It also collaborates with the Monster because it wants to catch it, and because it has certain coordinates in the Level, it also collaborates with SpriteBase. Furthermore the Player can move, which is performed by the Input class. 
-
-\subsubsection{Monster}
-Responsibilities: \\
-The Monster class represents an image of a monster, which moves over the screen and when touched by Player, the player dies. When a monsters touches a wall it changes direction. \\
-Collaborations: \\
-The Monster class collaborates with the SpriteBase class, but also works together with the Player. During every loop, we have to check whether the Player collided with a monster. Furthermore the Monster of course collaborates with the Level, since it is an important part of it. 
-
-\subsubsection{Walker}
-Responsibilities: \\
-Monsters can come in different forms, one of them is the Walker. This is the standard Monster which walks over the screen over the available platforms. When it touches the Player, the player dies. \\
-Collaborations: \\
-The Walker class collaborates with the Monster class. Furthermore it also works together with the Player and the Level. 
+Depending on the kind of SpriteBase, the customer must be able to perform input. Therefor the SpriteBase collaborates with Input. 
 
 \subsubsection{Input}
 Responsibilities: \\
@@ -50,14 +43,5 @@ The Input class catches all input performed by the customer. The class makes sur
 Collaborations: \\
 The only object which can be moved by the customer is the Player class. Therefor this is the only class with which the Input class collaborates. 
 
-\subsubsection{Bubble}
-Responsibilities: \\
-The Bubble class is able to catch a monster and kill it. Bubbles are being shot by the Player. \\
-Collaborations: \\
-Bubbles are being shot by a Player and are able to catch Monsters. Therefor it collaborates with both these classes. 
-
-\subsubsection{Settings}
-Responsibilities: \\
-Store certain settings from the game, for example movement speed and screen size. \\
-Collaborations: \\
-This collaborates with all classes, since it hosts settings which are used in all classes. 
+\subsubsection{Non-main classes}
+The classes GravityObject, Bubble, Wall, Monster, Player and Walker are all (direct or indirect) extensions of SpriteBase. Therefor they can be removed. Settings is a class with only static information and can therefor also be merged in a controller. 
