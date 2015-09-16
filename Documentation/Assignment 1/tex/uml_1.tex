@@ -1,1 +1,7 @@
 \chapter{UML in practice: Question 1}
+
+The difference between aggregation and composition is that in composition class A owns class B. While in aggregation, class A uses class B, so the classes are independent of each other. 
+\\\\
+In our project, there is composition between the levelController class and all the model classes because the levelController class owns all the model classes, they depend on each other to exist. Without the model classes, the levelController can't make a level and without the levelController the model classes can't be made. 
+\\\\
+There is also aggregation between the screenController and the model classes. They are independent of each other, but the screenController use the model classes to create the screen images. 
