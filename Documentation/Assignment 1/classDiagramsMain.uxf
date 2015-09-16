@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.3">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>0</y>
+      <w>105</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Launcher
+--
+--
++main(args: String[])
++start(primaryStage: Stage)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>287</x>
+      <y>77</y>
+      <w>161</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>StartorEndController
+--
+-helpScreen: GridPane
+-root: AnchorPane
+-startButton: Button
+...
+--
++inintialize(location: URL, 
+    resources: ResourceBundle)
+-startLevel()
+-endLevel()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>42</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>259</x>
+      <y>217</y>
+      <w>224</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>LevelController
+--
+-players: ArrayList
+-startMessage: Text
+-pauseMessage: Text
+...
+--
++inintialize(location: URL, 
+    resources: ResourceBundle)
+-findMaps()
+-createTimer(): AnimationTimer
++startLevel(gameLoop: AnimationLoop)
++createLvl()
+...
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>182</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>266</x>
+      <y>413</y>
+      <w>210</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>/SpriteBase/
+--
+-sort: enum
+-x: double
+-y: double
+...
+--
++SpriteBase(imagePath: String, x: double, 
+    y: double, r: double, dx: double, 
+    dy: double, dr: double)
++move()
++getImagePath(): String
++getX(): double
++getY(): double
+...     
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>357</y>
+      <w>21</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>546</x>
+      <y>413</y>
+      <w>210</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>ScreenController
+--
+-sprites: ArrayList&lt;SpriteBase&gt;
+-images: ArrayList&lt;ImageView&gt;
+-playfieldLayer: Pane
+--
++ScreenController(layer: Pane)
++addToSprites(list: ArrayList&lt;SpriteBase&gt;)
++addToSprites(sprite: SpriteBase)
++updateUI()
+-update(sprite: SpriteBase)
+...</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>469</x>
+      <y>448</y>
+      <w>91</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>413</y>
+      <w>175</w>
+      <h>154</h>
+    </coordinates>
+    <panel_attributes>Level
+--
+#NUM_ROWS: int = 26
+#NUM_COLS: int = 26
++SPRITE_SIZE = 32.0
+...
+--
++Level(lvlTitle: String, 
+    levelController: LevelController)
++drawMap()
++readMap()
++getMonsters(): ArrayList
++getWalls(): ArrayList
+...
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>357</y>
+      <w>308</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>420.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>168</x>
+      <y>455</y>
+      <w>112</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>77</x>
+      <y>357</y>
+      <w>308</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;420.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>301</x>
+      <y>602</y>
+      <w>140</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Input
+--
+-scene: Scene
+-keyboardBitSet: BitSet
+...
+--
++Input(scene: Scene)
++addListeners()
++removeListeners()
++isMoveUp() : boolean
++isMoveDown(): boolean
+...
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>539</y>
+      <w>21</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
