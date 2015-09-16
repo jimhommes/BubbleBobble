@@ -112,4 +112,15 @@ public class ScreenController {
         images.remove(index);
         sprites.remove(index);
     }
+
+    /**
+     * Removes all sprites.
+     *
+     * Prepares the screen for loading a new level.
+     */
+    public void removeSprites() {
+        sprites.clear();
+        images.clear();
+        playfieldLayer.getChildren().clear();
+    }
 }
