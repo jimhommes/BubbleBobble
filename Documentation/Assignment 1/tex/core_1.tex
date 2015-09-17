@@ -41,7 +41,6 @@ Next step is to derive all necessary classes from the requirements. Useful to do
     \item Input
     \item Bubble
     \item PowerUp
-    \item Item
 \end{itemize}
 
 Since we now have all classes present, we can start constructing our CRC cards
@@ -94,12 +93,12 @@ setY           & Integer\\ \hline
 
 \begin{table}[]
 \centering
-\label{crc_character}
+\label{crc_sprite}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Character} \\ \hline
+\multicolumn{2}{|l|}{Sprite} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
-\multicolumn{2}{|l|}{Subclass(es): Sprite, Monster} \\ \hline
+\multicolumn{2}{|l|}{Subclass(es): Character, Monster} \\ \hline
 get/setX           & Integer \\ \hline
 get/setY           & Integer \\ \hline
 get/setR           & Integer \\ \hline
@@ -111,24 +110,24 @@ get/setImagePath   & String \\ \hline
 get/setWidth       & Integer \\ \hline
 get/setHeight      & Integer \\ \hline
 \end{tabular}
-\caption{CRC card: Character}
+\caption{CRC card: Sprite}
 \end{table}
 
 \begin{table}[]
 \centering
-\label{crc_sprite}
+\label{crc_character}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Sprite} \\ \hline
-\multicolumn{2}{|l|}{Superclass(es): Character} \\ \hline
-\multicolumn{2}{|l|}{Subclass(es): Input} \\ \hline
+\multicolumn{2}{|l|}{Character} \\ \hline
+\multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
+\multicolumn{2}{|l|}{Subclass(es): Bubble, Input} \\ \hline
 moveLeft            & Input \\ \hline
 moveRight           & Input \\ \hline
 fireWeapon          & Input \\ \hline
 die                 & - \\ \hline
 isDead              & Boolean \\ \hline
 \end{tabular}
-\caption{CRC card: Sprite}
+\caption{CRC card: Character}
 \end{table}
 
 \begin{table}[]
@@ -137,7 +136,7 @@ isDead              & Boolean \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 \multicolumn{2}{|l|}{Monster} \\ \hline
-\multicolumn{2}{|l|}{Superclass(es): Character} \\ \hline
+\multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 get/setSpeed            & Integer \\ \hline
 checkCollision          & -\\ \hline
