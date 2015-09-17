@@ -1,0 +1,36 @@
+\chapter{Functional Requirements}
+
+\section{Introduction}
+There are different reasons why a logger would be very useful in the version of Bubble Bobble that is being created. From the perspective of the documentation as well as making the code understandable for other programmers, a logger would show useful debugging information. Furthermore, a good and flexible logger can, in general, make debugging easier by outputting what you want to see.
+
+Finally, a logger is important for finding errors when the software is no longer in the hands of the developer. Creating a log when the software crashes for example gives the developers useful information about what happened or how it happened. This is why it is essential to the game. 
+
+In this document the requirements for the logger will be stated. This will be done using the \fnurl{MoSCoW Model}{https://en.wikipedia.org/wiki/MoSCoW_method}.
+
+\section{Must Have}
+\begin{itemize}
+\itemsep0em
+\item The logger must be accessible from all classes.
+\item The logger must be able to output information to the console.
+\item The logger must be able to output information to a file.
+\end{itemize}
+
+\section{Should Have}
+\begin{itemize}
+\itemsep0em
+\item The logger should output errors in a different color.
+\item Large messages should be indented together.
+\end{itemize}
+
+\section{Could Have}
+\begin{itemize}
+\itemsep0em
+\item The logger could be turned on or off.
+\end{itemize}
+
+\section{Won't Have}
+\begin{itemize}
+\itemsep0em
+\item The logger won't be uploading the log to the internet.
+\item The logger won't be outputting the info to a Word document.
+\end{itemize}
