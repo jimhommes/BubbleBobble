@@ -26,6 +26,7 @@ public class Player extends GravityObject {
 
     /**
      * The bubbles the player fired.
+
      */
     private ArrayList<Bubble> bubbles;
 
@@ -354,6 +355,14 @@ public class Player extends GravityObject {
      */
     public boolean getGameOver() {
         return gameOver;
+    }
+
+    /**
+     * This function returns the speed.
+     * @return The speed.
+     */
+    public double getSpeed() {
+        return speed;
     }
 
 }

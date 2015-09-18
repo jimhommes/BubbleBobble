@@ -44,7 +44,7 @@ public class LevelController implements Initializable {
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-	private ArrayList players;
+	private ArrayList players = new ArrayList<>();;
 
     /**
      * The message that says "Click when ready".
@@ -79,7 +79,7 @@ public class LevelController implements Initializable {
     /**
      * The list of maps that the user is about to play.
      */
-    private ArrayList<String> maps;
+    private ArrayList<String> maps = new ArrayList<>();;
     /**
      * The current index of the level the user is playing.
      */
@@ -123,8 +123,6 @@ public class LevelController implements Initializable {
      */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        maps = new ArrayList<>();
-        players = new ArrayList<>();
         findMaps();
 
         gameLoop = createTimer();
@@ -135,7 +133,7 @@ public class LevelController implements Initializable {
     /**
      * This function scans the resources folder for maps.
      */
-    private void findMaps() {
+    public void findMaps() {
         File folder = new File("src/main/resources");
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
@@ -150,7 +148,7 @@ public class LevelController implements Initializable {
      * This function returns the gameLoop.
      * @return The gameLoop.
      */
-    private AnimationTimer createTimer() {
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
 			@Override
@@ -219,7 +217,7 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     @SuppressWarnings("unchecked")
-	private void createPlayer() {
+	public void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
@@ -347,5 +345,21 @@ public class LevelController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This function returns the maps.
+     * @return The maps.
+     */
+    public ArrayList<String> getMaps() {
+        return maps;
+    }
+
+    /**
+     * This function returns the players.
+     * @return The players.
+     */
+    public ArrayList getPlayers() {
+        return players;
     }
 }
