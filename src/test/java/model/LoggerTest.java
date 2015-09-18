@@ -2,19 +2,17 @@ package model;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
-
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+import utility.Logger;
 
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.*;
 
 /**
  * Created by Matthijs on 15-09-15.
