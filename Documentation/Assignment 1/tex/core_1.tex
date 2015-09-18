@@ -1,8 +1,9 @@
-\subsection{Exercise 1.1}
+\chapter{The Core}
+\section{Question 1}
 
 ``Following the Responsibility Driven Design, start from your requirements (without considering your implementation) and derive classes, responsibilities, and collaborations (use CRC cards). Describe each step you make. Compare the result with your actual implementation and discuss any difference (e.g., additional and missing classes).'' \\
 
-As a recap we will start by providing our requirements: \\
+\noindent As a recap we will start by providing our requirements: 
 \begin{itemize}
     \item The game shall have a single level to play.
     \item The game shall show a game over screen when the player dies.
@@ -27,10 +28,10 @@ As a recap we will start by providing our requirements: \\
    \item The player shall lose a life, when a monster touches the character. 
    \item The monsters shall be able to drop items when they die.
    \item The player shall have the ability to pick up items which will increase their score.
-   \item The powerups shall increase the speed of the bubble, the distance the bubble travels or the walking speed of the character.
+   \item The powerups shall increase the speed of the bubble, the distance the bubble travels or the walking speed of the character.\\\\\\
 \end{itemize}
 
-Next step is to derive all necessary classes from the requirements. Useful to do this is by selecting every noun in the requirements. 
+\noindent Next step is to derive all necessary classes from the requirements. Useful to do this is by selecting every noun in the requirements. 
 \begin{itemize}
     \item LevelController
     \item Level
@@ -41,17 +42,16 @@ Next step is to derive all necessary classes from the requirements. Useful to do
     \item Input
     \item Bubble
     \item PowerUp
-    \item Item
 \end{itemize}
 
-Since we now have all classes present, we can start constructing our CRC cards
+\noindent Since we now have all classes present, we can start constructing our CRC cards
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_levelcontroller}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{LevelController} \\ \hline
+\multicolumn{2}{|l|}{\textbf{LevelController}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Level, Player} \\ \hline
 createLvl               & Level \\ \hline
@@ -62,12 +62,12 @@ winLvl                  & Level \\ \hline
 \caption{CRC card: LevelController}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_level}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Level} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Level}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Wall} \\ \hline
 initiateLevel           & Level \\ \hline
@@ -78,12 +78,12 @@ initiateMonsters        & Monster \\ \hline
 \caption{CRC card: Level}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_wall}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Wall} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Wall}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 setX           & Integer \\ \hline
@@ -92,14 +92,14 @@ setY           & Integer\\ \hline
 \caption{CRC card: Wall}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
-\label{crc_character}
+\label{crc_sprite}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Character} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Sprite}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
-\multicolumn{2}{|l|}{Subclass(es): Sprite, Monster} \\ \hline
+\multicolumn{2}{|l|}{Subclass(es): Character, Monster} \\ \hline
 get/setX           & Integer \\ \hline
 get/setY           & Integer \\ \hline
 get/setR           & Integer \\ \hline
@@ -111,33 +111,33 @@ get/setImagePath   & String \\ \hline
 get/setWidth       & Integer \\ \hline
 get/setHeight      & Integer \\ \hline
 \end{tabular}
-\caption{CRC card: Character}
+\caption{CRC card: Sprite}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
-\label{crc_sprite}
+\label{crc_character}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Sprite} \\ \hline
-\multicolumn{2}{|l|}{Superclass(es): Character} \\ \hline
-\multicolumn{2}{|l|}{Subclass(es): Input} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Character}} \\ \hline
+\multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
+\multicolumn{2}{|l|}{Subclass(es): Bubble, Input} \\ \hline
 moveLeft            & Input \\ \hline
 moveRight           & Input \\ \hline
 fireWeapon          & Input \\ \hline
 die                 & - \\ \hline
 isDead              & Boolean \\ \hline
 \end{tabular}
-\caption{CRC card: Sprite}
+\caption{CRC card: Character}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_monster}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Monster} \\ \hline
-\multicolumn{2}{|l|}{Superclass(es): Character} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Monster}} \\ \hline
+\multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 get/setSpeed            & Integer \\ \hline
 checkCollision          & -\\ \hline
@@ -148,12 +148,12 @@ isDead                  & Boolean \\ \hline
 \caption{CRC card: Monster}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_input}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Input} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Input}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 moveUp          & -\\ \hline
@@ -165,12 +165,12 @@ fireWeapon      & - \\ \hline
 \caption{CRC card: Input}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_bubble}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Bubble} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Bubble}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 ableToCatch           & - \\ \hline
@@ -179,12 +179,12 @@ move           & -\\ \hline
 \caption{CRC card: Bubble}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_powerup}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{PowerUp} \\ \hline
+\multicolumn{2}{|l|}{\textbf{PowerUp}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 get/setAbleToPickup           & Boolean \\ \hline
@@ -192,6 +192,7 @@ get/setAbleToPickup           & Boolean \\ \hline
 \caption{CRC card: PowerUp}
 \end{table}
 
+\newpage
 When comparing this with our actual implementation we notice a couple things:
 \begin{itemize}
 \item In our actual implementation, the classes Monster and Sprite have their own superclasses.

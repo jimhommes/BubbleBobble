@@ -1,15 +1,14 @@
-\chapter{UML in practice: Question 2}
+\section{Question 2}
 
 ``Is there any parametrized class in your source code? If so, describe which classes, why they are
 parametrized, and the benefits of the parametrization. If not, describe when and why you should use
 parametrized classes in your UML diagrams.''
 \\
 \\
-In our project we haven't implemented any parameterised classes, but we do use a parameterised class from java.util, the ArrayList. \\
+In our project we haven't implemented any parameterised classes, but we do use a parameterised class from java.util, the ArrayList. With the parameterised class "ArrayList" from java, you can create a list of the object that is defined in in the parameter.\\
+\\
+When you write a class definition and you don't know with which types the class will be used, then you should use a parameterised class. With the parameter you can define the type on which the class will operate.\\
 \\
 A parameterised class should be in the UML diagram when you have implemented a parameterised class in your source code. The paramaterised class from java.util that we used is also visible in the UML diagram, but not as a parameterised class, as a attribute from a different class.\\
 \\
-You should use a parameterised class when you don't know with wich generic type the class will be used. With the parameter you can define the type on wich the class will operate.\\
-\\
-The UML diagram shows a parameterised class with a dotted box over the right corner of a normal class. In this box goes the parameter for that specific class. 
-\end{flushleft}
+The UML diagram shows a parameterised class with a dotted box over the right corner of a normal class. In this box goes the parameter for that specific class, it is possible to have more than one parameter. 

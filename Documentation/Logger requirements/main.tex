@@ -22,7 +22,6 @@
 \usepackage{caption} 
 \usepackage{natbib}
 \usepackage[nottoc,numbib]{tocbibind}
-\usepackage{xpatch}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -53,28 +52,14 @@
 }
 
 
-\xpatchcmd{\itemize}
-  {\def\makelabel}
-  {\setlength{\itemsep}{0em}\def\makelabel}
-  {}
-  {}
-
 \begin{document} 
 
 \input{tex/titel.tex}
 \tableofcontents
 \thispagestyle{empty}
 \setcounter{page}{0}
-\input{tex/core_1.tex}
-\input{tex/core_2.tex}
-\input{tex/core_3.tex}
-\input{tex/core_4.tex}
-\input{tex/core_5.tex}
-\input{tex/uml_1.tex}
-\input{tex/uml_2.tex}
-\input{tex/uml_3.tex}
-\input{tex/logger_1.tex}
-\input{tex/logger_2.tex}
+\input{tex/logger_functional.tex}
+\input{tex/logger_non_functional.tex}
 %Your text files go here
 \nocite{*}
 \bibliographystyle{newapa}

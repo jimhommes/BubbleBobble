@@ -1,7 +1,33 @@
-\chapter{UML in practice: Question 1}
+\chapter{UML in practice}
+\section{Question 1}
+``What is the difference between aggregation and composition? Where are composition and aggregation
+used in your project? Describe the classes and explain how these associations work.''
+\\
+\noindent The difference between aggregation and composition is that in composition class A owns class B (or contains). While in aggregation, class A uses class B (or consists of), so the classes are independent of each other. 
+\\\\
+In our project there are both examples of aggregation as well as composition, as listed below:
 
-The difference between aggregation and composition is that in composition class A owns class B. While in aggregation, class A uses class B, so the classes are independent of each other. 
-\\\\
-In our project, there is composition between the levelController class and all the model classes because the levelController class owns all the model classes, they depend on each other to exist. Without the model classes, the levelController can't make a level and without the levelController the model classes can't be made. 
-\\\\
-There is also aggregation between the screenController and the model classes. They are independent of each other, but the screenController use the model classes to create the screen images. 
+\begin{itemize}
+\itemsep0em 
+\item Aggregation can be found between:
+	\begin{itemize}
+	\itemsep0em
+	\item \textbf{Launcher} and \textbf{StartController}; Launcher uses the StartController to be able to start the game.	
+	\item \textbf{StartOrEndController} and \textbf{StartController}; StartOrEndController uses the StartController to be able to start the game again.
+	\item \textbf{StartController} and \textbf{LevelController}; StartController uses the LevelController to be able to create the level. 
+	\item \textbf{LevelController} and \textbf{StartOrEndCOntroller}; LevelController uses the StartOrEndController to be able to restart the game after the player has won or lost.
+	\item \textbf{ScreenController} and \textbf{SpriteBase}; ScreenController uses the SpriteBase to be able to create the sprites on the screen, when playing the game.
+	\item \textbf{Level} and \textbf{Settings}; Level uses the Settings to get measurements for the level.
+	\item \textbf{Bubble} and \textbf{Settings}; Bubble uses the Settings to get the measurements for the bubbles that will be shot. 
+	\item \textbf{Player} and \textbf{Settings}; Player uses the Settings to get the measurements for the character that the player will be playing.
+	\end{itemize}
+\item Composition can be found between:
+	\begin{itemize}
+	\itemsep0em
+	\item \textbf{LevelController} and \textbf{ScreenController}; LevelController can not exist without the use of the ScreenController as the ScreenController controls what happens on the screen during a level.
+	\item \textbf{LevelController} and \textbf{SpriteBase}; LevelController owns SpriteBase because without SpriteBase the levels can not be created to be controller by the controller.
+	\item \textbf{LevelController} and \textbf{Level}; LevelController owns Level because without the Level class the LevelController can not create the levels for the game to be played on. 
+	\item \textbf{Level} and \textbf{SpriteBase}; Level contains SpriteBase because without SpriteBase the levels can not be created as the SpriteBase is used to create all the sprites in a level.
+	\item \textbf{Player} and \textbf{Input}; Player owns Input because without Input the player can not exist to be played.
+	\end{itemize}
+\end{itemize} 

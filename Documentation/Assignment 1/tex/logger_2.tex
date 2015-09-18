@@ -1,1 +1,19 @@
-\chapter{Simple logging: Question 2}
+\section{Question 2}
+
+``During the analysis and design phases of this extension use responsibility driven design and UML
+(push to the repository a single PDF file including all the documents produced).''
+
+\subsubsection{Introduction}
+Using Responsibility Driven Design and UML this project, it is only logical to use the documentation for such an addition. That is exactly what we did. To the Responsibility Driven Design document, the following should be added:
+
+\subsubsection{The Logger}
+\textit{Responsibility:}  \\
+This class will make sure that other classes are able to output information through the logger. \\
+\textit{Collaborations:} \\
+It should be flexible so that all the classes can collaborate with the Logger class. \\
+
+\noindent In addition to the UML, the following class should be added:
+
+\includegraphics[width=75mm]{loggerUML.png}
+
+\noindent All the classes which deem it necessary to log will aggregate (filled in diamond arrow) the Logger class.
