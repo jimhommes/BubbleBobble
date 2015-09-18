@@ -2,15 +2,20 @@ package model;
 
 import controller.LevelController;
 import controller.ScreenController;
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import utility.Settings;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.when;
+
 
 /**
  * Created by Jim on 9/11/2015.
@@ -19,7 +24,7 @@ import static org.mockito.Mockito.any;
  * @version 0.1
  * @since 9/11/2015
  */
-public class PlayerTest extends TestCase {
+public class PlayerTest {
 
     private Player player;
     private Input input;
@@ -47,8 +52,8 @@ public class PlayerTest extends TestCase {
     public void testProcessInputNotDeadGetDs() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
-        assertEquals(0.0, player.getDy());
-        assertEquals(0.0, player.getDx());
+        assertEquals(0.0, player.getDy(), 0.001);
+        assertEquals(0.0, player.getDx(), 0.001);
     }
     
     /**
@@ -61,10 +66,10 @@ public class PlayerTest extends TestCase {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
-        assertEquals(-Settings.PLAYER_SPEED, player.getDx());
-        assertEquals(0.0, player.getDy());
-        assertEquals(Level.SPRITE_SIZE, player.getX());
-        assertEquals(Level.SPRITE_SIZE, player.getY());
+        assertEquals(-Settings.PLAYER_SPEED, player.getDx(), 0.001);
+        assertEquals(0.0, player.getDy(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
     
 
@@ -91,8 +96,8 @@ public class PlayerTest extends TestCase {
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
-        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY());
+        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY(), 0.001);
     }
 
     /**
@@ -144,10 +149,10 @@ public class PlayerTest extends TestCase {
     @Test
     public void testMoveRight() throws Exception {
         when(input.isMoveRight()).thenReturn(true);
-        assertEquals(0.0, player.getX());
+        assertEquals(0.0, player.getX(), 0.001);
         player.processInput();
         player.move();
-        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX());
+        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
     /**
@@ -163,7 +168,7 @@ public class PlayerTest extends TestCase {
                 any(Double.class))).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
     /**
@@ -180,7 +185,7 @@ public class PlayerTest extends TestCase {
 
         player.processInput();
         player.move();
-        assertEquals(Level.SPRITE_SIZE, player.getX());
+        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
     /**
@@ -198,7 +203,7 @@ public class PlayerTest extends TestCase {
         player.move();
 
         //Gravity also doesn't work if for all doubles there is a collision
-        assertEquals(Level.SPRITE_SIZE, player.getY());
+        assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
 
 }

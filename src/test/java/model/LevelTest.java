@@ -3,12 +3,12 @@ package model;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by toinehartman on 11/09/15.
  */
-public class LevelTest extends TestCase {
+public class LevelTest {
     private Level level;
 
 

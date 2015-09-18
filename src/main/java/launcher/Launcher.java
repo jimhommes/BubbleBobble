@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utility.Logger;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -18,7 +20,9 @@ public class Launcher extends Application {
      *
      * @param args Command line arguments.
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws FileNotFoundException {
+//        Logger.setLogFile("gamelog.txt");
+        Logger.setTimestampFormat("[yyyy-MM-dd hh:mm:ss] - ");
         launch(args);
     }
 

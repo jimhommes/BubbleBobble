@@ -1,53 +1,52 @@
 package model;
 
-import junit.framework.TestCase;
+import utility.Settings;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by toinehartman on 11/09/15.
  */
-public class SettingsTest extends TestCase {
-    private Settings settings;
-
-    /**
-     * This method is used to initialize the tests.
-     */
-    public void setUp() {
-    	 settings = new Settings();
-         assertNotNull(settings);
-    }
+public class SettingsTest {
     
     /**
      * This tests that the height settings are correct.
      */
+    @Test
     public void testSettingsHeight() {
-        assertEquals(832.d, Settings.SCENE_HEIGHT);
+        assertEquals(832.d, Settings.SCENE_HEIGHT, 0.001);
     }
     
     /**
      * This tests that the width settings are correct.
      */
+    @Test
     public void testSettingsWidth() {
-        assertEquals(832.d, Settings.SCENE_WIDTH);
+        assertEquals(832.d, Settings.SCENE_WIDTH, 0.001);
     }
     
     /**
      * This tests that the health settings are correct.
      */
+    @Test
     public void testSettingsHealth() {
-        assertEquals(100.d, Settings.PLAYER_HEALTH);
+        assertEquals(100.d, Settings.PLAYER_HEALTH, 0.001);
     }
     
     /**
      * This tests that the player speed settings are correct.
      */
+    @Test
     public void testSettingsPlayerSpeed() {
-        assertEquals(5.d, Settings.PLAYER_SPEED);
+        assertEquals(5.d, Settings.PLAYER_SPEED, 0.001);
     }
     
     /**
      * This tests that the monster height settings are correct.
      */
+    @Test
     public void testSettingsMonsterSpeed() {
-        assertEquals(5.d, Settings.MONSTER_SPEED);
+        assertEquals(5.d, Settings.MONSTER_SPEED, 0.001);
     }
 }
