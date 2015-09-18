@@ -75,7 +75,7 @@ public class LevelController implements Initializable {
      */
     @FXML
     private Pane playfieldLayer;
-    ;
+    
     /**
      * The list of maps that the user is about to play.
      */
