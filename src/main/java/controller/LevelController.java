@@ -184,6 +184,7 @@ public class LevelController implements Initializable {
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
+
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
@@ -209,6 +210,7 @@ public class LevelController implements Initializable {
         screenController.removeSprites();
 
         createPlayer();
+
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }
@@ -301,23 +303,6 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * Gets the screenController.
-     * @return The screencontroller.
-     */
-    public ScreenController getScreenController() {
-        return screenController;
-    }
-
-    /**
-     * This is the boolean to check if the game is paused or not.
-     *
-     * @return True if the gamePaused is true.
-     */
-    public boolean isGamePaused() {
-        return this.gamePaused;
-    }
-
-    /**
      * This function is called when it's game over.
      */
     public void gameOver() {
@@ -361,5 +346,46 @@ public class LevelController implements Initializable {
      */
     public ArrayList getPlayers() {
         return players;
+    }
+
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
+    }
+
+    public void setPlayfieldLayer(Pane playfieldLayer) {
+        this.playfieldLayer = playfieldLayer;
+    }
+
+    public void setMaps(ArrayList<String> maps) {
+        this.maps = maps;
+    }
+
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
+    }
+
+    public int getIndexCurrLvl() {
+        return indexCurrLvl;
+    }
+
+    public Level getCurrLvl() {
+        return currLvl;
+    }
+
+    /**
+     * Gets the screenController.
+     * @return The screencontroller.
+     */
+    public ScreenController getScreenController() {
+        return screenController;
+    }
+
+    /**
+     * This is the boolean to check if the game is paused or not.
+     *
+     * @return True if the gamePaused is true.
+     */
+    public boolean isGamePaused() {
+        return this.gamePaused;
     }
 }
