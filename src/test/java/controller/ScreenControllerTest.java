@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Jim on 9/18/2015.
@@ -24,11 +24,17 @@ public class ScreenControllerTest {
 
     private static ScreenController screenController;
 
+    /**
+     * The function that happens before every test.
+     */
     @Before
     public void setUp() {
         screenController = new ScreenController(new Pane());
     }
 
+    /**
+     * This tests the constructor.
+     */
     @Test
     public void testConstructor() {
         assertTrue(screenController.getPlayfieldLayer() != null);
@@ -48,19 +54,30 @@ public class ScreenControllerTest {
 //        assertEquals(3, screenController.getSprites().size());
 //    }
 
+    /**
+     * This tests the updateUI function.
+     */
     @Test
     public void testUpdateUI() {
         ArrayList<SpriteBase> sprites = new ArrayList<>();
-        sprites.add(mock(SpriteBase.class));
+        SpriteBase sprite = mock(SpriteBase.class);
+        sprites.add(sprite);
         ArrayList<ImageView> images = new ArrayList<>();
-        images.add(mock(ImageView.class));
+        ImageView image = mock(ImageView.class);
+        images.add(image);
         screenController.setSprites(sprites);
         screenController.setImages(images);
         screenController.updateUI();
-        assertTrue(screenController.getImages().size() > 0);
-        assertTrue(screenController.getSprites().size() > 0);
+        verify(sprite, atLeastOnce()).getY();
+        verify(sprite, atLeastOnce()).getX();
+        verify(sprite, atLeastOnce()).getSpriteChanged();
+        verify(image, atLeastOnce()).relocate(any(double.class),any(double.class));
     }
 
+
+    /**
+     * This test the removeSprite function.
+     */
     @Test
     public void testRemoveSprite() {
         ArrayList<SpriteBase> sprites = new ArrayList<>();
@@ -78,6 +95,9 @@ public class ScreenControllerTest {
         assertTrue(screenController.getSprites().size() == 0);
     }
 
+    /**
+     * This test the removeSprites function.
+     */
     @Test
     public void testRemoveSprites() {
         ArrayList<SpriteBase> sprites = new ArrayList<>();

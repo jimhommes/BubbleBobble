@@ -52,6 +52,9 @@ public class LevelControllerTest {
 		maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
 	}
 
+	/**
+	 * Tests the createTimer() method.
+	 */
 	@Test
 	public void testCreateTimer() {
 		AnimationTimer timer = levelController.createTimer();
@@ -70,6 +73,9 @@ public class LevelControllerTest {
 //		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
 //	}
 
+	/**
+	 * Tests the startLevel() method without maps.
+	 */
 	@Test
 	public void testStartLevelNoMaps() {
 		levelController.setPlayfieldLayer(new Pane());
@@ -78,6 +84,9 @@ public class LevelControllerTest {
 		assertTrue(levelController.getPlayfieldLayer().getOnMousePressed() == null);
 	}
 
+	/**
+	 * Tests the startLevel() method with maps.
+	 */
 	@Test
 	public void testStartLevel() {
 		levelController.setPlayfieldLayer(new Pane());
