@@ -1,4 +1,4 @@
-\chapter{The Core: Question 3}
+\section{Question 3}
 ``Why do you consider the other classes as less important? Following the Responsibility Driven Design,
 reflect if some of those non-main classes have similar/little responsibility and could be changed,
 merged, or removed. If so, perform the code changes; if not, explain why you need them''\\
@@ -16,7 +16,7 @@ The classes that are considered less important are:
 	\item Wall
 \end{itemize}
 
-The GameOverController and WinController are important because they control the screen when you win or lose, But these classes are almost the same. They both create a screen with a "Play Again" and a "Quit button". The only differences between these classes are the picture on the screen and the way they are called. The WinController is called when all the monsters are killed, and the GameOverController when the character touches a monster. We have removed these two classes, and created one class new class: StartOrEndController. This controller creates a screen with the two buttons, with a different image when you win or lose.\\
+\noindent The GameOverController and WinController are important because they control the screen when you win or lose, But these classes are almost the same. They both create a screen with a "Play Again" and a "Quit button". The only differences between these classes are the picture on the screen and the way they are called. The WinController is called when all the monsters are killed, and the GameOverController when the character touches a monster. We have removed these two classes, and created one class new class: StartOrEndController. This controller creates a screen with the two buttons, with a different image when you win or lose.\\
 \\
 The class Settings is a class that contains information about the game, like speed of monsters, bubbles and the player. This class makes the programming more clear.
 \\

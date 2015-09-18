@@ -1,8 +1,9 @@
-\chapter{The Core: Question 1}
+\chapter{The Core}
+\section{Question 1}
 
 ``Following the Responsibility Driven Design, start from your requirements (without considering your implementation) and derive classes, responsibilities, and collaborations (use CRC cards). Describe each step you make. Compare the result with your actual implementation and discuss any difference (e.g., additional and missing classes).'' \\
 
-As a recap we will start by providing our requirements: \\
+\noindent As a recap we will start by providing our requirements: 
 \begin{itemize}
     \item The game shall have a single level to play.
     \item The game shall show a game over screen when the player dies.
@@ -30,7 +31,7 @@ As a recap we will start by providing our requirements: \\
    \item The powerups shall increase the speed of the bubble, the distance the bubble travels or the walking speed of the character.
 \end{itemize}
 
-Next step is to derive all necessary classes from the requirements. Useful to do this is by selecting every noun in the requirements. 
+\noindent Next step is to derive all necessary classes from the requirements. Useful to do this is by selecting every noun in the requirements. 
 \begin{itemize}
     \item LevelController
     \item Level
@@ -43,7 +44,7 @@ Next step is to derive all necessary classes from the requirements. Useful to do
     \item PowerUp
 \end{itemize}
 
-Since we now have all classes present, we can start constructing our CRC cards
+\noindent Since we now have all classes present, we can start constructing our CRC cards
 
 \begin{table}[]
 \centering
