@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controller.LevelController;
+import utility.Settings;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

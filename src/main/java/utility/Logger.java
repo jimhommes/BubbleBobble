@@ -1,4 +1,4 @@
-package model;
+package utility;
 
 import java.io.*;
 import java.nio.charset.Charset;

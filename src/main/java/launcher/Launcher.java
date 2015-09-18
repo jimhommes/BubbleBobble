@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Logger;
+import utility.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

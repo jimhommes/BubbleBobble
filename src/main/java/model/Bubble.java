@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
+import utility.Settings;
 
 /**
  * Created by Jim on 9/8/2015.
