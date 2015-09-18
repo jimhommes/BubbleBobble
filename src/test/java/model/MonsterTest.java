@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import controller.LevelController;
 import junit.framework.TestCase;
+import utility.Settings;
 
 
 /**

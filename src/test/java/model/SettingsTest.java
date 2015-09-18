@@ -1,6 +1,7 @@
 package model;
 
 import junit.framework.TestCase;
+import utility.Settings;
 
 /**
  * Created by toinehartman on 11/09/15.

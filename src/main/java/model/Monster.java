@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
 
 /**
  * Created by Jim on 9/8/2015.
@@ -48,6 +49,13 @@ public class Monster extends GravityObject {
      * The movement of the monster.
      */
     public void move() {
+        double newX = getX() + getDx();
+        double newY = getY() + getDy();
+
+        if (newX != getX() || newY != getY()) {
+            Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        }
+
         super.move();
     }
 
@@ -69,6 +77,8 @@ public class Monster extends GravityObject {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
                 caughtByBubble = true;
+
+                Logger.log("Monster is caught by bubble!");
             }
         }
     }
@@ -81,6 +91,8 @@ public class Monster extends GravityObject {
             levelController.getScreenController().removeSprite(this);
             levelController.getScreenController().removeSprite(prisonBubble);
             dead = true;
+
+            Logger.log("Monster died!");
         }
     }
 

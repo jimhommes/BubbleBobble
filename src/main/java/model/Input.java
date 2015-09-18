@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import utility.Logger;
 
 import java.util.BitSet;
 
@@ -61,7 +62,7 @@ public class Input {
             // register key down
             keyboardBitSet.set(event.getCode().ordinal(), true);
 
-            Logger.logToFile(String.format("Key %s was pressed", event.getCode().getName()));
+            Logger.log(String.format("Key %s was pressed", event.getCode().getName()));
 
         }
     };
