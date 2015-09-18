@@ -28,7 +28,7 @@
    \item The player shall lose a life, when a monster touches the character. 
    \item The monsters shall be able to drop items when they die.
    \item The player shall have the ability to pick up items which will increase their score.
-   \item The powerups shall increase the speed of the bubble, the distance the bubble travels or the walking speed of the character.
+   \item The powerups shall increase the speed of the bubble, the distance the bubble travels or the walking speed of the character.\\\\\\
 \end{itemize}
 
 \noindent Next step is to derive all necessary classes from the requirements. Useful to do this is by selecting every noun in the requirements. 
@@ -51,7 +51,7 @@
 \label{crc_levelcontroller}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{LevelController} \\ \hline
+\multicolumn{2}{|l|}{\textbf{LevelController}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Level, Player} \\ \hline
 createLvl               & Level \\ \hline
@@ -67,7 +67,7 @@ winLvl                  & Level \\ \hline
 \label{crc_level}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Level} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Level}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Wall} \\ \hline
 initiateLevel           & Level \\ \hline
@@ -83,7 +83,7 @@ initiateMonsters        & Monster \\ \hline
 \label{crc_wall}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Wall} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Wall}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 setX           & Integer \\ \hline
@@ -97,7 +97,7 @@ setY           & Integer\\ \hline
 \label{crc_sprite}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Sprite} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Sprite}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Character, Monster} \\ \hline
 get/setX           & Integer \\ \hline
@@ -119,7 +119,7 @@ get/setHeight      & Integer \\ \hline
 \label{crc_character}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Character} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Character}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es): Bubble, Input} \\ \hline
 moveLeft            & Input \\ \hline
@@ -136,7 +136,7 @@ isDead              & Boolean \\ \hline
 \label{crc_monster}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Monster} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Monster}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es): Sprite} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 get/setSpeed            & Integer \\ \hline
@@ -153,7 +153,7 @@ isDead                  & Boolean \\ \hline
 \label{crc_input}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Input} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Input}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 moveUp          & -\\ \hline
@@ -170,7 +170,7 @@ fireWeapon      & - \\ \hline
 \label{crc_bubble}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{Bubble} \\ \hline
+\multicolumn{2}{|l|}{\textbf{Bubble}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 ableToCatch           & - \\ \hline
@@ -184,7 +184,7 @@ move           & -\\ \hline
 \label{crc_powerup}
 \begin{tabular}{|l|l|}
 \hline
-\multicolumn{2}{|l|}{PowerUp} \\ \hline
+\multicolumn{2}{|l|}{\textbf{PowerUp}} \\ \hline
 \multicolumn{2}{|l|}{Superclass(es):} \\ \hline
 \multicolumn{2}{|l|}{Subclass(es):} \\ \hline
 get/setAbleToPickup           & Boolean \\ \hline
