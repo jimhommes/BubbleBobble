@@ -13,7 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
+import model.Bubble;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Settings;
+import model.Wall;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +44,7 @@ public class LevelController implements Initializable {
      * KeyCode for pausing the game.
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    ;
+    
     /**
      * The list of players in the game.
      */
@@ -327,12 +333,17 @@ public class LevelController implements Initializable {
         return maps;
     }
 
+    /**
+     * This function sets the maps.
+     * @param maps The maps to be set.
+     */
     public void setMaps(ArrayList<String> maps) {
         this.maps = maps;
     }
 
     /**
      * This function returns the playfield Layer.
+     *
      * @return The playfield Layer.
      */
     public Pane getPlayfieldLayer() {
@@ -350,6 +361,7 @@ public class LevelController implements Initializable {
 
     /**
      * This function returns the current level index.
+     *
      * @return The current level index.
      */
     public int getIndexCurrLvl() {
