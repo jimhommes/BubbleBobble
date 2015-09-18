@@ -62,6 +62,14 @@ public class Logger {
         log(OUT, msg);
     }
 
+    /**
+     * Log a message.
+     *
+     * If it is an info message, it will be written to stdout. If it
+     * is an error message, it will appear on stderr.
+     * @param msg the message to log
+     * @param mode INFO for info messages, ERROR for error messages
+     */
     public static void log(String msg, boolean mode) {
         if (mode == ERROR)
             log(ERR, msg);
