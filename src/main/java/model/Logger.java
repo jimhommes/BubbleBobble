@@ -1,6 +1,7 @@
 package model;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -71,10 +72,11 @@ public class Logger {
      * @param mode INFO for info messages, ERROR for error messages
      */
     public static void log(String msg, boolean mode) {
-        if (mode == ERROR)
+        if (mode == ERROR) {
             log(ERR, msg);
-        else if (mode == INFO)
+        } else if (mode == INFO) {
             log(OUT, msg);
+        }
     }
 
     /**
@@ -103,7 +105,7 @@ public class Logger {
         try {
             stream.write(timestamp().getBytes());
 
-            stream.write(msg.getBytes());
+            stream.write(msg.getBytes(Charset.forName("UTF-8")));
             stream.write('\n');
 
             stream.flush();
