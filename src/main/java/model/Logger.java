@@ -17,9 +17,8 @@ public class Logger {
     public static final PrintStream OUT = System.out;
     public static final PrintStream ERR = System.err;
 
-    private static final int STREAM = 0;
-    private static final int FILE = 1;
-    private static final int STREAM_AND_FILE = 2;
+    private static final boolean INFO = false;
+    private static final boolean ERROR = true;
 
     /**
      * Generates a timestamp in the desired format.
@@ -61,6 +60,13 @@ public class Logger {
      */
     public static void log(String msg) {
         log(OUT, msg);
+    }
+
+    public static void log(String msg, boolean mode) {
+        if (mode == ERROR)
+            log(ERR, msg);
+        else if (mode == INFO)
+            log(OUT, msg);
     }
 
     /**
