@@ -46,7 +46,7 @@
 
 \noindent Since we now have all classes present, we can start constructing our CRC cards
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_levelcontroller}
 \begin{tabular}{|l|l|}
@@ -62,7 +62,7 @@ winLvl                  & Level \\ \hline
 \caption{CRC card: LevelController}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_level}
 \begin{tabular}{|l|l|}
@@ -78,7 +78,7 @@ initiateMonsters        & Monster \\ \hline
 \caption{CRC card: Level}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_wall}
 \begin{tabular}{|l|l|}
@@ -92,7 +92,7 @@ setY           & Integer\\ \hline
 \caption{CRC card: Wall}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_sprite}
 \begin{tabular}{|l|l|}
@@ -114,7 +114,7 @@ get/setHeight      & Integer \\ \hline
 \caption{CRC card: Sprite}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_character}
 \begin{tabular}{|l|l|}
@@ -131,7 +131,7 @@ isDead              & Boolean \\ \hline
 \caption{CRC card: Character}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_monster}
 \begin{tabular}{|l|l|}
@@ -148,7 +148,7 @@ isDead                  & Boolean \\ \hline
 \caption{CRC card: Monster}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_input}
 \begin{tabular}{|l|l|}
@@ -165,7 +165,7 @@ fireWeapon      & - \\ \hline
 \caption{CRC card: Input}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_bubble}
 \begin{tabular}{|l|l|}
@@ -179,7 +179,7 @@ move           & -\\ \hline
 \caption{CRC card: Bubble}
 \end{table}
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \label{crc_powerup}
 \begin{tabular}{|l|l|}
@@ -192,6 +192,7 @@ get/setAbleToPickup           & Boolean \\ \hline
 \caption{CRC card: PowerUp}
 \end{table}
 
+\newpage
 When comparing this with our actual implementation we notice a couple things:
 \begin{itemize}
 \item In our actual implementation, the classes Monster and Sprite have their own superclasses.
