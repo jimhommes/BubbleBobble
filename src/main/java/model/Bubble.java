@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
+import utility.Settings;
 
 /**
  * Created by Jim on 9/8/2015.
@@ -69,6 +71,13 @@ public class Bubble extends SpriteBase {
             moveHorizontally();
         } else {
             moveVertically();
+        }
+
+        double newX = getX() + getDx();
+        double newY = getY() + getDy();
+
+        if (newX != getX() || newY != getY()) {
+            Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
         }
 
         super.move();

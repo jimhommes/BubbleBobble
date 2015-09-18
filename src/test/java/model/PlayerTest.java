@@ -4,6 +4,7 @@ import controller.LevelController;
 import controller.ScreenController;
 import org.junit.Before;
 import org.junit.Test;
+import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

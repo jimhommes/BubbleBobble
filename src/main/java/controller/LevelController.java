@@ -13,12 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utility.Logger;
+import utility.Settings;
 import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Monster;
 import model.Player;
-import model.Settings;
 import model.Wall;
 
 import java.io.File;
@@ -298,6 +299,7 @@ public class LevelController implements Initializable {
      * This function is called when it's game over.
      */
     public void gameOver() {
+        Logger.log("Game over!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -313,6 +315,7 @@ public class LevelController implements Initializable {
      * This method calls the win screen when the game has been won.
      */
     public void winGame() {
+        Logger.log("Game won!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
