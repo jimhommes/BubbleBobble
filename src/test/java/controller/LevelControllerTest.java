@@ -19,8 +19,8 @@ import static org.mockito.Mockito.mock;
  */
 public class LevelControllerTest {
 
-	static LevelController levelController;
-	static Pane pane;
+	private static LevelController levelController;
+	private static Pane pane;
 
 	/**
 	 * The setup before every test.

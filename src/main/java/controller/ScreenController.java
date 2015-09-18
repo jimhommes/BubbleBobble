@@ -120,7 +120,29 @@ public class ScreenController {
      */
     public void removeSprites() {
         sprites.clear();
+
         images.clear();
         playfieldLayer.getChildren().clear();
     }
+
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
+    }
+
+    public ArrayList<ImageView> getImages() {
+        return images;
+    }
+
+    public ArrayList<SpriteBase> getSprites() {
+        return sprites;
+    }
+
+    public void setSprites(ArrayList<SpriteBase> sprites) {
+        this.sprites = sprites;
+    }
+
+    public void setImages(ArrayList<ImageView> images) {
+        this.images = images;
+    }
+
 }
