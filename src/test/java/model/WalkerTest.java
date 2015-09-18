@@ -1,15 +1,12 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import controller.LevelController;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.LevelController;
 import utility.Settings;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +34,7 @@ public class WalkerTest {
 	@Test
 	public void testSwitchingDirectionFalse() {
 		walker.switchDirection();
-		assertFalse(walker.isFacingRight());
+		assertEquals(false, walker.isFacingRight());
 	}
 	
 	/**
@@ -47,7 +44,7 @@ public class WalkerTest {
 	public void testSwitchingDirectionTrue() {
 		walker.setFacingRight(false);
 		walker.switchDirection();
-		assertTrue(walker.isFacingRight());
+		assertEquals(true, walker.isFacingRight());
 	}
 
 	/**
