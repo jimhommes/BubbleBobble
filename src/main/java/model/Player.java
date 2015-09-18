@@ -171,8 +171,14 @@ public class Player extends GravityObject {
             }
         }
 
-        super.move();
+        double newX = getX() + getDx();
+        double newY = getY() + getDy();
 
+        if (newX != getX() || newY != getY()) {
+            Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        }
+
+        super.move();
     }
 
     /**

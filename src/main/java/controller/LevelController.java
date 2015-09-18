@@ -306,6 +306,7 @@ public class LevelController implements Initializable {
      * This function is called when it's game over.
      */
     public void gameOver() {
+        Logger.log("Game over!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -321,6 +322,7 @@ public class LevelController implements Initializable {
      * This method calls the win screen when the game has been won.
      */
     public void winGame() {
+        Logger.log("Game won!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {

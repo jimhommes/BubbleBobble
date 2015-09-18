@@ -71,6 +71,13 @@ public class Bubble extends SpriteBase {
             moveVertically();
         }
 
+        double newX = getX() + getDx();
+        double newY = getY() + getDy();
+
+        if (newX != getX() || newY != getY()) {
+            Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        }
+
         super.move();
     }
 

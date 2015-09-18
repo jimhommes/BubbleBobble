@@ -21,7 +21,7 @@ public class Launcher extends Application {
      * @param args Command line arguments.
      */
     public static void main(final String[] args) throws FileNotFoundException {
-        Logger.setLogFile("log.txt");
+//        Logger.setLogFile("gamelog.txt");
         Logger.setTimestampFormat("[yyyy-MM-dd hh:mm:ss] - ");
         launch(args);
     }
