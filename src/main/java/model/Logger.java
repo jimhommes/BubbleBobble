@@ -12,7 +12,7 @@ import java.util.Locale;
  */
 public class Logger {
     private static OutputStream logFile;
-    private static String TIMESTAMP_FORMAT = "[hh:mm:ss]";
+    private static String TIMESTAMP_FORMAT = "[hh:mm:ss] ";
 
     public static final PrintStream OUT = System.out;
     public static final PrintStream ERR = System.err;
