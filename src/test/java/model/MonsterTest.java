@@ -4,7 +4,9 @@ import controller.LevelController;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +19,7 @@ public class MonsterTest {
 
 	private Monster monster;
 
-	private static double EPSILON = 0.001;
+	private static double epsilon = 0.001;
 	
     /**
      * This is run before all the tests to initialize them.
@@ -103,9 +105,9 @@ public class MonsterTest {
 	@Test
 	public void testR() throws Exception {
     	monster.setR(10);
-    	assertEquals(10.0, monster.getR(), EPSILON);
+    	assertEquals(10.0, monster.getR(), epsilon);
     	monster.setDr(10);
-    	assertEquals(10.0, monster.getDr(), EPSILON);
+    	assertEquals(10.0, monster.getDr(), epsilon);
     }
 
 	/**
@@ -115,9 +117,9 @@ public class MonsterTest {
 	@Test
     public void testHeightWidth() throws Exception {
     	monster.setHeight(100);
-    	assertEquals(100.0, monster.getHeight(), EPSILON);
+    	assertEquals(100.0, monster.getHeight(), epsilon);
     	monster.setWidth(100);
-    	assertEquals(100.0, monster.getWidth(), EPSILON);
+    	assertEquals(100.0, monster.getWidth(), epsilon);
     }
     
     /**
@@ -138,6 +140,6 @@ public class MonsterTest {
     public void testCanMove() throws Exception {
     	monster.setCanMove(false);
     	monster.move();
-    	assertEquals(1.0, monster.getX(), EPSILON);
+    	assertEquals(1.0, monster.getX(), epsilon);
     }
 }

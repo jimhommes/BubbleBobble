@@ -120,7 +120,49 @@ public class ScreenController {
      */
     public void removeSprites() {
         sprites.clear();
+
         images.clear();
         playfieldLayer.getChildren().clear();
     }
+
+    /**
+     * This function returns the playfieldLayer.
+     * @return The playfield Layer.
+     */
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
+    }
+
+    /**
+     * This function returns the images.
+     * @return The images.
+     */
+    public ArrayList<ImageView> getImages() {
+        return images;
+    }
+
+    /**
+     * This function returns the sprites.
+     * @return The sprites.
+     */
+    public ArrayList<SpriteBase> getSprites() {
+        return sprites;
+    }
+
+    /**
+     * This function sets the sprites.
+     * @param sprites The sprites to be set.
+     */
+    public void setSprites(ArrayList<SpriteBase> sprites) {
+        this.sprites = sprites;
+    }
+
+    /**
+     * This function sets the images.
+     * @param images The images to be set.
+     */
+    public void setImages(ArrayList<ImageView> images) {
+        this.images = images;
+    }
+
 }

@@ -1,1 +1,47 @@
-\chapter{The Core: Question 2}
+\subsection{Exercise 1.2}
+``Following the Responsibility Driven Design, describe the main classes you implemented in your project in terms of responsibilities and collaborations''
+
+\subsection{Launcher}
+Responsibility: \\
+The Launcher launches the game by loading the StartorEndController. \\
+Collaborations: \\
+The Launcher collaborates with the StartorEndController. 
+
+\subsubsection{StartorEndController}
+Responsibility: \\
+The StartorEndController starts the game, or ends it. \\
+Collaborations: \\
+The StartorEndController collaborates with LevelController toe load the Level which will be placed. 
+
+\subsubsection{LevelController}
+Responsibilities: \\
+The LevelController-class is responsible for handling interaction between a Level and Players. It is also runs the gameLoop which renders the game every frame. Therefor it is also able to pause the game, win a game and go to a next Level. \\
+Collaborations: \\
+The LevelController-class collaborates with a Level and the Players.
+
+\subsubsection{ScreenController}
+Responsibilities: \\
+The ScreenController is responsible for drawing everything on a screen. \\
+Collaborations: \\
+The ScreenController works together with the LevelController as well as SpriteBase to draw every sprite on the screen. 
+
+\subsubsection{Level}
+Responsibilities: \\
+The Level-class is responsible for constructing the level a customer plays. A level has to be created from loading a text-file in which is defined where to place the walls and the monsters. \\
+Collaborations: \\
+The Level-class collaborates with SpriteBase to display every element in the Level.  
+
+\subsubsection{SpriteBase}
+Responsibilities: \\
+Every element in Level has certain standard attributes such as an x,y coordinate, but also the speed in every direction and an image. All of these attributes are defined in SpriteBase. \\
+Collaborations: \\
+Depending on the kind of SpriteBase, the customer must be able to perform input. Therefor the SpriteBase collaborates with Input. 
+
+\subsubsection{Input}
+Responsibilities: \\
+The Input class catches all input performed by the customer. The class makes sure that when a customer presses one of the keys allowed the desired action is performed and when the key is released the action stops. \\
+Collaborations: \\
+The only object which can be moved by the customer is the Player class. Therefor this is the only class with which the Input class collaborates. 
+
+\subsubsection{Non-main classes}
+The classes GravityObject, Bubble, Wall, Monster, Player and Walker are all (direct or indirect) extensions of SpriteBase. Therefor they can be removed. Settings is a class with only static information and can therefor also be merged in a controller. 
