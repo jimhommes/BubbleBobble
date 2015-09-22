@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import utility.Settings;
 
 /**
  * Created by Jim on 9/8/2015.
@@ -16,6 +17,16 @@ public class Walker extends Monster {
      */
     private LevelController levelController;
 
+    /**
+     * This is the minimal Y coordinate the walker can move around in.
+     */
+    private double walkerMinY;
+    
+    /**
+     * This is the maximal Y coordinate the walker can move around in.
+     */
+    private double walkerMaxY;
+    
     /**
      * A walking monster.
      * @param x The x coordinate.
@@ -39,6 +50,9 @@ public class Walker extends Monster {
                   LevelController levelController) {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
         this.levelController = levelController;
+        
+        walkerMinY = Level.SPRITE_SIZE;
+        walkerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
     }
 
     /**
@@ -64,6 +78,11 @@ public class Walker extends Monster {
         if (!levelController.causesCollision(getX(), getX() + getWidth(),
                 getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setDy(-calculateGravity());
+            if (getY() < walkerMinY) {
+                setY(walkerMaxY - getHeight());
+            } else if (getY() + getHeight() > walkerMaxY) {
+                setY(walkerMinY);
+            }
         } else {
             setDy(0);
         }

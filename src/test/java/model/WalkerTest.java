@@ -18,13 +18,14 @@ import static org.mockito.Mockito.when;
 public class WalkerTest {
 
 	private static Walker walker;
+	private static LevelController levelcontroller;
 	
 	 /**
      * This is run before all the tests to initialize them.
      */
 	@BeforeClass
 	public static void before() {
-		LevelController levelcontroller = mock(LevelController.class);
+		levelcontroller = mock(LevelController.class);
 		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelcontroller);
 	}
 	
@@ -75,5 +76,13 @@ public class WalkerTest {
         walker.checkCollision(bubble);
         walker.move();
         assertEquals(5.0, walker.getX(), 0);
+	}
+	
+	@Test
+	public void testMoveDown() throws Exception{
+		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelcontroller);
+		walker1.move();
+		System.out.println(walker.getY());
+		assertEquals(Level.SPRITE_SIZE + walker1.getDy(), walker1.getY(), 0.0001);
 	}
 }

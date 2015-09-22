@@ -206,4 +206,10 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
 
+    @Test
+    public void testMoveDown() throws Exception {
+    	levelController = mock(LevelController.class);
+    	Player player1 = new Player(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+    	player1.processInput();
+    	assertEquals(Level.SPRITE_SIZE + player1.getDy(), player1.getY(), 0.0001);    }
 }
