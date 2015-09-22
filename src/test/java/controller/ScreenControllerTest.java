@@ -26,7 +26,7 @@ import static org.mockito.Mockito.any;
 
 public class ScreenControllerTest {
 
-    private static ScreenController screenController;
+    private ScreenController screenController;
 
     /**
      * The function that happens before every test.

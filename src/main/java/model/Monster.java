@@ -49,11 +49,12 @@ public class Monster extends GravityObject {
      * The movement of the monster.
      */
     public void move() {
-        double newX = getX() + getDx();
-        double newY = getY() + getDy();
+        Double newX = getX() + getDx();
+        Double newY = getY() + getDy();
 
-        if (newX != getX() || newY != getY()) {
-            Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        if (!newX.equals(getX()) || !newY.equals(getY())) {
+            Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
+                    getX(), getY(), newX, newY));
         }
 
         super.move();
