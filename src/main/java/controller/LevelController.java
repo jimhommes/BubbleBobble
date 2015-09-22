@@ -120,6 +120,7 @@ public class LevelController {
      */
     public LevelController(MainController mainController) {
         this.mainController = mainController;
+        this.screenController = mainController.getScreenController();
         findMaps();
         gameLoop = createTimer();
         startLevel(gameLoop);

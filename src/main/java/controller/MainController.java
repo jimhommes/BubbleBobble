@@ -50,8 +50,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.levelController = new LevelController(this);
         this.screenController = new ScreenController(playfieldLayer);
+        this.levelController = new LevelController(this);
     }
 
     public Pane getPlayfieldLayer() {
@@ -74,4 +74,7 @@ public class MainController implements Initializable {
         return pauseVBox;
     }
 
+    public ScreenController getScreenController() {
+        return screenController;
+    }
 }
