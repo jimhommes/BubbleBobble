@@ -2,22 +2,27 @@ package utility;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.containsString;
-
-import org.junit.Test;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
 /**
- * Created by Matthijs on 15-09-15.
+ * Test for the Logger class.
  */
 public class LoggerTest {
 
@@ -27,9 +32,13 @@ public class LoggerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private PrintStream outStream;
 
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
+    /**
+     * Set up the test class.
+     */
     @Before
     public void setUp() {
         try {
@@ -41,10 +50,13 @@ public class LoggerTest {
         }
 
         outStream = new PrintStream(outContent);
-
     }
 
 
+    /**
+     * Test setting the log file path.
+     * @throws FileNotFoundException if file path does not exist.
+     */
     @Test
     public void testSetLogFile() throws FileNotFoundException {
         Logger.setLogFile(testFile1.getAbsolutePath());
@@ -52,9 +64,13 @@ public class LoggerTest {
 
     }
 
+    /**
+     * Test logging to a file.
+     * @throws IOException if the test file is not found.
+     */
     @Test
     public void testLogToFile() throws IOException {
-        Logger.setLogFile((testFile2.getAbsolutePath()));
+        Logger.setLogFile(testFile2.getAbsolutePath());
         Logger.logToFile("Test log");
         String text;
         BufferedReader br = new BufferedReader(new FileReader(testFile2));
@@ -76,6 +92,9 @@ public class LoggerTest {
 
     }
 
+    /**
+     * Test default log.
+     */
     @Test
     public void testLog() {
         Logger.log(outStream, "Test log to console");
@@ -83,10 +102,14 @@ public class LoggerTest {
     }
 
 
+    /**
+     * Test setting the format of the timestamp.
+     * @throws IOException if the test file is not found.
+     */
     @Test
     public void testSetTimestampFormat() throws IOException {
         Logger.setLogFile((testFile3.getAbsolutePath()));
-        Logger.setTimestampFormat("yyyy");
+        Logger.setTimestamp("yyyy");
         Logger.logToFile("");
         String text;
         BufferedReader br = new BufferedReader(new FileReader(testFile3));
