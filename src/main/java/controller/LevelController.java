@@ -79,6 +79,11 @@ public class LevelController {
     private MainController mainController;
 
     /**
+     * The input for the player.
+     */
+    private Input input;
+
+    /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
@@ -182,6 +187,7 @@ public class LevelController {
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
+                    createInput();
                     createLvl();
 
                     mainController.getStartMessage().setVisible(false);
@@ -204,20 +210,24 @@ public class LevelController {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.removeSprites();
 
-        createPlayer();
+        createPlayer(input);
 
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
+    }
+
+    private void createInput() {
+        if(input == null) {
+            input = new Input(mainController.getPlayfieldLayer().getScene());
+            input.addListeners();
+        }
     }
 
     /**
      * The function that is used to create the player.
      */
     @SuppressWarnings("unchecked")
-    public void createPlayer() {
-        Input input = new Input(mainController.getPlayfieldLayer().getScene());
-        input.addListeners();
-
+    public void createPlayer(Input input) {
         double x = 200;
         double y = 200;
 
@@ -363,5 +373,9 @@ public class LevelController {
      */
     public boolean isGamePaused() {
         return this.gamePaused;
+    }
+
+    public ArrayList getPlayers() {
+        return players;
     }
 }

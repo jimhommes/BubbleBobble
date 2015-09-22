@@ -2,15 +2,15 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.layout.Pane;
+import model.Input;
+import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 import utility.Settings;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +24,7 @@ public class LevelControllerTest {
 
     private LevelController levelController;
     private MainController mainController;
+    private Pane pane;
 
     /**
      * The setup before every test.
@@ -31,7 +32,8 @@ public class LevelControllerTest {
     @Before
     public void setUp() {
         mainController = mock(MainController.class);
-        when(mainController.getPlayfieldLayer()).thenReturn(new Pane());
+        pane = mock(Pane.class);
+        when(mainController.getPlayfieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController);
         levelController.setScreenController(new ScreenController(new Pane()));
     }
@@ -65,17 +67,20 @@ public class LevelControllerTest {
         assertTrue(timer != null);
     }
 
-    //Needs FXML
-//	@Test
-//	public void testCreatePlayer() {
-//		assertTrue(levelController.getPlayers().isEmpty());
-//		levelController.createPlayer();
-//		ArrayList<Player> players = levelController.getPlayers();
-//		assertTrue(!players.isEmpty());
-//		assertEquals(200, players.get(0).getX(), 0.001);
-//		assertEquals(200, players.get(0).getY(), 0.001);
-//		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
-//	}
+    /**
+     * The test that tests the createPlayer() method.
+     */
+	@Test
+	public void testCreatePlayer() {
+		assertTrue(levelController.getPlayers().isEmpty());
+        levelController.setScreenController(mock(ScreenController.class));
+		levelController.createPlayer(mock(Input.class));
+		ArrayList<Player> players = levelController.getPlayers();
+		assertTrue(!players.isEmpty());
+		assertEquals(200, players.get(0).getX(), 0.001);
+		assertEquals(200, players.get(0).getY(), 0.001);
+		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
+	}
 
     /**
      * Tests the startLevel() method without maps.
