@@ -2,6 +2,8 @@ package model;
 
 import controller.LevelController;
 
+import java.util.Random;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -15,6 +17,23 @@ public class Walker extends Monster {
      * This is the levelController.
      */
     private LevelController levelController;
+
+    /**
+     * This boolean indicates whether the monster is jumping.
+     */
+    private boolean jumping;
+
+    /**
+     * This boolean indicates whether the player is ready for a jump.
+     */
+    private boolean ableToJump;
+
+    /**
+     * This counter is used to check how long the player is in the air.
+     */
+    private int jumpCounter;
+
+    private static final int JUMPTRESHOLD = 2;
 
     /**
      * A walking monster.
@@ -38,7 +57,11 @@ public class Walker extends Monster {
                   boolean facingRight,
                   LevelController levelController) {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
+
         this.levelController = levelController;
+        this.jumpCounter = 30;
+        this.ableToJump = false;
+        this.jumping = false;
     }
 
     /**
@@ -46,6 +69,17 @@ public class Walker extends Monster {
      */
     public void move() {
         if (!isCaughtByBubble()) {
+            if (jumpCounter < 12) {
+                jumpCounter++;
+            }
+
+            if (jumpCounter == 12) {
+                setDy(0);
+                jumping = false;
+            }
+            if (!jumping) {
+                ableToJump = true;
+            }
             moveHorizontal();
             moveVertical();
         } else {
@@ -63,7 +97,17 @@ public class Walker extends Monster {
     private void moveVertical() {
         if (!levelController.causesCollision(getX(), getX() + getWidth(),
                 getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-            setDy(-calculateGravity());
+            if (ableToJump && randInt() < JUMPTRESHOLD) {
+                ableToJump = false;
+                jumping = true;
+                setDy(calculateGravity());
+                jumpCounter = 0;
+//                setY(getY() - calculateGravity());
+            } else {
+                if (!jumping) {
+                    setDy(-calculateGravity());
+                }
+            }
         } else {
             setDy(0);
         }
@@ -96,4 +140,14 @@ public class Walker extends Monster {
     public void switchDirection() {
         setFacingRight(!isFacingRight());
     }
+
+    private int randInt() {
+        Random rand = new Random();
+        int min = 1;
+        int max = 10;
+        int res = rand.nextInt((max - min) + 1) + min;
+        System.out.println(res);
+        return res;
+    }
+
 }
