@@ -101,14 +101,17 @@ public class LevelControllerTest {
         assertEquals(0, levelController.getIndexCurrLvl());
     }
 
-    //Uses createPlayer();
-//	@Test
-//	public void testCreateLevel() {
-//		assertTrue(levelController.getCurrLvl() == null);
-//		levelController.findMaps();
-//		levelController.createLvl();
-//		assertTrue(levelController.getCurrLvl() != null);
-//	}
+    /**
+     * This is the test that tests the createLvl() function.
+     */
+	@Test
+	public void testCreateLevel() {
+        levelController.setScreenController(mock(ScreenController.class));
+		assertNull(levelController.getCurrLvl());
+		levelController.findMaps();
+		levelController.createLvl();
+		assertNotNull(levelController.getCurrLvl());
+	}
 
 
 }

@@ -378,4 +378,8 @@ public class LevelController {
     public ArrayList getPlayers() {
         return players;
     }
+
+    public Level getCurrLvl() {
+        return currLvl;
+    }
 }
