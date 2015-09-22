@@ -2,9 +2,7 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -13,20 +11,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.*;
 import utility.Logger;
 import utility.Settings;
-import model.Bubble;
-import model.Input;
-import model.Level;
-import model.Monster;
-import model.Player;
-import model.Wall;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 /**
  * @author Jim
@@ -39,7 +30,7 @@ import java.util.ResourceBundle;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController implements Initializable {
+public class LevelController {
 
     /**
      * KeyCode for pausing the game.
@@ -51,31 +42,6 @@ public class LevelController implements Initializable {
      */
     @SuppressWarnings("rawtypes")
     private ArrayList players = new ArrayList<>();
-    /**
-     * The message that says "Click when ready".
-     */
-    @FXML
-    private Text startMessage;
-    /**
-     * The message that says "Game Paused".
-     */
-    @FXML
-    private Text pauseMessage;
-    /**
-     * The message that gives extra information when game is paused.
-     */
-    @FXML
-    private Text pauseMessageSub;
-    /**
-     * The VBox that contains pauseMessage and pauseMessageSub.
-     */
-    @FXML
-    private VBox pauseVBox;
-    /**
-     * The layer the player "moves" in.
-     */
-    @FXML
-    private Pane playfieldLayer;
     
     /**
      * The list of maps that the user is about to play.
@@ -106,12 +72,23 @@ public class LevelController implements Initializable {
      * The gameloop timer. This timer is the main timer.
      */
     private AnimationTimer gameLoop;
+
+    /**
+     * The Main Controller.
+     */
+    private MainController mainController;
+
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
+
+            VBox pauseVBox = mainController.getPauseVBox();
+            Text pauseMessage = mainController.getPauseMessage();
+            Text pauseMessageSub = mainController.getPauseMessageSub();
+
 
             // pause game on keypress PAUSE_KEY
             if (event.getCode() == PAUSE_KEY) {
@@ -133,17 +110,13 @@ public class LevelController implements Initializable {
     };
 
     /**
-     * The init function.
-     *
-     * @param location  The URL
-     * @param resources The ResourceBundle.
+     * The constructor of this class.
+     * @param mainController The main controller that creates this class.
      */
-    @Override
-    public final void initialize(final URL location, final ResourceBundle resources) {
+    public LevelController(MainController mainController) {
+        this.mainController = mainController;
         findMaps();
-
         gameLoop = createTimer();
-        this.screenController = new ScreenController(playfieldLayer);
         startLevel(gameLoop);
     }
 
@@ -204,12 +177,14 @@ public class LevelController implements Initializable {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
+            Pane playfieldLayer = mainController.getPlayfieldLayer();
+
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
                     createLvl();
 
-                    startMessage.setVisible(false);
+                    mainController.getStartMessage().setVisible(false);
                     playfieldLayer.getScene().addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
@@ -239,7 +214,7 @@ public class LevelController implements Initializable {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer() {
-        Input input = new Input(playfieldLayer.getScene());
+        Input input = new Input(mainController.getPlayfieldLayer().getScene());
         input.addListeners();
 
         double x = 200;
@@ -301,7 +276,7 @@ public class LevelController implements Initializable {
     public void gameOver() {
         Logger.log("Game over!");
         gameLoop.stop();
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        Stage stage = (Stage) mainController.getPlayfieldLayer().getScene().getWindow();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
             stage.setScene(new Scene(root));
@@ -317,7 +292,7 @@ public class LevelController implements Initializable {
     public void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        Stage stage = (Stage) mainController.getPlayfieldLayer().getScene().getWindow();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
             stage.setScene(new Scene(root));
@@ -350,16 +325,7 @@ public class LevelController implements Initializable {
      * @return The playfield Layer.
      */
     public Pane getPlayfieldLayer() {
-        return playfieldLayer;
-    }
-
-    /**
-     * This sets the playfield layer.
-     *
-     * @param playfieldLayer The playfieldlayer to be set.
-     */
-    public void setPlayfieldLayer(Pane playfieldLayer) {
-        this.playfieldLayer = playfieldLayer;
+        return mainController.getPlayfieldLayer();
     }
 
     /**
