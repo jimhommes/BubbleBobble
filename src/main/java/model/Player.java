@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
+import utility.Settings;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ public class Player extends GravityObject {
 
     /**
      * The bubbles the player fired.
+
      */
     private ArrayList<Bubble> bubbles;
 
@@ -193,8 +196,14 @@ public class Player extends GravityObject {
             }
         }
 
-        super.move();
+        double newX = getX() + getDx();
+        double newY = getY() + getDy();
 
+        if (newX != getX() || newY != getY()) {
+            Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        }
+
+        super.move();
     }
 
     /**
@@ -354,6 +363,14 @@ public class Player extends GravityObject {
      */
     public boolean getGameOver() {
         return gameOver;
+    }
+
+    /**
+     * This function returns the speed.
+     * @return The speed.
+     */
+    public double getSpeed() {
+        return speed;
     }
 
 }

@@ -4,6 +4,8 @@ import controller.LevelController;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utility.Settings;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

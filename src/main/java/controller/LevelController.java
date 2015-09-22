@@ -13,12 +13,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import utility.Logger;
+import utility.Settings;
 import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Monster;
 import model.Player;
-import model.Settings;
 import model.Wall;
 
 import java.io.File;
@@ -29,8 +30,8 @@ import java.util.ResourceBundle;
 
 /**
  * @author Jim
- * @since 9/5/2015
  * @version 0.1
+ * @since 9/5/2015
  */
 
 /**
@@ -41,70 +42,61 @@ import java.util.ResourceBundle;
 public class LevelController implements Initializable {
 
     /**
+     * KeyCode for pausing the game.
+     */
+    private static final KeyCode PAUSE_KEY = KeyCode.P;
+    
+    /**
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-	private ArrayList players;
-
+    private ArrayList players = new ArrayList<>();
     /**
      * The message that says "Click when ready".
      */
     @FXML
     private Text startMessage;
-    
     /**
      * The message that says "Game Paused".
      */
     @FXML
     private Text pauseMessage;
-    
     /**
      * The message that gives extra information when game is paused.
      */
     @FXML
     private Text pauseMessageSub;
-
     /**
      * The VBox that contains pauseMessage and pauseMessageSub.
      */
     @FXML
     private VBox pauseVBox;
-    
     /**
      * The layer the player "moves" in.
      */
     @FXML
     private Pane playfieldLayer;
-
+    
     /**
      * The list of maps that the user is about to play.
      */
-    private ArrayList<String> maps;
+    private ArrayList<String> maps = new ArrayList<>();
     /**
      * The current index of the level the user is playing.
      */
     private int indexCurrLvl;
-
     /**
      * THe current level the user is playing.
      */
     private Level currLvl;
-
     /**
      * A boolean to see if the game is going on or not.
      */
     private boolean gameStarted = false;
-    
     /**
      * A boolean to see if the game is going on or not.
      */
     private boolean gamePaused = false;
-
-    /**
-     * KeyCode for pausing the game. 
-     */
-    private static final KeyCode PAUSE_KEY = KeyCode.P;
-
     /**
      * The screenController that handles all GUI.
      */
@@ -114,7 +106,32 @@ public class LevelController implements Initializable {
      * The gameloop timer. This timer is the main timer.
      */
     private AnimationTimer gameLoop;
-    
+    /**
+     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     */
+    private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+
+            // pause game on keypress PAUSE_KEY
+            if (event.getCode() == PAUSE_KEY) {
+                pauseVBox.setVisible(true);
+                pauseMessage.setVisible(true);
+                pauseMessageSub.setVisible(true);
+                gamePaused = true;
+            }
+
+            //unpause game on keypress anything except PAUSE_KEY
+            if (gamePaused && event.getCode() != PAUSE_KEY) {
+                pauseVBox.setVisible(true);
+                pauseMessage.setVisible(false);
+                pauseMessageSub.setVisible(false);
+                gamePaused = false;
+            }
+
+        }
+    };
+
     /**
      * The init function.
      *
@@ -123,8 +140,6 @@ public class LevelController implements Initializable {
      */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        maps = new ArrayList<>();
-        players = new ArrayList<>();
         findMaps();
 
         gameLoop = createTimer();
@@ -135,7 +150,7 @@ public class LevelController implements Initializable {
     /**
      * This function scans the resources folder for maps.
      */
-    private void findMaps() {
+    public void findMaps() {
         File folder = new File("src/main/resources");
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
@@ -148,12 +163,13 @@ public class LevelController implements Initializable {
 
     /**
      * This function returns the gameLoop.
+     *
      * @return The gameLoop.
      */
-    private AnimationTimer createTimer() {
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
-			@Override
+            @Override
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
@@ -181,16 +197,18 @@ public class LevelController implements Initializable {
 
     /**
      * This function initializes the level.
+     *
      * @param gameLoop is the loop of the game.
      */
     public final void startLevel(AnimationTimer gameLoop) {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
+
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
                     createLvl();
-                    createPlayer();
+
                     startMessage.setVisible(false);
                     playfieldLayer.getScene().addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
@@ -206,8 +224,12 @@ public class LevelController implements Initializable {
      * This function creates the currLvl'th level.
      */
     @SuppressWarnings("unchecked")
-	public final void createLvl() {
+    public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
+        screenController.removeSprites();
+
+        createPlayer();
+
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }
@@ -216,7 +238,7 @@ public class LevelController implements Initializable {
      * The function that is used to create the player.
      */
     @SuppressWarnings("unchecked")
-	private void createPlayer() {
+    public void createPlayer() {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
@@ -224,36 +246,10 @@ public class LevelController implements Initializable {
         double y = 200;
 
         Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+        players.clear();
         players.add(player);
         screenController.addToSprites(players);
     }
-    
-
-    /**
-     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
-     */
-    private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
-
-            // pause game on keypress PAUSE_KEY
-            if (event.getCode() == PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(true);
-                pauseMessageSub.setVisible(true);
-                gamePaused = true;
-            }
-            
-            //unpause game on keypress anything except PAUSE_KEY
-            if (gamePaused && event.getCode() != PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(false);
-                pauseMessageSub.setVisible(false);
-                gamePaused = false;
-            }
-
-        }
-    };
 
     /**
      * This function creates the next level.
@@ -269,6 +265,7 @@ public class LevelController implements Initializable {
 
     /**
      * This function checks whether a set of coordinates collide with a wall.
+     *
      * @param minX The smallest X
      * @param maxX The highest X
      * @param minY The smallest Y
@@ -276,21 +273,21 @@ public class LevelController implements Initializable {
      * @return True if a collision was caused.
      */
     @SuppressWarnings("unchecked")
-	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
             double wallMinX = wall.getX();
             double wallMaxX = wallMinX + wall.getWidth();
             double wallMinY = wall.getY();
             double wallMaxY = wallMinY + wall.getHeight();
-            if (((minX > wallMinX && minX < wallMaxX) 
-            		|| (maxX > wallMinX && maxX < wallMaxX) 
-            		|| (wallMinX > minX && wallMinX < maxX) 
+            if (((minX > wallMinX && minX < wallMaxX)
+                    || (maxX > wallMinX && maxX < wallMaxX)
+                    || (wallMinX > minX && wallMinX < maxX)
                     || (wallMaxX > minX && wallMaxX < maxX))
-            		&& ((minY > wallMinY && minY < wallMaxY) 
-                    		|| (maxY > wallMinY && maxY < wallMaxY) 
-                            || (wallMinY > minY && wallMinY < maxY) 
-                            || (wallMaxY > minY && wallMaxY < maxY))) {
+                    && ((minY > wallMinY && minY < wallMaxY)
+                    || (maxY > wallMinY && maxY < wallMaxY)
+                    || (wallMinY > minY && wallMinY < maxY)
+                    || (wallMaxY > minY && wallMaxY < maxY))) {
                 return true;
             }
         }
@@ -299,26 +296,10 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * Gets the screenController.
-     * @return The screencontroller.
-     */
-    public ScreenController getScreenController() {
-        return screenController;
-    }
-
-    /**
-     * This is the boolean to check if the game is paused or not.
-     *
-     * @return True if the gamePaused is true.
-     */
-    public boolean isGamePaused() {
-        return this.gamePaused;
-    }
-
-    /**
      * This function is called when it's game over.
      */
     public void gameOver() {
+        Logger.log("Game over!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -334,6 +315,7 @@ public class LevelController implements Initializable {
      * This method calls the win screen when the game has been won.
      */
     public void winGame() {
+        Logger.log("Game won!");
         gameLoop.stop();
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -343,5 +325,76 @@ public class LevelController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This function returns the maps.
+     *
+     * @return The maps.
+     */
+    public ArrayList<String> getMaps() {
+        return maps;
+    }
+
+    /**
+     * This function sets the maps.
+     * @param maps The maps to be set.
+     */
+    public void setMaps(ArrayList<String> maps) {
+        this.maps = maps;
+    }
+
+    /**
+     * This function returns the playfield Layer.
+     *
+     * @return The playfield Layer.
+     */
+    public Pane getPlayfieldLayer() {
+        return playfieldLayer;
+    }
+
+    /**
+     * This sets the playfield layer.
+     *
+     * @param playfieldLayer The playfieldlayer to be set.
+     */
+    public void setPlayfieldLayer(Pane playfieldLayer) {
+        this.playfieldLayer = playfieldLayer;
+    }
+
+    /**
+     * This function returns the current level index.
+     *
+     * @return The current level index.
+     */
+    public int getIndexCurrLvl() {
+        return indexCurrLvl;
+    }
+
+    /**
+     * Gets the screenController.
+     *
+     * @return The screencontroller.
+     */
+    public ScreenController getScreenController() {
+        return screenController;
+    }
+
+    /**
+     * This sets the screen Controller.
+     *
+     * @param screenController The screencontroller to be set.
+     */
+    public void setScreenController(ScreenController screenController) {
+        this.screenController = screenController;
+    }
+
+    /**
+     * This is the boolean to check if the game is paused or not.
+     *
+     * @return True if the gamePaused is true.
+     */
+    public boolean isGamePaused() {
+        return this.gamePaused;
     }
 }

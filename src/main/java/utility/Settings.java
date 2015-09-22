@@ -1,4 +1,4 @@
-package model;
+package utility;
 
 /**
  * Class used for storing default settings.
