@@ -191,6 +191,7 @@ public class LevelController {
                 }
             });
         } else {
+            mainController.getPlayfieldLayer().setOnMousePressed(null);
             System.out.println("No maps found!");
         }
     }
