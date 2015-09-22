@@ -75,7 +75,7 @@ public class Walker extends Monster {
      * This function handles the vertical movement.
      */
     private void moveVertical() {
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+    	if (!levelController.causesCollision(getX(), getX() + getWidth(),
                 getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setDy(-calculateGravity());
             if (getY() < walkerMinY) {

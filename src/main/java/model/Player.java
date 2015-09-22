@@ -170,7 +170,7 @@ public class Player extends GravityObject {
         }
 
         if (getY() < playerMinY) {
-            setY(playerMinY);
+            setY(playerMaxY - getHeight());
         } else if (getY() + getHeight() > playerMaxY) {
             setY(playerMinY);
         }
