@@ -112,8 +112,7 @@ public class LoggerTest {
         Logger.setTimestamp("yyyy");
         Logger.logToFile("");
         String text;
-        BufferedReader br = new BufferedReader(new FileReader(testFile3));
-        try {
+        try (BufferedReader br = new BufferedReader(new FileReader(testFile3))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -122,15 +121,14 @@ public class LoggerTest {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
+            
             text = sb.toString();
-        } finally {
-            br.close();
         }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy");
         Date date = new Date();
-        String expected = dateFormat.format(date) + "\n";
-        assertEquals(text, expected);
+        String expected = dateFormat.format(date);
+        assertEquals(text.trim(), expected.trim());
 
     }
 
