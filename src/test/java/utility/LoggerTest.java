@@ -121,8 +121,7 @@ public class LoggerTest {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-
-            sb.delete(sb.length() - 2, sb.length() - 1);
+            
             text = sb.toString();
         }
 
