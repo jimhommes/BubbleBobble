@@ -64,6 +64,7 @@ public class Bubble extends SpriteBase {
 
     /**
      * This method is used to check if a bubble is .
+     * @return true if Bubble extends life_time of Bubble
      */
     public boolean checkPop() {
 

@@ -251,7 +251,8 @@ public class Player extends GravityObject {
     public void checkBubbles() {
 
         Iterator<Bubble> i = bubbles.iterator();
-        while(i.hasNext()) {
+
+        while (i.hasNext()) {
 
             Bubble bubble = i.next();
             if (bubble.checkPop()) {
