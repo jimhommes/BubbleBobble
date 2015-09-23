@@ -63,11 +63,25 @@ public class Bubble extends SpriteBase {
     }
 
     /**
+     * This method is used to check if a bubble is .
+     */
+    public boolean checkPop() {
+
+        if (counter > Settings.BUBBLE_LIVE_TIME) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * This method is used to move the bubble.
      */
     public void move() {
-        if (counter < 30) {
-            counter++;
+
+        counter++;
+
+        if (counter < Settings.BUBBLE_FLY_TIME) {
             moveHorizontally();
         } else {
             moveVertically();

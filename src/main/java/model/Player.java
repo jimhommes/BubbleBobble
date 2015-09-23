@@ -5,6 +5,7 @@ import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -242,6 +243,26 @@ public class Player extends GravityObject {
         this.isDead = true;
         counter = 0;
         setImage("/BubbleBobbleDeath.png");
+    }
+
+    /**
+     * This method will remove a bubble from the ArrayList of Bubbles shot by the Player.
+     */
+    public void checkBubbles() {
+
+        Iterator<Bubble> i = bubbles.iterator();
+        while(i.hasNext()) {
+
+            Bubble bubble = i.next();
+            if (bubble.checkPop()) {
+
+                i.remove();
+                levelController.getScreenController().removeSprite(bubble);
+
+                Logger.log(String.format("Bubble is popped"));
+            }
+        }
+
     }
 
     /**
