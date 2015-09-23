@@ -89,13 +89,22 @@ public class Bubble extends SpriteBase {
      */
     private void moveVertically() {
         setDx(0);
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+//        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+//                getY() - Settings.BUBBLE_FLY_SPEED,
+//                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+//            setDy(-Settings.BUBBLE_FLY_SPEED);
+//        } else {
+//            setDy(0);
+//        }
+        
+        if (!levelController.topWallCollision(getX(), getX() + getWidth(),
                 getY() - Settings.BUBBLE_FLY_SPEED,
                 getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
         } else {
             setDy(0);
         }
+  //      setDy(-Settings.BUBBLE_FLY_SPEED);
         ableToCatch = false;
     }
 
