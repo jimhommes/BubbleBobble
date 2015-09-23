@@ -77,6 +77,7 @@ public class Monster extends GravityObject {
                     || bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
+                prisonBubble.setIsPrisonbubble(true);
                 caughtByBubble = true;
 
                 Logger.log("Monster is caught by bubble!");

@@ -251,11 +251,11 @@ public class Player extends GravityObject {
     public void checkBubbles() {
 
         Iterator<Bubble> i = bubbles.iterator();
-
+        
         while (i.hasNext()) {
 
             Bubble bubble = i.next();
-            if (bubble.checkPop()) {
+            if (bubble.checkPop() & !bubble.getIsPrisonBubble()) {
 
                 i.remove();
                 levelController.getScreenController().removeSprite(bubble);
