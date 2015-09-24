@@ -84,6 +84,11 @@ public class LevelController {
     private Input input;
 
     /**
+     * The path to the maps.
+     */
+    private String pathMaps = "src/main/resources";
+
+    /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
@@ -130,7 +135,7 @@ public class LevelController {
      * This function scans the resources folder for maps.
      */
     public void findMaps() {
-        File folder = new File("src/main/resources");
+        File folder = new File(pathMaps);
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (File file : listOfFiles) {
@@ -188,11 +193,13 @@ public class LevelController {
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
-                    createInput();
+                    if (input == null) {
+                        createInput();
+                    }
                     createLvl();
 
-                    mainController.getStartMessage().setVisible(false);
-                    playfieldLayer.getScene().addEventFilter(
+                    mainController.hideStartMessage();
+                    playfieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
@@ -382,5 +389,25 @@ public class LevelController {
 
     public Level getCurrLvl() {
         return currLvl;
+    }
+
+    public void setPathMaps(String pathMaps) {
+        this.pathMaps = pathMaps;
+    }
+
+    public boolean getGameStarted() {
+        return gameStarted;
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public AnimationTimer getGameLoop() {
+        return gameLoop;
+    }
+
+    public void setInput(Input input) {
+        this.input = input;
     }
 }

@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Input;
 import model.Player;
@@ -59,6 +61,18 @@ public class LevelControllerTest {
     }
 
     /**
+     * Tests the findmaps function when there is an empty directory.
+     */
+    @Test
+    public void testFindMapsEmptyDir() {
+        ArrayList<String> maps = levelController.getMaps();
+        levelController.setPathMaps("src/main/resources/emptyDir");
+        levelController.findMaps();
+        assertEquals(Settings.AMOUNT_MAPS, maps.size());
+        maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
+    }
+
+    /**
      * Tests the createTimer() method.
      */
     @Test
@@ -113,5 +127,27 @@ public class LevelControllerTest {
 		assertNotNull(levelController.getCurrLvl());
 	}
 
+    /**
+     * This tests the mouse click event from the gameLoop.
+     */
+    @Test
+    public void testStartLevelMouseEvent() {
+        assertFalse(levelController.getGameStarted());
+        assertNull(levelController.getInput());
+        assertNull(levelController.getCurrLvl());
+
+        Pane pane = new Pane();
+        when(mainController.getPlayfieldLayer()).thenReturn(pane);
+        levelController.setInput(mock(Input.class));
+        levelController.setScreenController(mock(ScreenController.class));;
+
+        levelController.startLevel(mock(AnimationTimer.class));
+        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+
+        assertTrue(levelController.getGameStarted());
+        assertNotEquals(levelController.getPlayers().size(), 0);
+        assertNotEquals(levelController.getCurrLvl(),null);
+
+    }
 
 }

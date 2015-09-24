@@ -77,4 +77,8 @@ public class MainController implements Initializable {
     public ScreenController getScreenController() {
         return screenController;
     }
+
+    public void hideStartMessage() {
+        startMessage.setVisible(false);
+    }
 }
