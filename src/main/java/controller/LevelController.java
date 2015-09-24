@@ -5,14 +5,13 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import model.Level;
+import utility.Logger;
+import model.Bubble;
 import model.Input;
+import model.Level;
 import model.Player;
 import model.Monster;
-import model.Bubble;
 import model.Wall;
-import utility.Logger;
-import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -225,13 +224,14 @@ public class LevelController {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
-        double x = 200;
-        double y = 200;
-
-        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.clear();
-        players.add(player);
-        screenController.addToSprites(players);
+        ArrayList<Player> players = currLvl.getPlayers();
+        players.forEach(player -> {
+            player.setInput(input);
+            this.players.add(player);
+        });
+
+        screenController.addToSprites(this.players);
     }
 
     /**

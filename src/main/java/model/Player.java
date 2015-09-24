@@ -374,4 +374,12 @@ public class Player extends GravityObject {
         return speed;
     }
 
+    /**
+     * Set the input for a player.
+     * @param input The input for a player.
+     */
+    public void setInput(Input input) {
+        this.input = input;
+    }
+
 }
