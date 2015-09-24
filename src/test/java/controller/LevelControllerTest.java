@@ -13,8 +13,7 @@ import utility.Settings;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -139,7 +138,7 @@ public class LevelControllerTest {
         Pane pane = new Pane();
         when(mainController.getPlayfieldLayer()).thenReturn(pane);
         levelController.setInput(mock(Input.class));
-        levelController.setScreenController(mock(ScreenController.class));;
+        levelController.setScreenController(mock(ScreenController.class));
 
         levelController.startLevel(mock(AnimationTimer.class));
         pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
@@ -147,7 +146,55 @@ public class LevelControllerTest {
         assertTrue(levelController.getGameStarted());
         assertNotEquals(levelController.getPlayers().size(), 0);
         assertNotEquals(levelController.getCurrLvl(),null);
+    }
 
+    /**
+     * This tests the mouse click event from the gameLoop when the game has already started.
+     */
+    @Test
+    public void testStartLevelMouseEventGameStarted() {
+        levelController.setGameStarted(true);
+        assertTrue(levelController.getGameStarted());
+        assertNull(levelController.getInput());
+        assertNull(levelController.getCurrLvl());
+
+        Pane pane = new Pane();
+        when(mainController.getPlayfieldLayer()).thenReturn(pane);
+        levelController.setInput(mock(Input.class));
+        levelController.setScreenController(mock(ScreenController.class));
+
+        levelController.startLevel(mock(AnimationTimer.class));
+        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+
+        assertTrue(levelController.getGameStarted());
+    }
+
+    /**
+     * This tests the nextLevel() function.
+     */
+    @Test
+    public void testNextLevel() {
+        levelController.setScreenController(mock(ScreenController.class));
+        int index = levelController.getIndexCurrLvl();
+
+        levelController.nextLevel();
+
+        assertEquals(levelController.getIndexCurrLvl(), index + 1);
+    }
+
+    /**
+     * This tests the next level function when the game is out of maps.
+     */
+    @Test
+    public void testNextLevelWon() {
+        levelController.setScreenController(mock(ScreenController.class));
+        levelController.setIndexCurrLvl(levelController.getMaps().size());
+        int index = levelController.getIndexCurrLvl();
+
+        levelController.nextLevel();
+
+        assertEquals(levelController.getIndexCurrLvl(), index + 1);
+        verify(mainController, atLeastOnce()).showWinScreen();
     }
 
 }

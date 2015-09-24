@@ -193,9 +193,8 @@ public class LevelController {
             playfieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
-                    if (input == null) {
-                        createInput();
-                    }
+                    createInput();
+
                     createLvl();
 
                     mainController.hideStartMessage();
@@ -311,14 +310,7 @@ public class LevelController {
     public void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
-        Stage stage = (Stage) mainController.getPlayfieldLayer().getScene().getWindow();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mainController.showWinScreen();
     }
 
     /**
@@ -409,5 +401,13 @@ public class LevelController {
 
     public void setInput(Input input) {
         this.input = input;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    public void setIndexCurrLvl(int indexCurrLvl) {
+        this.indexCurrLvl = indexCurrLvl;
     }
 }

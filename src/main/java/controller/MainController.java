@@ -1,11 +1,16 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -80,5 +85,16 @@ public class MainController implements Initializable {
 
     public void hideStartMessage() {
         startMessage.setVisible(false);
+    }
+
+    public void showWinScreen() {
+        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
