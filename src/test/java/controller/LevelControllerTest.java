@@ -19,8 +19,7 @@ import static org.mockito.Mockito.mock;
  */
 public class LevelControllerTest {
 
-	private static LevelController levelController;
-	private static Pane pane;
+	private LevelController levelController;
 
 	/**
 	 * The setup before every test.
@@ -48,7 +47,7 @@ public class LevelControllerTest {
 		levelController.findMaps();
 		ArrayList<String> maps = levelController.getMaps();
 		System.out.println(maps);
-		assertEquals(2, maps.size());
+		assertEquals(4, maps.size());
 		maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
 	}
 
