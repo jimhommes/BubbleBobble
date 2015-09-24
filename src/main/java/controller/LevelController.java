@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utility.Logger;
-import utility.Settings;
 import model.Bubble;
 import model.Input;
 import model.Level;
@@ -242,13 +241,14 @@ public class LevelController implements Initializable {
         Input input = new Input(playfieldLayer.getScene());
         input.addListeners();
 
-        double x = 200;
-        double y = 200;
-
-        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
         players.clear();
-        players.add(player);
-        screenController.addToSprites(players);
+        ArrayList<Player> players = currLvl.getPlayers();
+        players.forEach(player -> {
+            player.setInput(input);
+            this.players.add(player);
+        });
+
+        screenController.addToSprites(this.players);
     }
 
     /**
