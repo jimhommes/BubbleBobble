@@ -260,7 +260,7 @@ public class Player extends GravityObject {
                 i.remove();
                 levelController.getScreenController().removeSprite(bubble);
 
-                Logger.log(String.format("Bubble is popped"));
+                Logger.log("Bubble is popped");
             }
         }
 
