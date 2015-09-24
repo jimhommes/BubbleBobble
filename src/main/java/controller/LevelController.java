@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utility.Logger;
-//import utility.Settings;
 import model.Bubble;
 import model.Input;
 import model.Level;
