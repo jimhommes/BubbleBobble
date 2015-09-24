@@ -149,6 +149,7 @@ public class LevelController {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
                         player.move();
+                        player.checkBubbles();
                         player.getBubbles().forEach(Bubble::move);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
