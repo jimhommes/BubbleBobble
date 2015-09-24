@@ -398,4 +398,14 @@ public class LevelController {
     public void setIndexCurrLvl(int indexCurrLvl) {
         this.indexCurrLvl = indexCurrLvl;
     }
+
+    public void setPlayers(ArrayList players) {
+        this.players = players;
+    }
+
+    public void setCurrLvl(Level currLvl) {
+        this.currLvl = currLvl;
+    }
+
+
 }

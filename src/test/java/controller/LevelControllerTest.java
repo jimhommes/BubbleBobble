@@ -5,6 +5,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Input;
+import model.Level;
+import model.Monster;
 import model.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -197,10 +199,92 @@ public class LevelControllerTest {
         verify(mainController, atLeastOnce()).showWinScreen();
     }
 
+    /**
+     * This tests the gameOver function.
+     */
     @Test
     public void testGameOver() {
         levelController.gameOver();
         verify(mainController, atLeastOnce()).showGameOverScreen();
     }
 
+
+    /**
+     * This tests the gameLoop.
+     */
+    @Test
+    public void testGameLoop() {
+        AnimationTimer gameLoop = levelController.createTimer();
+        ArrayList players = new ArrayList();
+        Player player = mock(Player.class);
+        players.add(player);
+
+        ArrayList monsters = new ArrayList();
+        Monster monster = mock(Monster.class);
+        monsters.add(monster);
+
+        levelController.setPlayers(players);
+        Level level = mock(Level.class);
+        levelController.setCurrLvl(level);
+        levelController.setScreenController(mock(ScreenController.class));
+        when(level.getMonsters()).thenReturn(monsters);
+        when(level.update()).thenReturn(true);
+        int index = levelController.getIndexCurrLvl();
+
+        when(player.getGameOver()).thenReturn(false);
+
+        gameLoop.handle(1);
+
+        verify(player, atLeastOnce()).processInput();
+        verify(player, atLeastOnce()).move();
+        verify(player, atLeastOnce()).getBubbles();
+        verify(player, atLeastOnce()).checkCollideMonster(monster);
+        verify(monster, atLeastOnce()).move();
+        assertEquals(levelController.getIndexCurrLvl(), index + 1);
+    }
+
+    /**
+     * This tests the gameLoop when the game is over for player 1.
+     */
+    @Test
+    public void testGameLoopGameOver() {
+        AnimationTimer gameLoop = levelController.createTimer();
+        ArrayList players = new ArrayList();
+        Player player = mock(Player.class);
+        players.add(player);
+        levelController.setPlayers(players);
+        levelController.setCurrLvl(mock(Level.class));
+
+        when(player.getGameOver()).thenReturn(true);
+
+        gameLoop.handle(1);
+
+        verify(player, never()).processInput();
+        verify(player, never()).move();
+        verify(player, never()).getBubbles();
+    }
+
+    /**
+     * This tests the gameLoop when the game is over for player 1.
+     */
+    @Test
+    public void testGameLoopNextLevel() {
+        AnimationTimer gameLoop = levelController.createTimer();
+        ArrayList players = new ArrayList();
+        Player player = mock(Player.class);
+        players.add(player);
+        levelController.setPlayers(players);
+        Level level = mock(Level.class);
+        levelController.setCurrLvl(level);
+
+        int index = levelController.getIndexCurrLvl();
+
+        when(player.getGameOver()).thenReturn(true);
+        when(level.update()).thenReturn(false);
+
+        gameLoop.handle(1);
+
+        assertEquals(levelController.getIndexCurrLvl(), index);
+
+    }
 }
