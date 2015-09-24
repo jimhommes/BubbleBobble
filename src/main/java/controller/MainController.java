@@ -108,4 +108,16 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void showPausescreen() {
+        pauseVBox.setVisible(true);
+        pauseMessage.setVisible(true);
+        pauseMessageSub.setVisible(true);
+    }
+
+    public void hidePausescreen() {
+        pauseVBox.setVisible(true);
+        pauseMessage.setVisible(false);
+        pauseMessageSub.setVisible(false);
+    }
 }

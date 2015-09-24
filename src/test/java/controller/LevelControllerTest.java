@@ -1,6 +1,9 @@
 package controller;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -285,6 +288,22 @@ public class LevelControllerTest {
         gameLoop.handle(1);
 
         assertEquals(levelController.getIndexCurrLvl(), index);
+
+    }
+
+    /**
+     * This tests the pausekey handler.
+     */
+    @Test
+    public void testPauseKeyHandler() {
+        EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
+        handler.handle(new KeyEvent(null, null, null, "p", "p", KeyCode.P, false, false, false, false));
+        verify(mainController, atLeastOnce()).showPausescreen();
+        assertTrue(levelController.getGamePaused());
+
+        handler.handle(new KeyEvent(null, null, null, "a", "a", KeyCode.A, false, false, false, false));
+        verify(mainController, atLeastOnce()).hidePausescreen();
+        assertFalse(levelController.getGamePaused());
 
     }
 }

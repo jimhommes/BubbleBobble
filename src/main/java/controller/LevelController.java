@@ -5,8 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import model.*;
 import utility.Logger;
 import utility.Settings;
@@ -90,24 +88,15 @@ public class LevelController {
         @Override
         public void handle(KeyEvent event) {
 
-            VBox pauseVBox = mainController.getPauseVBox();
-            Text pauseMessage = mainController.getPauseMessage();
-            Text pauseMessageSub = mainController.getPauseMessageSub();
-
-
             // pause game on keypress PAUSE_KEY
             if (event.getCode() == PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(true);
-                pauseMessageSub.setVisible(true);
+                mainController.showPausescreen();
                 gamePaused = true;
             }
 
             //unpause game on keypress anything except PAUSE_KEY
             if (gamePaused && event.getCode() != PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(false);
-                pauseMessageSub.setVisible(false);
+                mainController.hidePausescreen();
                 gamePaused = false;
             }
 
@@ -408,4 +397,11 @@ public class LevelController {
     }
 
 
+    public EventHandler<KeyEvent> getPauseKeyEventHandler() {
+        return pauseKeyEventHandler;
+    }
+
+    public boolean getGamePaused() {
+        return gamePaused;
+    }
 }
