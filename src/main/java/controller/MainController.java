@@ -49,44 +49,48 @@ public class MainController implements Initializable {
     @FXML
     private Pane playfieldLayer;
 
-    private LevelController levelController;
-
+    /**
+     * The screen controller that handles all GUI/sprite interaction.
+     */
     private ScreenController screenController;
 
+    /**
+     * The initialize function.
+     * @param location The URL.
+     * @param resources The resourcebundle.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playfieldLayer);
-        this.levelController = new LevelController(this);
+        new LevelController(this);
     }
 
+    /**
+     * This function returns the playfieldLayer.
+     * @return The playfieldLayer.
+     */
     public Pane getPlayfieldLayer() {
         return playfieldLayer;
     }
 
-    public Text getStartMessage() {
-        return startMessage;
-    }
-
-    public Text getPauseMessage() {
-        return pauseMessage;
-    }
-
-    public Text getPauseMessageSub() {
-        return pauseMessageSub;
-    }
-
-    public VBox getPauseVBox() {
-        return pauseVBox;
-    }
-
+    /**
+     * This function returns the screenController.
+     * @return The ScreenController.
+     */
     public ScreenController getScreenController() {
         return screenController;
     }
 
+    /**
+     * This function hides the startmessage.
+     */
     public void hideStartMessage() {
         startMessage.setVisible(false);
     }
 
+    /**
+     * This function shows the win screen.
+     */
     public void showWinScreen() {
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -98,6 +102,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * This function shows the gameover screen.
+     */
     public void showGameOverScreen() {
         Stage stage = (Stage) playfieldLayer.getScene().getWindow();
         try {
@@ -109,12 +116,18 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * This function shows the pause screen.
+     */
     public void showPausescreen() {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
     }
 
+    /**
+     * This function hides the pause screen.
+     */
     public void hidePausescreen() {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);

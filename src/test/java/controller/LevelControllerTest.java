@@ -17,8 +17,17 @@ import utility.Settings;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
 
 
 /**
@@ -146,11 +155,13 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
 
         levelController.startLevel(mock(AnimationTimer.class));
-        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
+                true, true, true, true, true, true, true, true, true, null));
 
         assertTrue(levelController.getGameStarted());
         assertNotEquals(levelController.getPlayers().size(), 0);
-        assertNotEquals(levelController.getCurrLvl(),null);
+        assertNotEquals(levelController.getCurrLvl(), null);
     }
 
     /**
@@ -169,7 +180,9 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
 
         levelController.startLevel(mock(AnimationTimer.class));
-        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true, true, true, true, true, true, true, true, true, null));
+        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true,
+                true, true, true, true, true, true, true, true, null));
 
         assertTrue(levelController.getGameStarted());
     }
@@ -297,11 +310,13 @@ public class LevelControllerTest {
     @Test
     public void testPauseKeyHandler() {
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
-        handler.handle(new KeyEvent(null, null, null, "p", "p", KeyCode.P, false, false, false, false));
+        handler.handle(new KeyEvent(null, null,
+                null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).showPausescreen();
         assertTrue(levelController.getGamePaused());
 
-        handler.handle(new KeyEvent(null, null, null, "a", "a", KeyCode.A, false, false, false, false));
+        handler.handle(new KeyEvent(null, null,
+                null, "a", "a", KeyCode.A, false, false, false, false));
         verify(mainController, atLeastOnce()).hidePausescreen();
         assertFalse(levelController.getGamePaused());
 

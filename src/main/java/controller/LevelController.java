@@ -5,7 +5,12 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import model.*;
+import model.Level;
+import model.Input;
+import model.Player;
+import model.Monster;
+import model.Bubble;
+import model.Wall;
 import utility.Logger;
 import utility.Settings;
 
@@ -208,7 +213,7 @@ public class LevelController {
     }
 
     private void createInput() {
-        if(input == null) {
+        if (input == null) {
             input = new Input(mainController.getPlayfieldLayer().getScene());
             input.addListeners();
         }
@@ -216,6 +221,7 @@ public class LevelController {
 
     /**
      * The function that is used to create the player.
+     * @param input The input.
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
@@ -352,55 +358,98 @@ public class LevelController {
         return this.gamePaused;
     }
 
+    /**
+     * The function that gets the players.
+     * @return The players.
+     */
     public ArrayList getPlayers() {
         return players;
     }
 
+    /**
+     * The function thet returns the current level.
+     * @return The current level.
+     */
     public Level getCurrLvl() {
         return currLvl;
     }
 
+    /**
+     * The function that sets the path to the maps.
+     * @param pathMaps The path to the maps.
+     */
     public void setPathMaps(String pathMaps) {
         this.pathMaps = pathMaps;
     }
 
+    /**
+     * The function that gets if the game is started.
+     * @return True if the game is started.
+     */
     public boolean getGameStarted() {
         return gameStarted;
     }
 
+    /**
+     * This function returns the input.
+     * @return The input.
+     */
     public Input getInput() {
         return input;
     }
 
-    public AnimationTimer getGameLoop() {
-        return gameLoop;
-    }
-
+    /**
+     * This function sets the input.
+     * @param input The input.
+     */
     public void setInput(Input input) {
         this.input = input;
     }
 
+    /**
+     * This function sets if the game has started.
+     * @param gameStarted True if the game has started.
+     */
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
     }
 
+    /**
+     * This function sets the current index level.
+     * @param indexCurrLvl The index of the curr level.
+     */
     public void setIndexCurrLvl(int indexCurrLvl) {
         this.indexCurrLvl = indexCurrLvl;
     }
 
+    /**
+     * This function sets the players.
+     * @param players The players.
+     */
     public void setPlayers(ArrayList players) {
         this.players = players;
     }
 
+    /**
+     * This fucntion sets the current level.
+     * @param currLvl The current level.
+     */
     public void setCurrLvl(Level currLvl) {
         this.currLvl = currLvl;
     }
 
-
+    /**
+     * This function gets the pauseKeyEventHandler.
+     * @return The pause key event handler.
+     */
     public EventHandler<KeyEvent> getPauseKeyEventHandler() {
         return pauseKeyEventHandler;
     }
 
+    /**
+     * This function returns true if the game is paused.
+     * @return True if the game is paused.
+     */
     public boolean getGamePaused() {
         return gamePaused;
     }
