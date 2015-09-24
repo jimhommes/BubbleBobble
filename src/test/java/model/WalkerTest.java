@@ -54,10 +54,10 @@ public class WalkerTest {
 	@Test
 	public void testMove() throws Exception {
 		walker.move();
-		assertEquals(Settings.MONSTER_SPEED , walker.getX(), 0);
+		assertEquals(37.0 , walker.getX(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(0, walker.getX(), 0);
+		assertEquals(32.0, walker.getX(), 0);
 	}
 	
 	/**
@@ -74,6 +74,6 @@ public class WalkerTest {
         when(bubble.getAbleToCatch()).thenReturn(true);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(5.0, walker.getX(), 0);
+        assertEquals(37.0, walker.getX(), 0);
 	}
 }

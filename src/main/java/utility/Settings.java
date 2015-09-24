@@ -28,7 +28,7 @@ public final class Settings {
     /**
      * The monster speed.
      */
-    public static final double MONSTER_SPEED = 5;
+    public static final double MONSTER_SPEED = 5.0;
 
     /**
      * The bubble speed when it is flying horizontally.
@@ -44,6 +44,11 @@ public final class Settings {
      * The jump speed.
      */
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
+
+    /**
+     * The jump speed of a walker.
+     */
+    public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
 
     /**
      * The private constructor that does nothing.

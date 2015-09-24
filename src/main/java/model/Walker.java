@@ -1,15 +1,12 @@
 package model;
 
 import controller.LevelController;
-
+import utility.Settings;
 import java.util.Random;
 
 /**
- * Created by Jim on 9/8/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/8/2015
+ *  Walker class which is a kind of monster, which just moves around and kills
+ *  the player when they touch. It can be captured by a bubble shot by the player.
  */
 public class Walker extends Monster {
 
@@ -33,7 +30,27 @@ public class Walker extends Monster {
      */
     private int jumpCounter;
 
-    private static final int JUMPTRESHOLD = 2;
+    /**
+     * This is the minimal X coordinate the walker can move around in.
+     */
+    private double walkerMinX;
+
+    /**
+     * This is the maximal X coordinate the walker can move around in.
+     */
+    private double walkerMaxX;
+
+    /**
+     * This is the minimal Y coordinate the walker can move around in.
+     */
+    private double walkerMinY;
+
+    /**
+     * This is the maximal Y coordinate the walker can move around in.
+     */
+    private double walkerMaxY;
+
+    private static final int JUMP_THRESHOLD = 5;
 
     /**
      * A walking monster.
@@ -59,9 +76,14 @@ public class Walker extends Monster {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
 
         this.levelController = levelController;
-        this.jumpCounter = 30;
+        this.jumpCounter = 20;
         this.ableToJump = false;
         this.jumping = false;
+
+        walkerMinX = Level.SPRITE_SIZE;
+        walkerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
+        walkerMinY = Level.SPRITE_SIZE;
+        walkerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
     }
 
     /**
@@ -69,6 +91,9 @@ public class Walker extends Monster {
      */
     public void move() {
         if (!isCaughtByBubble()) {
+
+            moveCollisionChecker();
+
             if (jumpCounter < 12) {
                 jumpCounter++;
             }
@@ -76,9 +101,6 @@ public class Walker extends Monster {
             if (jumpCounter == 12) {
                 setDy(0);
                 jumping = false;
-            }
-            if (!jumping) {
-                ableToJump = true;
             }
             moveHorizontal();
             moveVertical();
@@ -88,29 +110,55 @@ public class Walker extends Monster {
             setX(getPrisonBubble().getX());
             setY(getPrisonBubble().getY());
         }
+
+        checkBounds();
+
         super.move();
+    }
+
+    private void moveCollisionChecker() {
+        if (!levelController.causesCollision(getX(),
+                getX() + getWidth(),
+                getY() - calculateGravity(),
+                getY() + getHeight() - calculateGravity())) {
+            if (!jumping) {
+                setY(getY() - calculateGravity());
+            }
+            ableToJump = false;
+        } else {
+            if (!jumping) {
+                ableToJump = true;
+            }
+        }
+    }
+
+    /**
+     * This function returns the player if it is out of bounds.
+     */
+    private void checkBounds() {
+        if (getX() < walkerMinX) {
+            setX(walkerMinX);
+        } else if (getX() + getWidth() > walkerMaxX) {
+            setX(walkerMaxX - getWidth());
+        }
+
+        if (getY() < walkerMinY) {
+            setY(walkerMinY);
+        } else if (getY() + getHeight() > walkerMaxY) {
+            setY(walkerMaxY - getHeight());
+        }
     }
 
     /**
      * This function handles the vertical movement.
      */
     private void moveVertical() {
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
-                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-            if (ableToJump && randInt() < JUMPTRESHOLD) {
+            if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
-                setDy(calculateGravity());
+                setDy(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
-//                setY(getY() - calculateGravity());
-            } else {
-                if (!jumping) {
-                    setDy(-calculateGravity());
-                }
             }
-        } else {
-            setDy(0);
-        }
     }
 
     /**
@@ -144,7 +192,7 @@ public class Walker extends Monster {
     private int randInt() {
         Random rand = new Random();
         int min = 1;
-        int max = 10;
+        int max = 200;
         int res = rand.nextInt((max - min) + 1) + min;
         System.out.println(res);
         return res;
