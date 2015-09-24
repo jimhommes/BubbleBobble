@@ -149,6 +149,8 @@ public class LevelControllerTest {
         assertNull(levelController.getInput());
         assertNull(levelController.getCurrLvl());
 
+        levelController.setGameStarted(false);
+
         Pane pane = new Pane();
         when(mainController.getPlayfieldLayer()).thenReturn(pane);
         levelController.setInput(mock(Input.class));
@@ -159,33 +161,36 @@ public class LevelControllerTest {
                 0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
                 true, true, true, true, true, true, true, true, true, null));
 
+        levelController.setGameStarted(true);
+
+        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
+                true, true, true, true, true, true, true, true, true, null));
+
         assertTrue(levelController.getGameStarted());
         assertNotEquals(levelController.getPlayers().size(), 0);
         assertNotEquals(levelController.getCurrLvl(), null);
     }
 
-    /**
-     * This tests the mouse click event from the gameLoop when the game has already started.
-     */
-    @Test
-    public void testStartLevelMouseEventGameStarted() {
-        levelController.setGameStarted(true);
-        assertTrue(levelController.getGameStarted());
-        assertNull(levelController.getInput());
-        assertNull(levelController.getCurrLvl());
-
-        Pane pane = new Pane();
-        when(mainController.getPlayfieldLayer()).thenReturn(pane);
-        levelController.setInput(mock(Input.class));
-        levelController.setScreenController(mock(ScreenController.class));
-
-        levelController.startLevel(mock(AnimationTimer.class));
-        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true,
-                true, true, true, true, true, true, true, true, null));
-
-        assertTrue(levelController.getGameStarted());
-    }
+//    /**
+//     * This tests the mouse click event from the gameLoop when the game has already started.
+//     */
+//    @Test
+//    public void testStartLevelMouseEventGameStarted() {
+//        levelController.setGameStarted(true);
+//
+//        Pane pane = new Pane();
+//        when(mainController.getPlayfieldLayer()).thenReturn(pane);
+//        levelController.setInput(mock(Input.class));
+//        levelController.setScreenController(mock(ScreenController.class));
+//
+//        levelController.startLevel(mock(AnimationTimer.class));
+//        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+//                0, 0, 0, 0, MouseButton.PRIMARY, 1, true, true,
+//                true, true, true, true, true, true, true, true, null));
+//
+//        assertTrue(levelController.getGameStarted());
+//    }
 
     /**
      * This tests the nextLevel() function.
