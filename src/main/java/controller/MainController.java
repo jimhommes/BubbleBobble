@@ -97,4 +97,15 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void showGameOverScreen() {
+        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

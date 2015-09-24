@@ -2,21 +2,16 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.*;
 import utility.Logger;
 import utility.Settings;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -294,14 +289,7 @@ public class LevelController {
     public void gameOver() {
         Logger.log("Game over!");
         gameLoop.stop();
-        Stage stage = (Stage) mainController.getPlayfieldLayer().getScene().getWindow();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mainController.showGameOverScreen();
     }
 
     /**

@@ -197,4 +197,10 @@ public class LevelControllerTest {
         verify(mainController, atLeastOnce()).showWinScreen();
     }
 
+    @Test
+    public void testGameOver() {
+        levelController.gameOver();
+        verify(mainController, atLeastOnce()).showGameOverScreen();
+    }
+
 }
