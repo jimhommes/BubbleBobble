@@ -413,6 +413,14 @@ public class LevelController {
     public void setPathMaps(String pathMaps) {
         this.pathMaps = pathMaps;
     }
+    
+    /**
+     * This method gets the path of the maps.
+     * @return pathMaps, the path to the maps.
+     */
+    public String getPathMaps() {
+    	return pathMaps;
+    }
 
     /**
      * The function that gets if the game is started.

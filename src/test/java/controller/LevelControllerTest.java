@@ -128,7 +128,29 @@ public class LevelControllerTest {
         assertTrue(levelController.getPlayfieldLayer().getOnMousePressed() != null);
         assertEquals(0, levelController.getIndexCurrLvl());
     }
-
+    
+    
+    /**
+     * Tests the getScreenController.
+     */
+    @Test
+    public void testScreenController() {
+    	ScreenController sc = mock(ScreenController.class);
+    	levelController.setScreenController(sc);
+    	assertEquals(sc, levelController.getScreenController());
+    }
+    
+    /**
+     * The function that sets the path to the maps.
+     * @param pathMaps The path to the maps.
+     */
+    @Test
+    public void testSetPathMaps() {
+        String pathMaps = "path";
+        levelController.setPathMaps(pathMaps);
+        assertEquals(pathMaps, levelController.getPathMaps());
+    }
+    
     /**
      * This is the test that tests the createLvl() function.
      */
@@ -314,6 +336,7 @@ public class LevelControllerTest {
         verify(player, never()).getBubbles();
     }
 
+    
     /**
      * This tests the gameLoop when the game is over for player 1.
      */
