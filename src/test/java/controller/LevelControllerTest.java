@@ -74,18 +74,6 @@ public class LevelControllerTest {
     }
 
     /**
-     * Tests the findmaps function when there is an empty directory.
-     */
-    @Test
-    public void testFindMapsEmptyDir() {
-        ArrayList<String> maps = levelController.getMaps();
-        levelController.setPathMaps("src/main/resources/emptyDir");
-        levelController.findMaps();
-        assertEquals(Settings.AMOUNT_MAPS, maps.size());
-        maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
-    }
-
-    /**
      * Tests the createTimer() method.
      */
     @Test
