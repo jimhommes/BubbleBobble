@@ -114,6 +114,9 @@ public class Bubble extends SpriteBase {
                 getY() - Settings.BUBBLE_FLY_SPEED,
                 getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
+            if (getY() == 0) {
+            	setY(Settings.SCENE_HEIGHT);
+            }
         } else {
             setDy(0);
         }
