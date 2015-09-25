@@ -85,8 +85,6 @@ public class WalkerTest {
         walker.setHeight(32.0);
         walker.checkCollision(bubble);
         walker.move();
-        System.out.println(walker.isCaughtByBubble());
-        System.out.println(walker.getX());
         assertEquals(bubble.getX(), walker.getX(), 0);
 	}
 	

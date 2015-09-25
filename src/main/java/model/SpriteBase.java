@@ -333,7 +333,6 @@ public abstract class SpriteBase {
         } else if (getY() + getHeight() > spriteMaxY) {
             setY(spriteMinY);
         }
-        System.out.println(getX());
     }
 
 }
