@@ -107,12 +107,10 @@ public class Walker extends Monster {
             moveVertical();
             checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
         } else {
-        	System.out.println(getX());
             setDx(0);
             setDy(0);
             setX(getPrisonBubble().getX());
             setY(getPrisonBubble().getY());
-            System.out.println(getX());
         }
 
         
