@@ -92,13 +92,11 @@ public class Walker extends Monster {
     public void move() {
         if (!isCaughtByBubble()) {
 
-            moveCollisionChecker();
+            ableToJump = moveCollisionChecker(jumping, ableToJump);
 
             if (jumpCounter < 12) {
                 jumpCounter++;
-            }
-
-            if (jumpCounter == 12) {
+            } else if (jumpCounter == 12) {
                 setDy(0);
                 jumping = false;
             }
@@ -111,42 +109,9 @@ public class Walker extends Monster {
             setY(getPrisonBubble().getY());
         }
 
-        checkBounds();
+        checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY);
 
         super.move();
-    }
-
-    private void moveCollisionChecker() {
-        if (!levelController.causesCollision(getX(),
-                getX() + getWidth(),
-                getY() - calculateGravity(),
-                getY() + getHeight() - calculateGravity())) {
-            if (!jumping) {
-                setY(getY() - calculateGravity());
-            }
-            ableToJump = false;
-        } else {
-            if (!jumping) {
-                ableToJump = true;
-            }
-        }
-    }
-
-    /**
-     * This function returns the player if it is out of bounds.
-     */
-    private void checkBounds() {
-        if (getX() < walkerMinX) {
-            setX(walkerMinX);
-        } else if (getX() + getWidth() > walkerMaxX) {
-            setX(walkerMaxX - getWidth());
-        }
-
-        if (getY() < walkerMinY) {
-            setY(walkerMinY);
-        } else if (getY() + getHeight() > walkerMaxY) {
-            setY(walkerMaxY - getHeight());
-        }
     }
 
     /**
@@ -194,7 +159,6 @@ public class Walker extends Monster {
         int min = 1;
         int max = 200;
         int res = rand.nextInt((max - min) + 1) + min;
-        System.out.println(res);
         return res;
     }
 
