@@ -241,6 +241,8 @@ public class Player extends GravityObject {
      */
     public void die() {
         this.isDead = true;
+        setDx(0);
+        setDy(0);
         counter = 0;
         setImage("/BubbleBobbleDeath.png");
     }
