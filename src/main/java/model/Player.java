@@ -204,8 +204,11 @@ public class Player extends GravityObject {
                         getY() + getHeight() - calculateGravity())) {
                     ableToJump = true;
                     isAbleToDoubleJump = false;
+                } else if(isAbleToDoubleJump){
+                    ableToJump = false;
                 }
                 setY(getY() - calculateGravity());
+
             } else {
                 ableToJump = false;
             }
