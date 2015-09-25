@@ -36,7 +36,7 @@ public class Monster extends GravityObject {
     public Monster(String imagePath, double x, double y, double r,
                    double dx, double dy, double dr, double speed, boolean facingRight,
                    LevelController levelController) {
-        super(imagePath, x, y, r, dx, dy, dr);
+        super(imagePath, x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.facingRight = facingRight;
@@ -71,6 +71,7 @@ public class Monster extends GravityObject {
             double bubbleY = bubble.getY();
             double bubbleX2 = bubbleX + getWidth();
             double bubbleY2 = bubbleY + getHeight();
+            System.out.println();
             if (((bubbleX >= getX() && bubbleX <= getX() + getWidth())
                     || (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
                     && ((bubbleY >= getY() && bubbleY <= getY() + getHeight())

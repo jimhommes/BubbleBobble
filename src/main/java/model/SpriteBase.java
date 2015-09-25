@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * The SpriteBase that will load the sprite (image).
  */
@@ -61,7 +63,7 @@ public abstract class SpriteBase {
     private boolean spriteChanged;
 
     /**
-     * The constructor. It needs all the paramaters and creates the image where planned.
+     * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
      * @param x         The x coordinate.
@@ -278,4 +280,36 @@ public abstract class SpriteBase {
     public void setCanMove(Boolean canMove) {
     	this.canMove = canMove;
     }
+
+    /**
+     * This function returns the player if it is out of bounds.
+     * @param spriteMinX The minimal X coordinate a sprite can have.
+     * @param spriteMaxX The maximal X coordinate a sprite can have.
+     * @param spriteMinY The minimal Y coordinate a sprite can have.
+     * @param spriteMaxY The maximal Y coordinate a sprite can have.
+     */
+    public void checkBounds(double spriteMinX, double spriteMaxX,
+                            double spriteMinY, double spriteMaxY,
+                            LevelController levelController) {
+        if (getX() < spriteMinX) {
+            setX(spriteMinX);
+        } else if (getX() + getWidth() > spriteMaxX) {
+            setX(spriteMaxX - getWidth());
+        }
+
+        if (getY() < spriteMinY) {
+        	if (!levelController.causesCollision(getX(),
+                    getX() + getWidth(),
+                    getY(),
+                    getY() + getHeight())) {
+        		setY(spriteMaxY - getHeight());
+        	} else {
+        		setY(spriteMinY);
+        	}	
+        } else if (getY() + getHeight() > spriteMaxY) {
+            setY(spriteMinY);
+        }
+        System.out.println(getX());
+    }
+
 }
