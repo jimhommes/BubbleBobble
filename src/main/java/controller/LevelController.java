@@ -261,18 +261,7 @@ public class LevelController {
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            double wallMinX = wall.getX();
-            double wallMaxX = wallMinX + wall.getWidth();
-            double wallMinY = wall.getY();
-            double wallMaxY = wallMinY + wall.getHeight();
-            if (((minX > wallMinX && minX < wallMaxX)
-                    || (maxX > wallMinX && maxX < wallMaxX)
-                    || (wallMinX > minX && wallMinX < maxX)
-                    || (wallMaxX > minX && wallMaxX < maxX))
-                    && ((minY > wallMinY && minY < wallMaxY)
-                    || (maxY > wallMinY && maxY < wallMaxY)
-                    || (wallMinY > minY && wallMinY < maxY)
-                    || (wallMaxY > minY && wallMaxY < maxY))) {
+            if(wall.causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }

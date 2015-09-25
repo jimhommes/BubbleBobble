@@ -195,8 +195,9 @@ public class Player extends GravityObject {
                     ableToJump = true;
                 }
                 setY(getY() - calculateGravity());
+            } else {
+                ableToJump = false;
             }
-            ableToJump = false;
         } else {
             if (!jumping) {
                 ableToJump = true;
@@ -212,6 +213,26 @@ public class Player extends GravityObject {
         }
 
         super.move();
+    }
+
+    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        levelController.getPlayers().forEach(player -> {
+            Player p = (Player) player;
+            bubbles.addAll(p.getBubbles());
+        });
+
+        if (bubbles.size() == 0) {
+            return false;
+        } else {
+            boolean res = false;
+            for(Bubble bubble : bubbles) {
+                if(bubble.causesCollision(x, x1, y, y2)) {
+                    res = true;
+                }
+            }
+            return res;
+        }
     }
 
     /**
@@ -279,7 +300,7 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp() && ableToJump) {
-                jump();
+            jump();
         }
         if (facingRight) {
             setImage("/BubRight.png");
