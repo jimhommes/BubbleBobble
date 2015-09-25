@@ -199,6 +199,14 @@ public abstract class SpriteBase {
         spriteChanged = true;
     }
 
+    /**
+     * This function checks if there is a collision with a set of coordinates.
+     * @param minX The minimal X.
+     * @param maxX The maximal X.
+     * @param minY The minimal Y.
+     * @param maxY The maximal Y.
+     * @return True if there is a collision.
+     */
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
         double minX2 = x;
         double maxX2 = minX2 + getWidth();

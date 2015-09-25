@@ -6,13 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import utility.Settings;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
@@ -34,7 +31,7 @@ public class PlayerTest {
     private ScreenController screenController;
 
     /**
-     * This method is used to initialize the tests. 
+     * This method is used to initialize the tests.
      * @throws Exception is thrown.
      */
     @Before
@@ -46,7 +43,7 @@ public class PlayerTest {
     }
 
     /**
-     * Tests the process when the player is not dead, 
+     * Tests the process when the player is not dead,
      * and checks that correct dx and dy are returned. .
      * @throws Exception .
      */
@@ -57,10 +54,10 @@ public class PlayerTest {
         assertEquals(0.0, player.getDy(), 0.001);
         assertEquals(0.0, player.getDx(), 0.001);
     }
-    
+
     /**
-     * This test process when the player is not dead, 
-     * and checks that the correct x and y are returned. 
+     * This test process when the player is not dead,
+     * and checks that the correct x and y are returned.
      * @throws Exception .
      */
     @Test
@@ -73,7 +70,7 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
-    
+
 
     /**
      * Tests the process when the player is dead.

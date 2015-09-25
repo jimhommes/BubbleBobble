@@ -261,7 +261,7 @@ public class LevelController {
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            if(wall.causesCollision(minX, maxX, minY, maxY)) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }
