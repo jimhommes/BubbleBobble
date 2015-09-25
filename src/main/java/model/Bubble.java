@@ -30,6 +30,11 @@ public class Bubble extends SpriteBase {
     private boolean ableToCatch;
 
     /**
+     * This boolean indicates if the bubble has captured a monster.
+     */
+    private boolean isPrisonBubble;
+
+    /**
      * The levelController that created the player.
      */
     private LevelController levelController;
@@ -58,33 +63,46 @@ public class Bubble extends SpriteBase {
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+        this.isPrisonBubble = false;
         this.levelController = levelController;
 
+    }
+
+    /**
+     * This method is used to check if a bubble is .
+     * @return true if Bubble extends life_time of Bubble
+     */
+    public boolean checkPop() {
+        return (counter > Settings.BUBBLE_LIVE_TIME);
     }
 
     /**
      * This method is used to move the bubble.
      */
     public void move() {
-        if (counter < 30) {
-            counter++;
+
+        counter++;
+
+        if (counter < Settings.BUBBLE_FLY_TIME) {
             moveHorizontally();
         } else {
             moveVertically();
         }
 
-        double newX = getX() + getDx();
-        double newY = getY() + getDy();
+        Double newX = getX() + getDx();
+        Double newY = getY() + getDy();
 
-        if (newX != getX() || newY != getY()) {
-            Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        if (!newX.equals(getX()) || !newY.equals(getY())) {
+            Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
+                    getX(), getY(), newX, newY));
         }
 
         super.move();
     }
 
     /**
-     * This function handles the vertical movement.
+     * This function handles the vertical movement, 
+     * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
         setDx(0);
@@ -92,7 +110,10 @@ public class Bubble extends SpriteBase {
                 getY() - Settings.BUBBLE_FLY_SPEED,
                 getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
-        } else {
+            if (getY() < 0) {
+                setY(Settings.SCENE_HEIGHT);
+            }
+        } else if (getY() <= 35) {
             setDy(0);
         }
         ableToCatch = false;
@@ -137,6 +158,22 @@ public class Bubble extends SpriteBase {
      */
     public boolean getAbleToCatch() {
         return ableToCatch;
+    }
+
+    /**
+     * This method sets the boolean to whether it is a prisonBubble.
+     * @param bool set to the boolean of whether the monsters is a prisonBubble.
+     */
+    public void setIsPrisonBubble(final boolean bool) {
+        isPrisonBubble = bool;
+    }
+
+    /**
+     * This method checks to see if a bubble has caught a monster.
+     * @return true if the monster can be caught.
+     */
+    public boolean getIsPrisonBubble() {
+        return isPrisonBubble;
     }
 
 }

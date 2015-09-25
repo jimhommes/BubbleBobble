@@ -1,6 +1,11 @@
 package utility;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +18,7 @@ import java.util.Locale;
  */
 public class Logger {
     private static OutputStream logFile;
-    private static String TIMESTAMP_FORMAT = "[hh:mm:ss] ";
+    private static String timestamp = "[hh:mm:ss] ";
 
     public static final PrintStream OUT = System.out;
     public static final PrintStream ERR = System.err;
@@ -22,11 +27,16 @@ public class Logger {
     private static final boolean ERROR = true;
 
     /**
+     * Class should be used in a static manner.
+     */
+    protected Logger() {  }
+
+    /**
      * Generates a timestamp in the desired format.
      * @return a formatted timestamp
      */
     private static String timestamp() {
-        SimpleDateFormat timestamp = new SimpleDateFormat(TIMESTAMP_FORMAT, Locale.getDefault());
+        SimpleDateFormat timestamp = new SimpleDateFormat(Logger.timestamp, Locale.getDefault());
         return timestamp.format(new Date());
     }
 
@@ -43,8 +53,8 @@ public class Logger {
      * Sets the format of the timestamp.
      * @param format the format String
      */
-    public static void setTimestampFormat(String format) {
-        TIMESTAMP_FORMAT = format;
+    public static void setTimestamp(String format) {
+        timestamp = format;
     }
 
     /**
@@ -103,9 +113,9 @@ public class Logger {
      */
     public static void log(OutputStream stream, String msg) {
         try {
-            stream.write(timestamp().getBytes());
+            stream.write(timestamp().getBytes(Charset.defaultCharset()));
 
-            stream.write(msg.getBytes(Charset.forName("UTF-8")));
+            stream.write(msg.getBytes(Charset.defaultCharset()));
             stream.write('\n');
 
             stream.flush();

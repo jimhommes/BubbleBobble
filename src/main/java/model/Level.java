@@ -56,7 +56,12 @@ public class Level {
     private ArrayList<Monster> monsters;
 
     /**
-     * When a level is created in the levelcontroller, it is immediately drawn.
+     * The list of the monsters that spawn.
+     */
+    private ArrayList<Player> players;
+
+    /**
+     * When a level is created in the levelController, it is immediately drawn.
      * @param lvlTitle The title of the file.
      * @param levelController the controller that controls the level.
      */
@@ -65,6 +70,7 @@ public class Level {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
+        this.players = new ArrayList<>();
         this.levelController = levelController;
         drawMap();
     }
@@ -79,13 +85,18 @@ public class Level {
                 if (map[row][col] == 1) {
                     walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
-                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                    		Settings.MONSTER_SPEED, true, levelController));
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                            Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32, 
-                    		row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                    		Settings.MONSTER_SPEED, false, levelController));
+                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                            Settings.MONSTER_SPEED, false, levelController));
+                } else if (map[row][col] == 9) {
+                    System.out.format("Player found in %d, %d%n", row, col);
+                    players.add(new Player(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                            Settings.PLAYER_SPEED, null, levelController));
                 }
             }
         }
@@ -106,8 +117,8 @@ public class Level {
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
                 if (cols.length == NUM_COLS) {
-                    for (int colum = 0; colum < cols.length; colum++) {
-                        map[row][colum] = Integer.parseInt(cols[colum]);
+                    for (int column = 0; column < cols.length; column++) {
+                        map[row][column] = Integer.parseInt(cols[column]);
                     }
                 }
                 row++;
@@ -126,12 +137,20 @@ public class Level {
     }
 
     /**
-     * The function that returns the arraylist of monsters.
-     * @return The arraylist of monsters.
+     * The function that returns the arrayList of monsters.
+     * @return The arrayList of monsters.
      */
     @SuppressWarnings("rawtypes")
     public ArrayList getMonsters() {
         return monsters;
+    }
+
+    /**
+     * This method gets the players in the game.
+     * @return The players in the game.
+     */
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     /**

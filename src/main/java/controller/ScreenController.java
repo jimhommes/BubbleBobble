@@ -32,9 +32,9 @@ public class ScreenController {
     private ArrayList<ImageView> images;
 
     /**
-     * The pane where everything is drawed in.
+     * The pane where everything is drawn in.
      */
-    private Pane playfieldLayer;
+    private Pane playFieldLayer;
 
     /**
      * The ScreenController which controls the screen.
@@ -43,7 +43,7 @@ public class ScreenController {
     public ScreenController(Pane layer) {
         sprites = new ArrayList<>();
         images = new ArrayList<>();
-        playfieldLayer = layer;
+        playFieldLayer = layer;
     }
 
     /**
@@ -60,12 +60,12 @@ public class ScreenController {
             imageView.relocate(element.getX(), element.getY());
             imageView.setRotate(element.getR());
             images.add(imageView);
-            playfieldLayer.getChildren().add(imageView);
+            playFieldLayer.getChildren().add(imageView);
         });
     }
 
     /**
-     * This method adds one spritebase.
+     * This method adds one spriteBase.
      * @param sprite the sprite that is being added.
      */
     public void addToSprites(final SpriteBase sprite) {
@@ -77,7 +77,7 @@ public class ScreenController {
         imageView.relocate(sprite.getX(), sprite.getY());
         imageView.setRotate(sprite.getR());
         images.add(imageView);
-        playfieldLayer.getChildren().add(imageView);
+        playFieldLayer.getChildren().add(imageView);
     }
 
     /**
@@ -88,7 +88,7 @@ public class ScreenController {
     }
 
     /**
-     * This funcion updates all locations of the sprites.
+     * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
     private void update(SpriteBase sprite) {
@@ -122,15 +122,15 @@ public class ScreenController {
         sprites.clear();
 
         images.clear();
-        playfieldLayer.getChildren().clear();
+        playFieldLayer.getChildren().clear();
     }
 
     /**
-     * This function returns the playfieldLayer.
-     * @return The playfield Layer.
+     * This function returns the playFieldLayer.
+     * @return The playFieldLayer.
      */
-    public Pane getPlayfieldLayer() {
-        return playfieldLayer;
+    public Pane getPlayFieldLayer() {
+        return playFieldLayer;
     }
 
     /**

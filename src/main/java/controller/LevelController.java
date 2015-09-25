@@ -2,36 +2,25 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import utility.Logger;
-import utility.Settings;
 import model.Bubble;
 import model.Input;
 import model.Level;
-import model.Monster;
 import model.Player;
+import model.Monster;
 import model.Wall;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 /**
  * @author Jim
  * @version 0.1
  * @since 9/5/2015
+ * Last Modified: Lili
  */
 
 /**
@@ -39,7 +28,7 @@ import java.util.ResourceBundle;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController implements Initializable {
+public class LevelController {
 
     /**
      * KeyCode for pausing the game.
@@ -51,31 +40,6 @@ public class LevelController implements Initializable {
      */
     @SuppressWarnings("rawtypes")
     private ArrayList players = new ArrayList<>();
-    /**
-     * The message that says "Click when ready".
-     */
-    @FXML
-    private Text startMessage;
-    /**
-     * The message that says "Game Paused".
-     */
-    @FXML
-    private Text pauseMessage;
-    /**
-     * The message that gives extra information when game is paused.
-     */
-    @FXML
-    private Text pauseMessageSub;
-    /**
-     * The VBox that contains pauseMessage and pauseMessageSub.
-     */
-    @FXML
-    private VBox pauseVBox;
-    /**
-     * The layer the player "moves" in.
-     */
-    @FXML
-    private Pane playfieldLayer;
     
     /**
      * The list of maps that the user is about to play.
@@ -86,7 +50,7 @@ public class LevelController implements Initializable {
      */
     private int indexCurrLvl;
     /**
-     * THe current level the user is playing.
+     * The current level the user is playing.
      */
     private Level currLvl;
     /**
@@ -103,9 +67,25 @@ public class LevelController implements Initializable {
     private ScreenController screenController;
 
     /**
-     * The gameloop timer. This timer is the main timer.
+     * The gameLoop timer. This timer is the main timer.
      */
     private AnimationTimer gameLoop;
+
+    /**
+     * The Main Controller.
+     */
+    private MainController mainController;
+
+    /**
+     * The input for the player.
+     */
+    private Input input;
+
+    /**
+     * The path to the maps.
+     */
+    private String pathMaps = "src/main/resources";
+
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
@@ -113,19 +93,15 @@ public class LevelController implements Initializable {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on keypress PAUSE_KEY
+            // pause game on key press PAUSE_KEY
             if (event.getCode() == PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(true);
-                pauseMessageSub.setVisible(true);
+                mainController.showPauseScreen();
                 gamePaused = true;
             }
 
-            //unpause game on keypress anything except PAUSE_KEY
+            //un-pause game on key press anything except PAUSE_KEY
             if (gamePaused && event.getCode() != PAUSE_KEY) {
-                pauseVBox.setVisible(true);
-                pauseMessage.setVisible(false);
-                pauseMessageSub.setVisible(false);
+                mainController.hidePauseScreen();
                 gamePaused = false;
             }
 
@@ -133,17 +109,14 @@ public class LevelController implements Initializable {
     };
 
     /**
-     * The init function.
-     *
-     * @param location  The URL
-     * @param resources The ResourceBundle.
+     * The constructor of this class.
+     * @param mainController The main controller that creates this class.
      */
-    @Override
-    public final void initialize(final URL location, final ResourceBundle resources) {
+    public LevelController(MainController mainController) {
+        this.mainController = mainController;
+        this.screenController = mainController.getScreenController();
         findMaps();
-
         gameLoop = createTimer();
-        this.screenController = new ScreenController(playfieldLayer);
         startLevel(gameLoop);
     }
 
@@ -151,7 +124,7 @@ public class LevelController implements Initializable {
      * This function scans the resources folder for maps.
      */
     public void findMaps() {
-        File folder = new File("src/main/resources");
+        File folder = new File(pathMaps);
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (File file : listOfFiles) {
@@ -177,6 +150,7 @@ public class LevelController implements Initializable {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
                         player.move();
+                        player.checkBubbles();
                         player.getBubbles().forEach(Bubble::move);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
@@ -204,51 +178,62 @@ public class LevelController implements Initializable {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
-            playfieldLayer.setOnMousePressed(event -> {
+            Pane playFieldLayer = mainController.getPlayFieldLayer();
+
+            playFieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
+                    createInput();
+
                     createLvl();
 
-                    startMessage.setVisible(false);
-                    playfieldLayer.getScene().addEventFilter(
+                    mainController.hideStartMessage();
+                    playFieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
             });
         } else {
+            mainController.getPlayFieldLayer().setOnMousePressed(null);
             System.out.println("No maps found!");
         }
     }
 
     /**
-     * This function creates the currLvl'th level.
+     * This function creates the current level of currLvl.
      */
     @SuppressWarnings("unchecked")
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.removeSprites();
 
-        createPlayer();
+        createPlayer(input);
 
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
     }
 
+    private void createInput() {
+        if (input == null) {
+            input = new Input(mainController.getPlayFieldLayer().getScene());
+            input.addListeners();
+        }
+    }
+
     /**
      * The function that is used to create the player.
+     * @param input The input.
      */
     @SuppressWarnings("unchecked")
-    public void createPlayer() {
-        Input input = new Input(playfieldLayer.getScene());
-        input.addListeners();
-
-        double x = 200;
-        double y = 200;
-
-        Player player = new Player(x, y, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, this);
+    public void createPlayer(Input input) {
         players.clear();
-        players.add(player);
-        screenController.addToSprites(players);
+        ArrayList<Player> players = currLvl.getPlayers();
+        players.forEach(player -> {
+            player.setInput(input);
+            this.players.add(player);
+        });
+
+        screenController.addToSprites(this.players);
     }
 
     /**
@@ -276,18 +261,7 @@ public class LevelController implements Initializable {
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            double wallMinX = wall.getX();
-            double wallMaxX = wallMinX + wall.getWidth();
-            double wallMinY = wall.getY();
-            double wallMaxY = wallMinY + wall.getHeight();
-            if (((minX > wallMinX && minX < wallMaxX)
-                    || (maxX > wallMinX && maxX < wallMaxX)
-                    || (wallMinX > minX && wallMinX < maxX)
-                    || (wallMaxX > minX && wallMaxX < maxX))
-                    && ((minY > wallMinY && minY < wallMaxY)
-                    || (maxY > wallMinY && maxY < wallMaxY)
-                    || (wallMinY > minY && wallMinY < maxY)
-                    || (wallMaxY > minY && wallMaxY < maxY))) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }
@@ -301,14 +275,7 @@ public class LevelController implements Initializable {
     public void gameOver() {
         Logger.log("Game over!");
         gameLoop.stop();
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mainController.showGameOverScreen();
     }
 
     /**
@@ -317,14 +284,7 @@ public class LevelController implements Initializable {
     public void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mainController.showWinScreen();
     }
 
     /**
@@ -345,21 +305,12 @@ public class LevelController implements Initializable {
     }
 
     /**
-     * This function returns the playfield Layer.
+     * This function returns the playFieldLayer.
      *
-     * @return The playfield Layer.
+     * @return The playFieldLayer.
      */
-    public Pane getPlayfieldLayer() {
-        return playfieldLayer;
-    }
-
-    /**
-     * This sets the playfield layer.
-     *
-     * @param playfieldLayer The playfieldlayer to be set.
-     */
-    public void setPlayfieldLayer(Pane playfieldLayer) {
-        this.playfieldLayer = playfieldLayer;
+    public Pane getPlayFieldLayer() {
+        return mainController.getPlayFieldLayer();
     }
 
     /**
@@ -374,7 +325,7 @@ public class LevelController implements Initializable {
     /**
      * Gets the screenController.
      *
-     * @return The screencontroller.
+     * @return The screenController.
      */
     public ScreenController getScreenController() {
         return screenController;
@@ -383,7 +334,7 @@ public class LevelController implements Initializable {
     /**
      * This sets the screen Controller.
      *
-     * @param screenController The screencontroller to be set.
+     * @param screenController The screenController to be set.
      */
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -396,5 +347,111 @@ public class LevelController implements Initializable {
      */
     public boolean isGamePaused() {
         return this.gamePaused;
+    }
+
+    /**
+     * The function that gets the players.
+     * @return The players.
+     */
+    @SuppressWarnings("rawtypes")
+	public ArrayList getPlayers() {
+        return players;
+    }
+
+    /**
+     * The function that returns the current level.
+     * @return The current level.
+     */
+    public Level getCurrLvl() {
+        return currLvl;
+    }
+
+    /**
+     * The function that sets the path to the maps.
+     * @param pathMaps The path to the maps.
+     */
+    public void setPathMaps(String pathMaps) {
+        this.pathMaps = pathMaps;
+    }
+    
+    /**
+     * This method gets the path of the maps.
+     * @return pathMaps, the path to the maps.
+     */
+    public String getPathMaps() {
+    	return pathMaps;
+    }
+
+    /**
+     * The function that gets if the game is started.
+     * @return True if the game is started.
+     */
+    public boolean getGameStarted() {
+        return gameStarted;
+    }
+
+    /**
+     * This function returns the input.
+     * @return The input.
+     */
+    public Input getInput() {
+        return input;
+    }
+
+    /**
+     * This function sets the input.
+     * @param input The input.
+     */
+    public void setInput(Input input) {
+        this.input = input;
+    }
+
+    /**
+     * This function sets if the game has started.
+     * @param gameStarted True if the game has started.
+     */
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    /**
+     * This function sets the current index level.
+     * @param indexCurrLvl The index of the curr level.
+     */
+    public void setIndexCurrLvl(int indexCurrLvl) {
+        this.indexCurrLvl = indexCurrLvl;
+    }
+
+    /**
+     * This function sets the players.
+     * @param players The players.
+     */
+    @SuppressWarnings("rawtypes")
+	public void setPlayers(ArrayList players) {
+        this.players = players;
+    }
+
+    /**
+     * This function sets the current level.
+     * @param currLvl The current level.
+     */
+    public void setCurrLvl(Level currLvl) {
+        this.currLvl = currLvl;
+    }
+
+    /**
+     * This function gets the pauseKeyEventHandler.
+     * @return The pause key event handler.
+     */
+    public EventHandler<KeyEvent> getPauseKeyEventHandler() {
+        return pauseKeyEventHandler;
+    }
+
+    /**
+     * This function returns true if the game is paused.
+     * @return True if the game is paused.
+     */
+    public boolean getGamePaused() {
+        return gamePaused;
     }
 }

@@ -5,6 +5,7 @@ import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -28,7 +29,6 @@ public class Player extends GravityObject {
 
     /**
      * The bubbles the player fired.
-
      */
     private ArrayList<Bubble> bubbles;
 
@@ -39,7 +39,7 @@ public class Player extends GravityObject {
 
     /**
      * The counter that is needed to define the movement of the character,
-     * and the firerate of the bubbles.
+     * and the fire rate of the bubbles.
      */
     private int counter;
 
@@ -49,7 +49,7 @@ public class Player extends GravityObject {
     private boolean isDead;
 
     /**
-     * This boolean indicates wheter the player has died, and has no lifes left.
+     * This boolean indicates whether the player has died, and has no lives left.
      */
     private boolean gameOver;
 
@@ -62,11 +62,6 @@ public class Player extends GravityObject {
      * This boolean indicates whether the player is ready for a jump.
      */
     private boolean ableToJump;
-
-    /**
-     * This counter is used to check how long the player is in the air.
-     */
-    private int jumpCounter;
 
     /**
      * This is the minimal X coordinate the player can move around in.
@@ -87,6 +82,11 @@ public class Player extends GravityObject {
      * This is the maximal Y coordinate the player can move around in.
      */
     private double playerMaxY;
+
+    /**
+     * This indicates whether the player is able to double jump.
+     */
+    private boolean isAbleToDoubleJump;
 
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
@@ -111,14 +111,14 @@ public class Player extends GravityObject {
                   Input input,
                   LevelController levelController) {
 
-        super("../BubRight.png", x, y, r, dx, dy, dr);
+        super("../BubRight.png", x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 31;
-        this.jumpCounter = 30;
         this.ableToJump = false;
+        this.isAbleToDoubleJump = false;
         this.jumping = false;
         this.isDead = false;
         this.gameOver = false;
@@ -138,14 +138,13 @@ public class Player extends GravityObject {
     public void processInput() {
 
         if (!isDead) {
-
-            if (jumpCounter < 12) {
-                jumpCounter++;
-            }
-
-            if (jumpCounter == 12) {
-                setDy(0);
+            if (jumping && getDy() <= 0) {
+                setDy(getDy() + 0.6);
+            } else if (jumping && getDy() > 0) {
+                setDy(getDy() + 0.6);
                 jumping = false;
+            } else {
+                setDy(0);
             }
 
             moveVertical();
@@ -155,25 +154,7 @@ public class Player extends GravityObject {
             checkIfGameOver();
         }
 
-        checkBounds();
-
-    }
-
-    /**
-     * This function returns the player if it is out of bounds.
-     */
-    private void checkBounds() {
-        if (getX() < playerMinX) {
-            setX(playerMinX);
-        } else if (getX() + getWidth() > playerMaxX) {
-            setX(playerMaxX - getWidth());
-        }
-
-        if (getY() < playerMinY) {
-            setY(playerMinY);
-        } else if (getY() + getHeight() > playerMaxY) {
-            setY(playerMaxY - getHeight());
-        }
+        checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
     }
 
     /**
@@ -181,29 +162,78 @@ public class Player extends GravityObject {
      */
     @Override
     public void move() {
+        applyGravity();
 
-        if (!levelController.causesCollision(getX(),
-                getX() + getWidth(),
-                getY() - calculateGravity(),
-                getY() + getHeight() - calculateGravity())) {
-            if (!jumping) {
-                setY(getY() - calculateGravity());
-            }
-            ableToJump = false;
-        } else {
-            if (!jumping) {
-                ableToJump = true;
-            }
-        }
+        Double newX = getX() + getDx();
+        Double newY = getY() + getDy();
 
-        double newX = getX() + getDx();
-        double newY = getY() + getDy();
-
-        if (newX != getX() || newY != getY()) {
-            Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)", getX(), getY(), newX, newY));
+        if (!newX.equals(getX()) || !newY.equals(getY())) {
+            Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
+                    getX(), getY(), newX, newY));
         }
 
         super.move();
+    }
+
+    /**
+     * This function applies gravity.
+     */
+    private void applyGravity() {
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())
+                || levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
+            if (!jumping) {
+                if (isAbleToDoubleJump
+                        && causesBubbleCollision(getX(), getX() + getWidth(),
+                        getY() - calculateGravity(),
+                        getY() + getHeight() - calculateGravity())) {
+                    ableToJump = true;
+                    isAbleToDoubleJump = false;
+                } else if (isAbleToDoubleJump) {
+                    ableToJump = false;
+                }
+                setY(getY() - calculateGravity());
+            } else {
+                ableToJump = false;
+            }
+        } else {
+            if (!jumping) {
+                ableToJump = true;
+                isAbleToDoubleJump = true;
+            }
+        }
+    }
+
+
+    /**
+     * This function checks if the player collides with a bubble.
+     * @param x Minimal x.
+     * @param x1 Maximal x.
+     * @param y Minimal y.
+     * @param y2 Maximal y.
+     * @return True if collision.
+     */
+    @SuppressWarnings("unchecked")
+	private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        levelController.getPlayers().forEach(player -> {
+            Player p = (Player) player;
+            bubbles.addAll(p.getBubbles());
+        });
+
+
+        if (bubbles.size() == 0) {
+            return false;
+        } else {
+            boolean res = false;
+            for (Bubble bubble : bubbles) {
+                if (bubble.causesCollision(x, x1, y, y2) && !bubble.getAbleToCatch()) {
+                    res = true;
+                }
+            }
+            return res;
+        }
     }
 
     /**
@@ -212,19 +242,8 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double monsterX = monster.getX();
-        double monsterMaxX = monsterX + monster.getWidth();
-        double monsterY = monster.getY();
-        double monsterMaxY = monsterY + monster.getHeight();
 
-        if (((monsterX > getX() && monsterX < getX() + getWidth())
-                || (monsterMaxX > getX() && monsterMaxX < getX() + getWidth())
-                || (getX() > monsterX && getX() < monsterMaxX)
-                || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
-                && ((monsterY > getY() && monsterY < getY() + getHeight())
-                || (monsterMaxY > getY() && monsterMaxY < getY() + getHeight())
-                || (getY() > monsterY && getY() < monsterMaxY)
-                || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
+        if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
             if (!monster.isCaughtByBubble()) {
                 die();
             } else {
@@ -239,8 +258,31 @@ public class Player extends GravityObject {
      */
     public void die() {
         this.isDead = true;
+        setDx(0);
+        setDy(0);
         counter = 0;
         setImage("/BubbleBobbleDeath.png");
+    }
+
+    /**
+     * This method will remove a bubble from the ArrayList of Bubbles shot by the Player.
+     */
+    public void checkBubbles() {
+
+        Iterator<Bubble> i = bubbles.iterator();
+
+        while (i.hasNext()) {
+
+            Bubble bubble = i.next();
+            if (bubble.checkPop() && !bubble.getIsPrisonBubble()) {
+
+                i.remove();
+                levelController.getScreenController().removeSprite(bubble);
+
+                Logger.log("Bubble is popped");
+            }
+        }
+
     }
 
     /**
@@ -248,16 +290,19 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp() && ableToJump) {
-                ableToJump = false;
-                jumping = true;
-                setDy(-Settings.JUMP_SPEED);
-                jumpCounter = 0;
+            jump();
         }
         if (facingRight) {
             setImage("/BubRight.png");
         } else {
             setImage("/BubLeft.png");
         }
+    }
+
+    private void jump() {
+        ableToJump = false;
+        jumping = true;
+        setDy(-Settings.JUMP_SPEED);
     }
 
 
@@ -283,6 +328,9 @@ public class Player extends GravityObject {
                 getY(),
                 getY() + getHeight())) {
             setDx(speed);
+        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
+            setDx(speed);
         } else {
             if (!jumping) {
                 setDx(0);
@@ -302,6 +350,9 @@ public class Player extends GravityObject {
                 getY(),
                 getY() + getHeight())) {
             setDx(-speed);
+        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
+            setDx(-speed);
         } else {
             if (!jumping) {
                 setDx(0);
@@ -313,7 +364,7 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function checks if the game is over. And if so, loads the gamover screen.
+     * This function checks if the game is over. And if so, loads the game over screen.
      */
     private void checkIfGameOver() {
         if (counter > 50) {
@@ -364,13 +415,50 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
+    
+    
+    /**
+     * This sets if the player is jumping or not.
+     * @param jumping if the player is jumping.
+     */
+    public void setJumping(boolean jumping) {
+    	this.jumping = jumping;
+    }
+    
+    
 
     /**
+     * This gets if the player is jumping or not.
+     * @return true is jumping;
+     */
+    public boolean getJumping() {
+    	return jumping;
+    } 
+    
+    /**
      * This function returns the speed.
+     *
      * @return The speed.
      */
     public double getSpeed() {
         return speed;
+    }
+
+    /**
+     * Set the input for a player.
+     *
+     * @param input The input for a player.
+     */
+    public void setInput(Input input) {
+        this.input = input;
+    }
+    
+    /**
+     * This returns the input.
+     * @return input the Input.
+     */
+    public Input getInput() {
+        return input;
     }
 
 }

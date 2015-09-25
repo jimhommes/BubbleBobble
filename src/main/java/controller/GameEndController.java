@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * This controller controls what happens when the character is killed and there is a game over.
  *
  */
-public class StartOrEndController implements Initializable {
+public class GameEndController implements Initializable {
 
     /**
      * The @FXML annotation links the view element to this object in the controller.
@@ -54,12 +54,12 @@ public class StartOrEndController implements Initializable {
     }
 
     /**
-     * The function bound to the startbutton.
+     * The function bound to the start button.
      * @throws IOException The exception thrown.
      */
     private void returnToMenu() throws IOException {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getResource("../startscreen.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
         stage.setScene(new Scene(newRoot));
         stage.show();
     }

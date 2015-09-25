@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * The SpriteBase that will load the sprite (image).
  */
@@ -61,7 +63,7 @@ public abstract class SpriteBase {
     private boolean spriteChanged;
 
     /**
-     * The constructor. It needs all the paramaters and creates the image where planned.
+     * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
      * @param x         The x coordinate.
@@ -200,6 +202,29 @@ public abstract class SpriteBase {
     }
 
     /**
+     * This function checks if there is a collision with a set of coordinates.
+     * @param minX The minimal X.
+     * @param maxX The maximal X.
+     * @param minY The minimal Y.
+     * @param maxY The maximal Y.
+     * @return True if there is a collision.
+     */
+    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+        double minX2 = x;
+        double maxX2 = minX2 + getWidth();
+        double minY2 = y;
+        double maxY2 = minY2 + getHeight();
+        return ((minX > minX2 && minX < maxX2)
+                || (maxX > minX2 && maxX < maxX2)
+                || (minX2 > minX && minX2 < maxX)
+                || (maxX2 > minX && maxX2 < maxX))
+                && ((minY > minY2 && minY < maxY2)
+                || (maxY > minY2 && maxY < maxY2)
+                || (minY2 > minY && minY2 < maxY)
+                || (maxY2 > minY && maxY2 < maxY));
+    }
+
+    /**
      * Sets the X coordinate.
      * @param x The X coordinate.
      */
@@ -278,4 +303,36 @@ public abstract class SpriteBase {
     public void setCanMove(Boolean canMove) {
     	this.canMove = canMove;
     }
+
+    /**
+     * This function returns the player if it is out of bounds.
+     * @param spriteMinX The minimal X coordinate a sprite can have.
+     * @param spriteMaxX The maximal X coordinate a sprite can have.
+     * @param spriteMinY The minimal Y coordinate a sprite can have.
+     * @param spriteMaxY The maximal Y coordinate a sprite can have.
+     * @param levelController The levelController.
+     */
+    public void checkBounds(double spriteMinX, double spriteMaxX,
+                            double spriteMinY, double spriteMaxY,
+                            LevelController levelController) {
+        if (getX() < spriteMinX) {
+            setX(spriteMinX);
+        } else if (getX() + getWidth() > spriteMaxX) {
+            setX(spriteMaxX - getWidth());
+        }
+
+        if (getY() < spriteMinY) {
+        	if (!levelController.causesCollision(getX(),
+                    getX() + getWidth(),
+                    getY(),
+                    getY() + getHeight())) {
+        		setY(spriteMaxY - getHeight());
+        	} else {
+        		setY(spriteMinY);
+        	}	
+        } else if (getY() + getHeight() > spriteMaxY) {
+            setY(spriteMinY);
+        }
+    }
+
 }
