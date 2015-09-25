@@ -28,7 +28,7 @@ public final class Settings {
     /**
      * The monster speed.
      */
-    public static final double MONSTER_SPEED = 5.0;
+    public static final double MONSTER_SPEED = 3.5;
 
     /**
      * The bubble speed when it is flying horizontally.
@@ -59,6 +59,11 @@ public final class Settings {
      * The jump speed of a walker.
      */
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
+
+    /**
+     * The jump height of a walker.
+     */
+    public static final double JUMP_HEIGHT_WALKER = 200;
 
     /**
      * The amount of maps made available.

@@ -94,9 +94,11 @@ public class Walker extends Monster {
 
             ableToJump = moveCollisionChecker(jumping, ableToJump);
 
-            if (jumpCounter < 12) {
+            double jumpMaxCounter = Math.ceil(Settings.JUMP_HEIGHT_WALKER / Settings.JUMP_SPEED_WALKER);
+
+            if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
-            } else if (jumpCounter == 12) {
+            } else if (jumpCounter == jumpMaxCounter) {
                 setDy(0);
                 jumping = false;
             }
