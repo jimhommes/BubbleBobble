@@ -71,7 +71,39 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
-
+    
+    /**
+     * This test process when the player is not dead, 
+     * and checks that the correct x and y are returned. 
+     * @throws Exception .
+     */
+    @Test
+    public void testProcessInputJumpCounter() throws Exception {
+        player.setJumpCounter(10);
+    	player.processInput();
+        assertEquals(player.getJumpCounter(), 11);
+    }
+    
+    /**
+     * This test process when the player is not dead, 
+     * and checks that the correct x and y are returned. 
+     * @throws Exception .
+     */
+    @Test
+    public void testProcessInputJumpCounter12() throws Exception {
+        player.setJumpCounter(12);
+    	player.processInput();
+        assertEquals(player.getJumping(), false);
+    }
+    
+    /**
+     * This tests that the correct input is recieved.
+     */
+    @Test
+    public void testInput() {
+    	player.setInput(input);
+    	assertEquals(player.getInput(), input);
+    }
 
     /**
      * Tests the process when the player is dead.
@@ -99,6 +131,8 @@ public class PlayerTest {
         assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY(), 0.001);
     }
+    
+   
 
     /**
      * Tests the getBubbles method.
@@ -195,12 +229,7 @@ public class PlayerTest {
                 player.getX() + player.getWidth() + player.getSpeed(),
                 player.getY(),
                 player.getY() + player.getHeight())).thenReturn(true);
-        when(levelController.causesCollision(player.getX(),
-                player.getX() + player.getWidth(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(false);
-        player.processInput();
-        player.move();
+        whenForCollisions();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
@@ -215,14 +244,18 @@ public class PlayerTest {
                 player.getX() + player.getWidth() - player.getSpeed(),
                 player.getY(),
                 player.getY() + player.getHeight())).thenReturn(true);
-        when(levelController.causesCollision(player.getX(),
+   
+       whenForCollisions();
+        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+    }
+    
+    private void whenForCollisions() {
+    	when(levelController.causesCollision(player.getX(),
                 player.getX() + player.getWidth(),
                 player.getY(),
                 player.getY() + player.getHeight())).thenReturn(false);
-
-        player.processInput();
-        player.move();
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+    	 player.processInput();
+         player.move();
     }
 
     /**
@@ -245,6 +278,23 @@ public class PlayerTest {
         player.move();
 
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
+    }
+    
+    /**
+     * This tests the speed.
+     */
+    @Test
+    public void testgetSpeed() {
+    	assertEquals(player.getSpeed(), 5.0, 0.001);
+    }
+    
+    /**
+     * This tests to see if the jumping is correct.
+     */
+    @Test
+    public void testSetJumping() {
+    	player.setJumping(true);
+    	assertTrue(player.getJumping());
     }
 
     /**
