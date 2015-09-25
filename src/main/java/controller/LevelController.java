@@ -50,7 +50,7 @@ public class LevelController {
      */
     private int indexCurrLvl;
     /**
-     * THe current level the user is playing.
+     * The current level the user is playing.
      */
     private Level currLvl;
     /**
@@ -393,7 +393,8 @@ public class LevelController {
      * The function that gets the players.
      * @return The players.
      */
-    public ArrayList getPlayers() {
+    @SuppressWarnings("rawtypes")
+	public ArrayList getPlayers() {
         return players;
     }
 
@@ -457,7 +458,8 @@ public class LevelController {
      * This function sets the players.
      * @param players The players.
      */
-    public void setPlayers(ArrayList players) {
+    @SuppressWarnings("rawtypes")
+	public void setPlayers(ArrayList players) {
         this.players = players;
     }
 

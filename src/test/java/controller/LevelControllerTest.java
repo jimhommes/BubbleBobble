@@ -13,8 +13,11 @@ import model.Monster;
 import model.Player;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+
 import utility.Settings;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
@@ -28,6 +31,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doNothing;
 
 
 /**
@@ -72,6 +76,7 @@ public class LevelControllerTest {
         assertEquals(2 * Settings.AMOUNT_MAPS, maps.size());
         maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
     }
+    
 
     /**
      * Tests the createTimer() method.
@@ -85,6 +90,7 @@ public class LevelControllerTest {
     /**
      * The test that tests the createPlayer() method.
      */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testCreatePlayer() {
 		assertTrue(levelController.getPlayers().isEmpty());
@@ -208,7 +214,8 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
-    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
         ArrayList players = new ArrayList();
@@ -238,11 +245,80 @@ public class LevelControllerTest {
         verify(monster, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index + 1);
     }
+    
+    /**
+     * This tests the gameLoop.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Test
+    public void testGameLoopWhenNotUpdated() {
+        AnimationTimer gameLoop = levelController.createTimer();
+        ArrayList players = new ArrayList();
+        Player player = mock(Player.class);
+        players.add(player);
+
+        ArrayList monsters = new ArrayList();
+        Monster monster = mock(Monster.class);
+        monsters.add(monster);
+
+        levelController.setPlayers(players);
+        Level level = mock(Level.class);
+        levelController.setCurrLvl(level);
+        levelController.setScreenController(mock(ScreenController.class));
+        when(level.getMonsters()).thenReturn(monsters);
+        when(level.update()).thenReturn(false);
+        int index = levelController.getIndexCurrLvl();
+
+        when(player.getGameOver()).thenReturn(false);
+
+        gameLoop.handle(1);
+
+        verify(player, atLeastOnce()).processInput();
+        verify(player, atLeastOnce()).move();
+        verify(player, atLeastOnce()).getBubbles();
+        verify(player, atLeastOnce()).checkCollideMonster(monster);
+        verify(monster, atLeastOnce()).move();
+        assertEquals(levelController.getIndexCurrLvl(), index);
+    }
+    
+    /**
+     * This tests the game loop when the game is paused.
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Test
+    public void testGameLoopPaused() {
+    	AnimationTimer gameLoop = levelController.createTimer();
+        ArrayList players = new ArrayList();
+        Player player = mock(Player.class);
+        players.add(player);
+       
+        ArrayList monsters = new ArrayList();
+        Monster monster = mock(Monster.class);
+        monsters.add(monster);
+       
+        levelController.setPlayers(players);
+        Level level = mock(Level.class);
+        levelController.setCurrLvl(level);
+        levelController.setScreenController(mock(ScreenController.class));
+        when(level.getMonsters()).thenReturn(monsters);
+        when(level.update()).thenReturn(true);
+        when(player.getGameOver()).thenReturn(false);
+        
+        EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
+        handler.handle(new KeyEvent(null, null,
+                null, "p", "p", KeyCode.P, false, false, false, false));
+        gameLoop.handle(1);
+
+        verify(player, never()).processInput();
+        verify(player, never()).move();
+        verify(player, never()).getBubbles();
+    }
 
     /**
      * This tests the gameLoop when the game is over for player 1.
      */
-    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Test
     public void testGameLoopGameOver() {
         AnimationTimer gameLoop = levelController.createTimer();
         ArrayList players = new ArrayList();
@@ -263,7 +339,8 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop when the game is over for player 1.
      */
-    @Test
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@Test
     public void testGameLoopNextLevel() {
         AnimationTimer gameLoop = levelController.createTimer();
         ArrayList players = new ArrayList();
@@ -299,6 +376,16 @@ public class LevelControllerTest {
                 null, "a", "a", KeyCode.A, false, false, false, false));
         verify(mainController, atLeastOnce()).hidePausescreen();
         assertFalse(levelController.getGamePaused());
+    }
 
+    /**
+     * This tests that nothing happens when p isn't pressed.
+     */
+    @Test
+    public void testPauseKeyHandlerPausedGame() {
+        EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
+        handler.handle(new KeyEvent(null, null,
+                null, "a", "a", KeyCode.A, false, false, false, false));
+        assertFalse(levelController.getGamePaused());
     }
 }

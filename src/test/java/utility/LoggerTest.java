@@ -32,7 +32,6 @@ public class LoggerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private PrintStream outStream;
 
-    @SuppressWarnings("checkstyle:visibilitymodifier")
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
