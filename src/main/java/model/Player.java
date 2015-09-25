@@ -192,7 +192,11 @@ public class Player extends GravityObject {
         if (!levelController.causesCollision(getX(),
                 getX() + getWidth(),
                 getY() - calculateGravity(),
-                getY() + getHeight() - calculateGravity())) {
+                getY() + getHeight() - calculateGravity()) ||
+                levelController.causesCollision(getX(),
+                        getX() + getWidth(),
+                        getY(),
+                        getY() + getHeight())) {
             if (!jumping) {
                 if (isAbleToDoubleJump && causesBubbleCollision(getX(),
                         getX() + getWidth(),
@@ -250,19 +254,8 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double monsterX = monster.getX();
-        double monsterMaxX = monsterX + monster.getWidth();
-        double monsterY = monster.getY();
-        double monsterMaxY = monsterY + monster.getHeight();
 
-        if (((monsterX > getX() && monsterX < getX() + getWidth())
-                || (monsterMaxX > getX() && monsterMaxX < getX() + getWidth())
-                || (getX() > monsterX && getX() < monsterMaxX)
-                || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
-                && ((monsterY > getY() && monsterY < getY() + getHeight())
-                || (monsterMaxY > getY() && monsterMaxY < getY() + getHeight())
-                || (getY() > monsterY && getY() < monsterMaxY)
-                || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
+        if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
             if (!monster.isCaughtByBubble()) {
                 die();
             } else {
@@ -348,6 +341,8 @@ public class Player extends GravityObject {
                 getY(),
                 getY() + getHeight())) {
             setDx(speed);
+        } else if(levelController.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
+            setDx(speed);
         } else {
             if (!jumping) {
                 setDx(0);
@@ -367,7 +362,9 @@ public class Player extends GravityObject {
                 getY(),
                 getY() + getHeight())) {
             setDx(-speed);
-        } else {
+        } else if(levelController.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
+            setDx(-speed);
+        } else  {
             if (!jumping) {
                 setDx(0);
             }
