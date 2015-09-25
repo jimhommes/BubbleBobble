@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<StackPane fx:id="root" fx:controller="controller.LevelController" xmlns:fx="http://javafx.com/fxml" visible="true">
+<StackPane fx:id="root" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml" visible="true">
     <Pane fx:id="playfieldLayer"/>
     <Text fx:id="startMessage" text="Click anywhere to start" styleClass="levelMessage"/>
     

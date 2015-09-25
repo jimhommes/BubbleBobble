@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartOrEndController">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameEndController">
    <children>
       
          <GridPane fx:id="gameOverScreen" layoutX="200.0" layoutY="192.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">

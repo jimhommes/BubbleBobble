@@ -5,6 +5,7 @@ import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -240,8 +241,31 @@ public class Player extends GravityObject {
      */
     public void die() {
         this.isDead = true;
+        setDx(0);
+        setDy(0);
         counter = 0;
         setImage("/BubbleBobbleDeath.png");
+    }
+
+    /**
+     * This method will remove a bubble from the ArrayList of Bubbles shot by the Player.
+     */
+    public void checkBubbles() {
+
+        Iterator<Bubble> i = bubbles.iterator();
+
+        while (i.hasNext()) {
+
+            Bubble bubble = i.next();
+            if (bubble.checkPop() && !bubble.getIsPrisonBubble()) {
+
+                i.remove();
+                levelController.getScreenController().removeSprite(bubble);
+
+                Logger.log("Bubble is popped");
+            }
+        }
+
     }
 
     /**
@@ -372,6 +396,14 @@ public class Player extends GravityObject {
      */
     public double getSpeed() {
         return speed;
+    }
+
+    /**
+     * Set the input for a player.
+     * @param input The input for a player.
+     */
+    public void setInput(Input input) {
+        this.input = input;
     }
 
 }
