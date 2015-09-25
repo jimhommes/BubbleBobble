@@ -29,7 +29,6 @@ public class Player extends GravityObject {
 
     /**
      * The bubbles the player fired.
-
      */
     private ArrayList<Bubble> bubbles;
 
@@ -90,6 +89,11 @@ public class Player extends GravityObject {
     private double playerMaxY;
 
     /**
+     * This indicates whether the player is able to double jump.
+     */
+    private boolean isAbleToDoubleJump;
+
+    /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
      * @param x               The start x coordinate.
@@ -120,6 +124,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.jumpCounter = 30;
         this.ableToJump = false;
+        this.isAbleToDoubleJump = false;
         this.jumping = false;
         this.isDead = false;
         this.gameOver = false;
@@ -164,7 +169,7 @@ public class Player extends GravityObject {
      */
     @Override
     public void move() {
-        ableToJump = moveCollisionChecker(jumping, ableToJump);
+        applyGravity();
 
         Double newX = getX() + getDx();
         Double newY = getY() + getDy();
@@ -178,24 +183,73 @@ public class Player extends GravityObject {
     }
 
     /**
+     * This function applies gravity.
+     */
+    private void applyGravity() {
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())
+                || levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
+            if (!jumping) {
+                if (isAbleToDoubleJump
+                        && causesBubbleCollision(getX(), getX() + getWidth(),
+                        getY() - calculateGravity(),
+                        getY() + getHeight() - calculateGravity())) {
+                    ableToJump = true;
+                    isAbleToDoubleJump = false;
+                } else if (isAbleToDoubleJump) {
+                    ableToJump = false;
+                }
+                setY(getY() - calculateGravity());
+            } else {
+                ableToJump = false;
+            }
+        } else {
+            if (!jumping) {
+                ableToJump = true;
+                isAbleToDoubleJump = true;
+            }
+        }
+    }
+
+
+    /**
+     * This function checks if the player collides with a bubble.
+     * @param x Minimal x.
+     * @param x1 Maximal x.
+     * @param y Minimal y.
+     * @param y2 Maximal y.
+     * @return True if collision.
+     */
+    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        levelController.getPlayers().forEach(player -> {
+            Player p = (Player) player;
+            bubbles.addAll(p.getBubbles());
+        });
+
+
+        if (bubbles.size() == 0) {
+            return false;
+        } else {
+            boolean res = false;
+            for (Bubble bubble : bubbles) {
+                if (bubble.causesCollision(x, x1, y, y2) && !bubble.getAbleToCatch()) {
+                    res = true;
+                }
+            }
+            return res;
+        }
+    }
+
+    /**
      * This method checks if the monster has collides with the character.
      *
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double monsterX = monster.getX();
-        double monsterMaxX = monsterX + monster.getWidth();
-        double monsterY = monster.getY();
-        double monsterMaxY = monsterY + monster.getHeight();
 
-        if (((monsterX > getX() && monsterX < getX() + getWidth())
-                || (monsterMaxX > getX() && monsterMaxX < getX() + getWidth())
-                || (getX() > monsterX && getX() < monsterMaxX)
-                || (getX() + getWidth() > monsterX && getX() + getWidth() < monsterMaxX))
-                && ((monsterY > getY() && monsterY < getY() + getHeight())
-                || (monsterMaxY > getY() && monsterMaxY < getY() + getHeight())
-                || (getY() > monsterY && getY() < monsterMaxY)
-                || (getY() + getHeight() > monsterY && getY() + getHeight() < monsterMaxY))) {
+        if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
             if (!monster.isCaughtByBubble()) {
                 die();
             } else {
@@ -242,16 +296,20 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp() && ableToJump) {
-                ableToJump = false;
-                jumping = true;
-                setDy(-Settings.JUMP_SPEED);
-                jumpCounter = 0;
+            jump();
         }
         if (facingRight) {
             setImage("/BubRight.png");
         } else {
             setImage("/BubLeft.png");
         }
+    }
+
+    private void jump() {
+        ableToJump = false;
+        jumping = true;
+        setDy(-Settings.JUMP_SPEED);
+        jumpCounter = 0;
     }
 
 
@@ -277,6 +335,9 @@ public class Player extends GravityObject {
                 getY(),
                 getY() + getHeight())) {
             setDx(speed);
+        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
+            setDx(speed);
         } else {
             if (!jumping) {
                 setDx(0);
@@ -295,6 +356,9 @@ public class Player extends GravityObject {
                 getX() + getWidth() - speed,
                 getY(),
                 getY() + getHeight())) {
+            setDx(-speed);
+        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight())) {
             setDx(-speed);
         } else {
             if (!jumping) {
@@ -361,6 +425,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the speed.
+     *
      * @return The speed.
      */
     public double getSpeed() {
@@ -369,6 +434,7 @@ public class Player extends GravityObject {
 
     /**
      * Set the input for a player.
+     *
      * @param input The input for a player.
      */
     public void setInput(Input input) {

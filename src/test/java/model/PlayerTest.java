@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
@@ -32,7 +31,7 @@ public class PlayerTest {
     private ScreenController screenController;
 
     /**
-     * This method is used to initialize the tests. 
+     * This method is used to initialize the tests.
      * @throws Exception is thrown.
      */
     @Before
@@ -45,7 +44,7 @@ public class PlayerTest {
     }
 
     /**
-     * Tests the process when the player is not dead, 
+     * Tests the process when the player is not dead,
      * and checks that correct dx and dy are returned. .
      * @throws Exception .
      */
@@ -56,10 +55,10 @@ public class PlayerTest {
         assertEquals(0.0, player.getDy(), 0.001);
         assertEquals(0.0, player.getDx(), 0.001);
     }
-    
+
     /**
-     * This test process when the player is not dead, 
-     * and checks that the correct x and y are returned. 
+     * This test process when the player is not dead,
+     * and checks that the correct x and y are returned.
      * @throws Exception .
      */
     @Test
@@ -72,7 +71,7 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
-    
+
 
     /**
      * Tests the process when the player is dead.
@@ -149,10 +148,10 @@ public class PlayerTest {
         Monster monster = mock(Monster.class);
         player.setWidth(100);
         player.setHeight(100);
-        when(monster.getX()).thenReturn(1.0);
-        when(monster.getY()).thenReturn(1.0);
-        when(monster.getWidth()).thenReturn(300.0);
-        when(monster.getHeight()).thenReturn(300.0);
+        when(monster.causesCollision(player.getX(),
+                player.getX() + player.getWidth(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(true);
         player.checkCollideMonster(monster);
         assertTrue(player.getDead());
     }
@@ -192,10 +191,14 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         when(input.isMoveRight()).thenReturn(true);
-        when(levelController.causesCollision(any(Double.class),
-                any(Double.class),
-                any(Double.class),
-                any(Double.class))).thenReturn(true);
+        when(levelController.causesCollision(player.getX() + player.getSpeed(),
+                player.getX() + player.getWidth() + player.getSpeed(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(true);
+        when(levelController.causesCollision(player.getX(),
+                player.getX() + player.getWidth(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(false);
         player.processInput();
         player.move();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
@@ -208,10 +211,14 @@ public class PlayerTest {
     @Test
     public void testCollisionLeft() throws Exception {
         when(input.isMoveLeft()).thenReturn(true);
-        when(levelController.causesCollision(any(Double.class),
-                any(Double.class),
-                any(Double.class),
-                any(Double.class))).thenReturn(true);
+        when(levelController.causesCollision(player.getX() - player.getSpeed(),
+                player.getX() + player.getWidth() - player.getSpeed(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(true);
+        when(levelController.causesCollision(player.getX(),
+                player.getX() + player.getWidth(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(false);
 
         player.processInput();
         player.move();
@@ -225,14 +232,18 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        when(levelController.causesCollision(any(Double.class),
-                any(Double.class),
-                any(Double.class),
-                any(Double.class))).thenReturn(true);
-        player.processInput();
+        when(levelController.causesCollision(player.getX(),
+                player.getX() + player.getWidth(),
+                player.getY() - player.calculateGravity(),
+                player.getY() + player.getHeight() - player.calculateGravity())).thenReturn(true);
+
+        when(levelController.causesCollision(player.getX(),
+                player.getX() + player.getWidth(),
+                player.getY(),
+                player.getY() + player.getHeight())).thenReturn(false);
+
         player.move();
 
-        //Gravity also doesn't work if for all doubles there is a collision
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
 

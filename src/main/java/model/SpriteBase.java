@@ -202,6 +202,29 @@ public abstract class SpriteBase {
     }
 
     /**
+     * This function checks if there is a collision with a set of coordinates.
+     * @param minX The minimal X.
+     * @param maxX The maximal X.
+     * @param minY The minimal Y.
+     * @param maxY The maximal Y.
+     * @return True if there is a collision.
+     */
+    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+        double minX2 = x;
+        double maxX2 = minX2 + getWidth();
+        double minY2 = y;
+        double maxY2 = minY2 + getHeight();
+        return ((minX > minX2 && minX < maxX2)
+                || (maxX > minX2 && maxX < maxX2)
+                || (minX2 > minX && minX2 < maxX)
+                || (maxX2 > minX && maxX2 < maxX))
+                && ((minY > minY2 && minY < maxY2)
+                || (maxY > minY2 && maxY < maxY2)
+                || (minY2 > minY && minY2 < maxY)
+                || (maxY2 > minY && maxY2 < maxY));
+    }
+
+    /**
      * Sets the X coordinate.
      * @param x The X coordinate.
      */
@@ -310,7 +333,6 @@ public abstract class SpriteBase {
         } else if (getY() + getHeight() > spriteMaxY) {
             setY(spriteMinY);
         }
-        System.out.println(getX());
     }
 
 }
