@@ -111,13 +111,15 @@ public class Bubble extends SpriteBase {
      */
     private void moveVertically() {
         setDx(0);      
-        if (!levelController.topWallCollision(getX(), getX() + getWidth(),
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
                 getY() - Settings.BUBBLE_FLY_SPEED,
                 getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
-            if (getY() == 0) {
+            if (getY() < 0) {
             	setY(Settings.SCENE_HEIGHT);
             }
+        } else if(getY() > 35) {
+        	
         } else {
             setDy(0);
         }
