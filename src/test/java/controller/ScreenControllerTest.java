@@ -46,18 +46,7 @@ public class ScreenControllerTest {
         assertTrue(screenController.getSprites() != null);
     }
 
-    //Tries to create an image.
-//    @Test
-//    public void addToSpritesList() {
-//        assertTrue(screenController.getSprites().isEmpty());
-//        ArrayList<SpriteBase> sprites = new ArrayList<>();
-//        sprites.add(new Bubble(0,0,0,0,0,0,true,mock(LevelController.class)));
-//        sprites.add(new Bubble(0,0,0,0,0,0,true,mock(LevelController.class)));
-//        sprites.add(new Bubble(0,0,0,0,0,0,true,mock(LevelController.class)));
-//        screenController.addToSprites(sprites);
-//        assertEquals(3, screenController.getSprites().size());
-//    }
-
+    
     /**
      * This tests the updateUI function.
      */
@@ -77,7 +66,7 @@ public class ScreenControllerTest {
         verify(sprite, atLeastOnce()).getSpriteChanged();
         verify(image, atLeastOnce()).relocate(any(double.class), any(double.class));
     }
-
+    
 
     /**
      * This test the removeSprite function.

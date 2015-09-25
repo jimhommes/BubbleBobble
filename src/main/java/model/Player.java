@@ -361,6 +361,40 @@ public class Player extends GravityObject {
     }
 
     /**
+     * This return the jump counter.
+     * @return jumpCounter, The jump counter.
+     */
+    public int getJumpCounter() {
+    	return jumpCounter;
+    }
+    
+    /**
+     * This sets the jump counter.
+     * @param jumpCounter the counter of how many jumps.
+     */
+    public void setJumpCounter(int jumpCounter) {
+    	this.jumpCounter = jumpCounter;
+    }
+    
+    /**
+     * This sets if the player is jumping or not.
+     * @param jumping if the player is jumping.
+     */
+    public void setJumping(boolean jumping) {
+    	this.jumping = jumping;
+    }
+    
+    
+
+    /**
+     * This gets if the player is jumping or not.
+     * @return true is jumping;
+     */
+    public boolean getJumping() {
+    	return jumping;
+    } 
+    
+    /**
      * This function returns the speed.
      * @return The speed.
      */
@@ -374,6 +408,14 @@ public class Player extends GravityObject {
      */
     public void setInput(Input input) {
         this.input = input;
+    }
+    
+    /**
+     * This returns the input.
+     * @return input the Input.
+     */
+    public Input getInput() {
+        return input;
     }
 
 }

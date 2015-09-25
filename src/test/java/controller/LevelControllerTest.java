@@ -13,11 +13,9 @@ import model.Monster;
 import model.Player;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import utility.Settings;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
@@ -31,7 +29,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.doNothing;
 
 
 /**
@@ -142,7 +139,6 @@ public class LevelControllerTest {
     
     /**
      * The function that sets the path to the maps.
-     * @param pathMaps The path to the maps.
      */
     @Test
     public void testSetPathMaps() {
