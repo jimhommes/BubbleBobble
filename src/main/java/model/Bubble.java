@@ -30,6 +30,11 @@ public class Bubble extends SpriteBase {
     private boolean ableToCatch;
 
     /**
+     * This boolean indicates if the bubble has captured a monster.
+     */
+    private boolean isPrisonBubble;
+
+    /**
      * The levelController that created the player.
      */
     private LevelController levelController;
@@ -58,16 +63,32 @@ public class Bubble extends SpriteBase {
         counter = 0;
         this.firedRight = firedRight;
         this.ableToCatch = true;
+        this.isPrisonBubble = false;
         this.levelController = levelController;
 
+    }
+
+    /**
+     * This method is used to check if a bubble is .
+     * @return true if Bubble extends life_time of Bubble
+     */
+    public boolean checkPop() {
+
+        if (counter > Settings.BUBBLE_LIVE_TIME) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * This method is used to move the bubble.
      */
     public void move() {
-        if (counter < 30) {
-            counter++;
+
+        counter++;
+
+        if (counter < Settings.BUBBLE_FLY_TIME) {
             moveHorizontally();
         } else {
             moveVertically();
@@ -138,6 +159,22 @@ public class Bubble extends SpriteBase {
      */
     public boolean getAbleToCatch() {
         return ableToCatch;
+    }
+
+    /**
+     * This method sets the boolean to whether it is a prisonBubble.
+     * @param bool set to the boolean of whether the monsters is a prisonBubble.
+     */
+    public void setIsPrisonbubble(final boolean bool) {
+        isPrisonBubble = bool;
+    }
+
+    /**
+     * This method checks to see if a bubble has caught a monster.
+     * @return true if the monster can be caught.
+     */
+    public boolean getIsPrisonBubble() {
+        return isPrisonBubble;
     }
 
 }

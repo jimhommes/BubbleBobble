@@ -33,7 +33,7 @@ public class BubbleTest {
     public void testMoveRight() {
         assertTrue(bubbleRight.getAbleToCatch());
 
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i < 30; i++) {
             bubbleRight.move();
 
             assertEquals((double) 1.f + i * 7, bubbleRight.getX(), 0.001);
@@ -52,7 +52,7 @@ public class BubbleTest {
     public void testMoveLeft() {
         assertTrue(bubbleLeft.getAbleToCatch());
 
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i < 30; i++) {
             bubbleLeft.move();
 
             assertEquals((double) 1.f + i * -7, bubbleLeft.getX(), 0.001);
@@ -71,5 +71,21 @@ public class BubbleTest {
     public void testSetAbleToCatch() {
         bubbleRight.setAbleToCatch(false);
         assertFalse(bubbleRight.getAbleToCatch());
+    }
+
+    /**
+     * This tests what happens when a bubble moves left.
+     */
+    @Test
+    public void testPop() {
+        assertFalse(bubbleLeft.checkPop());
+
+        for (int i = 1; i <= 300; i++) {
+            bubbleLeft.move();
+            assertFalse(bubbleLeft.checkPop());
+        }
+        bubbleLeft.move();
+
+        assertTrue(bubbleLeft.checkPop());
     }
 }

@@ -114,6 +114,32 @@ public class PlayerTest {
     }
 
     /**
+     * Tests the if bubbles are removed from player.bubbles after they are popped.
+     * @throws Exception .
+     */
+    @Test
+    public void testPopBubbles() throws Exception {
+
+        when(input.isFirePrimaryWeapon()).thenReturn(true);
+        when(levelController.getScreenController()).thenReturn(screenController);
+        player.processInput();
+
+        assertTrue(player.getBubbles().size() > 0);
+
+        when(input.isFirePrimaryWeapon()).thenReturn(false);
+        for (int i = 0; i <= 300; i++) {
+            player.checkBubbles();
+            player.getBubbles().forEach(Bubble::move);
+            assertTrue(player.getBubbles().size() > 0);
+        }
+
+        player.checkBubbles();
+        player.getBubbles().forEach(Bubble::move);
+        assertSame(player.getBubbles().size(), 0);
+
+    }
+
+    /**
      * Tests if the player has collided with a monster.
      * @throws Exception .
      */
@@ -137,9 +163,12 @@ public class PlayerTest {
     @Test
     public void testDie() throws Exception {
         assertFalse(player.getDead());
+        double x = player.getX();
         player.die();
         assertTrue(player.getDead());
         assertTrue(player.getImagePath().equals("/BubbleBobbleDeath.png"));
+        assertEquals(x, player.getX(), 0.001);
+        assertEquals(0, player.getDx(), 0.001);
     }
 
     /**

@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * This controller controls what happens when the character is killed and there is a game over.
  *
  */
-public class StartOrEndController implements Initializable {
+public class GameEndController implements Initializable {
 
     /**
      * The @FXML annotation links the view element to this object in the controller.

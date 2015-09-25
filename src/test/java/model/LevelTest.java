@@ -28,6 +28,7 @@ public class LevelTest {
         level.drawMap();
         assertEquals(8, level.getMonsters().size());
         assertEquals(380, level.getWalls().size());
+        assertEquals(2, level.getPlayers().size());
     }
 
 }
