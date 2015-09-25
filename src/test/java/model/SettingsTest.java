@@ -47,6 +47,6 @@ public class SettingsTest {
      */
     @Test
     public void testSettingsMonsterSpeed() {
-        assertEquals(5.d, Settings.MONSTER_SPEED, 0.001);
+        assertEquals(3.5, Settings.MONSTER_SPEED, 0.001);
     }
 }
