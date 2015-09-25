@@ -48,7 +48,7 @@ public class LevelControllerTest {
     public void setUp() {
         mainController = mock(MainController.class);
         pane = mock(Pane.class);
-        when(mainController.getPlayfieldLayer()).thenReturn(pane);
+        when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController);
         levelController.setScreenController(new ScreenController(new Pane()));
     }
@@ -111,7 +111,7 @@ public class LevelControllerTest {
     public void testStartLevelNoMaps() {
         levelController.setMaps(new ArrayList<>());
         levelController.startLevel(mock(AnimationTimer.class));
-        assertNull(levelController.getPlayfieldLayer().getOnMousePressed());
+        assertNull(levelController.getPlayFieldLayer().getOnMousePressed());
     }
 
     /**
@@ -119,7 +119,7 @@ public class LevelControllerTest {
      */
     @Test
     public void testStartLevel() {
-        assertTrue(levelController.getPlayfieldLayer().getOnMousePressed() != null);
+        assertTrue(levelController.getPlayFieldLayer().getOnMousePressed() != null);
         assertEquals(0, levelController.getIndexCurrLvl());
     }
 
@@ -147,7 +147,7 @@ public class LevelControllerTest {
         levelController.setGameStarted(false);
 
         Pane pane = new Pane();
-        when(mainController.getPlayfieldLayer()).thenReturn(pane);
+        when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController.setInput(mock(Input.class));
         levelController.setScreenController(mock(ScreenController.class));
 
@@ -292,12 +292,12 @@ public class LevelControllerTest {
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
-        verify(mainController, atLeastOnce()).showPausescreen();
+        verify(mainController, atLeastOnce()).showPauseScreen();
         assertTrue(levelController.getGamePaused());
 
         handler.handle(new KeyEvent(null, null,
                 null, "a", "a", KeyCode.A, false, false, false, false));
-        verify(mainController, atLeastOnce()).hidePausescreen();
+        verify(mainController, atLeastOnce()).hidePauseScreen();
         assertFalse(levelController.getGamePaused());
 
     }

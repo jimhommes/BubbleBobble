@@ -73,12 +73,7 @@ public class Bubble extends SpriteBase {
      * @return true if Bubble extends life_time of Bubble
      */
     public boolean checkPop() {
-
-        if (counter > Settings.BUBBLE_LIVE_TIME) {
-            return true;
-        }
-
-        return false;
+        return (counter > Settings.BUBBLE_LIVE_TIME);
     }
 
     /**
@@ -166,7 +161,7 @@ public class Bubble extends SpriteBase {
      * This method sets the boolean to whether it is a prisonBubble.
      * @param bool set to the boolean of whether the monsters is a prisonBubble.
      */
-    public void setIsPrisonbubble(final boolean bool) {
+    public void setIsPrisonBubble(final boolean bool) {
         isPrisonBubble = bool;
     }
 

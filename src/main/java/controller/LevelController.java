@@ -67,7 +67,7 @@ public class LevelController {
     private ScreenController screenController;
 
     /**
-     * The gameloop timer. This timer is the main timer.
+     * The gameLoop timer. This timer is the main timer.
      */
     private AnimationTimer gameLoop;
 
@@ -93,15 +93,15 @@ public class LevelController {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on keypress PAUSE_KEY
+            // pause game on key press PAUSE_KEY
             if (event.getCode() == PAUSE_KEY) {
-                mainController.showPausescreen();
+                mainController.showPauseScreen();
                 gamePaused = true;
             }
 
-            //unpause game on keypress anything except PAUSE_KEY
+            //un-pause game on key press anything except PAUSE_KEY
             if (gamePaused && event.getCode() != PAUSE_KEY) {
-                mainController.hidePausescreen();
+                mainController.hidePauseScreen();
                 gamePaused = false;
             }
 
@@ -178,9 +178,9 @@ public class LevelController {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
-            Pane playfieldLayer = mainController.getPlayfieldLayer();
+            Pane playFieldLayer = mainController.getPlayFieldLayer();
 
-            playfieldLayer.setOnMousePressed(event -> {
+            playFieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
                     createInput();
@@ -188,19 +188,19 @@ public class LevelController {
                     createLvl();
 
                     mainController.hideStartMessage();
-                    playfieldLayer.addEventFilter(
+                    playFieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
             });
         } else {
-            mainController.getPlayfieldLayer().setOnMousePressed(null);
+            mainController.getPlayFieldLayer().setOnMousePressed(null);
             System.out.println("No maps found!");
         }
     }
 
     /**
-     * This function creates the currLvl'th level.
+     * This function creates the current level of currLvl.
      */
     @SuppressWarnings("unchecked")
     public final void createLvl() {
@@ -215,7 +215,7 @@ public class LevelController {
 
     private void createInput() {
         if (input == null) {
-            input = new Input(mainController.getPlayfieldLayer().getScene());
+            input = new Input(mainController.getPlayFieldLayer().getScene());
             input.addListeners();
         }
     }
@@ -345,12 +345,12 @@ public class LevelController {
     }
 
     /**
-     * This function returns the playfield Layer.
+     * This function returns the playFieldLayer.
      *
-     * @return The playfield Layer.
+     * @return The playFieldLayer.
      */
-    public Pane getPlayfieldLayer() {
-        return mainController.getPlayfieldLayer();
+    public Pane getPlayFieldLayer() {
+        return mainController.getPlayFieldLayer();
     }
 
     /**
@@ -365,7 +365,7 @@ public class LevelController {
     /**
      * Gets the screenController.
      *
-     * @return The screencontroller.
+     * @return The screenController.
      */
     public ScreenController getScreenController() {
         return screenController;
@@ -374,7 +374,7 @@ public class LevelController {
     /**
      * This sets the screen Controller.
      *
-     * @param screenController The screencontroller to be set.
+     * @param screenController The screenController to be set.
      */
     public void setScreenController(ScreenController screenController) {
         this.screenController = screenController;
@@ -398,7 +398,7 @@ public class LevelController {
     }
 
     /**
-     * The function thet returns the current level.
+     * The function that returns the current level.
      * @return The current level.
      */
     public Level getCurrLvl() {
@@ -462,7 +462,7 @@ public class LevelController {
     }
 
     /**
-     * This fucntion sets the current level.
+     * This function sets the current level.
      * @param currLvl The current level.
      */
     public void setCurrLvl(Level currLvl) {
