@@ -49,19 +49,27 @@ public class WalkerTest {
 
 	/**
 	 * This tests what happens the monster moved.
+	 *
+	 * The 32 comes from the size of the sprite.
+	 * And the 37 is the sprite size + 1 speed (=5),
+	 * 32 + 5 = 37.
+	 *
 	 * @throws Exception .
 	 */
 	@Test
 	public void testMove() throws Exception {
 		walker.move();
-		assertEquals(Settings.MONSTER_SPEED , walker.getX(), 0);
+		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getX(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(0, walker.getX(), 0);
+		assertEquals(Level.SPRITE_SIZE, walker.getX(), 0);
 	}
 	
 	/**
 	 * This tests what happens when the monsters collides with a bubble.
+	 *
+	 * The 37 comes from the sprite size + speed (32 + 5).
+	 *
 	 * @throws Exception .
 	 */
 	@Test
@@ -74,6 +82,6 @@ public class WalkerTest {
         when(bubble.getAbleToCatch()).thenReturn(true);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(5.0, walker.getX(), 0);
+        assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED, walker.getX(), 0);
 	}
 }

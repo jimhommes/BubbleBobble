@@ -36,7 +36,7 @@ public class Monster extends GravityObject {
     public Monster(String imagePath, double x, double y, double r,
                    double dx, double dy, double dr, double speed, boolean facingRight,
                    LevelController levelController) {
-        super(imagePath, x, y, r, dx, dy, dr);
+        super(imagePath, x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.facingRight = facingRight;

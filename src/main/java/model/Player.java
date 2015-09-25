@@ -40,7 +40,7 @@ public class Player extends GravityObject {
 
     /**
      * The counter that is needed to define the movement of the character,
-     * and the firerate of the bubbles.
+     * and the fire rate of the bubbles.
      */
     private int counter;
 
@@ -50,7 +50,7 @@ public class Player extends GravityObject {
     private boolean isDead;
 
     /**
-     * This boolean indicates wheter the player has died, and has no lifes left.
+     * This boolean indicates whether the player has died, and has no lifes left.
      */
     private boolean gameOver;
 
@@ -112,7 +112,7 @@ public class Player extends GravityObject {
                   Input input,
                   LevelController levelController) {
 
-        super("../BubRight.png", x, y, r, dx, dy, dr);
+        super("../BubRight.png", x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.input = input;
@@ -156,25 +156,8 @@ public class Player extends GravityObject {
             checkIfGameOver();
         }
 
-        checkBounds();
+        checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY);
 
-    }
-
-    /**
-     * This function returns the player if it is out of bounds.
-     */
-    private void checkBounds() {
-        if (getX() < playerMinX) {
-            setX(playerMinX);
-        } else if (getX() + getWidth() > playerMaxX) {
-            setX(playerMaxX - getWidth());
-        }
-
-        if (getY() < playerMinY) {
-            setY(playerMinY);
-        } else if (getY() + getHeight() > playerMaxY) {
-            setY(playerMaxY - getHeight());
-        }
     }
 
     /**
@@ -182,20 +165,7 @@ public class Player extends GravityObject {
      */
     @Override
     public void move() {
-
-        if (!levelController.causesCollision(getX(),
-                getX() + getWidth(),
-                getY() - calculateGravity(),
-                getY() + getHeight() - calculateGravity())) {
-            if (!jumping) {
-                setY(getY() - calculateGravity());
-            }
-            ableToJump = false;
-        } else {
-            if (!jumping) {
-                ableToJump = true;
-            }
-        }
+        ableToJump = moveCollisionChecker(jumping, ableToJump);
 
         Double newX = getX() + getDx();
         Double newY = getY() + getDy();
