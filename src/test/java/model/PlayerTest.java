@@ -206,6 +206,10 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
 
+    /**
+     * Test what happens when the player moves out of the bottom screen.
+     * @throws Exception.
+     */
     @Test
     public void testMoveDown() throws Exception {
     	levelController = mock(LevelController.class);
@@ -214,6 +218,10 @@ public class PlayerTest {
     	assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
     }
     
+    /**
+     * Test what happens when the player moves out of the top screen.
+     * @throws Exception.
+     */
     @Test
     public void testMoveUp() throws Exception {
     	levelController = mock(LevelController.class);
