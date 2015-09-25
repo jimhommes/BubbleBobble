@@ -90,6 +90,11 @@ public class Player extends GravityObject {
     private double playerMaxY;
 
     /**
+     * This indicates whether the player is able to double jump.
+     */
+    private boolean isAbleToDoubleJump;
+
+    /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
      * @param x               The start x coordinate.
@@ -120,6 +125,7 @@ public class Player extends GravityObject {
         this.counter = 31;
         this.jumpCounter = 30;
         this.ableToJump = false;
+        this.isAbleToDoubleJump = false;
         this.jumping = false;
         this.isDead = false;
         this.gameOver = false;
@@ -188,11 +194,12 @@ public class Player extends GravityObject {
                 getY() - calculateGravity(),
                 getY() + getHeight() - calculateGravity())) {
             if (!jumping) {
-                if (causesBubbleCollision(getX(),
+                if (isAbleToDoubleJump && causesBubbleCollision(getX(),
                         getX() + getWidth(),
                         getY() - calculateGravity(),
                         getY() + getHeight() - calculateGravity())) {
                     ableToJump = true;
+                    isAbleToDoubleJump = false;
                 }
                 setY(getY() - calculateGravity());
             } else {
@@ -201,6 +208,7 @@ public class Player extends GravityObject {
         } else {
             if (!jumping) {
                 ableToJump = true;
+                isAbleToDoubleJump = true;
             }
         }
 
