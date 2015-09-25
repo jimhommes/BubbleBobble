@@ -214,7 +214,8 @@ public class Player extends GravityObject {
      * @param y2 Maximal y.
      * @return True if collision.
      */
-    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+    @SuppressWarnings("unchecked")
+	private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         levelController.getPlayers().forEach(player -> {
             Player p = (Player) player;
@@ -414,22 +415,7 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
-
-    /**
-     * This return the jump counter.
-     * @return jumpCounter, The jump counter.
-     */
-    public int getJumpCounter() {
-    	return jumpCounter;
-    }
     
-    /**
-     * This sets the jump counter.
-     * @param jumpCounter the counter of how many jumps.
-     */
-    public void setJumpCounter(int jumpCounter) {
-    	this.jumpCounter = jumpCounter;
-    }
     
     /**
      * This sets if the player is jumping or not.

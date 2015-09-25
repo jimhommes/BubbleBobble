@@ -72,29 +72,6 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
     
-    /**
-     * This test process when the player is not dead, 
-     * and checks that the correct x and y are returned. 
-     * @throws Exception .
-     */
-    @Test
-    public void testProcessInputJumpCounter() throws Exception {
-        player.setJumpCounter(10);
-    	player.processInput();
-        assertEquals(player.getJumpCounter(), 11);
-    }
-    
-    /**
-     * This test process when the player is not dead, 
-     * and checks that the correct x and y are returned. 
-     * @throws Exception .
-     */
-    @Test
-    public void testProcessInputJumpCounter12() throws Exception {
-        player.setJumpCounter(12);
-    	player.processInput();
-        assertEquals(player.getJumping(), false);
-    }
     
     /**
      * This tests that the correct input is recieved.
