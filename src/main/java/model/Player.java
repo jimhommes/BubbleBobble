@@ -188,6 +188,12 @@ public class Player extends GravityObject {
                 getY() - calculateGravity(),
                 getY() + getHeight() - calculateGravity())) {
             if (!jumping) {
+                if (causesBubbleCollision(getX(),
+                        getX() + getWidth(),
+                        getY() - calculateGravity(),
+                        getY() + getHeight() - calculateGravity())) {
+                    ableToJump = true;
+                }
                 setY(getY() - calculateGravity());
             }
             ableToJump = false;
@@ -273,16 +279,20 @@ public class Player extends GravityObject {
      */
     private void moveVertical() {
         if (input.isMoveUp() && ableToJump) {
-                ableToJump = false;
-                jumping = true;
-                setDy(-Settings.JUMP_SPEED);
-                jumpCounter = 0;
+                jump();
         }
         if (facingRight) {
             setImage("/BubRight.png");
         } else {
             setImage("/BubLeft.png");
         }
+    }
+
+    private void jump() {
+        ableToJump = false;
+        jumping = true;
+        setDy(-Settings.JUMP_SPEED);
+        jumpCounter = 0;
     }
 
 
