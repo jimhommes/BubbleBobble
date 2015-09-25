@@ -171,7 +171,17 @@ public class Player extends GravityObject {
         }
 
         if (getY() < playerMinY) {
-            setY(playerMaxY - getHeight());
+        	if (!levelController.causesCollision(getX(),
+                    getX() + getWidth(),
+                    getY(),
+                    getY() + getHeight())) {
+        		setY(playerMaxY - getHeight());
+        	}
+        	else {
+        		setY(playerMinY);
+        	}
+        	
+        	
         } else if (getY() + getHeight() > playerMaxY) {
             setY(playerMinY);
         }

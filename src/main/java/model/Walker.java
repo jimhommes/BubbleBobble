@@ -79,7 +79,15 @@ public class Walker extends Monster {
                 getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
             setDy(-calculateGravity());
             if (getY() < walkerMinY) {
-                setY(walkerMaxY - getHeight());
+            	if (!levelController.causesCollision(getX(),
+                        getX() + getWidth(),
+                        getY(),
+                        getY() + getHeight())) {
+            		setY(walkerMaxY - getHeight());
+            	}
+            	else {
+            		setY(walkerMinY);
+            	}
             } else if (getY() + getHeight() > walkerMaxY) {
                 setY(walkerMinY);
             }
