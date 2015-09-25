@@ -40,7 +40,8 @@ public class PlayerTest {
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
-        player = new Player(Level.SPRITE_SIZE, Level.SPRITE_SIZE, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+        player = new Player(Level.SPRITE_SIZE, Level.SPRITE_SIZE
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
     }
 
     /**
@@ -237,24 +238,26 @@ public class PlayerTest {
 
     /**
      * Test what happens when the player moves out of the bottom screen.
-     * @throws Exception.
+     * @throws Exception .
      */
     @Test
     public void testMoveDown() throws Exception {
     	levelController = mock(LevelController.class);
-    	Player player1 = new Player(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+    	Player player1 = new Player(0, Settings.SCENE_HEIGHT
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
     	player1.processInput();
     	assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
     }
     
     /**
      * Test what happens when the player moves out of the top screen.
-     * @throws Exception.
+     * @throws Exception .
      */
     @Test
     public void testMoveUp() throws Exception {
     	levelController = mock(LevelController.class);
-    	Player player1 = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+    	Player player1 = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED
+                , input, levelController);
     	player1.processInput();
     	assertEquals(Settings.SCENE_HEIGHT - Level.SPRITE_SIZE, player1.getY(), 0.0001);
     }

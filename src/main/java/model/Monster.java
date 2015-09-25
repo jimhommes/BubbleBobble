@@ -71,7 +71,6 @@ public class Monster extends GravityObject {
             double bubbleY = bubble.getY();
             double bubbleX2 = bubbleX + getWidth();
             double bubbleY2 = bubbleY + getHeight();
-            System.out.println();
             if (((bubbleX >= getX() && bubbleX <= getX() + getWidth())
                     || (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
                     && ((bubbleY >= getY() && bubbleY <= getY() + getHeight())

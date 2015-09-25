@@ -2,10 +2,7 @@ package model;
 
 import controller.LevelController;
 import utility.Settings;
-//<<<<<<< HEAD
-//=======
 import java.util.Random;
-//>>>>>>> development
 
 /**
  *  Walker class which is a kind of monster, which just moves around and kills
@@ -48,18 +45,13 @@ public class Walker extends Monster {
      */
     private double walkerMinY;
 
-//>>>>>>> development
     /**
      * This is the maximal Y coordinate the walker can move around in.
      */
     private double walkerMaxY;
-//<<<<<<< HEAD
-    
-//=======
 
     private static final int JUMP_THRESHOLD = 5;
 
-//>>>>>>> development
     /**
      * A walking monster.
      * @param x The x coordinate.
@@ -84,16 +76,12 @@ public class Walker extends Monster {
         super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
 
         this.levelController = levelController;
-//<<<<<<< HEAD
-        
-//=======
         this.jumpCounter = 20;
         this.ableToJump = false;
         this.jumping = false;
 
         walkerMinX = Level.SPRITE_SIZE;
         walkerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
-//>>>>>>> development
         walkerMinY = Level.SPRITE_SIZE;
         walkerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
     }
@@ -106,7 +94,8 @@ public class Walker extends Monster {
 
             ableToJump = moveCollisionChecker(jumping, ableToJump);
 
-            double jumpMaxCounter = Math.ceil(Settings.JUMP_HEIGHT_WALKER / Settings.JUMP_SPEED_WALKER);
+            double jumpMaxCounter = Math.ceil(Settings.JUMP_HEIGHT_WALKER
+                    / Settings.JUMP_SPEED_WALKER);
 
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
@@ -135,34 +124,12 @@ public class Walker extends Monster {
      * This function handles the vertical movement.
      */
     private void moveVertical() {
-//<<<<<<< HEAD
-//    	if (!levelController.causesCollision(getX(), getX() + getWidth(),
-//                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())) {
-//            setDy(-calculateGravity());
-//            if (getY() < walkerMinY) {
-//            	if (!levelController.causesCollision(getX(),
-//                        getX() + getWidth(),
-//                        getY(),
-//                        getY() + getHeight())) {
-//            		setY(walkerMaxY - getHeight());
-//            	}
-//            	else {
-//            		setY(walkerMinY);
-//            	}
-//            } else if (getY() + getHeight() > walkerMaxY) {
-//                setY(walkerMinY);
-//            }
-//        } else {
-//            setDy(0);
-//        }
-//=======
             if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
                 setDy(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
             }
-//>>>>>>> development
     }
 
     /**

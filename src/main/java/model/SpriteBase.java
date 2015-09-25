@@ -287,6 +287,7 @@ public abstract class SpriteBase {
      * @param spriteMaxX The maximal X coordinate a sprite can have.
      * @param spriteMinY The minimal Y coordinate a sprite can have.
      * @param spriteMaxY The maximal Y coordinate a sprite can have.
+     * @param levelController The levelController.
      */
     public void checkBounds(double spriteMinX, double spriteMaxX,
                             double spriteMinY, double spriteMaxY,

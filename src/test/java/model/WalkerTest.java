@@ -88,30 +88,30 @@ public class WalkerTest {
         System.out.println(walker.isCaughtByBubble());
         System.out.println(walker.getX());
         assertEquals(bubble.getX(), walker.getX(), 0);
-        //assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED, walker.getX(), 0);
 	}
 	
 	/**
 	 * Test what happens when the walker moves out of the bottom screen.
-	 * @throws Exception.
+	 * @throws Exception .
 	 */
 	@Test
-	public void testMoveDown() throws Exception{
-		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelcontroller);
+	public void testMoveDown() throws Exception {
+		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
+				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelcontroller);
 		walker1.move();
     	assertEquals(Level.SPRITE_SIZE, walker1.getY(), 0.0001);
 	}
 	
 	/**
 	 * Test what happens when the walker has a horizontal collision.
-	 * @throws Exception.
+	 * @throws Exception .
 	 */
 	@Test
 	public void testMoveCollision() throws Exception {
 		when(levelcontroller.causesCollision(walker.getX(), walker.getX() + walker.getWidth(), 
-				walker.getY() - walker.calculateGravity(), walker.getY() + walker.getHeight() - walker.calculateGravity())
+				walker.getY() - walker.calculateGravity(), walker.getY() + walker.getHeight()
+								- walker.calculateGravity())
 				).thenReturn(true);
-		double locationX = walker.getX();
 		double locationY = walker.getY();
 		walker.move();
 		assertEquals(locationY, walker.getY(), 0.0001);
