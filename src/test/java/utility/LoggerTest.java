@@ -129,8 +129,8 @@ public class LoggerTest {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy");
         Date date = new Date();
-        String expected = dateFormat.format(date) + "\n";
-        assertEquals(text, expected);
+        String expected = dateFormat.format(date);
+        assertEquals(text.trim(), expected.trim());
 
     }
 
