@@ -64,11 +64,6 @@ public class Player extends GravityObject {
     private boolean ableToJump;
 
     /**
-     * This counter is used to check how long the player is in the air.
-     */
-    private int jumpCounter;
-
-    /**
      * This is the minimal X coordinate the player can move around in.
      */
     private double playerMinX;
@@ -122,7 +117,6 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 31;
-        this.jumpCounter = 30;
         this.ableToJump = false;
         this.isAbleToDoubleJump = false;
         this.jumping = false;
@@ -144,14 +138,13 @@ public class Player extends GravityObject {
     public void processInput() {
 
         if (!isDead) {
-
-            if (jumpCounter < 12) {
-                jumpCounter++;
-            }
-
-            if (jumpCounter == 12) {
-                setDy(0);
+            if (jumping && getDy() <= 0) {
+                setDy(getDy() + 0.6);
+            } else if (jumping && getDy() > 0) {
+                setDy(getDy() + 0.6);
                 jumping = false;
+            } else {
+                setDy(0);
             }
 
             moveVertical();
@@ -221,7 +214,8 @@ public class Player extends GravityObject {
      * @param y2 Maximal y.
      * @return True if collision.
      */
-    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+    @SuppressWarnings("unchecked")
+	private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         levelController.getPlayers().forEach(player -> {
             Player p = (Player) player;
@@ -309,7 +303,6 @@ public class Player extends GravityObject {
         ableToJump = false;
         jumping = true;
         setDy(-Settings.JUMP_SPEED);
-        jumpCounter = 0;
     }
 
 
@@ -422,22 +415,7 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
-
-    /**
-     * This return the jump counter.
-     * @return jumpCounter, The jump counter.
-     */
-    public int getJumpCounter() {
-    	return jumpCounter;
-    }
     
-    /**
-     * This sets the jump counter.
-     * @param jumpCounter the counter of how many jumps.
-     */
-    public void setJumpCounter(int jumpCounter) {
-    	this.jumpCounter = jumpCounter;
-    }
     
     /**
      * This sets if the player is jumping or not.
