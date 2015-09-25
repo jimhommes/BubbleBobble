@@ -64,11 +64,6 @@ public class Player extends GravityObject {
     private boolean ableToJump;
 
     /**
-     * This counter is used to check how long the player is in the air.
-     */
-    private int jumpCounter;
-
-    /**
      * This is the minimal X coordinate the player can move around in.
      */
     private double playerMinX;
@@ -122,7 +117,6 @@ public class Player extends GravityObject {
         this.input = input;
         this.bubbles = new ArrayList<>();
         this.counter = 31;
-        this.jumpCounter = 30;
         this.ableToJump = false;
         this.isAbleToDoubleJump = false;
         this.jumping = false;
@@ -144,14 +138,13 @@ public class Player extends GravityObject {
     public void processInput() {
 
         if (!isDead) {
-
-            if (jumpCounter < 12) {
-                jumpCounter++;
-            }
-
-            if (jumpCounter == 12) {
-                setDy(0);
+            if (jumping && getDy() <= 0) {
+                setDy(getDy() + 0.6);
+            } else if (jumping && getDy() > 0) {
+                setDy(getDy() + 0.6);
                 jumping = false;
+            } else {
+                setDy(0);
             }
 
             moveVertical();
@@ -309,7 +302,6 @@ public class Player extends GravityObject {
         ableToJump = false;
         jumping = true;
         setDy(-Settings.JUMP_SPEED);
-        jumpCounter = 0;
     }
 
 
