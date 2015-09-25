@@ -163,9 +163,12 @@ public class PlayerTest {
     @Test
     public void testDie() throws Exception {
         assertFalse(player.getDead());
+        double x = player.getX();
         player.die();
         assertTrue(player.getDead());
         assertTrue(player.getImagePath().equals("/BubbleBobbleDeath.png"));
+        assertEquals(x, player.getX(), 0.001);
+        assertEquals(0, player.getDx(), 0.001);
     }
 
     /**
