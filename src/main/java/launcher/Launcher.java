@@ -51,7 +51,7 @@ public class Launcher extends Application {
     }
 
     /**
-     * This method starts an infinite loop to play the official music of the Bubble Bobble Game
+     * This method starts an infinite loop to play the official music of the Bubble Bobble Game.
      */
     private void startMusic() {
         String path = getClass().getResource("../themesong.mp3").toString();
