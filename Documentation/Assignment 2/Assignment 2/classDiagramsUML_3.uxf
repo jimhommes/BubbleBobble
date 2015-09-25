@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.2">
+<diagram program="umlet" version="13.3">
   <help_text>// Uncomment the following line to change the fontsize and font:
 fontsize=9
 // fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
@@ -28,36 +28,48 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>170</y>
+      <x>840</x>
+      <y>220</y>
       <w>200</w>
-      <h>190</h>
+      <h>290</h>
     </coordinates>
     <panel_attributes>LevelController
-{implements Initializable}
 --
+_-PAUSE_KEY: KeyCode_
 -players: ArrayList
--startMessage: Text
--pauseMessage: Text
-...
+-indexCurrLvl: int
+-currLvl: Level
+-gameStarted: Boolean
+-gamePaused: Boolean
+-screenController: ScreenController
+-gameLoop: AnimationTimer
+-mainController: MainController
+-input: Input;
+-pathMaps: String
 --
-+inintialize(location: URL, 
-    resources: ResourceBundle)
 -findMaps()
 -createTimer(): AnimationTimer
 +startLevel(gameLoop: AnimationLoop)
 +createLvl()
+-createInput(): Input
++createPlayer(input: Input)
++nextLevel()
++causesCollision(minX: double, maxX: double, 
+ minY: double, maxY: double): Boolean
++gameOver()
++winGame()
 ...
+
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>210</x>
-      <y>330</y>
-      <w>220</w>
-      <h>150</h>
+      <x>590</x>
+      <y>340</y>
+      <w>190</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>ScreenController
 --
@@ -70,15 +82,16 @@ fontsize=9
 +addToSprites(sprite: SpriteBase)
 +updateUI()
 -update(sprite: SpriteBase)
++removeSprite(sprite: SpriteBase)
 ...</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
-      <y>140</y>
-      <w>160</w>
+      <x>370</x>
+      <y>70</y>
+      <w>170</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>StartController
@@ -87,6 +100,8 @@ fontsize=9
 -helpScreen: GridPane
 -root: AnchorPane
 -startButton: Button
+-exitButton: Button
+-helpButton: Button
 ...
 --
 +inintialize(location: URL, 
@@ -98,18 +113,17 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>230</x>
-      <y>170</y>
+      <x>870</x>
+      <y>30</y>
       <w>160</w>
       <h>140</h>
     </coordinates>
-    <panel_attributes>StartOrEndController
+    <panel_attributes>GameEndController
 {implements Initializable}
 --
 -root: AnchorPane
 -restartButton: Button
 -quitButton: Button
-...
 --
 +inintialize(location: URL, 
     resources: ResourceBundle)
@@ -120,25 +134,27 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>520</x>
-      <y>10</y>
+      <x>150</x>
+      <y>90</y>
       <w>150</w>
-      <h>80</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>Launcher
 {extends Application}
 --
+_-mediaPlayer: MediaPlayer_
 --
 +main(args: String[])
 +start(primaryStage: Stage)
+-startMusic()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>540</x>
-      <y>660</y>
+      <x>600</x>
+      <y>870</y>
       <w>190</w>
       <h>210</h>
     </coordinates>
@@ -147,14 +163,15 @@ fontsize=9
 -counter: int
 -firedRight: boolean
 -ableToCatch: boolean
+-isPrisonBubble: boolean
 -levelController: LevelController
 --
 +Bubble(x: double, y: double, 
     r: double, dx: double, dy: double, 
     dr: double, firedRight: boolean, 
     levelController: LevelController)
-+start(primaryStage: Stage)
 +move()
++checkPop(): Boolean
 -moveVertically()
 -moveHorizontally()
 ...</panel_attributes>
@@ -163,27 +180,32 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>190</x>
-      <y>660</y>
+      <x>250</x>
+      <y>850</y>
       <w>230</w>
-      <h>90</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>/GravityObject/
 --
+_-GRAVITY-CONSTANT: float_
+-levelController: LevelController
 --
 +GravityObject(imageLoc: String, x: double, 
     y: double, r: double, dx: double, 
     dy: double, dr: double, 
     levelController: LevelController)
 +calculateGravity(): float
++moveCollisionChecker(jumping: Boolean, 
+	ableToJump: Boolean): Boolean
+
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>950</y>
+      <x>610</x>
+      <y>1150</y>
       <w>140</w>
       <h>150</h>
     </coordinates>
@@ -205,24 +227,28 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>890</x>
-      <y>420</y>
+      <x>980</x>
+      <y>580</y>
       <w>180</w>
-      <h>180</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Level
 --
-#NUM_ROWS: int = 26
-#NUM_COLS: int = 26
-+SPRITE_SIZE = 32.0
-...
+_#NUM_ROWS: int_
+_#NUM_COLS: int_
+_+SPRITE_SIZE: int_
+-levelController: LevelController
+-map: Integer[][]
+-lvlTitle: String
+-walls: ArrayList
+-monsters: ArrayList
+-players: ArrayList
 --
 +Level(lvlTitle: String, 
     levelController: LevelController)
 +drawMap()
 +readMap()
-+getMonsters(): ArrayList
-+getWalls(): ArrayList
++update()
 ...
 </panel_attributes>
     <additional_attributes/>
@@ -231,7 +257,7 @@ fontsize=9
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>840</y>
+      <y>1040</y>
       <w>260</w>
       <h>210</h>
     </coordinates>
@@ -240,6 +266,9 @@ fontsize=9
 -speed: double
 -levelController: LevelController
 -facingRight: boolean
+-prisonBubble: Bubble
+-caughtBubble: boolean
+-dead: boolean
 ...
 --
 +Monster(imagePath: String, x: double, y: double, 
@@ -249,7 +278,6 @@ fontsize=9
 +move()
 +checkCollision(bubble: Bubble)
 +die()
-+getSpeed(): double
 ...
 </panel_attributes>
     <additional_attributes/>
@@ -257,16 +285,28 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>300</x>
-      <y>840</y>
+      <x>330</x>
+      <y>1040</y>
       <w>210</w>
-      <h>210</h>
+      <h>430</h>
     </coordinates>
     <panel_attributes>Player
 --
 -jumping: boolean
 -input: Input
 -speed: double
+-bubbles: Arraylist
+-facingRight: boolean
+-counter: int
+-isDead: boolean
+-gameOver: boolean
+-levelController: LevelController
+-ableToJump: boolean
+-playerMinX: double
+-playerMaxX: double
+-playerMinY: double
+-playerMaxY: double
+isAbleToJump: boolean
 ...
 --
 +Player(x: double, y: double, 
@@ -275,8 +315,18 @@ fontsize=9
     levelController: LevelController
 +processInput()
 +move()
+-applyGravity()
+-causesBubbleCollision(x: double, x1: double,
+	y: double, y1: double): boolean
 +checkCollideMonster(monster: Monster)
 +die()
++checkBubbles()
+-moveVertical()
+-moveHorizontal()
+-moveRight()
+-moveLeft()
+-checkIfGameOver()
+-checkFirePrimary()
 ...
 </panel_attributes>
     <additional_attributes/>
@@ -284,19 +334,28 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>820</x>
-      <y>770</y>
-      <w>180</w>
-      <h>100</h>
+      <x>1100</x>
+      <y>260</y>
+      <w>210</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Settings
 --
-+SCENE_WIDTH: double = 832
-+SCENE_HEIGHT: double = 832
-+PLAYER_SPEED = 5.0
+_+SCENE_WIDTH: double_
+_+SCENE_HEIGHT: double_
+_+PLAYER_SPEED: double_
+_+PLAYER_HEALTH: double_
+_+MONSTER_SPEED: double_
+_+BUBBLE_INIT_SPEED: double_
+_+BUBBLE_FLY_SPEED: double_
+_+BUBBLE_FLY_TIME: double_
+_+JUMPS_SPEED: double_
+_+JUMP_SPEED_WALKER: double_
+_+JUMP_HEIGHT_WALKER: double_
+_+AMOUNT_MAPS: int_
 ...
 --
-+Settings()
+-Settings()
 
 </panel_attributes>
     <additional_attributes/>
@@ -304,25 +363,33 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>520</x>
-      <y>380</y>
+      <x>580</x>
+      <y>540</y>
       <w>220</w>
-      <h>190</h>
+      <h>260</h>
     </coordinates>
     <panel_attributes>/SpriteBase/
 --
 -imagePath: String
 -x: double
 -y: double
-...
+-r: double
+-dx: double
+-dy: double
+-dr: double
+-w: double
+-h: double
+-canMove: boolean
+-spriteChanged: boolean
 --
 +SpriteBase(imagePath: String, x: double, 
     y: double, r: double, dx: double, 
     dy: double, dr: double)
 +move()
-+getImagePath(): String
-+getX(): double
-+getY(): double
++causesCollision(minX: double, maxX: double,
+	minY: double, maxY: double): Boolean
++checkBounds(spriteMinX: double, spriteMaxX: double,
+	spriteMinY: double, spriteMaxY: double)
 ...     
 
 </panel_attributes>
@@ -332,13 +399,21 @@ fontsize=9
     <id>UMLClass</id>
     <coordinates>
       <x>30</x>
-      <y>1110</y>
+      <y>1290</y>
       <w>220</w>
-      <h>150</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>Walker
 --
 -levelController: LevelController
+-jumping: boolean
+-ableToJump: boolean
+-jumpCounter: int
+-walkerMinX: double
+-walkerMaxX: double
+-walkerMinY: double
+-walkerMaxY: double
+_-JUMP_THRESHOLD: int_
 --
 +Walker(x: double, y: double, r: double, 
     dx: double, dy: double, dr: double, 
@@ -348,6 +423,7 @@ fontsize=9
 -moveVertical()
 -moveHorizontal()
 +switchDirection()    
+-randInt(): int
 
 </panel_attributes>
     <additional_attributes/>
@@ -355,8 +431,8 @@ fontsize=9
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>670</y>
+      <x>850</x>
+      <y>870</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -372,220 +448,239 @@ fontsize=9
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>560</y>
+      <x>350</x>
+      <y>790</y>
       <w>360</w>
-      <h>120</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 m2=1</panel_attributes>
-    <additional_attributes>340.0;10.0;340.0;60.0;10.0;60.0;10.0;100.0</additional_attributes>
+    <additional_attributes>340.0;10.0;340.0;30.0;10.0;30.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>620</x>
-      <y>560</y>
-      <w>40</w>
-      <h>120</h>
+      <x>680</x>
+      <y>790</y>
+      <w>30</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 m1=1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>110</x>
-      <y>740</y>
-      <w>200</w>
-      <h>120</h>
+      <y>970</y>
+      <w>260</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-m2=0..1</panel_attributes>
-    <additional_attributes>180.0;10.0;180.0;70.0;10.0;70.0;10.0;100.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>240.0;10.0;240.0;40.0;10.0;40.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>280</x>
-      <y>740</y>
-      <w>160</w>
-      <h>120</h>
+      <x>340</x>
+      <y>970</y>
+      <w>130</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;140.0;70.0;140.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;110.0;40.0;110.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>120</x>
-      <y>1040</y>
-      <w>40</w>
-      <h>90</h>
+      <y>1240</y>
+      <w>30</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 m1=1
-m2=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>620</x>
-      <y>560</y>
-      <w>240</w>
-      <h>130</h>
+      <x>680</x>
+      <y>790</y>
+      <w>260</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-m2=1..n</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0;210.0;60.0;210.0;110.0</additional_attributes>
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;30.0;240.0;30.0;240.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
-      <y>80</y>
+      <x>1030</x>
+      <y>330</y>
+      <w>70</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;250.0;50.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>130</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>30</y>
+      <w>190</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>MainController
+{implements Initializable}
+--
+-players: ArrayList
+-startMessage: Text
+-pauseMessage: Text
+-pauseMessageSub: Text
+-pauseVBox: VBox
+-playfieldLayer: Pane
+-screenController: ScreenController
+--
++initialize(location: URL, 
+    resources: ResourceBundle)
+-findMaps()
+-createTimer(): AnimationTimer
++startLevel(gameLoop: AnimationLoop)
++createLvl()
++hideStartMessage()
++showWinScreen()
++showGameOverScreen()
++showPauseScreen()
++hidePauseScreen()
+...
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>130</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>770</x>
+      <y>170</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>160.0;50.0;160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>280</y>
       <w>30</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
-</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
-      <y>220</y>
-      <w>120</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>730</x>
-      <y>350</y>
-      <w>100</w>
-      <h>100</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;80.0;80.0;80.0;80.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>380</x>
-      <y>220</y>
-      <w>150</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>420</x>
-      <y>320</y>
-      <w>360</w>
+      <x>940</x>
+      <y>160</y>
+      <w>30</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;60.0;60.0;60.0;10.0;340.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>950</x>
-      <y>280</y>
-      <w>60</w>
-      <h>160</h>
+      <x>440</x>
+      <y>0</y>
+      <w>520</w>
+      <h>90</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>40.0;140.0;40.0;10.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0;500.0;10.0;500.0;30.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>280</y>
-      <w>400</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;380.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>730</x>
-      <y>470</y>
-      <w>180</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>300</x>
-      <y>470</y>
-      <w>240</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>220.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>720</x>
-      <y>790</y>
-      <w>120</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>500</x>
-      <y>860</y>
-      <w>400</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>380.0;10.0;380.0;50.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>500</x>
-      <y>990</y>
-      <w>150</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>950</x>
-      <y>590</y>
+      <x>670</x>
+      <y>500</y>
       <w>30</w>
-      <h>200</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;180.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1100</x>
+      <y>30</y>
+      <w>210</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>Logger
+--
+_-logFile: OutputStream_
+_-timestamp: String_
+_+OUT: PrintStream_
+_+ERR: PrintStream_
+_-INFO: boolean_
+_-ERROR: boolean_
+--
+#Logger()
+_-timeStamp(): String_
+_+setLogFile(fileName: String)_
+_+setTimeStamp(format: String)_
+_+getLogFile(): OutputStream_
+_+log(msg: String)_
+_+log(msg: String, mode: boolean)_
+_+log(ps: PrintStream, msg: String)_
+_+log(stream: OutputStream, msg: String)_
+_+logToFile(msg: String)_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>1190</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
