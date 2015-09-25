@@ -49,6 +49,11 @@ public class WalkerTest {
 
 	/**
 	 * This tests what happens the monster moved.
+	 *
+	 * The 32 comes from the size of the sprite.
+	 * And the 37 is the sprite size + 1 speed (=5),
+	 * 32 + 5 = 37.
+	 *
 	 * @throws Exception .
 	 */
 	@Test
@@ -62,6 +67,9 @@ public class WalkerTest {
 	
 	/**
 	 * This tests what happens when the monsters collides with a bubble.
+	 *
+	 * The 37 comes from the sprite size + speed (32 + 5).
+	 *
 	 * @throws Exception .
 	 */
 	@Test
