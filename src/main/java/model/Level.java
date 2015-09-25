@@ -61,7 +61,7 @@ public class Level {
     private ArrayList<Player> players;
 
     /**
-     * When a level is created in the levelcontroller, it is immediately drawn.
+     * When a level is created in the levelController, it is immediately drawn.
      * @param lvlTitle The title of the file.
      * @param levelController the controller that controls the level.
      */
@@ -117,8 +117,8 @@ public class Level {
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
                 if (cols.length == NUM_COLS) {
-                    for (int colum = 0; colum < cols.length; colum++) {
-                        map[row][colum] = Integer.parseInt(cols[colum]);
+                    for (int column = 0; column < cols.length; column++) {
+                        map[row][column] = Integer.parseInt(cols[column]);
                     }
                 }
                 row++;
@@ -137,8 +137,8 @@ public class Level {
     }
 
     /**
-     * The function that returns the arraylist of monsters.
-     * @return The arraylist of monsters.
+     * The function that returns the arrayList of monsters.
+     * @return The arrayList of monsters.
      */
     @SuppressWarnings("rawtypes")
     public ArrayList getMonsters() {

@@ -47,7 +47,7 @@ public class MainController implements Initializable {
      * The layer the player "moves" in.
      */
     @FXML
-    private Pane playfieldLayer;
+    private Pane playFieldLayer;
 
     /**
      * The screen controller that handles all GUI/sprite interaction.
@@ -57,20 +57,20 @@ public class MainController implements Initializable {
     /**
      * The initialize function.
      * @param location The URL.
-     * @param resources The resourcebundle.
+     * @param resources The resourceBundle.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.screenController = new ScreenController(playfieldLayer);
+        this.screenController = new ScreenController(playFieldLayer);
         new LevelController(this);
     }
 
     /**
-     * This function returns the playfieldLayer.
-     * @return The playfieldLayer.
+     * This function returns the playFieldLayer.
+     * @return The playFieldLayer.
      */
-    public Pane getPlayfieldLayer() {
-        return playfieldLayer;
+    public Pane getPlayFieldLayer() {
+        return playFieldLayer;
     }
 
     /**
@@ -82,7 +82,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     * This function hides the startmessage.
+     * This function hides the start message.
      */
     public void hideStartMessage() {
         startMessage.setVisible(false);
@@ -92,7 +92,7 @@ public class MainController implements Initializable {
      * This function shows the win screen.
      */
     public void showWinScreen() {
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
             stage.setScene(new Scene(root));
@@ -103,10 +103,10 @@ public class MainController implements Initializable {
     }
 
     /**
-     * This function shows the gameover screen.
+     * This function shows the game over screen.
      */
     public void showGameOverScreen() {
-        Stage stage = (Stage) playfieldLayer.getScene().getWindow();
+        Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
             Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
             stage.setScene(new Scene(root));
@@ -119,7 +119,7 @@ public class MainController implements Initializable {
     /**
      * This function shows the pause screen.
      */
-    public void showPausescreen() {
+    public void showPauseScreen() {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
@@ -128,7 +128,7 @@ public class MainController implements Initializable {
     /**
      * This function hides the pause screen.
      */
-    public void hidePausescreen() {
+    public void hidePauseScreen() {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
