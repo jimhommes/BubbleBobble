@@ -1,0 +1,48 @@
+\chapter{Resonsibility Driven Design}
+Here the features of Respsonsibility Driven Design will be explained per feature we added this sprint.
+
+\section{Jumping on Bubbles}
+\subsubsection{Player}
+\textit{Responsibility:}  \\
+The player class will handle the movement of the player. \\
+\textit{Collaborations:} \\
+It will be communicating with SpriteBase for collisions. \\
+
+\subsubsection{SpriteBase}
+\textit{Responsibility:}  \\
+SpriteBase will be responsible for detecting collisions with BubbleSprites. \\
+\textit{Collaborations:} \\
+It will be communicating with Player. \\
+
+\section{Warping}
+\subsubsection{Level}
+\textit{Responsibility:}  \\
+When loading the map, it should be clear where the player is able to warp. \\
+\textit{Collaborations:} \\
+When the player collides with a warpable area, Level should communicate with Player to tell him where he warped to. \\
+
+\subsubsection{Player}
+\textit{Responsibility:}  \\
+This class will be moving the player and spawning it after the warp. \\
+\textit{Collaborations:} \\
+When the player warped, it communicates with ScreenController to be redrawn. \\
+
+\section{Refactoring Controllers for Testing}
+\subsubsection{LevelController}
+\textit{Responsibility:}  \\
+The responsibility for this class will \textit{only} include creating levels and all communication between the objects in the game. \\
+\textit{Collaborations:} \\
+It will communicate with the objects in de game (Model package) and with the MainController. It will also be the bridge to ScreenController for the SpriteBases. \\
+
+\subsubsection{MainController}
+\textit{Responsibility:}  \\
+MainController will be the controller that is loaded by the FXML. It will have all untestable objects and will seperate the GUI from the LevelController. \\
+\textit{Collaborations:} \\
+LevelController and ScreenController will communicate via MainController. \\
+
+\section{Better Physics}
+\subsubsection{Player}
+\textit{Responsibility:}  \\
+Player is responsible for the movement of the player itself. \\
+\textit{Collaborations:} \\
+Player will be communicating with LevelController for the set of walls it could collide with. This all affects the physics. \\
