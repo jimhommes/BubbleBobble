@@ -39,7 +39,7 @@ public class Player extends GravityObject {
 
     /**
      * The counter that is needed to define the movement of the character,
-     * and the firerate of the bubbles.
+     * and the fire rate of the bubbles.
      */
     private int counter;
 
@@ -49,7 +49,7 @@ public class Player extends GravityObject {
     private boolean isDead;
 
     /**
-     * This boolean indicates wheter the player has died, and has no lifes left.
+     * This boolean indicates whether the player has died, and has no lives left.
      */
     private boolean gameOver;
 
@@ -116,7 +116,7 @@ public class Player extends GravityObject {
                   Input input,
                   LevelController levelController) {
 
-        super("../BubRight.png", x, y, r, dx, dy, dr);
+        super("../BubRight.png", x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.input = input;
@@ -161,25 +161,7 @@ public class Player extends GravityObject {
             checkIfGameOver();
         }
 
-        checkBounds();
-
-    }
-
-    /**
-     * This function returns the player if it is out of bounds.
-     */
-    private void checkBounds() {
-        if (getX() < playerMinX) {
-            setX(playerMinX);
-        } else if (getX() + getWidth() > playerMaxX) {
-            setX(playerMaxX - getWidth());
-        }
-
-        if (getY() < playerMinY) {
-            setY(playerMinY);
-        } else if (getY() + getHeight() > playerMaxY) {
-            setY(playerMaxY - getHeight());
-        }
+        checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
     }
 
     /**
@@ -187,7 +169,6 @@ public class Player extends GravityObject {
      */
     @Override
     public void move() {
-
         applyGravity();
 
         Double newX = getX() + getDx();
@@ -230,6 +211,7 @@ public class Player extends GravityObject {
             }
         }
     }
+
 
     /**
      * This function checks if the player collides with a bubble.
@@ -389,7 +371,7 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function checks if the game is over. And if so, loads the gamover screen.
+     * This function checks if the game is over. And if so, loads the game over screen.
      */
     private void checkIfGameOver() {
         if (counter > 50) {

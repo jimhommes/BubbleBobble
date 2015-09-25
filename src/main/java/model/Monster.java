@@ -36,7 +36,7 @@ public class Monster extends GravityObject {
     public Monster(String imagePath, double x, double y, double r,
                    double dx, double dy, double dr, double speed, boolean facingRight,
                    LevelController levelController) {
-        super(imagePath, x, y, r, dx, dy, dr);
+        super(imagePath, x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
         this.facingRight = facingRight;
@@ -77,7 +77,7 @@ public class Monster extends GravityObject {
                     || bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
-                prisonBubble.setIsPrisonbubble(true);
+                prisonBubble.setIsPrisonBubble(true);
                 caughtByBubble = true;
 
                 Logger.log("Monster is caught by bubble!");
@@ -123,6 +123,20 @@ public class Monster extends GravityObject {
      */
     public void setFacingRight(boolean facingRight) {
         this.facingRight = facingRight;
+    }
+
+    /**
+     * This function sets the correct image of the Monster for it's direction.
+     *
+     * @param rightImgPath The path to the right image.
+     * @param leftImgPath The path to the left image.
+     */
+    public void setNewImage(String rightImgPath, String leftImgPath) {
+        if (isFacingRight()) {
+            setImage(rightImgPath);
+        } else {
+            setImage(leftImgPath);
+        }
     }
 
     /**

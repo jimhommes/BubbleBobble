@@ -41,7 +41,7 @@ public class ScreenControllerTest {
      */
     @Test
     public void testConstructor() {
-        assertTrue(screenController.getPlayfieldLayer() != null);
+        assertTrue(screenController.getPlayFieldLayer() != null);
         assertTrue(screenController.getImages() != null);
         assertTrue(screenController.getSprites() != null);
     }

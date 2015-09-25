@@ -71,7 +71,7 @@ public class StartController implements Initializable {
     }
 
     /**
-     * The function bound to the startbutton.
+     * The function bound to the start button.
      * @throws IOException The exception thrown.
      */
     private void startLevel() throws IOException {
