@@ -156,8 +156,7 @@ public class Player extends GravityObject {
             checkIfGameOver();
         }
 
-        checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY);
-
+        checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
     }
 
     /**

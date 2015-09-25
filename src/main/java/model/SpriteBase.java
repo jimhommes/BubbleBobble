@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+
 /**
  * The SpriteBase that will load the sprite (image).
  */
@@ -285,9 +287,11 @@ public abstract class SpriteBase {
      * @param spriteMaxX The maximal X coordinate a sprite can have.
      * @param spriteMinY The minimal Y coordinate a sprite can have.
      * @param spriteMaxY The maximal Y coordinate a sprite can have.
+     * @param levelController The levelController.
      */
     public void checkBounds(double spriteMinX, double spriteMaxX,
-                            double spriteMinY, double spriteMaxY) {
+                            double spriteMinY, double spriteMaxY,
+                            LevelController levelController) {
         if (getX() < spriteMinX) {
             setX(spriteMinX);
         } else if (getX() + getWidth() > spriteMaxX) {
@@ -295,10 +299,18 @@ public abstract class SpriteBase {
         }
 
         if (getY() < spriteMinY) {
-            setY(spriteMinY);
+        	if (!levelController.causesCollision(getX(),
+                    getX() + getWidth(),
+                    getY(),
+                    getY() + getHeight())) {
+        		setY(spriteMaxY - getHeight());
+        	} else {
+        		setY(spriteMinY);
+        	}	
         } else if (getY() + getHeight() > spriteMaxY) {
-            setY(spriteMaxY - getHeight());
+            setY(spriteMinY);
         }
+        System.out.println(getX());
     }
 
 }

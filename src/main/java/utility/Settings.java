@@ -68,7 +68,7 @@ public final class Settings {
     /**
      * The amount of maps made available.
      */
-    public static final int AMOUNT_MAPS = 4;
+    public static final int AMOUNT_MAPS = 5;
 
     /**
      * The private constructor that does nothing.

@@ -105,12 +105,15 @@ public class Bubble extends SpriteBase {
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
-        setDx(0);      
-        if (!levelController.topWallCollision(getX(), getX() + getWidth(),
+        setDx(0);
+        if (!levelController.causesCollision(getX(), getX() + getWidth(),
                 getY() - Settings.BUBBLE_FLY_SPEED,
                 getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
-        } else {
+            if (getY() < 0) {
+                setY(Settings.SCENE_HEIGHT);
+            }
+        } else if (getY() <= 35) {
             setDy(0);
         }
         ableToCatch = false;

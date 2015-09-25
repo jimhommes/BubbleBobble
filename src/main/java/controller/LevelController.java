@@ -279,35 +279,6 @@ public class LevelController {
 
         return false;
     }
-    
-
-    /**
-     * This method allows the bubbles to float to the top and stay there.
-     * @param minX The minimum x value of the bubble.
-     * @param maxX The maximum x value of the bubble.
-     * @param minY The minimum y value of the bubble.
-     * @param maxY The maximum y value of the bubble.
-     * @return true if there is a collision with the ceiling. 
-     */
-    @SuppressWarnings("unchecked")
-	public boolean topWallCollision(double minX, double maxX, double minY, double maxY) {
-
-        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            double wallMinX = wall.getX();
-            double wallMaxX = wallMinX + wall.getWidth();
-            if (((minX > wallMinX && minX < wallMaxX)
-                    || (maxX > wallMinX && maxX < wallMaxX)
-                    || (wallMinX > minX && wallMinX < maxX)
-                    || (wallMaxX > minX && wallMaxX < maxX))
-                    && ((minY > 32 && minY < 32)
-                    || (maxY > 32 && maxY < 32)
-                    || (32 > minY && 32 < maxY)
-                    || (32 > minY && 32 < maxY))) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * This function is called when it's game over.

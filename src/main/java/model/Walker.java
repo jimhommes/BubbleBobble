@@ -105,6 +105,7 @@ public class Walker extends Monster {
             }
             moveHorizontal();
             moveVertical();
+            checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
         } else {
             setDx(0);
             setDy(0);
@@ -112,7 +113,7 @@ public class Walker extends Monster {
             setY(getPrisonBubble().getY());
         }
 
-        checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY);
+        
 
         super.move();
     }
