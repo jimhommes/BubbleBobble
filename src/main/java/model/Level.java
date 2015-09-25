@@ -149,7 +149,6 @@ public class Level {
      * This method gets the players in the game.
      * @return The players in the game.
      */
-    @SuppressWarnings("rawtypes")
     public ArrayList<Player> getPlayers() {
         return players;
     }
