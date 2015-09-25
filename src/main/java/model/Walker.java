@@ -94,7 +94,8 @@ public class Walker extends Monster {
 
             ableToJump = moveCollisionChecker(jumping, ableToJump);
 
-            double jumpMaxCounter = Math.ceil(Settings.JUMP_HEIGHT_WALKER / Settings.JUMP_SPEED_WALKER);
+            double jumpMaxCounter = Math.ceil(Settings.JUMP_HEIGHT_WALKER
+                    / Settings.JUMP_SPEED_WALKER);
 
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
@@ -154,14 +155,14 @@ public class Walker extends Monster {
      */
     public void switchDirection() {
         setFacingRight(!isFacingRight());
+        setNewImage("../ZenChanRight.png", "../ZenChanLeft.png");
     }
 
     private int randInt() {
         Random rand = new Random();
         int min = 1;
         int max = 200;
-        int res = rand.nextInt((max - min) + 1) + min;
-        return res;
+        return rand.nextInt((max - min) + 1) + min;
     }
 
 }

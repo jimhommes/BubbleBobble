@@ -50,7 +50,7 @@ public class Player extends GravityObject {
     private boolean isDead;
 
     /**
-     * This boolean indicates whether the player has died, and has no lifes left.
+     * This boolean indicates whether the player has died, and has no lives left.
      */
     private boolean gameOver;
 
@@ -308,7 +308,7 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function checks if the game is over. And if so, loads the gamover screen.
+     * This function checks if the game is over. And if so, loads the game over screen.
      */
     private void checkIfGameOver() {
         if (counter > 50) {
