@@ -100,9 +100,16 @@ public class LevelControllerTest {
 	@Test
 	public void testCreatePlayer() {
 		assertTrue(levelController.getPlayers().isEmpty());
+        Level level = mock(Level.class);
+        levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
-		levelController.createPlayer(mock(Input.class));
-		ArrayList<Player> players = levelController.getPlayers();
+        ArrayList resplayers = new ArrayList();
+        resplayers.add(new Player(200.0,
+                200.0, 0, 0, 0, 0, 5.0, mock(Input.class), levelController));
+        when(level.getPlayers()).thenReturn(resplayers);
+        levelController.createPlayer(mock(Input.class));
+        ArrayList<Player> players = levelController.getPlayers();
+
 		assertTrue(!players.isEmpty());
 		assertEquals(200, players.get(0).getX(), 0.001);
 		assertEquals(200, players.get(0).getY(), 0.001);
