@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.3">
+<diagram program="umlet" version="13.2">
   <help_text>// Uncomment the following line to change the fontsize and font:
 fontsize=9
 // fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
@@ -173,7 +173,8 @@ fontsize=9
 --
 +GravityObject(imageLoc: String, x: double, 
     y: double, r: double, dx: double, 
-    dy: double, dr: double)
+    dy: double, dr: double, 
+    levelController: LevelController)
 +calculateGravity(): float
 </panel_attributes>
     <additional_attributes/>
