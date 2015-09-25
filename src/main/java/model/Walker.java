@@ -154,6 +154,7 @@ public class Walker extends Monster {
      */
     public void switchDirection() {
         setFacingRight(!isFacingRight());
+        setNewImage("../ZenChanRight.png", "../ZenChanLeft.png");
     }
 
     private int randInt() {

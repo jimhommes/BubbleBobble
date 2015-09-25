@@ -126,6 +126,20 @@ public class Monster extends GravityObject {
     }
 
     /**
+     * This function sets the correct image of the Monster for it's direction.
+     *
+     * @param RightImgPath The path to the right image.
+     * @param LeftImgPath The path to the left image.
+     */
+    public void setNewImage(String RightImgPath, String LeftImgPath) {
+        if (isFacingRight()) {
+            setImage(RightImgPath);
+        } else {
+            setImage(LeftImgPath);
+        }
+    }
+
+    /**
      * This function returns the bubble that imprisons the monster.
      *
      * @return The bubble that imprisons the monster.
