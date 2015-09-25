@@ -222,12 +222,13 @@ public class Player extends GravityObject {
             bubbles.addAll(p.getBubbles());
         });
 
+
         if (bubbles.size() == 0) {
             return false;
         } else {
             boolean res = false;
             for(Bubble bubble : bubbles) {
-                if(bubble.causesCollision(x, x1, y, y2)) {
+                if(bubble.causesCollision(x, x1, y, y2) && !bubble.getAbleToCatch()) {
                     res = true;
                 }
             }
