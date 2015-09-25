@@ -41,6 +41,16 @@ public final class Settings {
     public static final double BUBBLE_FLY_SPEED = 3;
 
     /**
+     * The number of loops that the bubble will be able to live.
+     */
+    public static final double BUBBLE_LIVE_TIME = 300;
+
+    /**
+     * The number of loops that the bubble will be flying horizontally.
+     */
+    public static final double BUBBLE_FLY_TIME = 30;
+
+    /**
      * The jump speed.
      */
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
@@ -49,6 +59,11 @@ public final class Settings {
      * The jump speed of a walker.
      */
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
+
+    /**
+     * The amount of maps made available.
+     */
+    public static final int AMOUNT_MAPS = 4;
 
     /**
      * The private constructor that does nothing.
