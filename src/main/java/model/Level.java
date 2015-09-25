@@ -93,7 +93,7 @@ public class Level {
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
-                    System.out.format("Player found in %d, %d\n", row, col);
+                    System.out.format("Player found in %d, %d%n", row, col);
                     players.add(new Player(col * SPRITE_SIZE - 32,
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                             Settings.PLAYER_SPEED, null, levelController));

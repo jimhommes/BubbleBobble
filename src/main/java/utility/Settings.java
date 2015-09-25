@@ -56,6 +56,11 @@ public final class Settings {
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
 
     /**
+     * The amount of maps made available.
+     */
+    public static final int AMOUNT_MAPS = 4;
+
+    /**
      * The private constructor that does nothing.
      * This is a utility class.
      */
