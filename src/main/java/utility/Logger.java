@@ -114,7 +114,7 @@ public class Logger {
      * @param msg the message to log
      */
     public static void log(OutputStream stream, String msg) {
-        if(enabled) {
+        if (enabled) {
             try {
                 stream.write(timestamp().getBytes(Charset.defaultCharset()));
 
