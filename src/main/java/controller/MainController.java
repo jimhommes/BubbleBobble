@@ -48,6 +48,16 @@ public class MainController implements Initializable {
      */
     @FXML
     private Pane playFieldLayer;
+    /**
+     * The number of lives left text box.
+     */
+    @FXML
+    private Text numberOfLives;
+    /**
+     * The score.
+     */
+    @FXML
+    private Text score;
 
     /**
      * The screen controller that handles all GUI/sprite interaction.
@@ -71,6 +81,20 @@ public class MainController implements Initializable {
      */
     public Pane getPlayFieldLayer() {
         return playFieldLayer;
+    }
+
+    /**
+     * This function returns the number of lives text box.
+     */
+    public Text getNumberOfLives() {
+        return numberOfLives;
+    }
+
+    /**
+     * This function returns the score of the player.
+     */
+    public Text getScore() {
+        return score;
     }
 
     /**

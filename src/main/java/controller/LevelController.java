@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import utility.Logger;
 import model.Bubble;
 import model.Input;
@@ -34,6 +35,11 @@ public class LevelController {
      * KeyCode for pausing the game.
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
+
+    /**
+     * Number of starting lives.
+     */
+    private static final int LIVES = 5;
     
     /**
      * The list of players in the game.
@@ -179,6 +185,8 @@ public class LevelController {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
+            Text numberOfLives = mainController.getNumberOfLives();
+            Text score = mainController.getScore();
 
             playFieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
@@ -188,11 +196,19 @@ public class LevelController {
                     createLvl();
 
                     mainController.hideStartMessage();
+
+                    numberOfLives.setVisible(true);
+                    numberOfLives.setText("Lives: " + LIVES);
+                    score.setVisible(true);
+                    score.setText("Score: 0");
+
                     playFieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
             });
+
+
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
             Logger.log("No maps found!");

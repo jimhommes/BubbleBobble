@@ -6,7 +6,6 @@
     -fx-font-size: 40px;
 }
 
-
 .button {
     -fx-min-width: 300;
     -fx-text-alignment: center;
@@ -55,6 +54,11 @@
 }
 
 /* Level */
+#gridPane{
+    -fx-background-color: black;
+    -fx-font-size: 30px;
+}
+
 .levelMessage{
     -fx-font-size: 50px;
     -fx-fill: white;

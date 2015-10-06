@@ -1,18 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<StackPane fx:id="root" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml" visible="true">
-    <Pane fx:id="playFieldLayer"/>
-    <Text fx:id="startMessage" text="Click anywhere to start" styleClass="levelMessage"/>
-    
-    <VBox fx:id="pauseVBox" visible="false" styleClass="pauseVBox">
-        <Text fx:id="pauseMessage" text="Game paused" styleClass="levelMessage" visible="false"/>
-        <Text fx:id="pauseMessageSub" text="Press any key to continue" styleClass="levelMessageSub" visible="false"/>
-    </VBox>
 
-    <stylesheets>
-        <URL value="@stylesheet.css"/>
-    </stylesheets>
-</StackPane>
+<AnchorPane stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <GridPane fx:id="gridPane">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
+               </rowConstraints>
+               <children>
+                  <Text fx:id="numberOfLives" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Lives: #" visible="false">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="score" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: #" visible="false" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <StackPane fx:id="root" visible="true">
+                <Pane fx:id="playFieldLayer" />
+                <Text fx:id="startMessage" styleClass="levelMessage" text="Click anywhere to start" />
+                
+                <VBox fx:id="pauseVBox" styleClass="pauseVBox" visible="false">
+                    <Text fx:id="pauseMessage" styleClass="levelMessage" text="Game paused" visible="false" />
+                    <Text fx:id="pauseMessageSub" styleClass="levelMessageSub" text="Press any key to continue" visible="false" />
+                </VBox>
+            </StackPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
