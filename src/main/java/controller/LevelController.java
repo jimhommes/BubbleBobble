@@ -87,22 +87,39 @@ public class LevelController {
     private String pathMaps = "src/main/resources";
 
     /**
+     * The boolean preventing the pauseScreen from switching many times.
+     */
+    private boolean switchedPauseScreen = false;
+
+    /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on key press PAUSE_KEY
-            if (event.getCode() == PAUSE_KEY) {
-                mainController.showPauseScreen();
-                gamePaused = true;
+            if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
+                switchedPauseScreen = true;
+                gamePaused = !gamePaused;
+                if (gamePaused) {
+                    mainController.showPauseScreen();
+                } else {
+                    mainController.hidePauseScreen();
+                }
             }
 
-            //un-pause game on key press anything except PAUSE_KEY
-            if (gamePaused && event.getCode() != PAUSE_KEY) {
-                mainController.hidePauseScreen();
-                gamePaused = false;
+        }
+    };
+
+    /**
+     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     */
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+
+            if (event.getCode() == PAUSE_KEY) {
+                switchedPauseScreen = false;
             }
 
         }
@@ -190,6 +207,8 @@ public class LevelController {
                     mainController.hideStartMessage();
                     playFieldLayer.getScene().addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                    playFieldLayer.getScene().addEventFilter(
+                            KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
                     gameLoop.start();
                 }
             });
