@@ -17,6 +17,8 @@ import java.util.Locale;
  * Logs to file or stdout, or every possible @link{Stream}.
  */
 public class Logger {
+    private static boolean enabled = false;
+
     private static OutputStream logFile;
     private static String timestamp = "[hh:mm:ss] ";
 
@@ -82,9 +84,9 @@ public class Logger {
      * @param mode INFO for info messages, ERROR for error messages
      */
     public static void log(String msg, boolean mode) {
-        if (mode == ERROR) {
+        if (mode == ERROR && enabled) {
             log(ERR, msg);
-        } else if (mode == INFO) {
+        } else if (mode == INFO && enabled) {
             log(OUT, msg);
         }
     }
@@ -112,15 +114,17 @@ public class Logger {
      * @param msg the message to log
      */
     public static void log(OutputStream stream, String msg) {
-        try {
-            stream.write(timestamp().getBytes(Charset.defaultCharset()));
+        if(enabled) {
+            try {
+                stream.write(timestamp().getBytes(Charset.defaultCharset()));
 
-            stream.write(msg.getBytes(Charset.defaultCharset()));
-            stream.write('\n');
+                stream.write(msg.getBytes(Charset.defaultCharset()));
+                stream.write('\n');
 
-            stream.flush();
-        } catch (IOException e) {
-            System.out.println(msg);
+                stream.flush();
+            } catch (IOException e) {
+                System.out.println(msg);
+            }
         }
     }
 }
