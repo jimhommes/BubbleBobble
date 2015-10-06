@@ -127,4 +127,11 @@ public class Logger {
             }
         }
     }
+
+    /**
+     * A function to force enabling the logger.
+     */
+    public static void forceEnable() {
+        enabled = true;
+    }
 }
