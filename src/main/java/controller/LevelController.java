@@ -5,16 +5,18 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import utility.Logger;
 import model.Bubble;
 import model.Input;
 import model.Level;
-import model.Player;
 import model.Monster;
+import model.Player;
 import model.Wall;
+import utility.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Jim
@@ -28,7 +30,7 @@ import java.util.ArrayList;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController {
+public class LevelController implements Observer {
 
     /**
      * KeyCode for pausing the game.
@@ -231,6 +233,7 @@ public class LevelController {
         players.forEach(player -> {
             player.setInput(input);
             this.players.add(player);
+            player.addObserver(this);
         });
 
         screenController.addToSprites(this.players);
@@ -429,6 +432,10 @@ public class LevelController {
     @SuppressWarnings("rawtypes")
 	public void setPlayers(ArrayList players) {
         this.players = players;
+
+        players.forEach((player) -> {
+            ((Player)player).addObserver(this);
+        });
     }
 
     /**
@@ -453,5 +460,19 @@ public class LevelController {
      */
     public boolean getGamePaused() {
         return gamePaused;
+    }
+
+    /**
+     * This method is called whenever the observed object is changed. An
+     * application calls an <tt>Observable</tt> object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param o   the observable object.
+     * @param arg an argument passed to the <code>notifyObservers</code>
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        Logger.log(String.format("Score: %d", ((Player) arg).getScore()));
     }
 }

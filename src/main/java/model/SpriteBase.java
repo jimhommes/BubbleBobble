@@ -2,10 +2,12 @@ package model;
 
 import controller.LevelController;
 
+import java.util.Observable;
+
 /**
  * The SpriteBase that will load the sprite (image).
  */
-public abstract class SpriteBase {
+public abstract class SpriteBase extends Observable {
 
     /**
      * Image to be loaded.
