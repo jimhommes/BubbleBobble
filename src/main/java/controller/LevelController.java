@@ -188,7 +188,7 @@ public class LevelController {
                     createLvl();
 
                     mainController.hideStartMessage();
-                    playFieldLayer.addEventFilter(
+                    playFieldLayer.getScene().addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
                 }
