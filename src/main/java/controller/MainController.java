@@ -116,9 +116,20 @@ public class MainController implements Initializable {
 
     /**
      * This function shows the number of lives and score texts.
+     * @param lives The amount of lives that needs to be set
+     *              at the beginning of the game.
      */
     public void showLives(int lives) {
         numberOfLives.setVisible(true);
+        numberOfLives.setText("Lives: " + lives);
+    }
+
+    /**
+     * This function sets the new number of lives when it changes
+     * during the game.
+     * @param lives The new amount of lives of the player.
+     */
+    public void setLives(int lives) {
         numberOfLives.setText("Lives: " + lives);
     }
 

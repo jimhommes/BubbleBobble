@@ -149,7 +149,17 @@ public class LevelControllerTest {
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
     }
-    
+
+    /**
+     * This tests the setLivesMinusOne function.
+     */
+    @Test
+    public void testSetLivesMinusOne() {
+        int lives = levelController.getLives();
+        levelController.setLivesMinusOne();
+        assertEquals(lives - 1, levelController.getLives());
+    }
+
     /**
      * The function that sets the path to the maps.
      */

@@ -209,7 +209,7 @@ public class LevelController {
                     mainController.hideStartMessage();
                     mainController.showLives(lives);
                     mainController.showScore();
-                    
+
                     playFieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
@@ -394,7 +394,7 @@ public class LevelController {
      */
     public void setLivesMinusOne() {
         lives--;
-        numberOfLives.setText("Lives: " + lives);
+        mainController.setLives(lives);
     }
 
     /**
