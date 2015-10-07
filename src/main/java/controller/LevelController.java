@@ -479,10 +479,18 @@ public class LevelController {
         return gamePaused;
     }
 
+    /**
+     * This function returns the pausekey handler for releasing.
+     * @return The pauseKeyEventHandlerRelease
+     */
     public EventHandler<KeyEvent> getPauseKeyEventHandlerRelease() {
         return pauseKeyEventHandlerRelease;
     }
 
+    /**
+     * This function returns the mousePressEventHandler.
+     * @return The startMousePressEventHandler.
+     */
     public EventHandler<MouseEvent> getStartMousePressEventHandler() {
         return startMousePressEventHandler;
     }

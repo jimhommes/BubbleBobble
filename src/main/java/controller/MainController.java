@@ -139,12 +139,18 @@ public class MainController implements Initializable {
     }
 
     /**
-     * This function adds listeners.
+     * This function adds a listener.
+     * @param type The type of the listener.
+     * @param handler The handler of the listener.
      */
     public void addListeners(EventType<KeyEvent> type, EventHandler<KeyEvent> handler) {
         playFieldLayer.getScene().addEventFilter(type, handler);
     }
 
+    /**
+     * This creates an input for the controls.
+     * @return The Input
+     */
     public Input createInput() {
         return new Input(playFieldLayer.getScene());
     }
