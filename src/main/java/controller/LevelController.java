@@ -146,23 +146,26 @@ public class LevelController {
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
-                } else if (!isGamePaused()) {
-                    ((ArrayList<Player>) players).forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.checkBubbles();
-                        player.getBubbles().forEach(Bubble::move);
-                    });
-                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                } else {
+                    if (!isGamePaused()) {
                         ((ArrayList<Player>) players).forEach(player -> {
-                            player.getBubbles().forEach(monster::checkCollision);
-                            player.checkCollideMonster(monster);
+                            player.processInput();
+                            player.move();
+                            player.checkBubbles();
+                            player.getBubbles().forEach(Bubble::move);
                         });
-                        monster.move();
-                    });
-                    screenController.updateUI();
-                    if (currLvl.update()) {
-                        nextLevel();
+                        ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                            ((ArrayList<Player>) players).forEach(player -> {
+                                player.getBubbles().forEach(monster::checkCollision);
+                                player.checkCollideMonster(monster);
+                            });
+                            monster.move();
+                        });
+                        powerups.forEach(Powerup::move);
+                        screenController.updateUI();
+                        if (currLvl.update()) {
+                            nextLevel();
+                        }
                     }
                 }
             }
@@ -456,6 +459,8 @@ public class LevelController {
     }
 
     public void spawnPowerup(Monster monster) {
-        powerups.add(new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, 0, 0));
+        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, 0, 0);
+        powerups.add(powerup);
+        screenController.addToSprites(powerup);
     }
 }

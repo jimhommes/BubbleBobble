@@ -31,8 +31,10 @@ public class Powerup extends SpriteBase {
 
     @Override
     public void move() {
-        setDx(Math.abs(getX() - destx) / 20.0);
-        setDx(Math.abs(getY() - desty) / 20.0);
+        setDx((destx - getX()) / 20.0);
+        setDy((desty - getY()) / 20.0);
+
+        super.move();
     }
 
 }
