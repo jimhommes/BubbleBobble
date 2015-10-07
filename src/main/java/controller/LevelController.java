@@ -154,6 +154,11 @@ public class LevelController {
                             player.move();
                             player.checkBubbles();
                             player.getBubbles().forEach(Bubble::move);
+                            powerups.forEach(powerup -> {
+                                powerup.causesCollision(player);
+                                powerup.move();
+                            });
+                            updatePowerups();
                         });
                         ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
                             ((ArrayList<Player>) players).forEach(player -> {
@@ -162,7 +167,6 @@ public class LevelController {
                             });
                             monster.move();
                         });
-                        powerups.forEach(Powerup::move);
                         screenController.updateUI();
                         if (currLvl.update()) {
                             nextLevel();
@@ -171,6 +175,16 @@ public class LevelController {
                 }
             }
         };
+    }
+
+    private void updatePowerups() {
+        ArrayList<Powerup> nPowerups = new ArrayList<>();
+        for(Powerup powerup : powerups) {
+            if(!powerup.getPickedUp()) {
+                nPowerups.add(powerup);
+            }
+        }
+        powerups = nPowerups;
     }
 
     /**
@@ -469,8 +483,12 @@ public class LevelController {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, randLocX, randLocY);
+        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup);
+    }
+
+    public ArrayList<Powerup> getPowerups() {
+        return powerups;
     }
 }

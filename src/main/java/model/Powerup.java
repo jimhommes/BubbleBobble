@@ -1,5 +1,9 @@
 package model;
 
+import controller.LevelController;
+
+import java.util.ArrayList;
+
 /**
  * Created by Jim on 10/7/2015.
  *
@@ -12,6 +16,8 @@ public class Powerup extends SpriteBase {
     private double destx;
     private double desty;
     private boolean ableToPickup;
+    private LevelController levelController;
+    private boolean pickedUp;
 
     /**
      * The constructor. It needs all the parameters and creates the image where planned.
@@ -24,18 +30,20 @@ public class Powerup extends SpriteBase {
      * @param dr        The difference in r.
      */
     public Powerup(double x, double y, double r, double dx, double dy, double dr,
-                   double destx, double desty) {
+                   double destx, double desty, LevelController levelController) {
         super("../banana.gif", x, y, r, dx, dy, dr);
         this.ableToPickup = false;
+        this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
+        this.levelController = levelController;
     }
 
     @Override
     public void move() {
         double diffX = destx - getX();
         double diffY = desty - getY();
-        if (diffX < 0.01 && diffY < 0.01) {
+        if (diffX < 1 && diffY < 1) {
             setDx(0);
             setDy(0);
             ableToPickup = true;
@@ -47,4 +55,19 @@ public class Powerup extends SpriteBase {
         super.move();
     }
 
+    public void causesCollision(SpriteBase player) {
+        if(player.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight()) && ableToPickup) {
+            pickedUp();
+        }
+    }
+
+    private void pickedUp() {
+        //increase score
+        levelController.getScreenController().removeSprite(this);
+        pickedUp = true;
+    }
+
+    public boolean getPickedUp() {
+        return pickedUp;
+    }
 }
