@@ -9,7 +9,7 @@
     
     <VBox fx:id="pauseVBox" visible="false" styleClass="pauseVBox">
         <Text fx:id="pauseMessage" text="Game paused" styleClass="levelMessage" visible="false"/>
-        <Text fx:id="pauseMessageSub" text="Press any key to continue" styleClass="levelMessageSub" visible="false"/>
+        <Text fx:id="pauseMessageSub" text="Press 'p' to continue" styleClass="levelMessageSub" visible="false"/>
     </VBox>
 
     <stylesheets>
