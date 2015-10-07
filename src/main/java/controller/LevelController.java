@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import utility.Logger;
 import model.Bubble;
@@ -126,6 +127,26 @@ public class LevelController {
     };
 
     /**
+     * The mousepress handler for when the game starts.
+     */
+    private EventHandler<MouseEvent> startMousePressEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if (!gameStarted) {
+                gameStarted = true;
+                createInput();
+
+                createLvl();
+
+                mainController.hideStartMessage();
+                mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
+                gameLoop.start();
+            }
+        }
+    };
+
+    /**
      * The constructor of this class.
      * @param mainController The main controller that creates this class.
      */
@@ -134,7 +155,7 @@ public class LevelController {
         this.screenController = mainController.getScreenController();
         findMaps();
         gameLoop = createTimer();
-        startLevel(gameLoop);
+        startLevel();
     }
 
     /**
@@ -188,30 +209,14 @@ public class LevelController {
 
     /**
      * This function initializes the level.
-     *
-     * @param gameLoop is the loop of the game.
      */
-    public final void startLevel(AnimationTimer gameLoop) {
+    public final void startLevel() {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
 
-            playFieldLayer.setOnMousePressed(event -> {
-                if (!gameStarted) {
-                    gameStarted = true;
-                    createInput();
-
-                    createLvl();
-
-                    mainController.hideStartMessage();
-                    playFieldLayer.getScene().addEventFilter(
-                            KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
-                    playFieldLayer.getScene().addEventFilter(
-                            KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
-                    gameLoop.start();
-                }
-            });
+            playFieldLayer.setOnMousePressed(startMousePressEventHandler);
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
             Logger.log("No maps found!");
@@ -234,7 +239,7 @@ public class LevelController {
 
     private void createInput() {
         if (input == null) {
-            input = new Input(mainController.getPlayFieldLayer().getScene());
+            input = mainController.createInput();
             input.addListeners();
         }
     }
@@ -472,5 +477,13 @@ public class LevelController {
      */
     public boolean getGamePaused() {
         return gamePaused;
+    }
+
+    public EventHandler<KeyEvent> getPauseKeyEventHandlerRelease() {
+        return pauseKeyEventHandlerRelease;
+    }
+
+    public EventHandler<MouseEvent> getStartMousePressEventHandler() {
+        return startMousePressEventHandler;
     }
 }

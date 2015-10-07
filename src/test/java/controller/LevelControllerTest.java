@@ -2,6 +2,8 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -126,7 +128,7 @@ public class LevelControllerTest {
     @Test
     public void testStartLevelNoMaps() {
         levelController.setMaps(new ArrayList<>());
-        levelController.startLevel(mock(AnimationTimer.class));
+        levelController.startLevel();
         assertNull(levelController.getPlayFieldLayer().getOnMousePressed());
     }
 
@@ -181,21 +183,11 @@ public class LevelControllerTest {
         assertNull(levelController.getInput());
         assertNull(levelController.getCurrLvl());
 
-        levelController.setGameStarted(false);
-
-        Pane pane = new Pane();
-        when(mainController.getPlayFieldLayer()).thenReturn(pane);
-        levelController.setInput(mock(Input.class));
+        when(mainController.createInput()).thenReturn(mock(Input.class));
         levelController.setScreenController(mock(ScreenController.class));
 
-        levelController.startLevel(mock(AnimationTimer.class));
-        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
-                true, true, true, true, true, true, true, true, true, null));
-
-        levelController.setGameStarted(true);
-
-        pane.fireEvent(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+        EventHandler<MouseEvent> handler = levelController.getStartMousePressEventHandler();
+        handler.handle(new MouseEvent(MouseEvent.MOUSE_PRESSED,
                 0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
                 true, true, true, true, true, true, true, true, true, null));
 
@@ -387,9 +379,25 @@ public class LevelControllerTest {
                 null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).showPauseScreen();
         assertTrue(levelController.getGamePaused());
+    }
+
+    /**
+     * This tests the release for the pausekey.
+     */
+    @Test
+    public void testPauseKeyHandlerRelease() {
+        EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
+        handler.handle(new KeyEvent(null, null,
+                null, "p", "p", KeyCode.P, false, false, false, false));
+        verify(mainController, atLeastOnce()).showPauseScreen();
+        assertTrue(levelController.getGamePaused());
+
+        EventHandler<KeyEvent> handlerRelease = levelController.getPauseKeyEventHandlerRelease();
+        handlerRelease.handle(new KeyEvent(null, null,
+                KeyEvent.KEY_RELEASED, "p", "p", KeyCode.P, false, false, false, false));
 
         handler.handle(new KeyEvent(null, null,
-                null, "a", "a", KeyCode.A, false, false, false, false));
+                null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).hidePauseScreen();
         assertFalse(levelController.getGamePaused());
     }
