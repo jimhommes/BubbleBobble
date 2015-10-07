@@ -5,13 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import model.*;
 import utility.Logger;
-import model.Bubble;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Monster;
-import model.Wall;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +40,11 @@ public class LevelController {
      * The list of maps that the user is about to play.
      */
     private ArrayList<String> maps = new ArrayList<>();
+
+    /**
+     * The list of powerups.
+     */
+    private ArrayList<Powerup> powerups = new ArrayList<>();
     /**
      * The current index of the level the user is playing.
      */
@@ -453,5 +453,9 @@ public class LevelController {
      */
     public boolean getGamePaused() {
         return gamePaused;
+    }
+
+    public void spawnPowerup(Monster monster) {
+        powerups.add(new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, 0, 0));
     }
 }
