@@ -71,6 +71,11 @@ public final class Settings {
     public static final int AMOUNT_MAPS = 5;
 
     /**
+     * The sprite size.
+     */
+    public static final double SPRITE_SIZE = 64;
+
+    /**
      * The private constructor that does nothing.
      * This is a utility class.
      */

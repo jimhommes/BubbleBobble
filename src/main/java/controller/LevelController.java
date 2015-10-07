@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import model.*;
 import utility.Logger;
+import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -459,7 +460,16 @@ public class LevelController {
     }
 
     public void spawnPowerup(Monster monster) {
-        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, 0, 0);
+        double randLocX = Math.random() * Settings.SCENE_WIDTH;
+        double randLocY = Math.random() * Settings.SCENE_HEIGHT;
+
+        while(causesCollision(randLocX,
+                randLocX + Settings.SPRITE_SIZE, randLocY, randLocY + Settings.SPRITE_SIZE)) {
+            randLocX = Math.random() * Settings.SCENE_WIDTH;
+            randLocY = Math.random() * Settings.SCENE_HEIGHT;
+        }
+
+        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, randLocX, randLocY);
         powerups.add(powerup);
         screenController.addToSprites(powerup);
     }
