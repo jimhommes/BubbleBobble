@@ -6,6 +6,8 @@ import utility.Settings;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -52,6 +54,17 @@ public class Player extends GravityObject {
      * This boolean indicates whether the player has died, and has no lives left.
      */
     private boolean gameOver;
+
+    /**
+     * This boolean indicates whether the player is immortal, this happens
+     * when a player loses a life. (For a period of time)
+     */
+    private boolean isImmortal;
+
+    /**
+     * Timer for counting how long the player has been immortal.
+     */
+    private Timer timer;
 
     /**
      * This is the levelController.
@@ -245,7 +258,9 @@ public class Player extends GravityObject {
 
         if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
             if (!monster.isCaughtByBubble()) {
-                die();
+                if (!isImmortal) {
+                    die();
+                }
             } else {
                 monster.die();
             }
@@ -257,11 +272,25 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-        this.isDead = true;
-        setDx(0);
-        setDy(0);
-        counter = 0;
-        setImage("/BubbleBobbleDeath.png");
+        if (levelController.getLives() <= 1) {
+            this.isDead = true;
+            setDx(0);
+            setDy(0);
+            counter = 0;
+            setImage("/BubbleBobbleDeath.png");
+        } else {
+            levelController.setLivesMinusOne();
+            isImmortal = true;
+
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isImmortal = false;
+                    timer.cancel();
+                }
+            }, 5000);
+        }
     }
 
     /**

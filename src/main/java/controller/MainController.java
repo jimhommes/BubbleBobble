@@ -85,6 +85,7 @@ public class MainController implements Initializable {
 
     /**
      * This function returns the number of lives text box.
+     * @return The number of lives.
      */
     public Text getNumberOfLives() {
         return numberOfLives;
@@ -92,6 +93,7 @@ public class MainController implements Initializable {
 
     /**
      * This function returns the score of the player.
+     * @return The score.
      */
     public Text getScore() {
         return score;

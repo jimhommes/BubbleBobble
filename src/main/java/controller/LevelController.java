@@ -39,8 +39,18 @@ public class LevelController {
     /**
      * Number of starting lives.
      */
-    private static final int LIVES = 5;
-    
+    private int lives = 5;
+
+    /**
+     * Number of lives text box.
+     */
+    private Text numberOfLives;
+
+    /**
+     * Score of player text box.
+     */
+    private Text score;
+
     /**
      * The list of players in the game.
      */
@@ -122,6 +132,10 @@ public class LevelController {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
         findMaps();
+
+        numberOfLives = mainController.getNumberOfLives();
+        score = mainController.getScore();
+
         gameLoop = createTimer();
         startLevel(gameLoop);
     }
@@ -185,9 +199,6 @@ public class LevelController {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
-            Text numberOfLives = mainController.getNumberOfLives();
-            Text score = mainController.getScore();
-
             playFieldLayer.setOnMousePressed(event -> {
                 if (!gameStarted) {
                     gameStarted = true;
@@ -196,9 +207,8 @@ public class LevelController {
                     createLvl();
 
                     mainController.hideStartMessage();
-
                     numberOfLives.setVisible(true);
-                    numberOfLives.setText("Lives: " + LIVES);
+                    numberOfLives.setText("Lives: " + lives);
                     score.setVisible(true);
                     score.setText("Score: 0");
 
@@ -207,8 +217,6 @@ public class LevelController {
                     gameLoop.start();
                 }
             });
-
-
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
             Logger.log("No maps found!");
@@ -372,6 +380,22 @@ public class LevelController {
     @SuppressWarnings("rawtypes")
 	public ArrayList getPlayers() {
         return players;
+    }
+
+    /**
+     * The function returns the number of lives left.
+     * @return The number of lives.
+     */
+    public int getLives() {
+        return lives;
+    }
+
+    /**
+     * The function subtracts one from the number of lives.
+     */
+    public void setLivesMinusOne() {
+        lives--;
+        numberOfLives.setText("Lives: " + lives);
     }
 
     /**
