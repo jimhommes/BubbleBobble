@@ -115,6 +115,22 @@ public class MainController implements Initializable {
     }
 
     /**
+     * This function shows the number of lives and score texts.
+     */
+    public void showLives(int lives) {
+        numberOfLives.setVisible(true);
+        numberOfLives.setText("Lives: " + lives);
+    }
+
+    /**
+     * This function show the score of the player.
+     */
+    public void showScore() {
+        score.setVisible(true);
+        score.setText("Score: 0");
+    }
+
+    /**
      * This function shows the win screen.
      */
     public void showWinScreen() {

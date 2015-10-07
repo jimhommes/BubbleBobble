@@ -207,14 +207,13 @@ public class LevelController {
                     createLvl();
 
                     mainController.hideStartMessage();
-                    numberOfLives.setVisible(true);
-                    numberOfLives.setText("Lives: " + lives);
-                    score.setVisible(true);
-                    score.setText("Score: 0");
-
+                    mainController.showLives(lives);
+                    mainController.showScore();
+                    
                     playFieldLayer.addEventFilter(
                             KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                     gameLoop.start();
+
                 }
             });
         } else {
