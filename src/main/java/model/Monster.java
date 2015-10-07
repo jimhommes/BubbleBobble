@@ -88,6 +88,8 @@ public class Monster extends GravityObject {
 
     /**
      * This method is used when the monsters are killed.
+     *
+     * @param killer The player that killed the monster.
      */
     public void die(Player killer) {
         if (!dead) {

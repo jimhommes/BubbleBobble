@@ -41,7 +41,7 @@ public class LevelController implements Observer {
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-    private ArrayList players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     
     /**
      * The list of maps that the user is about to play.
@@ -228,15 +228,30 @@ public class LevelController implements Observer {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
-        players.clear();
-        ArrayList<Player> players = currLvl.getPlayers();
-        players.forEach(player -> {
-            player.setInput(input);
-            this.players.add(player);
-            player.addObserver(this);
-        });
+        int[] scores = new int[this.players.size()];
 
-        screenController.addToSprites(this.players);
+        for (int i = 0; i < scores.length; i++) {
+            scores[i] = this.players.get(i).getScore();
+        }
+
+        this.players.clear();
+        ArrayList<Player> p = currLvl.getPlayers();
+
+        for (int i = 0; i < p.size(); i++) {
+            Player newPlayer = p.get(i);
+
+            if (scores.length > i) {
+                newPlayer.setScore(scores[i]);
+            } else {
+                newPlayer.setScore(0);
+            }
+
+            newPlayer.setInput(input);
+            newPlayer.addObserver(this);
+            this.players.add(newPlayer);
+        }
+
+        screenController.addToSprites((ArrayList) this.players);
     }
 
     /**
@@ -434,7 +449,7 @@ public class LevelController implements Observer {
         this.players = players;
 
         players.forEach((player) -> {
-            ((Player)player).addObserver(this);
+            ((Player) player).addObserver(this);
         });
     }
 
