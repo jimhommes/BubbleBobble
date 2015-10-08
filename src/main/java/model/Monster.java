@@ -99,6 +99,7 @@ public class Monster extends GravityObject {
         	notifyAllObservers(this, 1);
             dead = true;
 
+            levelController.spawnPowerup(this);
             Logger.log("Monster died!");
         }
     }

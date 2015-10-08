@@ -90,6 +90,10 @@ public class Player extends GravityObject {
      */
     private boolean isAbleToDoubleJump;
 
+    private boolean doubleSpeed;
+    private int doubleSpeedCounter;
+    private int durationDoubleSpeed = 200;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
@@ -160,6 +164,20 @@ public class Player extends GravityObject {
         }
 
         checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
+        checkPowerups();
+    }
+
+    private void checkPowerups() {
+        if (doubleSpeed) {
+            doubleSpeedCounter++;
+            if (doubleSpeedCounter >= durationDoubleSpeed) {
+                doubleSpeed = false;
+                speed = Settings.PLAYER_SPEED;
+                doubleSpeedCounter = 0;
+            }
+        } else {
+            doubleSpeedCounter = 0;
+        }
     }
 
     /**
@@ -422,8 +440,7 @@ public class Player extends GravityObject {
     public boolean getGameOver() {
         return gameOver;
     }
-    
-    
+
     /**
      * This sets if the player is jumping or not.
      * @param jumping if the player is jumping.
@@ -431,8 +448,6 @@ public class Player extends GravityObject {
     public void setJumping(boolean jumping) {
     	this.jumping = jumping;
     }
-    
-    
 
     /**
      * This gets if the player is jumping or not.
@@ -467,7 +482,13 @@ public class Player extends GravityObject {
     public Input getInput() {
         return input;
     }
-    
-    
-    
+
+    /**
+     * This is called when the speed powerup is picked up.
+     * It doubles the speed for a while.
+     */
+    public void activateSpeedPowerup() {
+        doubleSpeed = true;
+        speed = 2 * Settings.PLAYER_SPEED;
+    }
 }

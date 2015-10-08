@@ -14,6 +14,11 @@ import java.util.ArrayList;
  * @since 9/5/2015
  * @version 0.1
  */
+
+/**
+ * This class is the Level class. When created it can load a
+ * level from a .txt file.
+ */
 public class Level {
 
     /**
@@ -60,6 +65,8 @@ public class Level {
      * The list of the monsters that spawn.
      */
     private ArrayList<Player> players;
+    
+    private int counter;
 
     /**
      * When a level is created in the levelController, it is immediately drawn.
@@ -175,7 +182,18 @@ public class Level {
             }
         });
         monsters = newMonsters;
-
-        return monsters.size() == 0;
+        
+        if (monsters.size() == 0) {
+        	if (counter < 200) {
+        		counter++;
+        		return false;
+        	}
+        	else {
+        		return true;
+        	}
+        }
+        else {
+        	return false;
+        }
     }
 }
