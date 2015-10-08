@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import utility.Logger;
@@ -93,24 +94,63 @@ public class LevelController {
     private String pathMaps = "src/main/resources";
 
     /**
+     * The boolean preventing the pauseScreen from switching many times.
+     */
+    private boolean switchedPauseScreen = false;
+
+    /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on key press PAUSE_KEY
+            if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
+                switchedPauseScreen = true;
+                gamePaused = !gamePaused;
+                if (gamePaused) {
+                    mainController.showPauseScreen();
+                } else {
+                    mainController.hidePauseScreen();
+                }
+            }
+
+        }
+    };
+
+    /**
+     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     */
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+
             if (event.getCode() == PAUSE_KEY) {
-                mainController.showPauseScreen();
-                gamePaused = true;
+                switchedPauseScreen = false;
             }
 
-            //un-pause game on key press anything except PAUSE_KEY
-            if (gamePaused && event.getCode() != PAUSE_KEY) {
-                mainController.hidePauseScreen();
-                gamePaused = false;
-            }
+        }
+    };
 
+    /**
+     * The mouse press handler for when the game starts.
+     */
+    private EventHandler<MouseEvent> startMousePressEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if (!gameStarted) {
+                gameStarted = true;
+                createInput();
+
+                createLvl();
+
+                mainController.hideStartMessage();
+                mainController.showLives(lives);
+                mainController.showScore();
+                mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
+                gameLoop.start();
+            }
         }
     };
 
@@ -124,7 +164,7 @@ public class LevelController {
         findMaps();
 
         gameLoop = createTimer();
-        startLevel(gameLoop);
+        startLevel();
     }
 
     /**
@@ -178,31 +218,14 @@ public class LevelController {
 
     /**
      * This function initializes the level.
-     *
-     * @param gameLoop is the loop of the game.
      */
-    public final void startLevel(AnimationTimer gameLoop) {
+    public final void startLevel() {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
-            playFieldLayer.setOnMousePressed(event -> {
-                if (!gameStarted) {
-                    gameStarted = true;
-                    createInput();
+            playFieldLayer.setOnMousePressed(startMousePressEventHandler);
 
-                    createLvl();
-
-                    mainController.hideStartMessage();
-                    mainController.showLives(lives);
-                    mainController.showScore();
-
-                    playFieldLayer.addEventFilter(
-                            KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
-                    gameLoop.start();
-
-                }
-            });
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
             Logger.log("No maps found!");
@@ -225,7 +248,7 @@ public class LevelController {
 
     private void createInput() {
         if (input == null) {
-            input = new Input(mainController.getPlayFieldLayer().getScene());
+            input = mainController.createInput();
             input.addListeners();
         }
     }
@@ -479,5 +502,21 @@ public class LevelController {
      */
     public boolean getGamePaused() {
         return gamePaused;
+    }
+
+    /**
+     * This function returns the pausekey handler for releasing.
+     * @return The pauseKeyEventHandlerRelease
+     */
+    public EventHandler<KeyEvent> getPauseKeyEventHandlerRelease() {
+        return pauseKeyEventHandlerRelease;
+    }
+
+    /**
+     * This function returns the mousePressEventHandler.
+     * @return The startMousePressEventHandler.
+     */
+    public EventHandler<MouseEvent> getStartMousePressEventHandler() {
+        return startMousePressEventHandler;
     }
 }

@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+
 <AnchorPane stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
@@ -30,7 +31,7 @@
                 
                 <VBox fx:id="pauseVBox" styleClass="pauseVBox" visible="false">
                     <Text fx:id="pauseMessage" styleClass="levelMessage" text="Game paused" visible="false" />
-                    <Text fx:id="pauseMessageSub" styleClass="levelMessageSub" text="Press any key to continue" visible="false" />
+                    <Text fx:id="pauseMessageSub" styleClass="levelMessageSub" text="Press 'p' to continue" visible="false" />
                 </VBox>
             </StackPane>
          </children>
