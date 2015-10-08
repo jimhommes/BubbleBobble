@@ -6,4 +6,5 @@ import model.SpriteBase;
 public abstract class Observer {
 	protected LevelController levelController;
 	public abstract void update(SpriteBase spriteBase);
+	public abstract void update(SpriteBase spriteBase, int state);
 }

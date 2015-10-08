@@ -3,7 +3,9 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Bubble;
 import model.Monster;
+import model.Player;
 import model.SpriteBase;
 
 import java.util.ArrayList;
@@ -86,9 +88,9 @@ public class ScreenController extends Observer {
     /**
      * This methods updates the UI, and updates where the sprites are in it.
      */
-//    public void updateUI() {
-//        sprites.forEach(this::update);
-//    }
+    public void updateUI() {
+        sprites.forEach(this::update);
+    }
 
     /**
      * This function updates all locations of the sprites.
@@ -172,10 +174,19 @@ public class ScreenController extends Observer {
         this.images = images;
     }
 
-	
-	//public void update(Monster monster) {
-	//	ImageView image = images.get(sprites.indexOf(monster));
-    //  image.relocate(monster.getX(), monster.getY());
-	//}
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		if (state == 1 && (spriteBase instanceof Player)){
+			spriteBase.setImage("/BubbleBobbleDeath.png");
+		} else if (state == 1 && (spriteBase instanceof Monster)) {
+			removeSprite(spriteBase);
+			removeSprite(((Monster) spriteBase).getPrisonBubble());
+		} else if (state == 1 && (spriteBase instanceof Bubble)) {
+			removeSprite(spriteBase);
+		} else if (state == 2) {
+			addToSprites(spriteBase);
+		}
+		
+	}
 
 }

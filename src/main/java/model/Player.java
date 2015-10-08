@@ -266,7 +266,8 @@ public class Player extends GravityObject {
         setDx(0);
         setDy(0);
         counter = 0;
-        setImage("/BubbleBobbleDeath.png");
+        notifyAllObservers(this, 1);
+        
     }
 
     /**
@@ -282,8 +283,8 @@ public class Player extends GravityObject {
             if (bubble.checkPop() && !bubble.getIsPrisonBubble()) {
 
                 i.remove();
-                levelController.getScreenController().removeSprite(bubble);
-
+                notifyAllObservers(bubble, 1);
+                
                 Logger.log("Bubble is popped");
             }
         }
@@ -387,7 +388,7 @@ public class Player extends GravityObject {
         if (input.isFirePrimaryWeapon() && counter > 30) {
             Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
             bubbles.add(bubble);
-            levelController.getScreenController().addToSprites(bubble);
+            notifyAllObservers(bubble, 2);
             
             counter = 0;
         } else {

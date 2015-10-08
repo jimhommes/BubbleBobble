@@ -347,10 +347,10 @@ public abstract class SpriteBase {
   	   observers.add(observer);
   	}
     
-    //public void notifyAllObservers(){
- 	  // for (Observer observer : observers) {
- 		//   observer.update();
- 	//   }
- 	//}
+    public void notifyAllObservers(SpriteBase spriteBase, int state){
+ 	   for (Observer observer : observers) {
+ 		   observer.update(spriteBase, state);
+ 	   }
+ 	}
 
 }

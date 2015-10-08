@@ -96,8 +96,7 @@ public class Monster extends GravityObject {
      */
     public void die() {
         if (!dead) {
-            levelController.getScreenController().removeSprite(this);
-            levelController.getScreenController().removeSprite(prisonBubble);
+        	notifyAllObservers(this, 1);
             dead = true;
 
             Logger.log("Monster died!");

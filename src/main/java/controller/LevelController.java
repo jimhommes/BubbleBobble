@@ -464,4 +464,10 @@ public class LevelController extends Observer {
 	public void update(SpriteBase sprite) {
 				
 	}
+
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		// TODO Auto-generated method stub
+		
+	}
 }
