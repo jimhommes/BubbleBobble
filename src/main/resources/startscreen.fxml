@@ -29,20 +29,16 @@
       </children>
        </VBox>
    
-       <GridPane fx:id="helpScreen" visible="false" AnchorPane.bottomAnchor="200" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="200">
+       <GridPane fx:id="helpScreen" layoutY="165.0" maxHeight="764.0" minWidth="764.0" prefHeight="764.0" prefWidth="764.0" visible="false" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="165.0">
       <children>
               <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="NEVER" />
-              <Text text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpTextDescription" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-              <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="P key - Pause the game" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
-     		  <Text styleClass="helpTextDescription" text="Power Ups" underline="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS" />
-              <Pane prefHeight="147.0" prefWidth="634.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="P key - Pause the game" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
+     		  <Text styleClass="helpTextDescription" text="Power Ups:" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
+              <Pane prefHeight="147.0" prefWidth="634.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
                <children>
                   <GridPane layoutX="-4.0" layoutY="5.0" prefHeight="102.0" prefWidth="647.0">
                      <children>
@@ -81,41 +77,13 @@
                         <ColumnConstraints maxWidth="278.0" minWidth="220.0" prefWidth="278.0" />
                         <ColumnConstraints maxWidth="427.0" minWidth="369.0" prefWidth="369.0" />
                      </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
                   </GridPane>
                </children></Pane>
-     		  <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
-     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+     		  <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
+     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
       </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
        </GridPane>
    </children>
-
 
     <stylesheets>
         <URL value="@stylesheet.css" />
