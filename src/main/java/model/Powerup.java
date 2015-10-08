@@ -75,7 +75,7 @@ public class Powerup extends SpriteBase {
     public void causesCollision(SpriteBase player) {
         if (player.causesCollision(getX(), getX() + getWidth(),
                 getY(), getY() + getHeight()) && ableToPickup) {
-            pickedUp();
+            pickedUp((Player) player);
         }
     }
 
@@ -83,7 +83,7 @@ public class Powerup extends SpriteBase {
      * The function that is called when there is a collision with a player.
      * The powerup should dissappear.
      */
-    private void pickedUp() {
+    private void pickedUp(Player player) {
         if (!pickedUp) {
             levelController.getScreenController().removeSprite(this);
             pickedUp = true;
@@ -91,13 +91,14 @@ public class Powerup extends SpriteBase {
 
             if (kind < 1) {
                 for (int i = 0; i < AMOUNT_OF_POWERUPS; i++) {
-                    if (kind >= i*(kind/AMOUNT_OF_POWERUPS)) {
-                        activateSpeedPowerup();
+                    if (kind >= i * (kind / AMOUNT_OF_POWERUPS)) {
+                        player.activateSpeedPowerup();
                     }
                 }
             } else {
                 switch ((int) kind) {
-                    case 2: activateSpeedPowerup();
+                    case 2: player.activateSpeedPowerup();
+                    default: Logger.log("Unknown Powerup int, should use static int.");
                 }
             }
 
