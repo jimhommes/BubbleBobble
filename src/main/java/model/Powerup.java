@@ -63,8 +63,10 @@ public class Powerup extends SpriteBase {
 
     private void pickedUp() {
         //increase score
-        levelController.getScreenController().removeSprite(this);
-        pickedUp = true;
+        if(!pickedUp) {
+            levelController.getScreenController().removeSprite(this);
+            pickedUp = true;
+        }
     }
 
     public boolean getPickedUp() {

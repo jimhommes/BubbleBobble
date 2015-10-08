@@ -259,6 +259,8 @@ public class LevelController {
      */
     public final void nextLevel() {
         indexCurrLvl++;
+        players = new ArrayList<>();
+        powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
