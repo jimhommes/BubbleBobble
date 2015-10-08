@@ -20,7 +20,7 @@ public class Powerup extends SpriteBase {
     private double kind;
 
     public static final double AMOUNT_OF_POWERUPS = 1;
-    public static final double POWERUP_SPEED = 2;
+    public static final double POWERUP_SPEED = 1;
 
     /**
      * The constructor. It instantiates the class.
@@ -89,24 +89,18 @@ public class Powerup extends SpriteBase {
             pickedUp = true;
             Logger.log("Picked up Powerup.");
 
+            int k = (int) kind;
+
             if (kind < 1) {
-                for (int i = 0; i < AMOUNT_OF_POWERUPS; i++) {
-                    if (kind >= i * (kind / AMOUNT_OF_POWERUPS)) {
-                        player.activateSpeedPowerup();
-                    }
-                }
-            } else {
-                switch ((int) kind) {
-                    case 2: player.activateSpeedPowerup();
-                    default: Logger.log("Unknown Powerup int, should use static int.");
-                }
+                k = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
+            }
+
+            switch (k) {
+                case (int) POWERUP_SPEED: player.activateSpeedPowerup();
+                default: Logger.log("Unknown Powerup int, should use static int.");
             }
 
         }
-    }
-
-    private void activateSpeedPowerup() {
-        //TODO: Activate Speed Powerup
     }
 
     /**
