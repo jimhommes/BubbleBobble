@@ -133,6 +133,8 @@ public class Player extends GravityObject {
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**
@@ -386,6 +388,7 @@ public class Player extends GravityObject {
             Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
             bubbles.add(bubble);
             levelController.getScreenController().addToSprites(bubble);
+            
             counter = 0;
         } else {
             counter++;
@@ -464,15 +467,4 @@ public class Player extends GravityObject {
         return input;
     }
     
-    private List<Observer> observers = new ArrayList<Observer>();
-    
-    public void attach(Observer observer){
- 	   observers.add(observer);
- 	}
-    
-	public void notifyAllObservers(){
-	   for (Observer observer : observers) {
-		   observer.update();
-	   }
-	}
 }

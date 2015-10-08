@@ -10,6 +10,7 @@ import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Player;
+import model.SpriteBase;
 import model.Monster;
 import model.Wall;
 
@@ -161,7 +162,7 @@ public class LevelController extends Observer {
                         });
                         monster.move();
                     });
-                    screenController.updateUI();
+                    //screenController.updateUI();
                     if (currLvl.update()) {
                         nextLevel();
                     }
@@ -213,10 +214,6 @@ public class LevelController extends Observer {
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
         ArrayList<Monster> monsters = currLvl.getMonsters();
-        for (Monster monster : monsters) {
-        	monster.attach(screenController);
-        	monster.attach(levelController);
-        }
     }
 
     private void createInput() {
@@ -242,8 +239,6 @@ public class LevelController extends Observer {
         
         screenController.addToSprites(this.players);
         
-        players.get(0).attach(levelController);
-        players.get(0).attach(screenController);
     }
 
     /**
@@ -466,7 +461,7 @@ public class LevelController extends Observer {
     }
     
 	@Override
-	public void update() {
+	public void update(SpriteBase sprite) {
 				
 	}
 }

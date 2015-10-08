@@ -1,6 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+
 import controller.LevelController;
+import controller.Observer;
 
 /**
  * The SpriteBase that will load the sprite (image).
@@ -102,7 +105,10 @@ public abstract class SpriteBase {
         x += dx;
         y += dy;
         r += dr;
-
+        
+        observers.get(1).update(this);
+        
+        
     }
 
     /**
@@ -334,5 +340,17 @@ public abstract class SpriteBase {
             setY(spriteMinY);
         }
     }
+    
+    ArrayList<Observer> observers = new ArrayList<Observer>();
+    
+    public void attach(Observer observer){
+  	   observers.add(observer);
+  	}
+    
+    //public void notifyAllObservers(){
+ 	  // for (Observer observer : observers) {
+ 		//   observer.update();
+ 	//   }
+ 	//}
 
 }

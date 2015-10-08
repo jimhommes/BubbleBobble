@@ -68,6 +68,8 @@ public class Bubble extends SpriteBase {
         this.isPrisonBubble = false;
         this.levelController = levelController;
 
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**

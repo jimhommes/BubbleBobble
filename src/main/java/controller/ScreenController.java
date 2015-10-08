@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Monster;
 import model.SpriteBase;
 
 import java.util.ArrayList;
@@ -85,23 +86,27 @@ public class ScreenController extends Observer {
     /**
      * This methods updates the UI, and updates where the sprites are in it.
      */
-    public void updateUI() {
-        sprites.forEach(this::update);
-    }
+//    public void updateUI() {
+//        sprites.forEach(this::update);
+//    }
 
     /**
      * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
-    private void update(SpriteBase sprite) {
-        ImageView image = images.get(sprites.indexOf(sprite));
-        image.relocate(sprite.getX(), sprite.getY());
-        if (sprite.getSpriteChanged()) {
-            image.setImage(new Image(
-            		getClass().getResource(sprite.getImagePath()).toExternalForm()));
-            sprite.setSpriteChanged(false);
-        }
-        image.setRotate(sprite.getR());
+    public void update(SpriteBase sprite) {
+    	int plaats = sprites.indexOf(sprite);
+    	if (plaats >= 0) {
+    		ImageView image = images.get(sprites.indexOf(sprite));
+            image.relocate(sprite.getX(), sprite.getY());
+            if (sprite.getSpriteChanged()) {
+                image.setImage(new Image(
+                		getClass().getResource(sprite.getImagePath()).toExternalForm()));
+                sprite.setSpriteChanged(false);
+            }
+            image.setRotate(sprite.getR());
+    	}
+    	
     }
 
     /**
@@ -167,9 +172,10 @@ public class ScreenController extends Observer {
         this.images = images;
     }
 
-	@Override
-	public void update() {
-		//updateUI();	
-	}
+	
+	//public void update(Monster monster) {
+	//	ImageView image = images.get(sprites.indexOf(monster));
+    //  image.relocate(monster.getX(), monster.getY());
+	//}
 
 }

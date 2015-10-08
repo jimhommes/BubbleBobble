@@ -46,6 +46,9 @@ public class Monster extends GravityObject {
         this.caughtByBubble = false;
         this.levelController = levelController;
         this.dead = false;
+        
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**
@@ -169,10 +172,6 @@ public class Monster extends GravityObject {
         return dead;
     }
     
-    ArrayList<Observer> observers = new ArrayList<Observer>();
-    
-    public void attach(Observer observer){
-  	   observers.add(observer);
-  	}
+   
 
 }
