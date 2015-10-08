@@ -202,11 +202,10 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         when(input.isMoveRight()).thenReturn(true);
-        when(causesCollisionWall(player.getX() + player.getSpeed(),
+        player.causesCollision(player.getX() + player.getSpeed(),
                 player.getX() + player.getWidth() + player.getSpeed(),
                 player.getY(),
-                player.getY() + player.getHeight(),
-        		levelController)).thenReturn(true);
+                player.getY() + player.getHeight());
         whenForCollisions();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
@@ -217,21 +216,22 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionLeft() throws Exception {
-        when(input.isMoveLeft()).thenReturn(true);
-        when(levelController.causesCollision(player.getX() - player.getSpeed(),
+        System.out.println(player.getX());
+    	when(input.isMoveLeft()).thenReturn(true);
+        player.causesCollision(player.getX() - player.getSpeed(),
                 player.getX() + player.getWidth() - player.getSpeed(),
                 player.getY(),
-                player.getY() + player.getHeight())).thenReturn(true);
+                player.getY() + player.getHeight());
    
        whenForCollisions();
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+       assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
     
     private void whenForCollisions() {
-    	when(levelController.causesCollision(player.getX(),
+    	player.causesCollision(player.getX(),
                 player.getX() + player.getWidth(),
                 player.getY(),
-                player.getY() + player.getHeight())).thenReturn(false);
+                player.getY() + player.getHeight());
     	 player.processInput();
          player.move();
     }
@@ -243,15 +243,15 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        when(levelController.causesCollision(player.getX(),
+        player.causesCollision(player.getX(),
                 player.getX() + player.getWidth(),
                 player.getY() - player.calculateGravity(),
-                player.getY() + player.getHeight() - player.calculateGravity())).thenReturn(true);
+                player.getY() + player.getHeight() - player.calculateGravity());
 
-        when(levelController.causesCollision(player.getX(),
+        player.causesCollision(player.getX(),
                 player.getX() + player.getWidth(),
                 player.getY(),
-                player.getY() + player.getHeight())).thenReturn(false);
+                player.getY() + player.getHeight());
 
         player.move();
 
