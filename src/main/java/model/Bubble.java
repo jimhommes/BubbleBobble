@@ -11,6 +11,11 @@ import utility.Settings;
  * @version 0.1
  * @since 9/8/2015
  */
+
+/**
+ * This class is the base where the sprite is loaded.
+ * Any instance that is represented by a sprite extends this class.
+ */
 public class Bubble extends SpriteBase {
 
     /**

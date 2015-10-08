@@ -11,6 +11,8 @@ import model.Input;
 import model.Level;
 import model.Monster;
 import model.Player;
+import model.Powerup;
+import model.Wall;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -409,6 +412,63 @@ public class LevelControllerTest {
         handler.handle(new KeyEvent(null, null,
                 null, "a", "a", KeyCode.A, false, false, false, false));
         assertFalse(levelController.getGamePaused());
+    }
+
+    /**
+     * This tests if the performPowerupsCycle activates the right methods.
+     */
+    @Test
+    public void testPerformPowerupsCycle() {
+        Powerup powerup = mock(Powerup.class);
+        levelController.performPowerupsCycle(powerup, mock(Player.class));
+
+        verify(powerup, atLeastOnce()).causesCollision(any(Player.class));
+        verify(powerup, atLeastOnce()).move();
+    }
+
+    /**
+     * This tests the updatePowerups function.
+     */
+    @Test
+    public void testUpdatePowerups() {
+        Powerup powerup = mock(Powerup.class);
+        ArrayList<Powerup> list = new ArrayList<>();
+        list.add(powerup);
+        levelController.setPowerups(list);
+
+        when(powerup.getPickedUp()).thenReturn(false);
+        levelController.updatePowerups();
+        assertEquals(1, levelController.getPowerups().size());
+
+        when(powerup.getPickedUp()).thenReturn(true);
+        levelController.updatePowerups();
+        assertEquals(0, levelController.getPowerups().size());
+    }
+
+    /**
+     * This function tests the spawnPowerup function.
+     */
+    @Test
+    public void testSpawnPowerup() {
+        assertEquals(0, levelController.getPowerups().size());
+        Monster monster = mock(Monster.class);
+        when(monster.getX()).thenReturn(15.0);
+        when(monster.getY()).thenReturn(30.0);
+
+        Level level = mock(Level.class);
+        ArrayList<Wall> list = new ArrayList<>();
+        list.add(new Wall(0, 0, 0, 0, 0, 0));
+        when(level.getWalls()).thenReturn(list);
+        levelController.setCurrLvl(level);
+
+        levelController.setScreenController(mock(ScreenController.class));
+
+        levelController.spawnPowerup(monster);
+
+        assertEquals(1, levelController.getPowerups().size());
+        Powerup powerup = levelController.getPowerups().get(0);
+        assertEquals(15.0, powerup.getX(), 0.1);
+        assertEquals(30.0, powerup.getY(), 0.1);
     }
     
     /**

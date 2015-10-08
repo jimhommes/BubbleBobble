@@ -14,6 +14,11 @@ import java.util.ArrayList;
  * @since 9/5/2015
  * @version 0.1
  */
+
+/**
+ * This class is the Level class. When created it can load a
+ * level from a .txt file.
+ */
 public class Level {
 
     /**

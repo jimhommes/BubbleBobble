@@ -94,6 +94,7 @@ public class Monster extends GravityObject {
             levelController.getScreenController().removeSprite(prisonBubble);
             dead = true;
 
+            levelController.spawnPowerup(this);
             Logger.log("Monster died!");
         }
     }
