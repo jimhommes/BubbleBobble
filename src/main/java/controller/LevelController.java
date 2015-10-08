@@ -5,7 +5,13 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import model.*;
+import model.Bubble;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Powerup;
+import model.Wall;
 import utility.Logger;
 import utility.Settings;
 
@@ -150,14 +156,8 @@ public class LevelController {
                 } else {
                     if (!isGamePaused()) {
                         ((ArrayList<Player>) players).forEach(player -> {
-                            player.processInput();
-                            player.move();
-                            player.checkBubbles();
-                            player.getBubbles().forEach(Bubble::move);
-                            powerups.forEach(powerup -> {
-                                powerup.causesCollision(player);
-                                powerup.move();
-                            });
+                            performPlayerCycle(player);
+                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
                             updatePowerups();
                         });
                         ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
@@ -177,10 +177,35 @@ public class LevelController {
         };
     }
 
+    /**
+     * This is the cycle that performs all powerups operations.
+     * @param powerup The powerup actions are performed on
+     * @param player The player there might be a collision with.
+     */
+    private void performPowerupsCycle(Powerup powerup, Player player) {
+        powerup.causesCollision(player);
+        powerup.move();
+    }
+
+    /**
+     * This is the cycle that performs all player operations.
+     * @param player The player the actions are performed on.
+     */
+    private void performPlayerCycle(Player player) {
+        player.processInput();
+        player.move();
+        player.checkBubbles();
+        player.getBubbles().forEach(Bubble::move);
+    }
+
+    /**
+     * This function updates the powerups, and removes
+     * the ones which have been picked up.
+     */
     private void updatePowerups() {
         ArrayList<Powerup> nPowerups = new ArrayList<>();
-        for(Powerup powerup : powerups) {
-            if(!powerup.getPickedUp()) {
+        for (Powerup powerup : powerups) {
+            if (!powerup.getPickedUp()) {
                 nPowerups.add(powerup);
             }
         }
@@ -475,21 +500,30 @@ public class LevelController {
         return gamePaused;
     }
 
+    /**
+     * This function spawns a powerup when a monster dies.
+     * @param monster The monster that died
+     */
     public void spawnPowerup(Monster monster) {
         double randLocX = Math.random() * Settings.SCENE_WIDTH;
         double randLocY = Math.random() * Settings.SCENE_HEIGHT;
 
-        while(causesCollision(randLocX,
+        while (causesCollision(randLocX,
                 randLocX + Settings.SPRITE_SIZE, randLocY, randLocY + Settings.SPRITE_SIZE)) {
             randLocX = Math.random() * Settings.SCENE_WIDTH;
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(monster.getX(), monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
+        Powerup powerup = new Powerup(monster.getX(),
+                monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup);
     }
 
+    /**
+     * This function returns the powerups.
+     * @return The powerups.
+     */
     public ArrayList<Powerup> getPowerups() {
         return powerups;
     }
