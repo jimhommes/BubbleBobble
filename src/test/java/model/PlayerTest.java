@@ -202,10 +202,11 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         when(input.isMoveRight()).thenReturn(true);
-        when(levelController.causesCollision(player.getX() + player.getSpeed(),
+        when(causesCollisionWall(player.getX() + player.getSpeed(),
                 player.getX() + player.getWidth() + player.getSpeed(),
                 player.getY(),
-                player.getY() + player.getHeight())).thenReturn(true);
+                player.getY() + player.getHeight(),
+        		levelController)).thenReturn(true);
         whenForCollisions();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }

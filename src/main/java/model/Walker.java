@@ -135,15 +135,15 @@ public class Walker extends Monster {
      */
     private void moveHorizontal() {
         if (isFacingRight()) {
-            if (!levelController.causesCollision(getX() + getSpeed(),
-                    getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
+            if (!causesCollisionWall(getX() + getSpeed(),
+                    getX() + getWidth() + getSpeed(), getY(), getY() + getHeight(), levelController)) {
                 setDx(getSpeed());
             } else {
                 switchDirection();
             }
         } else {
-            if (!levelController.causesCollision(getX() - getSpeed(),
-                    getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
+            if (!causesCollisionWall(getX() - getSpeed(),
+                    getX() + getWidth() - getSpeed(), getY(), getY() + getHeight(), levelController)) {
                 setDx(-getSpeed());
             } else {
                 switchDirection();

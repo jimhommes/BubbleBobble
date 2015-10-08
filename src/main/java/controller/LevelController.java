@@ -254,27 +254,6 @@ public class LevelController extends Observer {
     }
 
     /**
-     * This function checks whether a set of coordinates collide with a wall.
-     *
-     * @param minX The smallest X
-     * @param maxX The highest X
-     * @param minY The smallest Y
-     * @param maxY The highest Y
-     * @return True if a collision was caused.
-     */
-    @SuppressWarnings("unchecked")
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
-        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * This function is called when it's game over.
      */
     public void gameOver() {
@@ -467,7 +446,9 @@ public class LevelController extends Observer {
 
 	@Override
 	public void update(SpriteBase spriteBase, int state) {
-		// TODO Auto-generated method stub
+		if (state == 1 && (spriteBase instanceof Player)) {
+			gameOver();
+		}
 		
 	}
 }

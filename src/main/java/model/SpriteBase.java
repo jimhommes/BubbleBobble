@@ -328,10 +328,10 @@ public abstract class SpriteBase {
         }
 
         if (getY() < spriteMinY) {
-        	if (!levelController.causesCollision(getX(),
+        	if (!causesCollisionWall(getX(),
                     getX() + getWidth(),
                     getY(),
-                    getY() + getHeight())) {
+                    getY() + getHeight(), levelController)) {
         		setY(spriteMaxY - getHeight());
         	} else {
         		setY(spriteMinY);
@@ -352,5 +352,17 @@ public abstract class SpriteBase {
  		   observer.update(spriteBase, state);
  	   }
  	}
+    
+    public boolean causesCollisionWall(double minX, double maxX, double minY, double maxY, LevelController levelController) {
+
+        for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 
 }

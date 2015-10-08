@@ -184,10 +184,10 @@ public class Player extends GravityObject {
      * This function applies gravity.
      */
     private void applyGravity() {
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
-                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())
-                || levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        if (!causesCollisionWall(getX(), getX() + getWidth(),
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity(), levelController)
+                || causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             if (!jumping) {
                 if (isAbleToDoubleJump
                         && causesBubbleCollision(getX(), getX() + getWidth(),
@@ -329,13 +329,13 @@ public class Player extends GravityObject {
      * This function handles moving to the right.
      */
     private void moveRight() {
-        if (!levelController.causesCollision(getX() + speed,
+        if (!causesCollisionWall(getX() + speed,
                 getX() + getWidth() + speed,
                 getY(),
-                getY() + getHeight())) {
+                getY() + getHeight(), levelController)) {
             setDx(speed);
-        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        } else if (causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             setDx(speed);
         } else {
             if (!jumping) {
@@ -351,13 +351,13 @@ public class Player extends GravityObject {
      * This function handles moving to the left.
      */
     private void moveLeft() {
-        if (!levelController.causesCollision(getX() - speed,
+        if (!causesCollisionWall(getX() - speed,
                 getX() + getWidth() - speed,
                 getY(),
-                getY() + getHeight())) {
+                getY() + getHeight(), levelController)) {
             setDx(-speed);
-        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        } else if (causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             setDx(-speed);
         } else {
             if (!jumping) {
@@ -375,7 +375,7 @@ public class Player extends GravityObject {
     private void checkIfGameOver() {
         if (counter > 50) {
             gameOver = true;
-            levelController.gameOver();
+            notifyAllObservers(this, 1);
         } else {
             counter++;
         }
@@ -467,5 +467,7 @@ public class Player extends GravityObject {
     public Input getInput() {
         return input;
     }
+    
+    
     
 }
