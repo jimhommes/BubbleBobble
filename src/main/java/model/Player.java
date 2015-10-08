@@ -308,7 +308,7 @@ public class Player extends GravityObject {
                     isImmortal = false;
                     timer.cancel();
                 }
-            }, 1000*TIME_IMMORTAL);
+            }, 1000 * TIME_IMMORTAL);
         }
     }
 

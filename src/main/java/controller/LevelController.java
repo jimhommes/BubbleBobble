@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+
 import utility.Logger;
 import model.Bubble;
 import model.Input;
