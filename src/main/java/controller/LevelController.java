@@ -42,16 +42,6 @@ public class LevelController {
     private int lives = 5;
 
     /**
-     * Number of lives text box.
-     */
-    private Text numberOfLives;
-
-    /**
-     * Score of player text box.
-     */
-    private Text score;
-
-    /**
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
@@ -132,9 +122,6 @@ public class LevelController {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
         findMaps();
-
-        numberOfLives = mainController.getNumberOfLives();
-        score = mainController.getScore();
 
         gameLoop = createTimer();
         startLevel(gameLoop);

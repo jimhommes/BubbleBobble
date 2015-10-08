@@ -62,6 +62,11 @@ public class Player extends GravityObject {
     private boolean isImmortal;
 
     /**
+     * The time the player is immortal in seconds.
+     */
+    private static final int TIME_IMMORTAL = 3;
+
+    /**
      * Timer for counting how long the player has been immortal.
      */
     private Timer timer;
@@ -289,7 +294,7 @@ public class Player extends GravityObject {
                     isImmortal = false;
                     timer.cancel();
                 }
-            }, 5000);
+            }, 1000*TIME_IMMORTAL);
         }
     }
 
@@ -322,9 +327,17 @@ public class Player extends GravityObject {
             jump();
         }
         if (facingRight) {
-            setImage("/BubRight.png");
+            if (isImmortal) {
+                setImage("/BubRightRed.png");
+            } else {
+                setImage("/BubRight.png");
+            }
         } else {
-            setImage("/BubLeft.png");
+            if (isImmortal) {
+                setImage("/BubLeftRed.png");
+            } else {
+                setImage("/BubLeft.png");
+            }
         }
     }
 
@@ -366,7 +379,11 @@ public class Player extends GravityObject {
             }
         }
 
-        setImage("/BubRight.png");
+        if (isImmortal) {
+            setImage("/BubRightRed.png");
+        } else {
+            setImage("/BubRight.png");
+        }
         facingRight = true;
     }
 
@@ -388,7 +405,11 @@ public class Player extends GravityObject {
             }
         }
 
-        setImage("/BubLeft.png");
+        if (isImmortal) {
+            setImage("/BubLeftRed.png");
+        } else {
+            setImage("/BubLeft.png");
+        }
         facingRight = false;
     }
 
