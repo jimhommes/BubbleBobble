@@ -17,10 +17,17 @@ public class Powerup extends SpriteBase {
     private boolean ableToPickup;
     private LevelController levelController;
     private boolean pickedUp;
+    private double kind;
+
+    public static final double AMOUNT_OF_POWERUPS = 1;
+    public static final double POWERUP_SPEED = 2;
 
     /**
      * The constructor. It instantiates the class.
      *
+     * @param kind The kind of Powerup and effect it has.
+     *             If it is < 1 then it is random, but from 2 and up it can be forced.
+     *             Then a static value should be used.
      * @param x The x to spawn on.
      * @param y The y to spawn on.
      * @param r The r to spawn with.
@@ -31,9 +38,10 @@ public class Powerup extends SpriteBase {
      * @param desty The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.
      */
-    public Powerup(double x, double y, double r, double dx, double dy, double dr,
+    public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
                    double destx, double desty, LevelController levelController) {
         super("../banana.gif", x, y, r, dx, dy, dr);
+        this.kind = kind;
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
@@ -76,12 +84,28 @@ public class Powerup extends SpriteBase {
      * The powerup should dissappear.
      */
     private void pickedUp() {
-        //TODO: increase score
         if (!pickedUp) {
             levelController.getScreenController().removeSprite(this);
             pickedUp = true;
             Logger.log("Picked up Powerup.");
+
+            if (kind < 1) {
+                for (int i = 0; i < AMOUNT_OF_POWERUPS; i++) {
+                    if (kind >= i*(kind/AMOUNT_OF_POWERUPS)) {
+                        activateSpeedPowerup();
+                    }
+                }
+            } else {
+                switch ((int) kind) {
+                    case 2: activateSpeedPowerup();
+                }
+            }
+
         }
+    }
+
+    private void activateSpeedPowerup() {
+        //TODO: Activate Speed Powerup
     }
 
     /**
