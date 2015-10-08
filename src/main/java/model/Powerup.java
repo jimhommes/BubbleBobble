@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
 
 /**
  * Created by Jim on 10/7/2015.
@@ -79,6 +80,7 @@ public class Powerup extends SpriteBase {
         if (!pickedUp) {
             levelController.getScreenController().removeSprite(this);
             pickedUp = true;
+            Logger.log("Picked up Powerup.");
         }
     }
 

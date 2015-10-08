@@ -542,6 +542,9 @@ public class LevelController {
                 monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup);
+
+        Logger.log("Powerup spawned at (" + powerup.getX() + ", " + powerup.getY() + ")");
+        Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 
     /**
