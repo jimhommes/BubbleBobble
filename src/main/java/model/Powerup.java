@@ -89,4 +89,20 @@ public class Powerup extends SpriteBase {
     public boolean getPickedUp() {
         return pickedUp;
     }
+
+    /**
+     * This function returns the ableToPickup.
+     * @return True if able to pick up.
+     */
+    public boolean getAbleToPickup() {
+        return ableToPickup;
+    }
+
+    /**
+     * This function sets the boolean ableToPickUp.
+     * @param ableToPickup True if able to pick up
+     */
+    public void setAbleToPickup(boolean ableToPickup) {
+        this.ableToPickup = ableToPickup;
+    }
 }

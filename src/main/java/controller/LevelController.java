@@ -182,7 +182,7 @@ public class LevelController {
      * @param powerup The powerup actions are performed on
      * @param player The player there might be a collision with.
      */
-    private void performPowerupsCycle(Powerup powerup, Player player) {
+    public void performPowerupsCycle(Powerup powerup, Player player) {
         powerup.causesCollision(player);
         powerup.move();
     }
@@ -202,7 +202,7 @@ public class LevelController {
      * This function updates the powerups, and removes
      * the ones which have been picked up.
      */
-    private void updatePowerups() {
+    public void updatePowerups() {
         ArrayList<Powerup> nPowerups = new ArrayList<>();
         for (Powerup powerup : powerups) {
             if (!powerup.getPickedUp()) {
@@ -526,5 +526,13 @@ public class LevelController {
      */
     public ArrayList<Powerup> getPowerups() {
         return powerups;
+    }
+
+    /**
+     * This function sets the powerups.
+     * @param powerups The powerups.
+     */
+    public void setPowerups(ArrayList<Powerup> powerups) {
+        this.powerups = powerups;
     }
 }
