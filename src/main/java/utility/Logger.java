@@ -130,7 +130,7 @@ public class Logger {
 
     /**
      * A function to force enabling the logger.
-     * @param e The boolean to be set.
+     * @param e Boolean that sets whether the logger is enabled.
      */
     public static void setEnabled(final boolean e) {
         enabled = e;

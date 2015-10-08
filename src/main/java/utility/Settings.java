@@ -70,6 +70,10 @@ public final class Settings {
      */
     public static final int AMOUNT_MAPS = 5;
 
+    public static final int POINTS_PLAYER_DIE = -25;
+    public static final int POINTS_KILL_MONSTER = 10;
+    public static final int POINTS_LEVEL_COMPLETE = 30;
+
     /**
      * The private constructor that does nothing.
      * This is a utility class.

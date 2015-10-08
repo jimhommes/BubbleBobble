@@ -6,17 +6,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-
+import model.*;
 import utility.Logger;
-import model.Bubble;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Monster;
-import model.Wall;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Jim
@@ -30,7 +26,7 @@ import java.util.ArrayList;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController {
+public class LevelController implements Observer {
 
     /**
      * KeyCode for pausing the game.
@@ -46,7 +42,7 @@ public class LevelController {
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-    private ArrayList players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     
     /**
      * The list of maps that the user is about to play.
@@ -259,14 +255,30 @@ public class LevelController {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
-        players.clear();
-        ArrayList<Player> players = currLvl.getPlayers();
-        players.forEach(player -> {
-            player.setInput(input);
-            this.players.add(player);
-        });
+        int[] scores = new int[this.players.size()];
 
-        screenController.addToSprites(this.players);
+        for (int i = 0; i < scores.length; i++) {
+            scores[i] = this.players.get(i).getScore();
+        }
+
+        this.players.clear();
+        ArrayList<Player> p = currLvl.getPlayers();
+
+        for (int i = 0; i < p.size(); i++) {
+            Player newPlayer = p.get(i);
+
+            if (scores.length > i) {
+                newPlayer.setScore(scores[i]);
+            } else {
+                newPlayer.setScore(0);
+            }
+
+            newPlayer.setInput(input);
+            newPlayer.addObserver(this);
+            this.players.add(newPlayer);
+        }
+
+        screenController.addToSprites((ArrayList) this.players);
     }
 
     /**
@@ -478,6 +490,10 @@ public class LevelController {
     @SuppressWarnings("rawtypes")
 	public void setPlayers(ArrayList players) {
         this.players = players;
+
+        players.forEach((player) -> {
+            ((Player) player).addObserver(this);
+        });
     }
 
     /**
@@ -518,5 +534,19 @@ public class LevelController {
      */
     public EventHandler<MouseEvent> getStartMousePressEventHandler() {
         return startMousePressEventHandler;
+    }
+
+    /**
+     * This method is called whenever the observed object is changed. An
+     * application calls an <tt>Observable</tt> object's
+     * <code>notifyObservers</code> method to have all the object's
+     * observers notified of the change.
+     *
+     * @param o   the observable object.
+     * @param arg an argument passed to the <code>notifyObservers</code>
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        Logger.log(String.format("Score: %d", ((Player) arg).getScore()));
     }
 }

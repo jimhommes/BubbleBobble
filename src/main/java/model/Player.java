@@ -117,6 +117,11 @@ public class Player extends GravityObject {
     private double startYPlayer;
 
     /**
+     * Keeps score.
+     */
+    private int score;
+
+    /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
      * @param x               The start x coordinate.
@@ -152,6 +157,7 @@ public class Player extends GravityObject {
         this.gameOver = false;
         this.facingRight = true;
         this.levelController = levelController;
+        this.score = 0;
 
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
@@ -277,10 +283,10 @@ public class Player extends GravityObject {
         if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
             if (!monster.isCaughtByBubble()) {
                 if (!isImmortal) {
-                    die();
+                    this.die();
                 }
             } else {
-                monster.die();
+                monster.die(this);
             }
         }
 
@@ -290,7 +296,8 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-        if (levelController.getLives() <= 1) {
+
+        if (levelController.getLives() <= 1 && !this.isDead) {
             this.isDead = true;
             setDx(0);
             setDy(0);
@@ -298,6 +305,7 @@ public class Player extends GravityObject {
             setImage("/BubbleBobbleDeath.png");
         } else {
             levelController.setLivesMinusOne();
+            this.scorePoints(Settings.POINTS_PLAYER_DIE);
             isImmortal = true;
             setX(startXPlayer);
             setY(startYPlayer);
@@ -454,6 +462,17 @@ public class Player extends GravityObject {
     }
 
     /**
+     * Add/subtract points to/from the player's score.
+     * @param points the amount of scored points.
+     * @return the Player instance for chaining.
+     */
+    public Player scorePoints(int points) {
+        this.setScore(this.getScore() + points);
+
+        return this;
+    }
+
+    /**
      * This function returns the bubble list.
      *
      * @return the bubbles.
@@ -525,4 +544,22 @@ public class Player extends GravityObject {
         return input;
     }
 
+    /**
+     * Get the player's score.
+     * @return the score.
+     */
+    public Integer getScore() {
+        return score;
+    }
+
+    /**
+     * Set the player's score.
+     * @param score the score.
+     */
+    public void setScore(int score) {
+        this.score = score;
+
+        this.setChanged();
+        this.notifyObservers(this);
+    }
 }

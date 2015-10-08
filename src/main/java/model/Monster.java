@@ -2,6 +2,7 @@ package model;
 
 import controller.LevelController;
 import utility.Logger;
+import utility.Settings;
 
 /**
  * Created by Jim on 9/8/2015.
@@ -87,14 +88,21 @@ public class Monster extends GravityObject {
 
     /**
      * This method is used when the monsters are killed.
+     *
+     * @param killer The player that killed the monster.
      */
-    public void die() {
+    public void die(Player killer) {
         if (!dead) {
             levelController.getScreenController().removeSprite(this);
             levelController.getScreenController().removeSprite(prisonBubble);
             dead = true;
 
-            Logger.log("Monster died!");
+            if (killer != null) {
+                killer.scorePoints(Settings.POINTS_KILL_MONSTER);
+                Logger.log("Monster was killed!");
+            } else {
+                Logger.log("Monster died!");
+            }
         }
     }
 
