@@ -410,4 +410,24 @@ public class LevelControllerTest {
                 null, "a", "a", KeyCode.A, false, false, false, false));
         assertFalse(levelController.getGamePaused());
     }
+    
+    /**
+     * This tests the setInput method.
+     */
+    @Test
+    public void testSetInput() {
+    	Input input = mock(Input.class);
+    	levelController.setInput(input);
+    	assertEquals(levelController.getInput(), input);
+    }
+    
+    /**
+     * This tests the SetGameStarted method.
+     */
+    @Test
+    public void testSetGameStarted() {
+    	Boolean game = true;
+    	levelController.setGameStarted(game);
+    	assertEquals(levelController.getGameStarted(), game);
+    }
 }

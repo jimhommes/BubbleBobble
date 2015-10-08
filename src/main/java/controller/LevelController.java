@@ -200,7 +200,7 @@ public class LevelController {
                     });
                     screenController.updateUI();
                     if (currLvl.update()) {
-                        nextLevel();
+						nextLevel();
                     }
                 }
             }
