@@ -47,6 +47,9 @@ public class Powerup extends SpriteBase {
         this.destx = destx;
         this.desty = desty;
         this.levelController = levelController;
+        
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**

@@ -15,6 +15,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Jim on 9/11/2015.
@@ -201,11 +203,10 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionRight() throws Exception {
+    	Wall wall = new Wall(32, 32, 0, 0, 0, 0);
+    	ArrayList<Wall> walls = new ArrayList<Wall>();
+    	when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
         when(input.isMoveRight()).thenReturn(true);
-        player.causesCollision(player.getX() + player.getSpeed(),
-                player.getX() + player.getWidth() + player.getSpeed(),
-                player.getY(),
-                player.getY() + player.getHeight());
         whenForCollisions();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
