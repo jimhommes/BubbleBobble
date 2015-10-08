@@ -107,6 +107,16 @@ public class Player extends GravityObject {
     private boolean isAbleToDoubleJump;
 
     /**
+     * X coordinate of the start position of the player.
+     */
+    private double startXPlayer;
+
+    /**
+     * Y coordinate of the start position of the player.
+     */
+    private double startYPlayer;
+
+    /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
      * @param x               The start x coordinate.
@@ -147,6 +157,9 @@ public class Player extends GravityObject {
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
+
+        startXPlayer = x;
+        startYPlayer = y;
 
     }
 
@@ -286,7 +299,8 @@ public class Player extends GravityObject {
         } else {
             levelController.setLivesMinusOne();
             isImmortal = true;
-
+            setX(startXPlayer);
+            setY(startYPlayer);
             timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
