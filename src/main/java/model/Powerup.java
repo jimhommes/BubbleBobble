@@ -19,8 +19,8 @@ public class Powerup extends SpriteBase {
     private boolean pickedUp;
     private double kind;
 
-    public static final double AMOUNT_OF_POWERUPS = 1;
-    public static final double POWERUP_SPEED = 1;
+    public static final int AMOUNT_OF_POWERUPS = 1;
+    public static final int POWERUP_SPEED = 1;
 
     /**
      * The constructor. It instantiates the class.
@@ -96,8 +96,11 @@ public class Powerup extends SpriteBase {
             }
 
             switch (k) {
-                case (int) POWERUP_SPEED: player.activateSpeedPowerup();
-                default: Logger.log("Unknown Powerup int, should use static int.");
+                case POWERUP_SPEED:
+                    player.activateSpeedPowerup();
+                    break;
+                default:
+                    Logger.log("Unknown Powerup int, should use static int.");
             }
 
         }
