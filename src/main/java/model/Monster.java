@@ -1,6 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+
 import controller.LevelController;
+import controller.Observer;
 import utility.Logger;
 
 /**
@@ -92,7 +95,6 @@ public class Monster extends GravityObject {
         if (!dead) {
             levelController.getScreenController().removeSprite(this);
             levelController.getScreenController().removeSprite(prisonBubble);
-            levelController.remove(prisonBubble);
             dead = true;
 
             Logger.log("Monster died!");
@@ -166,10 +168,11 @@ public class Monster extends GravityObject {
     public boolean isDead() {
         return dead;
     }
+    
+    ArrayList<Observer> observers = new ArrayList<Observer>();
+    
+    public void attach(Observer observer){
+  	   observers.add(observer);
+  	}
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 }

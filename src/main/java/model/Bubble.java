@@ -67,8 +67,6 @@ public class Bubble extends SpriteBase {
         this.ableToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
-        this.levelController.attach(this);
-
 
     }
 
@@ -179,21 +177,4 @@ public class Bubble extends SpriteBase {
     public boolean getIsPrisonBubble() {
         return isPrisonBubble;
     }
-
-	@Override
-	public void update() {
-		Player player = (Player) levelController.getPlayers().get(0);
-		ArrayList<Bubble> bubbles = player.getBubbles();
-		//player.checkBubbles();
-        //player.getBubbles().forEach(Bubble::move);
-		//for (Bubble bubble : bubbles) {
-			//bubble.setCounter(Settings.BUBBLE_LIVE_TIME);
-		//}
-	}
-
-	private void setCounter(double time) {
-		counter += time;
-		
-	}
-
 }

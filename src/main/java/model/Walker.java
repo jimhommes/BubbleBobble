@@ -79,7 +79,6 @@ public class Walker extends Monster {
         this.jumpCounter = 20;
         this.ableToJump = false;
         this.jumping = false;
-        this.levelController.attach(this);
 
         walkerMinX = Level.SPRITE_SIZE;
         walkerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
@@ -166,11 +165,5 @@ public class Walker extends Monster {
         int max = 200;
         return rand.nextInt((max - min) + 1) + min;
     }
-
-	@Override
-	public void update() {
-		
-		
-	}
 
 }

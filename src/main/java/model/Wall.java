@@ -25,8 +25,4 @@ public class Wall extends SpriteBase {
         super("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
     }
 
-	@Override
-	public void update() {
-		
-	}
 }

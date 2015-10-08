@@ -5,7 +5,7 @@ import controller.LevelController;
 /**
  * The SpriteBase that will load the sprite (image).
  */
-public abstract class SpriteBase extends Observer{
+public abstract class SpriteBase {
 
     /**
      * Image to be loaded.

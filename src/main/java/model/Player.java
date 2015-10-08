@@ -1,11 +1,13 @@
 package model;
 
 import controller.LevelController;
+import controller.Observer;
 import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -124,7 +126,6 @@ public class Player extends GravityObject {
         this.gameOver = false;
         this.facingRight = true;
         this.levelController = levelController;
-        this.levelController.attach(this);
 
 
         playerMinX = Level.SPRITE_SIZE;
@@ -250,7 +251,6 @@ public class Player extends GravityObject {
                 die();
             } else {
                 monster.die();
-                levelController.remove(monster);
             }
         }
 
@@ -281,7 +281,6 @@ public class Player extends GravityObject {
 
                 i.remove();
                 levelController.getScreenController().removeSprite(bubble);
-                levelController.remove(bubble);
 
                 Logger.log("Bubble is popped");
             }
@@ -464,14 +463,16 @@ public class Player extends GravityObject {
     public Input getInput() {
         return input;
     }
-
-	@Override
-	public void update() {
-		//processInput();
-        move();
-        checkBubbles();
-        getBubbles().forEach(Bubble::move);
-		
+    
+    private List<Observer> observers = new ArrayList<Observer>();
+    
+    public void attach(Observer observer){
+ 	   observers.add(observer);
+ 	}
+    
+	public void notifyAllObservers(){
+	   for (Observer observer : observers) {
+		   observer.update();
+	   }
 	}
-
 }

@@ -1,9 +1,6 @@
-package model;
-
-import controller.LevelController;
+package controller;
 
 public abstract class Observer {
-	//protected LevelController subject;
 	protected LevelController levelController;
 	public abstract void update();
 }

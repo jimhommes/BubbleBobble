@@ -11,7 +11,6 @@ import model.Input;
 import model.Level;
 import model.Player;
 import model.Monster;
-import model.Observer;
 import model.Wall;
 
 import java.io.File;
@@ -30,7 +29,7 @@ import java.util.List;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController {
+public class LevelController extends Observer {
 
     /**
      * KeyCode for pausing the game.
@@ -151,11 +150,9 @@ public class LevelController {
                 } else if (!isGamePaused()) {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
-                        //player.move();
-                        //player.checkBubbles();
-                        //player.getBubbles().forEach(Bubble::move);
-                        notifyAllObservers();
-                        System.out.println(observers);
+                        player.move();
+                        player.checkBubbles();
+                        player.getBubbles().forEach(Bubble::move);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
                         ((ArrayList<Player>) players).forEach(player -> {
@@ -215,6 +212,11 @@ public class LevelController {
 
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
+        ArrayList<Monster> monsters = currLvl.getMonsters();
+        for (Monster monster : monsters) {
+        	monster.attach(screenController);
+        	monster.attach(levelController);
+        }
     }
 
     private void createInput() {
@@ -237,7 +239,11 @@ public class LevelController {
             this.players.add(player);
         });
 
+        
         screenController.addToSprites(this.players);
+        
+        players.get(0).attach(levelController);
+        players.get(0).attach(screenController);
     }
 
     /**
@@ -459,29 +465,8 @@ public class LevelController {
         return gamePaused;
     }
     
-    private List<Observer> observers = new ArrayList<Observer>();
-	private int state;
-
-	public int getState() {
-	   return state;
-	}
-
-	public void setState(int state) {
-	   this.state = state;
-	   notifyAllObservers();
-	}
-
-	public void attach(Observer observer){
-	   observers.add(observer);		
-	}
-
-	public void notifyAllObservers(){
-	   for (Observer observer : observers) {
-	      observer.update();
-	   }
-	}
-	
-	public void remove(Observer observer) {
-		observers.remove(observer);
+	@Override
+	public void update() {
+				
 	}
 }

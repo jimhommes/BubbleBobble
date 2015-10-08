@@ -3,7 +3,6 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import model.Observer;
 import model.SpriteBase;
 
 import java.util.ArrayList;
@@ -170,8 +169,7 @@ public class ScreenController extends Observer {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		//updateUI();	
 	}
 
 }
