@@ -35,7 +35,7 @@ public class PowerupTest {
     @Before
     public void setUp() {
         levelController = mock(LevelController.class);
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, destx, desty, levelController);
+        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, destx, desty, levelController);
     }
 
     /**
@@ -52,7 +52,7 @@ public class PowerupTest {
         assertEquals((destx - powerup.getX()) / 20.0, powerup.getDx(), 0.1);
         assertEquals((desty - powerup.getY()) / 20.0, powerup.getDy(), 0.1);
 
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, levelController);
+        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, 0, levelController);
         powerup.move();
 
         assertEquals(0, powerup.getDx(), 0.1);

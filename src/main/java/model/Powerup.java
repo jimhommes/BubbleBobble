@@ -17,10 +17,17 @@ public class Powerup extends SpriteBase {
     private boolean ableToPickup;
     private LevelController levelController;
     private boolean pickedUp;
+    private double kind;
+
+    public static final int AMOUNT_OF_POWERUPS = 1;
+    public static final int POWERUP_SPEED = 1;
 
     /**
      * The constructor. It instantiates the class.
      *
+     * @param kind The kind of Powerup and effect it has.
+     *             If it is < 1 then it is random, but from 2 and up it can be forced.
+     *             Then a static value should be used.
      * @param x The x to spawn on.
      * @param y The y to spawn on.
      * @param r The r to spawn with.
@@ -31,9 +38,10 @@ public class Powerup extends SpriteBase {
      * @param desty The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.
      */
-    public Powerup(double x, double y, double r, double dx, double dy, double dr,
+    public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
                    double destx, double desty, LevelController levelController) {
         super("../banana.gif", x, y, r, dx, dy, dr);
+        this.kind = kind;
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
@@ -67,7 +75,7 @@ public class Powerup extends SpriteBase {
     public void causesCollision(SpriteBase player) {
         if (player.causesCollision(getX(), getX() + getWidth(),
                 getY(), getY() + getHeight()) && ableToPickup) {
-            pickedUp();
+            pickedUp((Player) player);
         }
     }
 
@@ -75,12 +83,26 @@ public class Powerup extends SpriteBase {
      * The function that is called when there is a collision with a player.
      * The powerup should dissappear.
      */
-    private void pickedUp() {
-        //TODO: increase score
+    private void pickedUp(Player player) {
         if (!pickedUp) {
             levelController.getScreenController().removeSprite(this);
             pickedUp = true;
             Logger.log("Picked up Powerup.");
+
+            int k = (int) kind;
+
+            if (kind < 1) {
+                k = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
+            }
+
+            switch (k) {
+                case POWERUP_SPEED:
+                    player.activateSpeedPowerup();
+                    break;
+                default:
+                    Logger.log("Unknown Powerup int, should use static int.");
+            }
+
         }
     }
 

@@ -538,7 +538,7 @@ public class LevelController {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(monster.getX(),
+        Powerup powerup = new Powerup(Math.random(), monster.getX(),
                 monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup);
