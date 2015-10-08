@@ -1,32 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-
-<StackPane fx:id="root" visible="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.MainController">
-   <children>
-       <Pane fx:id="playFieldLayer">
-         <children>
-             <Text fx:id="startMessage" depthTest="DISABLE" layoutX="175.0" layoutY="350.0" styleClass="levelMessage" text="Click anywhere to start" textOrigin="CENTER" />
-         </children>
-      </Pane>
-       
-       <VBox fx:id="pauseVBox" styleClass="pauseVBox" visible="false">
-          <children>
-              <Text fx:id="pauseMessage" styleClass="levelMessage" text="Game paused" visible="false" />
-              <Text fx:id="pauseMessageSub" styleClass="levelMessageSub" text="Press 'p' to continue" visible="false" />
-          </children>
-       </VBox>
-   </children>
+<StackPane fx:id="root" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml" visible="true">
+    <Pane fx:id="playFieldLayer"/>
+    <Text fx:id="startMessage" text="Click anywhere to start" styleClass="levelMessage"/>
+    
+    <VBox fx:id="pauseVBox" visible="false" styleClass="pauseVBox">
+        <Text fx:id="pauseMessage" text="Game paused" styleClass="levelMessage" visible="false"/>
+        <Text fx:id="pauseMessageSub" text="Press 'p' to continue" styleClass="levelMessageSub" visible="false"/>
+    </VBox>
 
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@stylesheet.css"/>
     </stylesheets>
 </StackPane>
