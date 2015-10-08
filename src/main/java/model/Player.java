@@ -121,6 +121,8 @@ public class Player extends GravityObject {
      */
     private int score;
 
+    private int lives;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
@@ -131,6 +133,7 @@ public class Player extends GravityObject {
      * @param dy              The dy.
      * @param dr              The dr.
      * @param speed           The speed of the player.
+     * @param lives           The number of lives the player has.
      * @param input           The input the player will use.
      * @param levelController The controller that controls the level.
      */
@@ -141,6 +144,7 @@ public class Player extends GravityObject {
                   double dy,
                   double dr,
                   double speed,
+                  int lives,
                   Input input,
                   LevelController levelController) {
 
@@ -157,6 +161,7 @@ public class Player extends GravityObject {
         this.gameOver = false;
         this.facingRight = true;
         this.levelController = levelController;
+        this.lives = lives;
         this.score = 0;
 
         playerMinX = Level.SPRITE_SIZE;
@@ -297,16 +302,18 @@ public class Player extends GravityObject {
      */
     public void die() {
 
-        if (levelController.getLives() <= 1 && !this.isDead) {
+        if (this.getLives() <= 1 && !this.isDead) {
             this.isDead = true;
             setDx(0);
             setDy(0);
             counter = 0;
             setImage("/BubbleBobbleDeath.png");
         } else {
-            levelController.setLivesMinusOne();
+            this.loseLife();
             this.scorePoints(Settings.POINTS_PLAYER_DIE);
             isImmortal = true;
+            setDx(0);
+            setDy(0);
             setX(startXPlayer);
             setY(startYPlayer);
             timer = new Timer();
@@ -558,6 +565,35 @@ public class Player extends GravityObject {
      */
     public void setScore(int score) {
         this.score = score;
+
+        this.setChanged();
+        this.notifyObservers(this);
+    }
+
+    /**
+     * Reduce the player's lives by 1.
+     * @return the Player for chaining purposes.
+     */
+    private Player loseLife() {
+        this.setLives(getLives() - 1);
+
+        return this;
+    }
+
+    /**
+     * Get the number of lives.
+     * @return the number of lives.
+     */
+    public int getLives() {
+        return lives;
+    }
+
+    /**
+     * Set the number of lives.
+     * @param lives the number of lives.
+     */
+    public void setLives(int lives) {
+        this.lives = lives;
 
         this.setChanged();
         this.notifyObservers(this);

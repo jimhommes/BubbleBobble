@@ -6,8 +6,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.*;
+import model.Bubble;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Wall;
 import utility.Logger;
+import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -32,11 +38,6 @@ public class LevelController implements Observer {
      * KeyCode for pausing the game.
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-
-    /**
-     * Number of starting lives.
-     */
-    private int lives = 5;
 
     /**
      * The list of players in the game.
@@ -141,10 +142,16 @@ public class LevelController implements Observer {
                 createLvl();
 
                 mainController.hideStartMessage();
-                mainController.showLives(lives);
-                mainController.showScore();
                 mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
+
+                if (players.size() > 0 && players.get(0) != null) {
+                    mainController.showLives(players.get(0).getLives());
+                    mainController.showScore(players.get(0).getScore());
+                } else {
+                    mainController.showLives(0);
+                    mainController.showScore(0);
+                }
                 gameLoop.start();
             }
         }
@@ -256,9 +263,11 @@ public class LevelController implements Observer {
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
         int[] scores = new int[this.players.size()];
+        int[] lives = new int[this.players.size()];
 
-        for (int i = 0; i < scores.length; i++) {
+        for (int i = 0; i < this.players.size(); i++) {
             scores[i] = this.players.get(i).getScore();
+            lives[i] = this.players.get(i).getLives();
         }
 
         this.players.clear();
@@ -269,8 +278,10 @@ public class LevelController implements Observer {
 
             if (scores.length > i) {
                 newPlayer.setScore(scores[i]);
+                newPlayer.setLives(lives[i]);
             } else {
                 newPlayer.setScore(0);
+                newPlayer.setLives(Settings.PLAYER_LIVES);
             }
 
             newPlayer.setInput(input);
@@ -404,22 +415,6 @@ public class LevelController implements Observer {
     }
 
     /**
-     * The function returns the number of lives left.
-     * @return The number of lives.
-     */
-    public int getLives() {
-        return lives;
-    }
-
-    /**
-     * The function subtracts one from the number of lives.
-     */
-    public void setLivesMinusOne() {
-        lives--;
-        mainController.setLives(lives);
-    }
-
-    /**
      * The function that returns the current level.
      * @return The current level.
      */
@@ -547,8 +542,10 @@ public class LevelController implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        Logger.log(String.format("Score: %d", ((Player) arg).getScore()));
+        Player p = (Player) arg;
+        Logger.log(String.format("Score: %d", p.getScore()));
 
-        mainController.getScore().setText(String.format("Score: %d", ((Player) arg).getScore()));
+        mainController.showScore(p.getScore());
+        mainController.showLives(p.getLives());
     }
 }

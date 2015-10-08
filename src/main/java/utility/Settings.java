@@ -23,7 +23,7 @@ public final class Settings {
     /**
      * The player health (if used).
      */
-    public static final double PLAYER_HEALTH = 100.0;
+    public static final int PLAYER_LIVES = 5;
 
     /**
      * The monster speed.

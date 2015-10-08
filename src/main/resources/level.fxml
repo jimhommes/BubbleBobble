@@ -17,12 +17,12 @@
                   <RowConstraints minHeight="30.0" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <Text fx:id="numberOfLives" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Lives: #" visible="false">
+                  <Text fx:id="livesText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Lives: #" visible="false">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Text>
-                  <Text fx:id="score" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: #" visible="false" GridPane.columnIndex="1" />
+                  <Text fx:id="scoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Score: #" visible="false" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <StackPane fx:id="root" visible="true">

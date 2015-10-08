@@ -56,12 +56,12 @@ public class MainController implements Initializable {
      * The number of lives left text box.
      */
     @FXML
-    private Text numberOfLives;
+    private Text livesText;
     /**
-     * The score.
+     * The score textbox.
      */
     @FXML
-    private Text score;
+    private Text scoreText;
 
     /**
      * The screen controller that handles all GUI/sprite interaction.
@@ -88,22 +88,6 @@ public class MainController implements Initializable {
     }
 
     /**
-     * This function returns the number of lives text box.
-     * @return The number of lives.
-     */
-    public Text getNumberOfLives() {
-        return numberOfLives;
-    }
-
-    /**
-     * This function returns the score of the player.
-     * @return The score.
-     */
-    public Text getScore() {
-        return score;
-    }
-
-    /**
      * This function returns the screenController.
      * @return The ScreenController.
      */
@@ -119,30 +103,23 @@ public class MainController implements Initializable {
     }
 
     /**
-     * This function shows the number of lives and score texts.
-     * @param lives The amount of lives that needs to be set
-     *              at the beginning of the game.
+     * Show lives in the top bar.
+     *
+     * @param lives The number of lives.
      */
     public void showLives(int lives) {
-        numberOfLives.setVisible(true);
-        numberOfLives.setText("Lives: " + lives);
-    }
-
-    /**
-     * This function sets the new number of lives when it changes
-     * during the game.
-     * @param lives The new amount of lives of the player.
-     */
-    public void setLives(int lives) {
-        numberOfLives.setText("Lives: " + lives);
+        livesText.setVisible(true);
+        livesText.setText(String.format("Lives: %d", lives));
     }
 
     /**
      * This function show the score of the player.
+     *
+     * @param score The score (number of points).
      */
-    public void showScore() {
-        score.setVisible(true);
-        score.setText("Score: 0");
+    public void showScore(int score) {
+        scoreText.setVisible(true);
+        scoreText.setText(String.format("Score: %d", score));
     }
 
     /**
