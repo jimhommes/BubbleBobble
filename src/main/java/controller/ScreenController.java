@@ -178,13 +178,11 @@ public class ScreenController extends Observer {
 	public void update(SpriteBase spriteBase, int state) {
 		if (state == 1 && (spriteBase instanceof Player)){
 			spriteBase.setImage("/BubbleBobbleDeath.png");
-		} else if (state == 1 && (spriteBase instanceof Monster)) {
+		} else if (state == 1) {
 			removeSprite(spriteBase);
-			removeSprite(((Monster) spriteBase).getPrisonBubble());
-		} else if (state == 1 && (spriteBase instanceof Bubble)) {
-			removeSprite(spriteBase);
-		} else if (state == 2) {
-			addToSprites(spriteBase);
+			if (spriteBase instanceof Monster) {
+				removeSprite(((Monster) spriteBase).getPrisonBubble());
+			}
 		}
 		
 	}

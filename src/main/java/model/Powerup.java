@@ -88,7 +88,7 @@ public class Powerup extends SpriteBase {
      */
     private void pickedUp(Player player) {
         if (!pickedUp) {
-            levelController.getScreenController().removeSprite(this);
+            notifyAllObservers(this, 1);
             pickedUp = true;
             Logger.log("Picked up Powerup.");
 
