@@ -3,6 +3,7 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Observer;
 import model.SpriteBase;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * This is the Screen Controller, which handles all GUI interactions.
  * If there is a change in coordinates, this controller draws it on the screen.
  */
-public class ScreenController {
+public class ScreenController extends Observer {
 
     /**
      * All the sprites that are drawn on the board.
@@ -36,12 +37,14 @@ public class ScreenController {
      */
     private Pane playFieldLayer;
 
+	private LevelController levelController;
+
     /**
      * The ScreenController which controls the screen.
      * @param layer they play field level.
      */
     public ScreenController(Pane layer) {
-        sprites = new ArrayList<>();
+    	sprites = new ArrayList<>();
         images = new ArrayList<>();
         playFieldLayer = layer;
     }
@@ -164,5 +167,11 @@ public class ScreenController {
     public void setImages(ArrayList<ImageView> images) {
         this.images = images;
     }
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

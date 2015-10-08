@@ -92,6 +92,7 @@ public class Monster extends GravityObject {
         if (!dead) {
             levelController.getScreenController().removeSprite(this);
             levelController.getScreenController().removeSprite(prisonBubble);
+            levelController.remove(prisonBubble);
             dead = true;
 
             Logger.log("Monster died!");
@@ -165,4 +166,10 @@ public class Monster extends GravityObject {
     public boolean isDead() {
         return dead;
     }
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }

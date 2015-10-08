@@ -124,6 +124,8 @@ public class Player extends GravityObject {
         this.gameOver = false;
         this.facingRight = true;
         this.levelController = levelController;
+        this.levelController.attach(this);
+
 
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
@@ -248,6 +250,7 @@ public class Player extends GravityObject {
                 die();
             } else {
                 monster.die();
+                levelController.remove(monster);
             }
         }
 
@@ -278,6 +281,7 @@ public class Player extends GravityObject {
 
                 i.remove();
                 levelController.getScreenController().removeSprite(bubble);
+                levelController.remove(bubble);
 
                 Logger.log("Bubble is popped");
             }
@@ -460,5 +464,14 @@ public class Player extends GravityObject {
     public Input getInput() {
         return input;
     }
+
+	@Override
+	public void update() {
+		//processInput();
+        move();
+        checkBubbles();
+        getBubbles().forEach(Bubble::move);
+		
+	}
 
 }

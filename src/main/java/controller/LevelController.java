@@ -11,10 +11,12 @@ import model.Input;
 import model.Level;
 import model.Player;
 import model.Monster;
+import model.Observer;
 import model.Wall;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jim
@@ -149,9 +151,11 @@ public class LevelController {
                 } else if (!isGamePaused()) {
                     ((ArrayList<Player>) players).forEach(player -> {
                         player.processInput();
-                        player.move();
-                        player.checkBubbles();
-                        player.getBubbles().forEach(Bubble::move);
+                        //player.move();
+                        //player.checkBubbles();
+                        //player.getBubbles().forEach(Bubble::move);
+                        notifyAllObservers();
+                        System.out.println(observers);
                     });
                     ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
                         ((ArrayList<Player>) players).forEach(player -> {
@@ -454,4 +458,30 @@ public class LevelController {
     public boolean getGamePaused() {
         return gamePaused;
     }
+    
+    private List<Observer> observers = new ArrayList<Observer>();
+	private int state;
+
+	public int getState() {
+	   return state;
+	}
+
+	public void setState(int state) {
+	   this.state = state;
+	   notifyAllObservers();
+	}
+
+	public void attach(Observer observer){
+	   observers.add(observer);		
+	}
+
+	public void notifyAllObservers(){
+	   for (Observer observer : observers) {
+	      observer.update();
+	   }
+	}
+	
+	public void remove(Observer observer) {
+		observers.remove(observer);
+	}
 }
