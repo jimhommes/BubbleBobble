@@ -548,5 +548,7 @@ public class LevelController implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         Logger.log(String.format("Score: %d", ((Player) arg).getScore()));
+
+        mainController.getScore().setText(String.format("Score: %d", ((Player) arg).getScore()));
     }
 }
