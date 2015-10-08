@@ -1,14 +1,18 @@
 package controller;
 
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Input;
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,5 +136,22 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+    }
+
+    /**
+     * This function adds a listener.
+     * @param type The type of the listener.
+     * @param handler The handler of the listener.
+     */
+    public void addListeners(EventType<KeyEvent> type, EventHandler<KeyEvent> handler) {
+        playFieldLayer.getScene().addEventFilter(type, handler);
+    }
+
+    /**
+     * This creates an input for the controls.
+     * @return The Input
+     */
+    public Input createInput() {
+        return new Input(playFieldLayer.getScene());
     }
 }
