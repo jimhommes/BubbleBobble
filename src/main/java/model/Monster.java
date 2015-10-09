@@ -19,7 +19,7 @@ public class Monster extends GravityObject {
     private Bubble prisonBubble;
     private boolean caughtByBubble;
     private boolean dead;
-    public boolean reducedSpeed;
+    private boolean reducedSpeed;
 
     /**
      * The monster that is trying to catch the character.
@@ -61,7 +61,9 @@ public class Monster extends GravityObject {
         }
 
         checkPowerups();
-        if (this.reducedSpeed) setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
+        if (this.reducedSpeed) {
+            setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
+        }
 
         super.move();
     }
@@ -105,10 +107,17 @@ public class Monster extends GravityObject {
         }
     }
 
+    /**
+     * Activate the reduced speed powerup.
+     */
     public void activateMonsterPowerup() {
         this.reducedSpeed = true;
     }
 
+    /**
+     * Check if the powerups expired.
+     * Is used in subclass.
+     */
     public void checkPowerups() {
 
     }
@@ -122,6 +131,10 @@ public class Monster extends GravityObject {
         return speed;
     }
 
+    /**
+     * Set the speed.
+     * @param speed the speed.
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
     }
@@ -183,5 +196,21 @@ public class Monster extends GravityObject {
      */
     public boolean isDead() {
         return dead;
+    }
+
+    /**
+     * Check if the reduced speed is active.
+     * @return if it is active.
+     */
+    public boolean isReducedSpeed() {
+        return reducedSpeed;
+    }
+
+    /**
+     * Set is the reduced speed powerup is active.
+     * @param reducedSpeed if it is active.
+     */
+    public void setReducedSpeed(boolean reducedSpeed) {
+        this.reducedSpeed = reducedSpeed;
     }
 }
