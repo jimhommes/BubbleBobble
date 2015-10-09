@@ -19,7 +19,6 @@ import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Jim
@@ -207,7 +206,6 @@ public class LevelController extends Observer {
                             });
                             monster.move();
                         });
-
                     }
 
                     if (currLvl.update()) {
@@ -281,7 +279,6 @@ public class LevelController extends Observer {
 
         screenController.addToSprites(currLvl.getWalls());
         screenController.addToSprites(currLvl.getMonsters());
-        ArrayList<Monster> monsters = currLvl.getMonsters();
     }
 
     private void createInput() {
@@ -583,14 +580,22 @@ public class LevelController extends Observer {
         return startMousePressEventHandler;
     }
     
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+    /**
+     * This method checks if there are any collisions.
+     * @param minX The minimum value of the X value.
+     * @param maxX The maximum value of the X value.
+     * @param minY The minimum value of the Y value.
+     * @param maxY The maximum value of the Y value.
+     * @return true is there is a collision.
+     */
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
             if (wall.causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }
-
         return false;
     }
 }

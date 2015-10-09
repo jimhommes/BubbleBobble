@@ -68,7 +68,7 @@ public abstract class SpriteBase {
     /**
      * The observers.
      */
-    ArrayList<Observer> observers;
+    private ArrayList<Observer> observers;
 
     /**
      * The constructor. It needs all the parameters and creates the image where planned.
@@ -352,7 +352,7 @@ public abstract class SpriteBase {
      * This method adds a observer.
      * @param observer the added observer.
      */
-    public void attach(Observer observer){
+    public void attach(Observer observer) {
   	   observers.add(observer);
   	}
     
@@ -361,7 +361,7 @@ public abstract class SpriteBase {
      * @param spriteBase the SpriteBase.
      * @param state the state the SpriteBase is in.
      */
-    public void notifyAllObservers(SpriteBase spriteBase, int state){
+    public void notifyAllObservers(SpriteBase spriteBase, int state) {
  	   for (Observer observer : observers) {
  		   observer.update(spriteBase, state);
  	   }
@@ -374,9 +374,11 @@ public abstract class SpriteBase {
      * @param minY minimal y coordinate.
      * @param maxY maximal y coordinate.
      * @param levelController the LevelController.
-     * @return
+     * @return true if there is a collision.
      */
-    public boolean causesCollisionWall(double minX, double maxX, double minY, double maxY, LevelController levelController) {
+    @SuppressWarnings("unchecked")
+	public boolean causesCollisionWall(double minX, double maxX, double minY, 
+			double maxY, LevelController levelController) {
 
         for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
             if (wall.causesCollision(minX, maxX, minY, maxY)) {

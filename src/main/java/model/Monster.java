@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-
 import controller.LevelController;
-import controller.Observer;
 import utility.Logger;
 
 /**

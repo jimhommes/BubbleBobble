@@ -1,13 +1,10 @@
 package model;
 
 import controller.LevelController;
-import controller.Observer;
 import utility.Logger;
 import utility.Settings;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * This is the player class. It has a sprite to display.
@@ -218,7 +215,8 @@ public class Player extends GravityObject {
      */
     private void applyGravity() {
         if (!causesCollisionWall(getX(), getX() + getWidth(),
-                getY() - calculateGravity(), getY() + getHeight() - calculateGravity(), levelController)
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity(), 
+                levelController)
                 || causesCollisionWall(getX(), getX() + getWidth(),
                 getY(), getY() + getHeight(), levelController)) {
             if (!jumping) {

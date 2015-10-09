@@ -15,7 +15,8 @@ public class Powerup extends SpriteBase {
     private double destx;
     private double desty;
     private boolean ableToPickup;
-    private LevelController levelController;
+    @SuppressWarnings("unused")
+	private LevelController levelController;
     private boolean pickedUp;
     private int kindRounded;
 

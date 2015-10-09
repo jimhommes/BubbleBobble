@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 import controller.LevelController;
 import utility.Logger;
 import utility.Settings;

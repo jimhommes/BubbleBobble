@@ -39,9 +39,7 @@ public class ScreenController extends Observer {
      */
     private Pane playFieldLayer;
 
-	private LevelController levelController;
-
-    /**
+	/**
      * The ScreenController which controls the screen.
      * @param layer they play field level.
      */
@@ -179,7 +177,7 @@ public class ScreenController extends Observer {
      */
 	@Override
 	public void update(SpriteBase spriteBase, int state) {
-		if (state == 1 && (spriteBase instanceof Player)){
+		if (state == 1 && (spriteBase instanceof Player)) {
 			spriteBase.setImage("/BubbleBobbleDeath.png");
 		} else if (state == 1) {
 			removeSprite(spriteBase);

@@ -1,6 +1,5 @@
 package controller;
 
-import model.Monster;
 import model.SpriteBase;
 
 /**
