@@ -3,6 +3,9 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import model.Bubble;
+import model.Monster;
+import model.Player;
 import model.SpriteBase;
 
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
  * This is the Screen Controller, which handles all GUI interactions.
  * If there is a change in coordinates, this controller draws it on the screen.
  */
-public class ScreenController {
+public class ScreenController implements Observer {
 
     /**
      * All the sprites that are drawn on the board.
@@ -36,12 +39,12 @@ public class ScreenController {
      */
     private Pane playFieldLayer;
 
-    /**
+	/**
      * The ScreenController which controls the screen.
      * @param layer they play field level.
      */
     public ScreenController(Pane layer) {
-        sprites = new ArrayList<>();
+    	sprites = new ArrayList<>();
         images = new ArrayList<>();
         playFieldLayer = layer;
     }
@@ -91,15 +94,19 @@ public class ScreenController {
      * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
-    private void update(SpriteBase sprite) {
-        ImageView image = images.get(sprites.indexOf(sprite));
-        image.relocate(sprite.getX(), sprite.getY());
-        if (sprite.getSpriteChanged()) {
-            image.setImage(new Image(
-            		getClass().getResource(sprite.getImagePath()).toExternalForm()));
-            sprite.setSpriteChanged(false);
-        }
-        image.setRotate(sprite.getR());
+    public void update(SpriteBase sprite) {
+    	int place = sprites.indexOf(sprite);
+    	if (place >= 0) {
+    		ImageView image = images.get(sprites.indexOf(sprite));
+            image.relocate(sprite.getX(), sprite.getY());
+            if (sprite.getSpriteChanged()) {
+                image.setImage(new Image(
+                		getClass().getResource(sprite.getImagePath()).toExternalForm()));
+                sprite.setSpriteChanged(false);
+            }
+            image.setRotate(sprite.getR());
+    	}
+    	
     }
 
     /**
@@ -164,5 +171,23 @@ public class ScreenController {
     public void setImages(ArrayList<ImageView> images) {
         this.images = images;
     }
+
+    /**
+     * The changes made are updated.
+     */
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		if (state == 1 && (spriteBase instanceof Player)) {
+			spriteBase.setImage("/BubbleBobbleDeath.png");
+		} else if (state == 1) {
+			removeSprite(spriteBase);
+			if (spriteBase instanceof Monster) {
+				removeSprite(((Monster) spriteBase).getPrisonBubble());
+			}
+		} else if (state == 2 && (spriteBase instanceof Bubble)) {
+			addToSprites(spriteBase);
+		}
+		
+	}
 
 }
