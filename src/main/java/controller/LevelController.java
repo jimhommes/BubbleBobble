@@ -509,11 +509,17 @@ public class LevelController extends Observer {
         return gamePaused;
     }
     
+    /**
+     * Do nothing because the sprite gets updated on the screen.
+     */
 	@Override
 	public void update(SpriteBase sprite) {
-				
+		//doNothing	
 	}
 
+	/**
+	 * When the player dies, the game ends.
+	 */
 	@Override
 	public void update(SpriteBase spriteBase, int state) {
 		if (state == 1 && (spriteBase instanceof Player)) {

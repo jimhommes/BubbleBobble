@@ -64,6 +64,11 @@ public abstract class SpriteBase {
      * The boolean to check if the sprite has changed or not.
      */
     private boolean spriteChanged;
+    
+    /**
+     * The observers.
+     */
+    ArrayList<Observer> observers;
 
     /**
      * The constructor. It needs all the parameters and creates the image where planned.
@@ -90,7 +95,8 @@ public abstract class SpriteBase {
         this.w = 0;
         this.canMove = true;
         this.spriteChanged = false;
-
+        observers = new ArrayList<Observer>();
+        
     }
 
     /**
@@ -341,18 +347,35 @@ public abstract class SpriteBase {
         }
     }
     
-    ArrayList<Observer> observers = new ArrayList<Observer>();
     
+    /**
+     * This method adds a observer.
+     * @param observer the added observer.
+     */
     public void attach(Observer observer){
   	   observers.add(observer);
   	}
     
+    /**
+     * This method notifys all the observers that something changed.
+     * @param spriteBase the SpriteBase.
+     * @param state the state the SpriteBase is in.
+     */
     public void notifyAllObservers(SpriteBase spriteBase, int state){
  	   for (Observer observer : observers) {
  		   observer.update(spriteBase, state);
  	   }
  	}
     
+    /**
+     * This method check if there is a collision between SpriteBase and Wall.
+     * @param minX minimal x coordinate.
+     * @param maxX maximal x coordinate.
+     * @param minY minimal y coordinate.
+     * @param maxY maximal y coordinate.
+     * @param levelController the LevelController.
+     * @return
+     */
     public boolean causesCollisionWall(double minX, double maxX, double minY, double maxY, LevelController levelController) {
 
         for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {

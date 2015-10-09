@@ -174,6 +174,9 @@ public class ScreenController extends Observer {
         this.images = images;
     }
 
+    /**
+     * The changes made are updated.
+     */
 	@Override
 	public void update(SpriteBase spriteBase, int state) {
 		if (state == 1 && (spriteBase instanceof Player)){

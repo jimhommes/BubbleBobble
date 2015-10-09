@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import controller.ScreenController;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,6 +23,7 @@ public class WalkerTest {
 
 	private static Walker walker;
 	private static LevelController levelController;
+	private static ArrayList<Wall> walls;
 	
 	 /**
      * This is run before all the tests to initialize them.
@@ -28,7 +31,13 @@ public class WalkerTest {
 	@BeforeClass
 	public static void before() {
 		levelController = mock(LevelController.class);
+		ScreenController screenController = mock(ScreenController.class);
+		Level level = mock(Level.class);
+		when(levelController.getScreenController()).thenReturn(screenController);
 		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelController);
+		walls = new ArrayList<Wall>();
+    	when(levelController.getCurrLvl()).thenReturn(level);
+    	when(level.getWalls()).thenReturn(walls);
 		
 	}
 	
@@ -62,9 +71,9 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
-		ArrayList<Wall> wall = new ArrayList<Wall>();
-		wall.add(new Wall(32, 32, 32, 1, 1, 1));
-		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
+//		ArrayList<Wall> wall = new ArrayList<Wall>();
+//		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+//		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
 		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getX(), 0);
 		walker.setFacingRight(false);
@@ -120,11 +129,10 @@ public class WalkerTest {
 	@Test
 	public void testMoveCollision() throws Exception {
 		Wall wall = new Wall(32, 32, 32, 0, 0, 0);
-		ArrayList<Wall> walls = new ArrayList<Wall>();
 		walls.add(wall);
 		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
 		double locationY = walker.getY();
-		walker.move();
+		
 		assertEquals(locationY, walker.getY(), 0.0001);
 	}
 }

@@ -1,9 +1,11 @@
 package model;
 
 import controller.LevelController;
+import controller.ScreenController;
+
 import org.junit.Before;
 import org.junit.Test;
-
+import org.mockito.Mockito;
 
 import utility.Settings;
 
@@ -22,6 +24,7 @@ import static org.mockito.Mockito.when;
 public class MonsterTest {
 
 	private Monster monster;
+	
 
 	private static double epsilon = 0.001;
 	
@@ -32,7 +35,9 @@ public class MonsterTest {
 	@Before
 	public void setUp() throws Exception {
 		LevelController levelController = mock(LevelController.class);
-		monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, 
+        ScreenController screenController = mock(ScreenController.class);
+        when(levelController.getScreenController()).thenReturn(screenController);
+        monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, 
 				Settings.MONSTER_SPEED, true, levelController);
 	}
 	
