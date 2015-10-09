@@ -8,7 +8,7 @@ import controller.Observer;
 /**
  * The SpriteBase that will load the sprite (image).
  */
-public abstract class SpriteBase {
+public abstract class SpriteBase implements Subject {
 
     /**
      * Image to be loaded.

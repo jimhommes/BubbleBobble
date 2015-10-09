@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * This is the Screen Controller, which handles all GUI interactions.
  * If there is a change in coordinates, this controller draws it on the screen.
  */
-public class ScreenController extends Observer {
+public class ScreenController implements Observer {
 
     /**
      * All the sprites that are drawn on the board.

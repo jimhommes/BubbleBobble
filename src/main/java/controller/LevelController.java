@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController extends Observer {
+public class LevelController implements Observer {
 
     /**
      * KeyCode for pausing the game.
