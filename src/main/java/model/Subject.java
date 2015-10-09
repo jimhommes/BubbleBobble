@@ -13,12 +13,12 @@ public interface Subject {
 	 * This method attaches an observer to the ArrayList.
 	 * @param observer the added observer.
 	 */
-	public void attach(Observer observer);	
+	void attach(Observer observer);	
 	
 	/**
      * This method notifys all the observers that something changed.
      * @param spriteBase the SpriteBase.
      * @param state the state the SpriteBase is in.
      */
-	public void notifyAllObservers(SpriteBase spriteBase, int state);
+	void notifyAllObservers(SpriteBase spriteBase, int state);
 }
