@@ -3,9 +3,14 @@ package model;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.LevelController;
+import controller.ScreenController;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -14,13 +19,16 @@ import java.util.ArrayList;
  */
 public class LevelTest {
     private Level level;
-
+    
     /**
      * This is run before all the tests to initialize them.
      */
     @Before
     public void setUp() {
-        level = new Level("map1.txt", null);
+    	LevelController levelController = mock(LevelController.class);
+        ScreenController screenController = mock(ScreenController.class);
+        when(levelController.getScreenController()).thenReturn(screenController);
+        level = new Level("map1.txt", levelController);
     }
 
     /**
