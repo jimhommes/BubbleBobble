@@ -22,8 +22,8 @@ public class BubbleTest {
     @Before
     public void setUp() {
     	LevelController levelController = mock(LevelController.class);
-        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
-        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, levelController);
+        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, false, levelController);
+        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, false, levelController);
     }
 
     /**

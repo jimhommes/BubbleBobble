@@ -92,6 +92,10 @@ public class Player extends GravityObject {
     private int doubleSpeedCounter;
     private int durationDoubleSpeed = 200;
 
+    private boolean bubblePowerup;
+    private int bubblePowerupCounter;
+    private int durationBubblePowerup = 400;
+
     /**
      * The constructor that takes all parameters and creates a SpriteBase.
      *
@@ -172,6 +176,17 @@ public class Player extends GravityObject {
             }
         } else {
             doubleSpeedCounter = 0;
+        }
+
+        if (bubblePowerup) {
+            bubblePowerupCounter++;
+            if (bubblePowerupCounter >= durationBubblePowerup) {
+                bubblePowerup = false;
+
+                bubblePowerupCounter = 0;
+            }
+        } else {
+            bubblePowerupCounter = 0;
         }
     }
 
@@ -398,7 +413,8 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0, facingRight, levelController);
+            Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0,
+                    facingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
             levelController.getScreenController().addToSprites(bubble);
             counter = 0;
@@ -483,5 +499,13 @@ public class Player extends GravityObject {
     public void activateSpeedPowerup() {
         doubleSpeed = true;
         speed = 2 * Settings.PLAYER_SPEED;
+    }
+
+    /**
+     * This activates the bubble powerup.
+     * Bubbles fly horizontally longer.
+     */
+    public void activateBubblePowerup() {
+        bubblePowerup = true;
     }
 }
