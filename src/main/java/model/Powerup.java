@@ -17,10 +17,11 @@ public class Powerup extends SpriteBase {
     private boolean ableToPickup;
     private LevelController levelController;
     private boolean pickedUp;
-    private double kind;
+    private int kindRounded;
 
-    public static final int AMOUNT_OF_POWERUPS = 1;
+    public static final int AMOUNT_OF_POWERUPS = 2;
     public static final int POWERUP_SPEED = 1;
+    public static final int POWERUP_LIFE = 2;
 
     /**
      * The constructor. It instantiates the class.
@@ -41,12 +42,28 @@ public class Powerup extends SpriteBase {
     public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
                    double destx, double desty, LevelController levelController) {
         super("../banana.gif", x, y, r, dx, dy, dr);
-        this.kind = kind;
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
         this.levelController = levelController;
+
+        if (kind < 1) {
+            kindRounded = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
+        } else {
+            kindRounded = (int) kind;
+        }
+
+        switch (kindRounded) {
+            case POWERUP_SPEED: setImage("../banana.gif");
+                break;
+            case POWERUP_LIFE: setImage("../heart.gif");
+                break;
+            default:
+                Logger.log("No suitable image found!");
+        }
+
+
     }
 
     /**
@@ -89,18 +106,16 @@ public class Powerup extends SpriteBase {
             pickedUp = true;
             Logger.log("Picked up Powerup.");
 
-            int k = (int) kind;
-
-            if (kind < 1) {
-                k = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
-            }
-
-            switch (k) {
+            switch (kindRounded) {
                 case POWERUP_SPEED:
                     player.activateSpeedPowerup();
                     break;
+                case POWERUP_LIFE:
+                    //TODO: Call extra life function
+                    break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");
+                    break;
             }
 
         }
