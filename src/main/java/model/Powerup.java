@@ -132,6 +132,7 @@ public class Powerup extends SpriteBase {
                     break;
                 case POWERUP_POINTS:
                     player.scorePoints(50);
+                    notifyAllObservers(player, 2);
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");
