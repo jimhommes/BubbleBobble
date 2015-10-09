@@ -1,6 +1,32 @@
 \chapter{Software Engineering Economics}
-\section{Question 1}
 
-''Read the paper “How to Build a Good Practice Software Project Portfolio?” available on Blackboard in
-the ‘Readings and More’ folder within the ‘Content’ section and answer the following questions:
-1. Explain how good and bad practice are recognized (4 pts).''
+Read the paper `How to Build a Good Practice Software Project Portfolio?' available on Blackboard in the `Readings and More' folder within the ‘Content’ section and answer the following questions:
+
+\section{Question 1}
+``Explain how good and bad practice are recognised (4 pts).'' \\
+
+For the research a number of 352 software projects were collected in a repository. All of those 352 projects were assigned a label in each of 8 different categories (ranging from `Business Domain' to `Primary Programming Language'. Furthermore they were assigned different values of their measurements (such as Size and Duration). \\
+
+To determine whether a project is labelled as a good or bad practice, first the average of three factors had to be determined:
+
+\begin{enumerate}
+	\item Project Size (in Function Points)
+	\item Project Cost (in Euro's)
+	\item Project Duration (in months) 
+\end{enumerate} 
+
+Once these averages are determined two indexes can be determined:
+
+\begin{enumerate}
+	\item Duration Deviation from Mean Duration (expressed in percentage deviation from the mean duration) corrected for the applicable project size: negative deviation is regarded `good', positive deviation is regarded `bad'. 
+	\item Cost Deviation from Mean Cost (expressed in percentage deviation from the mean cost) corrected for the applicable project size: negative deviation is regarded `good', positive deviation is regarded `bad'. 
+\end{enumerate}
+
+Every project can now be evaluated regarding both averages (mean duration and mean cost). We can distinguish 4 cases:
+\begin{itemize}
+	\item If both evaluations are `good', the project is regarded as a \textbf{good practice}.
+	\item If both evaluations are `bad', the project is regarded as a \textbf{bad practice}. 
+	\item If duration is regarded `good' and cost is regarded `bad', the project is regarded \textbf{Time over Cost}.
+	\item If cost is regarded `good' and duration is regarded `bad', the project is regarded \textbf{Cost over Time}.
+\end{itemize}
+ 
