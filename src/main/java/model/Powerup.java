@@ -18,10 +18,12 @@ public class Powerup extends SpriteBase {
     private boolean pickedUp;
     private int kindRounded;
 
-    public static final int AMOUNT_OF_POWERUPS = 3;
+    public static final int AMOUNT_OF_POWERUPS = 5;
     public static final int POWERUP_SPEED = 1;
     public static final int POWERUP_LIFE = 2;
     public static final int POWERUP_BUBBLE = 3;
+    public static final int POWERUP_MONSTER = 4;
+    public static final int POWERUP_POINTS = 5;
 
     /**
      * The constructor. It instantiates the class.
@@ -63,6 +65,10 @@ public class Powerup extends SpriteBase {
                 break;
             case POWERUP_BUBBLE: setImage("../apple.gif");
                 break;
+            case POWERUP_MONSTER: setImage("../melon.png");
+                break;
+            case POWERUP_POINTS: setImage("../coin.gif");
+                break;
             default:
                 Logger.log("No suitable image found!");
         }
@@ -92,10 +98,10 @@ public class Powerup extends SpriteBase {
      * This is the function that checks if there is a collision with a player.
      * @param player The player there might be a collision with.
      */
-    public void causesCollision(SpriteBase player) {
+    public void causesCollision(SpriteBase player, LevelController lvlController) {
         if (player.causesCollision(getX(), getX() + getWidth(),
                 getY(), getY() + getHeight()) && ableToPickup) {
-            pickedUp((Player) player);
+            pickedUp((Player) player, lvlController);
         }
     }
 
@@ -103,7 +109,7 @@ public class Powerup extends SpriteBase {
      * The function that is called when there is a collision with a player.
      * The powerup should disappear.
      */
-    private void pickedUp(Player player) {
+    private void pickedUp(Player player, LevelController lvlController) {
         if (!pickedUp) {
             notifyAllObservers(this, 1);
             pickedUp = true;
@@ -118,6 +124,15 @@ public class Powerup extends SpriteBase {
                     break;
                 case POWERUP_BUBBLE:
                     player.activateBubblePowerup();
+                    break;
+                case POWERUP_MONSTER:
+                    lvlController.getCurrLvl().getMonsters().forEach((monster) -> {
+                        ((Monster) monster).activateMonsterPowerup();
+                    });
+                    break;
+                case POWERUP_POINTS:
+                    player.scorePoints(50);
+                    notifyAllObservers(player, 2);
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");

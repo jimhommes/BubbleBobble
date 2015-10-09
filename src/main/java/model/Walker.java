@@ -50,7 +50,15 @@ public class Walker extends Monster {
      */
     private double walkerMaxY;
 
+    /**
+     * Jump threshold.
+     */
     private static final int JUMP_THRESHOLD = 5;
+
+    /**
+     * Count cycles for reduced speed powerup.
+     */
+    private double reducedSpeedCounter;
 
     /**
      * A walking monster.
@@ -161,11 +169,32 @@ public class Walker extends Monster {
         setNewImage("../ZenChanRight.png", "../ZenChanLeft.png");
     }
 
+    /**
+     * Generate a random int.
+     * @return
+     */
     private int randInt() {
         Random rand = new Random();
         int min = 1;
         int max = 200;
         return rand.nextInt((max - min) + 1) + min;
+    }
+
+    /**
+     * Check if the powerup is not expired.
+     */
+    @Override
+    public void checkPowerups() {
+        if (this.isReducedSpeed()) {
+            reducedSpeedCounter++;
+            if (reducedSpeedCounter >= Settings.MONSTER_POWERUP_TIME) {
+                this.setReducedSpeed(false);
+                this.setSpeed(Settings.MONSTER_SPEED);
+                reducedSpeedCounter = 0;
+            }
+        } else {
+            reducedSpeedCounter = 0;
+        }
     }
 
 }

@@ -13,12 +13,13 @@ import utility.Settings;
  */
 public class Monster extends GravityObject {
 
-    private final double speed;
+    private double speed;
     private final LevelController levelController;
     private boolean facingRight;
     private Bubble prisonBubble;
     private boolean caughtByBubble;
     private boolean dead;
+    private boolean reducedSpeed;
 
     /**
      * The monster that is trying to catch the character.
@@ -44,7 +45,8 @@ public class Monster extends GravityObject {
         this.caughtByBubble = false;
         this.levelController = levelController;
         this.dead = false;
-        
+        this.reducedSpeed = false;
+
         attach(levelController);
         attach(levelController.getScreenController());
     }
@@ -59,6 +61,11 @@ public class Monster extends GravityObject {
         if (!newX.equals(getX()) || !newY.equals(getY())) {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
                     getX(), getY(), newX, newY));
+        }
+
+        checkPowerups();
+        if (this.reducedSpeed) {
+            setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
         }
 
         super.move();
@@ -102,11 +109,27 @@ public class Monster extends GravityObject {
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
                 levelController.spawnPowerup(this);
+                notifyAllObservers(killer, 2);
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
             }
         }
+    }
+
+    /**
+     * Activate the reduced speed powerup.
+     */
+    public void activateMonsterPowerup() {
+        this.reducedSpeed = true;
+    }
+
+    /**
+     * Check if the powerups expired.
+     * Is used in subclass.
+     */
+    public void checkPowerups() {
+
     }
 
     /**
@@ -116,6 +139,14 @@ public class Monster extends GravityObject {
      */
     public double getSpeed() {
         return speed;
+    }
+
+    /**
+     * Set the speed.
+     * @param speed the speed.
+     */
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     /**
@@ -176,7 +207,20 @@ public class Monster extends GravityObject {
     public boolean isDead() {
         return dead;
     }
-    
-   
 
+    /**
+     * Check if the reduced speed is active.
+     * @return if it is active.
+     */
+    public boolean isReducedSpeed() {
+        return reducedSpeed;
+    }
+
+    /**
+     * Set is the reduced speed powerup is active.
+     * @param reducedSpeed if it is active.
+     */
+    public void setReducedSpeed(boolean reducedSpeed) {
+        this.reducedSpeed = reducedSpeed;
+    }
 }

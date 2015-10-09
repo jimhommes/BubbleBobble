@@ -231,7 +231,7 @@ public class LevelController implements Observer {
      * @param player The player there might be a collision with.
      */
     public void performPowerupsCycle(Powerup powerup, Player player) {
-        powerup.causesCollision(player);
+        powerup.causesCollision(player, this);
         powerup.move();
     }
 
