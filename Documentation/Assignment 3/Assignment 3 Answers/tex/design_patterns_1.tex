@@ -1,14 +1,8 @@
 \chapter{Design Patterns}
 
-Choose two design patterns among those that we saw in class.4 For each chosen design pattern, you must have a corresponding implementation in your code. If not, refactor your code to include it. Then, per each chosen design pattern, complete the following points:
 
 \section{Question 1}
 
-'' Choose two design patterns among those that we saw in class.4 For each chosen design pattern, you must
-have a corresponding implementation in your code. If not, refactor your code to include it. Then, per each
-chosen design pattern, complete the following points:\\
-1. Write a natural language description of why and how the pattern is implemented in your code (5 pts).''
-\\
-\\
-The two design patterns we used in our code are the observer and strategy.\\ The strategy pattern was easy to implement, because we already had a start of this pattern. This pattern is used in the model package, where the classes are children from the 'SpriteBase' class. Not all of these classes are movable object, so we made a difference between the objects that can move and those that can't move. After identifying that behavior, we could specify another behavior in the movable object. The second behavior that we specified is gravity, the object 'Bubble' doesn't apply to gravity because they float to the top of the screen, the other object are part of the gravity object.\\
-For the second pattern, observer, we had to refactor the code. In the observer pattern you have a Subject with a couple of observers, these observers update their state when something changes in the subject. In our code the subjects are instances of 'Subject' and the 'LevelController' and 'ScreenController' are the observers. When for instance a monster is caught by a bubble and the player touches that bubble, the monster and bubble have to disappear from the screen, this is notified to the 'ScreenController' and then the screen will be updated without the specific bubble and monster.
+The two design patterns we used in our code are the Observer and Strategy.\\\\ 
+The strategy pattern was easy to implement, because we already had a start to this pattern in our code. This pattern is used in the model package, where the classes are children from the 'SpriteBase' class. Not all of these classes are movable object, so we made a difference between the objects that can move and those that can't be moved. After identifying that behaviour, we could specify another behaviour in the movable object. The second behaviour that we specified is gravity, the object 'Bubble' doesn't apply to gravity because the bubbles float to the top of the screen, the other objects are part of the gravity object.\\\\
+For the second pattern, observer, we had to refactor the code. In the observer pattern you have a Subject with a couple of observers, these observers update their state when something changes in the subject. In our code the subjects are instances of 'Subject' and the 'LevelController' and 'ScreenController' are the observers. When, for instance, a monster is caught by a bubble and the player touches that bubble, the monster and bubble have to disappear from the screen, this is notified to the 'ScreenController' and then the screen can be updated without the specific bubble and monster.
