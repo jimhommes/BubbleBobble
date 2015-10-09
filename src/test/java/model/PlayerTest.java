@@ -8,10 +8,11 @@ import org.junit.Test;
 import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class PlayerTest {
 
     /**
      * This method is used to initialize the tests.
+     *
      * @throws Exception is thrown.
      */
     @Before
@@ -45,7 +47,7 @@ public class PlayerTest {
         level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         player = new Player(Level.SPRITE_SIZE, Level.SPRITE_SIZE
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input, levelController);
     	walls = new ArrayList<Wall>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
@@ -54,6 +56,7 @@ public class PlayerTest {
     /**
      * Tests the process when the player is not dead,
      * and checks that correct dx and dy are returned. .
+     *
      * @throws Exception .
      */
     @Test
@@ -67,6 +70,7 @@ public class PlayerTest {
     /**
      * This test process when the player is not dead,
      * and checks that the correct x and y are returned.
+     *
      * @throws Exception .
      */
     @Test
@@ -79,19 +83,20 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
-    
-    
+
+
     /**
      * This tests that the correct input is recieved.
      */
     @Test
     public void testInput() {
-    	player.setInput(input);
-    	assertEquals(player.getInput(), input);
+        player.setInput(input);
+        assertEquals(player.getInput(), input);
     }
 
     /**
      * Tests the process when the player is dead.
+     *
      * @throws Exception .
      */
     @Test
@@ -105,6 +110,7 @@ public class PlayerTest {
 
     /**
      * Tests the move method.
+     *
      * @throws Exception .
      */
     @Test
@@ -115,11 +121,11 @@ public class PlayerTest {
         assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY(), 0.001);
     }
-    
-   
+
 
     /**
      * Tests the getBubbles method.
+     *
      * @throws Exception .
      */
     @Test
@@ -133,6 +139,7 @@ public class PlayerTest {
 
     /**
      * Tests the if bubbles are removed from player.bubbles after they are popped.
+     *
      * @throws Exception .
      */
     @Test
@@ -159,6 +166,7 @@ public class PlayerTest {
 
     /**
      * Tests if the player has collided with a monster.
+     *
      * @throws Exception .
      */
     @Test
@@ -176,6 +184,7 @@ public class PlayerTest {
 
     /**
      * Tests what happens when the player dies.
+     *
      * @throws Exception .
      */
     @Test
@@ -190,6 +199,7 @@ public class PlayerTest {
 
     /**
      * Tests that that player moved to the right.
+     *
      * @throws Exception .
      */
     @Test
@@ -203,6 +213,7 @@ public class PlayerTest {
 
     /**
      * Tests what happens when the player has a collides from the right.
+     *
      * @throws Exception .
      */
     @Test
@@ -216,20 +227,21 @@ public class PlayerTest {
 
     /**
      * Tests what happens when the player has a collision from the left.
+     *
      * @throws Exception .
      */
     @Test
     public void testCollisionLeft() throws Exception {
     	Wall wall = new Wall(player.getX(), player.getY(), 0, 0, 0, 0);
     	walls.add(wall);
-    	when(input.isMoveLeft()).thenReturn(true);  
+    	when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
-    
 
     /**
      * Tests what happens when the player has a collision from above.
+     *
      * @throws Exception .
      */
     @Test
@@ -240,34 +252,36 @@ public class PlayerTest {
 
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
-    
+
     /**
      * This tests the speed.
      */
     @Test
-    public void testgetSpeed() {
-    	assertEquals(player.getSpeed(), 5.0, 0.001);
+    public void testGetSpeed() {
+        assertEquals(player.getSpeed(), 5.0, 0.001);
     }
-    
+
     /**
      * This tests to see if the jumping is correct.
      */
     @Test
     public void testSetJumping() {
-    	player.setJumping(true);
-    	assertTrue(player.getJumping());
+        player.setJumping(true);
+        assertTrue(player.getJumping());
     }
 
     /**
      * Test what happens when the player moves out of the bottom screen.
+     *
      * @throws Exception .
      */
     @Test
     public void testMoveDown() throws Exception {
-    	levelController = mock(LevelController.class);
-    	Player player1 = new Player(0, Settings.SCENE_HEIGHT
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, input, levelController);
-    	player1.processInput();
-    	assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
+        levelController = mock(LevelController.class);
+        Player player1 = new Player(0, Settings.SCENE_HEIGHT
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, levelController);
+        player1.processInput();
+        assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
     }
+
 }

@@ -65,7 +65,7 @@ public class PowerupTest {
      */
     @Test
     public void testCausesCollision() {
-        Player player = new Player(1, 1, 0, 0, 0, 0, 0, mock(Input.class), levelController);
+        Player player = new Player(1, 1, 0, 0, 0, 0, 0, 1, mock(Input.class), levelController);
         player.setHeight(10.0);
         player.setWidth(10.0);
         powerup.setHeight(10.0);

@@ -15,8 +15,6 @@ public class Powerup extends SpriteBase {
     private double destx;
     private double desty;
     private boolean ableToPickup;
-    @SuppressWarnings("unused")
-	private LevelController levelController;
     private boolean pickedUp;
     private int kindRounded;
 
@@ -50,8 +48,7 @@ public class Powerup extends SpriteBase {
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
-        this.levelController = levelController;
-        
+
         attach(levelController);
         attach(levelController.getScreenController());
 
@@ -110,7 +107,7 @@ public class Powerup extends SpriteBase {
 
     /**
      * The function that is called when there is a collision with a player.
-     * The powerup should dissappear.
+     * The powerup should disappear.
      */
     private void pickedUp(Player player) {
         if (!pickedUp) {
@@ -123,7 +120,7 @@ public class Powerup extends SpriteBase {
                     player.activateSpeedPowerup();
                     break;
                 case POWERUP_LIFE:
-                    //TODO: Call extra life function
+                    player.addLife();
                     break;
                 case POWERUP_BUBBLE:
                     player.activateBubblePowerup();

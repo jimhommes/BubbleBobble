@@ -112,7 +112,7 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
         resplayers.add(new Player(200.0,
-                200.0, 0, 0, 0, 0, 5.0, mock(Input.class), levelController));
+                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), levelController));
         when(level.getPlayers()).thenReturn(resplayers);
         levelController.createPlayer(mock(Input.class));
         ArrayList<Player> players = levelController.getPlayers();
@@ -152,7 +152,7 @@ public class LevelControllerTest {
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
     }
-    
+
     /**
      * The function that sets the path to the maps.
      */

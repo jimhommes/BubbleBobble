@@ -23,7 +23,7 @@ public final class Settings {
     /**
      * The player health (if used).
      */
-    public static final double PLAYER_HEALTH = 100.0;
+    public static final int PLAYER_LIVES = 5;
 
     /**
      * The monster speed.
@@ -74,6 +74,10 @@ public final class Settings {
      * The amount of maps made available.
      */
     public static final int AMOUNT_MAPS = 5;
+
+    public static final int POINTS_PLAYER_DIE = -25;
+    public static final int POINTS_KILL_MONSTER = 10;
+    public static final int POINTS_LEVEL_COMPLETE = 30;
 
     /**
      * The sprite size.

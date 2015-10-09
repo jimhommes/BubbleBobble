@@ -187,7 +187,6 @@ public class ScreenController implements Observer {
 		} else if (state == 2 && (spriteBase instanceof Bubble)) {
 			addToSprites(spriteBase);
 		}
-		
 	}
 
 }

@@ -98,14 +98,21 @@ public class Monster extends GravityObject {
 
     /**
      * This method is used when the monsters are killed.
+     *
+     * @param killer The player that killed the monster.
      */
-    public void die() {
+    public void die(Player killer) {
         if (!dead) {
         	notifyAllObservers(this, 1);
             dead = true;
 
-            levelController.spawnPowerup(this);
-            Logger.log("Monster died!");
+            if (killer != null) {
+                killer.scorePoints(Settings.POINTS_KILL_MONSTER);
+                levelController.spawnPowerup(this);
+                Logger.log("Monster was killed!");
+            } else {
+                Logger.log("Monster died!");
+            }
         }
     }
 
