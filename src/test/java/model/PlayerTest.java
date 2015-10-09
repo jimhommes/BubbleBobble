@@ -4,7 +4,6 @@ import controller.LevelController;
 import controller.ScreenController;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import utility.Settings;
 
@@ -13,8 +12,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
