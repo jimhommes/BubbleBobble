@@ -50,10 +50,10 @@ public abstract class GravityObject extends SpriteBase {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!levelController.causesCollision(getX(),
+        if (!causesCollisionWall(getX(),
                 getX() + getWidth(),
                 getY() - calculateGravity(),
-                getY() + getHeight() - calculateGravity())) {
+                getY() + getHeight() - calculateGravity(), levelController)) {
             if (!jumping) {
                 setY(getY() - calculateGravity());
             }

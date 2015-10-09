@@ -46,6 +46,9 @@ public class Monster extends GravityObject {
         this.levelController = levelController;
         this.dead = false;
         this.reducedSpeed = false;
+
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**
@@ -98,8 +101,7 @@ public class Monster extends GravityObject {
      */
     public void die() {
         if (!dead) {
-            levelController.getScreenController().removeSprite(this);
-            levelController.getScreenController().removeSprite(prisonBubble);
+        	notifyAllObservers(this, 1);
             dead = true;
 
             levelController.spawnPowerup(this);

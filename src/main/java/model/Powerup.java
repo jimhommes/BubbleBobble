@@ -15,7 +15,8 @@ public class Powerup extends SpriteBase {
     private double destx;
     private double desty;
     private boolean ableToPickup;
-    private LevelController levelController;
+    @SuppressWarnings("unused")
+	private LevelController levelController;
     private boolean pickedUp;
     private int kindRounded;
 
@@ -50,6 +51,9 @@ public class Powerup extends SpriteBase {
         this.destx = destx;
         this.desty = desty;
         this.levelController = levelController;
+        
+        attach(levelController);
+        attach(levelController.getScreenController());
 
         if (kind < 1) {
             kindRounded = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
@@ -71,7 +75,6 @@ public class Powerup extends SpriteBase {
             default:
                 Logger.log("No suitable image found!");
         }
-
 
     }
 
@@ -111,7 +114,7 @@ public class Powerup extends SpriteBase {
      */
     private void pickedUp(Player player) {
         if (!pickedUp) {
-            levelController.getScreenController().removeSprite(this);
+            notifyAllObservers(this, 1);
             pickedUp = true;
             Logger.log("Picked up Powerup.");
 

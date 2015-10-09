@@ -9,8 +9,9 @@ import javafx.scene.layout.Pane;
 import model.Bubble;
 import model.Input;
 import model.Level;
-import model.Monster;
 import model.Player;
+import model.SpriteBase;
+import model.Monster;
 import model.Powerup;
 import model.Wall;
 import utility.Logger;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController {
+public class LevelController implements Observer {
 
     /**
      * KeyCode for pausing the game.
@@ -206,7 +207,7 @@ public class LevelController {
                             monster.move();
                         });
                     }
-                    screenController.updateUI();
+
                     if (currLvl.update()) {
 						nextLevel();
                     }
@@ -300,7 +301,9 @@ public class LevelController {
             this.players.add(player);
         });
 
+        
         screenController.addToSprites(this.players);
+        
     }
 
     /**
@@ -315,27 +318,6 @@ public class LevelController {
         } else {
             winGame();
         }
-    }
-
-    /**
-     * This function checks whether a set of coordinates collide with a wall.
-     *
-     * @param minX The smallest X
-     * @param maxX The highest X
-     * @param minY The smallest Y
-     * @param maxY The highest Y
-     * @return True if a collision was caused.
-     */
-    @SuppressWarnings("unchecked")
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
-        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -523,6 +505,25 @@ public class LevelController {
     public boolean getGamePaused() {
         return gamePaused;
     }
+    
+    /**
+     * Do nothing because the sprite gets updated on the screen.
+     */
+	@Override
+	public void update(SpriteBase sprite) {
+		//doNothing	
+	}
+
+	/**
+	 * When the player dies, the game ends.
+	 */
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		if (state == 1 && (spriteBase instanceof Player)) {
+			gameOver();
+		}
+		
+	}
 
     /**
      * This function spawns a powerup when a monster dies.
@@ -577,5 +578,24 @@ public class LevelController {
      */
     public EventHandler<MouseEvent> getStartMousePressEventHandler() {
         return startMousePressEventHandler;
+    }
+    
+    /**
+     * This method checks if there are any collisions.
+     * @param minX The minimum value of the X value.
+     * @param maxX The maximum value of the X value.
+     * @param minY The minimum value of the Y value.
+     * @param maxY The maximum value of the Y value.
+     * @return true is there is a collision.
+     */
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+
+        for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

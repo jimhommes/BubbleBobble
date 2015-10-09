@@ -3,7 +3,6 @@ package model;
 import controller.LevelController;
 import utility.Logger;
 import utility.Settings;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -133,11 +132,14 @@ public class Player extends GravityObject {
         this.facingRight = true;
         this.levelController = levelController;
 
+
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**
@@ -212,10 +214,11 @@ public class Player extends GravityObject {
      * This function applies gravity.
      */
     private void applyGravity() {
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
-                getY() - calculateGravity(), getY() + getHeight() - calculateGravity())
-                || levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        if (!causesCollisionWall(getX(), getX() + getWidth(),
+                getY() - calculateGravity(), getY() + getHeight() - calculateGravity(), 
+                levelController)
+                || causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             if (!jumping) {
                 if (isAbleToDoubleJump
                         && causesBubbleCollision(getX(), getX() + getWidth(),
@@ -294,7 +297,8 @@ public class Player extends GravityObject {
         setDx(0);
         setDy(0);
         counter = 0;
-        setImage("/BubbleBobbleDeath.png");
+        notifyAllObservers(this, 1);
+        
     }
 
     /**
@@ -310,8 +314,8 @@ public class Player extends GravityObject {
             if (bubble.checkPop() && !bubble.getIsPrisonBubble()) {
 
                 i.remove();
-                levelController.getScreenController().removeSprite(bubble);
-
+                notifyAllObservers(bubble, 1);
+                
                 Logger.log("Bubble is popped");
             }
         }
@@ -356,13 +360,13 @@ public class Player extends GravityObject {
      * This function handles moving to the right.
      */
     private void moveRight() {
-        if (!levelController.causesCollision(getX() + speed,
+        if (!causesCollisionWall(getX() + speed,
                 getX() + getWidth() + speed,
                 getY(),
-                getY() + getHeight())) {
+                getY() + getHeight(), levelController)) {
             setDx(speed);
-        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        } else if (causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             setDx(speed);
         } else {
             if (!jumping) {
@@ -378,13 +382,13 @@ public class Player extends GravityObject {
      * This function handles moving to the left.
      */
     private void moveLeft() {
-        if (!levelController.causesCollision(getX() - speed,
+        if (!causesCollisionWall(getX() - speed,
                 getX() + getWidth() - speed,
                 getY(),
-                getY() + getHeight())) {
+                getY() + getHeight(), levelController)) {
             setDx(-speed);
-        } else if (levelController.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight())) {
+        } else if (causesCollisionWall(getX(), getX() + getWidth(),
+                getY(), getY() + getHeight(), levelController)) {
             setDx(-speed);
         } else {
             if (!jumping) {
@@ -402,7 +406,7 @@ public class Player extends GravityObject {
     private void checkIfGameOver() {
         if (counter > 50) {
             gameOver = true;
-            levelController.gameOver();
+            notifyAllObservers(this, 1);
         } else {
             counter++;
         }
@@ -416,7 +420,8 @@ public class Player extends GravityObject {
             Bubble bubble = new Bubble(getX(), getY(), 0, 0, 0, 0,
                     facingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
-            levelController.getScreenController().addToSprites(bubble);
+            notifyAllObservers(bubble, 2);
+            
             counter = 0;
         } else {
             counter++;

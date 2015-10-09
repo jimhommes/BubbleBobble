@@ -74,6 +74,10 @@ public class Bubble extends SpriteBase {
         this.ableToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
+
+        attach(levelController);
+        attach(levelController.getScreenController());
+        
         this.powerup = powerup;
     }
 
@@ -116,9 +120,9 @@ public class Bubble extends SpriteBase {
      */
     private void moveVertically() {
         setDx(0);
-        if (!levelController.causesCollision(getX(), getX() + getWidth(),
+        if (!causesCollisionWall(getX(), getX() + getWidth(),
                 getY() - Settings.BUBBLE_FLY_SPEED,
-                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED)) {
+                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
             setDy(-Settings.BUBBLE_FLY_SPEED);
             if (getY() < 0) {
                 setY(Settings.SCENE_HEIGHT);
@@ -134,19 +138,19 @@ public class Bubble extends SpriteBase {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!levelController.causesCollision(getX() + Settings.BUBBLE_INIT_SPEED,
+            if (!causesCollisionWall(getX() + Settings.BUBBLE_INIT_SPEED,
                     getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
                     getY(),
-                    getY() + getHeight())) {
+                    getY() + getHeight(), levelController)) {
                 setDx(Settings.BUBBLE_INIT_SPEED);
             } else {
                 setDx(0);
             }
         } else {
-            if (!levelController.causesCollision(getX() - Settings.BUBBLE_INIT_SPEED,
+            if (!causesCollisionWall(getX() - Settings.BUBBLE_INIT_SPEED,
                     getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
                     getY(),
-                    getY() + getHeight())) {
+                    getY() + getHeight(), levelController)) {
                 setDx(-Settings.BUBBLE_INIT_SPEED);
             } else {
                 setDx(0);
@@ -185,5 +189,4 @@ public class Bubble extends SpriteBase {
     public boolean getIsPrisonBubble() {
         return isPrisonBubble;
     }
-
 }

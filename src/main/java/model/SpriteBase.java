@@ -1,11 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+
 import controller.LevelController;
+import controller.Observer;
 
 /**
  * The SpriteBase that will load the sprite (image).
  */
-public abstract class SpriteBase {
+public abstract class SpriteBase implements Subject {
 
     /**
      * Image to be loaded.
@@ -61,6 +64,11 @@ public abstract class SpriteBase {
      * The boolean to check if the sprite has changed or not.
      */
     private boolean spriteChanged;
+    
+    /**
+     * The observers.
+     */
+    private ArrayList<Observer> observers;
 
     /**
      * The constructor. It needs all the parameters and creates the image where planned.
@@ -87,7 +95,8 @@ public abstract class SpriteBase {
         this.w = 0;
         this.canMove = true;
         this.spriteChanged = false;
-
+        observers = new ArrayList<Observer>();
+        
     }
 
     /**
@@ -102,7 +111,10 @@ public abstract class SpriteBase {
         x += dx;
         y += dy;
         r += dr;
-
+        
+        observers.forEach(observer -> observer.update(this));
+        
+        
     }
 
     /**
@@ -322,10 +334,10 @@ public abstract class SpriteBase {
         }
 
         if (getY() < spriteMinY) {
-        	if (!levelController.causesCollision(getX(),
+        	if (!causesCollisionWall(getX(),
                     getX() + getWidth(),
                     getY(),
-                    getY() + getHeight())) {
+                    getY() + getHeight(), levelController)) {
         		setY(spriteMaxY - getHeight());
         	} else {
         		setY(spriteMinY);
@@ -334,5 +346,48 @@ public abstract class SpriteBase {
             setY(spriteMinY);
         }
     }
+    
+    
+    /**
+     * This method adds a observer.
+     * @param observer the added observer.
+     */
+    public void attach(Observer observer) {
+  	   observers.add(observer);
+  	}
+    
+    /**
+     * This method notifys all the observers that something changed.
+     * @param spriteBase the SpriteBase.
+     * @param state the state the SpriteBase is in.
+     */
+    public void notifyAllObservers(SpriteBase spriteBase, int state) {
+ 	   for (Observer observer : observers) {
+ 		   observer.update(spriteBase, state);
+ 	   }
+ 	}
+    
+    /**
+     * This method check if there is a collision between SpriteBase and Wall.
+     * @param minX minimal x coordinate.
+     * @param maxX maximal x coordinate.
+     * @param minY minimal y coordinate.
+     * @param maxY maximal y coordinate.
+     * @param levelController the LevelController.
+     * @return true if there is a collision.
+     */
+    @SuppressWarnings("unchecked")
+	public boolean causesCollisionWall(double minX, double maxX, double minY, 
+			double maxY, LevelController levelController) {
+
+        for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 
 }
