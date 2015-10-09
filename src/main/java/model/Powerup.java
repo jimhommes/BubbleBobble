@@ -114,7 +114,7 @@ public class Powerup extends SpriteBase {
                     player.activateSpeedPowerup();
                     break;
                 case POWERUP_LIFE:
-                    //TODO: Call extra life function
+                    player.addLife();
                     break;
                 case POWERUP_BUBBLE:
                     player.activateBubblePowerup();

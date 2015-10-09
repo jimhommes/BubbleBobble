@@ -551,7 +551,6 @@ public class LevelController implements Observer {
 		} else if (state == 2 && (spriteBase instanceof Player)) {
             Player p = (Player) spriteBase;
             Logger.log(String.format("Score: %d", p.getScore()));
-            System.out.println(p.getScore());
             mainController.showScore(p.getScore());
             mainController.showLives(p.getLives());
         }

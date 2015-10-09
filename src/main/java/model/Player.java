@@ -638,6 +638,13 @@ public class Player extends GravityObject {
     }
 
     /**
+     * Add 1 to the player's lives.
+     */
+    public void addLife() {
+        this.setLives(getLives() + 1);
+    }
+
+    /**
      * Get the number of lives.
      * @return the number of lives.
      */
@@ -651,6 +658,7 @@ public class Player extends GravityObject {
      */
     public void setLives(int lives) {
         this.lives = lives;
+        notifyAllObservers(this, 2);
     }
 
     /**
