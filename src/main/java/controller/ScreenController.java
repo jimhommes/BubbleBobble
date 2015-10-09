@@ -95,8 +95,8 @@ public class ScreenController extends Observer {
      * @param sprite Sprite that the location is updated from.
      */
     public void update(SpriteBase sprite) {
-    	int plaats = sprites.indexOf(sprite);
-    	if (plaats >= 0) {
+    	int place = sprites.indexOf(sprite);
+    	if (place >= 0) {
     		ImageView image = images.get(sprites.indexOf(sprite));
             image.relocate(sprite.getX(), sprite.getY());
             if (sprite.getSpriteChanged()) {

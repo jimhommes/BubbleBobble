@@ -112,7 +112,7 @@ public abstract class SpriteBase {
         y += dy;
         r += dr;
         
-        observers.get(1).update(this);
+        observers.forEach(observer -> observer.update(this));
         
         
     }
