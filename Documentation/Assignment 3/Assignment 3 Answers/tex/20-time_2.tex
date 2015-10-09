@@ -44,11 +44,28 @@ When a powerup is picked up, it triggers an effect. This effects for example Pla
 
 \subsection{Multiple Lives: Responsibility Driven Design}
 
-\subsubsection{Method}
+\subsubsection{Player}
 \textit{Responsibility:} \\
-\textit{Collaborations:}
+This class is responsible for the handling the multiple lives. It keeps track how many lives are left for that instance and handles the subtraction of a live and what happens when there are no lives left. \\
+\textit{Collaborations:} \\
+It collaborates with Monster and Powerup, because it needs a monster collision to subtract a life and Powerup to add one.
+
+\subsubsection{Monster}
+\textit{Responsibility:} \\
+This class is responsible for triggering the effect, without this there can not be a subtraction of a life. \\
+\textit{Collaborations:} \\
+It collaborates with Player, to which it triggers the effect.
+
+\subsubsection{Powerup}
+\textit{Responsibility:} \\
+This class is responsible for triggering the effect, without this there can not be a addition of a life. \\
+\textit{Collaborations:} \\
+It collaborates with Player, to which it triggers the effect.
 
 \subsection{Multiple Lives: UML}
+
+\includegraphics[width=100mm]{uml_multiple_lives.jpg}\\[1cm]
+On a collision with a monster a life gets subtracted from the number of lives of a player. If there are powerups available which will give an extra life and the players collides with this powerup (a heart) a life is added to the players number of lives.
 
 \subsection{A Score: Responsibility Driven Design}
 
