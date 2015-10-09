@@ -51,6 +51,7 @@ public class Walker extends Monster {
     private double walkerMaxY;
 
     private static final int JUMP_THRESHOLD = 5;
+    private double reducedSpeedCounter;
 
     /**
      * A walking monster.
@@ -164,6 +165,20 @@ public class Walker extends Monster {
         int min = 1;
         int max = 200;
         return rand.nextInt((max - min) + 1) + min;
+    }
+
+    @Override
+    public void checkPowerups() {
+        if (reducedSpeed) {
+            reducedSpeedCounter++;
+            if (reducedSpeedCounter >= Settings.MONSTER_POWERUP_TIME) {
+                reducedSpeed = false;
+                this.setSpeed(Settings.MONSTER_SPEED);
+                reducedSpeedCounter = 0;
+            }
+        } else {
+            reducedSpeedCounter = 0;
+        }
     }
 
 }

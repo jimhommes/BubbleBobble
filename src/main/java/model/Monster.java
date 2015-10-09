@@ -2,6 +2,7 @@ package model;
 
 import controller.LevelController;
 import utility.Logger;
+import utility.Settings;
 
 /**
  * Created by Jim on 9/8/2015.
@@ -12,12 +13,13 @@ import utility.Logger;
  */
 public class Monster extends GravityObject {
 
-    private final double speed;
+    private double speed;
     private final LevelController levelController;
     private boolean facingRight;
     private Bubble prisonBubble;
     private boolean caughtByBubble;
     private boolean dead;
+    public boolean reducedSpeed;
 
     /**
      * The monster that is trying to catch the character.
@@ -43,6 +45,7 @@ public class Monster extends GravityObject {
         this.caughtByBubble = false;
         this.levelController = levelController;
         this.dead = false;
+        this.reducedSpeed = false;
     }
 
     /**
@@ -56,6 +59,9 @@ public class Monster extends GravityObject {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
                     getX(), getY(), newX, newY));
         }
+
+        checkPowerups();
+        if (this.reducedSpeed) setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
 
         super.move();
     }
@@ -99,6 +105,14 @@ public class Monster extends GravityObject {
         }
     }
 
+    public void activateMonsterPowerup() {
+        this.reducedSpeed = true;
+    }
+
+    public void checkPowerups() {
+
+    }
+
     /**
      * This function returns the speed.
      *
@@ -106,6 +120,10 @@ public class Monster extends GravityObject {
      */
     public double getSpeed() {
         return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     /**
