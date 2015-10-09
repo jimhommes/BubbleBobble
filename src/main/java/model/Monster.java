@@ -101,9 +101,9 @@ public class Monster extends GravityObject {
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
+                levelController.spawnPowerup(this);
                 Logger.log("Monster was killed!");
             } else {
-                levelController.spawnPowerup(this);
                 Logger.log("Monster died!");
             }
         }
