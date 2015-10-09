@@ -77,34 +77,11 @@
                         <ColumnConstraints maxWidth="278.0" minWidth="220.0" prefWidth="278.0" />
                         <ColumnConstraints maxWidth="427.0" minWidth="369.0" prefWidth="369.0" />
                      </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
                   </GridPane>
                </children></Pane>
      		  <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
      		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
       </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
        </GridPane>
    </children>
 
