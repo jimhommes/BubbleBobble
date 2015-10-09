@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import controller.ScreenController;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +10,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 /**
  * Created by toinehartman on 11/09/15.
@@ -15,6 +20,7 @@ import static org.mockito.Mockito.mock;
 public class BubbleTest {
     private Bubble bubbleRight;
     private Bubble bubbleLeft;
+    private ArrayList<Wall> walls;
     
     /**
      * This method is run before all the tests to initialize them.
@@ -22,8 +28,14 @@ public class BubbleTest {
     @Before
     public void setUp() {
     	LevelController levelController = mock(LevelController.class);
-        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, levelController);
-        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, levelController);
+    	ScreenController screenController = mock(ScreenController.class);
+    	Level level = mock(Level.class);
+    	when(levelController.getScreenController()).thenReturn(screenController);
+        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, false, levelController);
+        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, false, levelController);
+        walls = new ArrayList<Wall>();
+    	when(levelController.getCurrLvl()).thenReturn(level);
+    	when(level.getWalls()).thenReturn(walls);
     }
 
     /**

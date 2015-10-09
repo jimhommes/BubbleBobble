@@ -1,14 +1,18 @@
 package controller;
 
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Input;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,6 +52,16 @@ public class MainController implements Initializable {
      */
     @FXML
     private Pane playFieldLayer;
+    /**
+     * The number of lives left text box.
+     */
+    @FXML
+    private Text livesText;
+    /**
+     * The score textbox.
+     */
+    @FXML
+    private Text scoreText;
 
     /**
      * The screen controller that handles all GUI/sprite interaction.
@@ -86,6 +100,26 @@ public class MainController implements Initializable {
      */
     public void hideStartMessage() {
         startMessage.setVisible(false);
+    }
+
+    /**
+     * Show lives in the top bar.
+     *
+     * @param lives The number of lives.
+     */
+    public void showLives(int lives) {
+        livesText.setVisible(true);
+        livesText.setText(String.format("Lives: %d", lives));
+    }
+
+    /**
+     * This function show the score of the player.
+     *
+     * @param score The score (number of points).
+     */
+    public void showScore(int score) {
+        scoreText.setVisible(true);
+        scoreText.setText(String.format("Score: %d", score));
     }
 
     /**
@@ -132,5 +166,22 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+    }
+
+    /**
+     * This function adds a listener.
+     * @param type The type of the listener.
+     * @param handler The handler of the listener.
+     */
+    public void addListeners(EventType<KeyEvent> type, EventHandler<KeyEvent> handler) {
+        playFieldLayer.getScene().addEventFilter(type, handler);
+    }
+
+    /**
+     * This creates an input for the controls.
+     * @return The Input
+     */
+    public Input createInput() {
+        return new Input(playFieldLayer.getScene());
     }
 }

@@ -32,7 +32,10 @@ public class LoggerTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private PrintStream outStream;
 
-    @SuppressWarnings("checkstyle:visibilitymodifier")
+    /**
+     * This creates a checkstyle warning because it believed that 
+     * folder must be private, but @Rule believes that it should be public.
+     */
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
@@ -42,6 +45,7 @@ public class LoggerTest {
     @Before
     public void setUp() {
         try {
+            Logger.setEnabled(true);
             testFile1 = folder.newFile("loggingTestFile1.txt");
             testFile2 = folder.newFile("loggingTestFile2.txt");
             testFile3 = folder.newFile("loggingTestFile3.txt");

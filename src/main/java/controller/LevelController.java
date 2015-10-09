@@ -4,14 +4,18 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import utility.Logger;
 import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Player;
+import model.SpriteBase;
 import model.Monster;
+import model.Powerup;
 import model.Wall;
+import utility.Logger;
+import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,23 +32,28 @@ import java.util.ArrayList;
  * Here all the interactions with the level happens.
  * It's kind of the main controller.
  */
-public class LevelController {
+public class LevelController implements Observer {
 
     /**
      * KeyCode for pausing the game.
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    
+
     /**
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-    private ArrayList players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     
     /**
      * The list of maps that the user is about to play.
      */
     private ArrayList<String> maps = new ArrayList<>();
+
+    /**
+     * The list of powerups.
+     */
+    private ArrayList<Powerup> powerups = new ArrayList<>();
     /**
      * The current index of the level the user is playing.
      */
@@ -87,24 +96,69 @@ public class LevelController {
     private String pathMaps = "src/main/resources";
 
     /**
+     * The boolean preventing the pauseScreen from switching many times.
+     */
+    private boolean switchedPauseScreen = false;
+
+    /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandler = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
 
-            // pause game on key press PAUSE_KEY
+            if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
+                switchedPauseScreen = true;
+                gamePaused = !gamePaused;
+                if (gamePaused) {
+                    mainController.showPauseScreen();
+                } else {
+                    mainController.hidePauseScreen();
+                }
+            }
+
+        }
+    };
+
+    /**
+     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     */
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent event) {
+
             if (event.getCode() == PAUSE_KEY) {
-                mainController.showPauseScreen();
-                gamePaused = true;
+                switchedPauseScreen = false;
             }
 
-            //un-pause game on key press anything except PAUSE_KEY
-            if (gamePaused && event.getCode() != PAUSE_KEY) {
-                mainController.hidePauseScreen();
-                gamePaused = false;
-            }
+        }
+    };
 
+    /**
+     * The mouse press handler for when the game starts.
+     */
+    private EventHandler<MouseEvent> startMousePressEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if (!gameStarted) {
+                gameStarted = true;
+                createInput();
+
+                createLvl();
+
+                mainController.hideStartMessage();
+                mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
+                mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
+
+                if (players.size() > 0 && players.get(0) != null) {
+                    mainController.showLives(players.get(0).getLives());
+                    mainController.showScore(players.get(0).getScore());
+                } else {
+                    mainController.showLives(0);
+                    mainController.showScore(0);
+                }
+                gameLoop.start();
+            }
         }
     };
 
@@ -116,8 +170,9 @@ public class LevelController {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
         findMaps();
+
         gameLoop = createTimer();
-        startLevel(gameLoop);
+        startLevel();
     }
 
     /**
@@ -146,23 +201,24 @@ public class LevelController {
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
-                } else if (!isGamePaused()) {
-                    ((ArrayList<Player>) players).forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.checkBubbles();
-                        player.getBubbles().forEach(Bubble::move);
-                    });
-                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                } else {
+                    if (!isGamePaused()) {
                         ((ArrayList<Player>) players).forEach(player -> {
-                            player.getBubbles().forEach(monster::checkCollision);
-                            player.checkCollideMonster(monster);
+                            performPlayerCycle(player);
+                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
+                            updatePowerups();
                         });
-                        monster.move();
-                    });
-                    screenController.updateUI();
+                        ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                            ((ArrayList<Player>) players).forEach(player -> {
+                                player.getBubbles().forEach(monster::checkCollision);
+                                player.checkCollideMonster(monster);
+                            });
+                            monster.move();
+                        });
+                    }
+
                     if (currLvl.update()) {
-                        nextLevel();
+						nextLevel();
                     }
                 }
             }
@@ -170,32 +226,53 @@ public class LevelController {
     }
 
     /**
-     * This function initializes the level.
-     *
-     * @param gameLoop is the loop of the game.
+     * This is the cycle that performs all powerups operations.
+     * @param powerup The powerup actions are performed on
+     * @param player The player there might be a collision with.
      */
-    public final void startLevel(AnimationTimer gameLoop) {
+    public void performPowerupsCycle(Powerup powerup, Player player) {
+        powerup.causesCollision(player, this);
+        powerup.move();
+    }
+
+    /**
+     * This is the cycle that performs all player operations.
+     * @param player The player the actions are performed on.
+     */
+    private void performPlayerCycle(Player player) {
+        player.processInput();
+        player.move();
+        player.checkBubbles();
+        player.getBubbles().forEach(Bubble::move);
+    }
+
+    /**
+     * This function updates the powerups, and removes
+     * the ones which have been picked up.
+     */
+    public void updatePowerups() {
+        ArrayList<Powerup> nPowerups = new ArrayList<>();
+        for (Powerup powerup : powerups) {
+            if (!powerup.getPickedUp()) {
+                nPowerups.add(powerup);
+            }
+        }
+        powerups = nPowerups;
+    }
+
+    /**
+     * This function initializes the level.
+     */
+    public final void startLevel() {
         if (maps.size() > 0) {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
+            playFieldLayer.setOnMousePressed(startMousePressEventHandler);
 
-            playFieldLayer.setOnMousePressed(event -> {
-                if (!gameStarted) {
-                    gameStarted = true;
-                    createInput();
-
-                    createLvl();
-
-                    mainController.hideStartMessage();
-                    playFieldLayer.addEventFilter(
-                            KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
-                    gameLoop.start();
-                }
-            });
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
-            System.out.println("No maps found!");
+            Logger.log("No maps found!");
         }
     }
 
@@ -215,7 +292,7 @@ public class LevelController {
 
     private void createInput() {
         if (input == null) {
-            input = new Input(mainController.getPlayFieldLayer().getScene());
+            input = mainController.createInput();
             input.addListeners();
         }
     }
@@ -226,14 +303,33 @@ public class LevelController {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
-        players.clear();
-        ArrayList<Player> players = currLvl.getPlayers();
-        players.forEach(player -> {
-            player.setInput(input);
-            this.players.add(player);
-        });
+        int[] scores = new int[this.players.size()];
+        int[] lives = new int[this.players.size()];
 
-        screenController.addToSprites(this.players);
+        for (int i = 0; i < this.players.size(); i++) {
+            scores[i] = this.players.get(i).getScore();
+            lives[i] = this.players.get(i).getLives();
+        }
+
+        this.players.clear();
+        ArrayList<Player> p = currLvl.getPlayers();
+
+        for (int i = 0; i < p.size(); i++) {
+            Player newPlayer = p.get(i);
+
+            if (scores.length > i) {
+                newPlayer.setScore(scores[i]);
+                newPlayer.setLives(lives[i]);
+            } else {
+                newPlayer.setScore(0);
+                newPlayer.setLives(Settings.PLAYER_LIVES);
+            }
+
+            newPlayer.setInput(input);
+            this.players.add(newPlayer);
+        }
+
+        screenController.addToSprites((ArrayList) this.players);
     }
 
     /**
@@ -241,32 +337,13 @@ public class LevelController {
      */
     public final void nextLevel() {
         indexCurrLvl++;
+        players = new ArrayList<>();
+        powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
             winGame();
         }
-    }
-
-    /**
-     * This function checks whether a set of coordinates collide with a wall.
-     *
-     * @param minX The smallest X
-     * @param maxX The highest X
-     * @param minY The smallest Y
-     * @param maxY The highest Y
-     * @return True if a collision was caused.
-     */
-    @SuppressWarnings("unchecked")
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
-        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -453,5 +530,104 @@ public class LevelController {
      */
     public boolean getGamePaused() {
         return gamePaused;
+    }
+    
+    /**
+     * Do nothing because the sprite gets updated on the screen.
+     */
+	@Override
+	public void update(SpriteBase sprite) {
+		//doNothing	
+	}
+
+	/**
+	 * When the player dies, the game ends.
+     * Or a life is subtracted and score is updated.
+	 */
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		if (state == 1 && (spriteBase instanceof Player)) {
+			gameOver();
+		} else if (state == 2 && (spriteBase instanceof Player)) {
+            Player p = (Player) spriteBase;
+            Logger.log(String.format("Score: %d", p.getScore()));
+            mainController.showScore(p.getScore());
+            mainController.showLives(p.getLives());
+        }
+		
+	}
+
+    /**
+     * This function spawns a powerup when a monster dies.
+     * @param monster The monster that died
+     */
+    public void spawnPowerup(Monster monster) {
+        double randLocX = Math.random() * Settings.SCENE_WIDTH;
+        double randLocY = Math.random() * Settings.SCENE_HEIGHT;
+
+        while (causesCollision(randLocX,
+                randLocX + Settings.SPRITE_SIZE, randLocY, randLocY + Settings.SPRITE_SIZE)) {
+            randLocX = Math.random() * Settings.SCENE_WIDTH;
+            randLocY = Math.random() * Settings.SCENE_HEIGHT;
+        }
+
+        Powerup powerup = new Powerup(Math.random(), monster.getX(),
+                monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
+        powerups.add(powerup);
+        screenController.addToSprites(powerup);
+
+        Logger.log("Powerup spawned at (" + powerup.getX() + ", " + powerup.getY() + ")");
+        Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
+    }
+
+    /**
+     * This function returns the powerups.
+     * @return The powerups.
+     */
+    public ArrayList<Powerup> getPowerups() {
+        return powerups;
+    }
+
+    /**
+     * This function sets the powerups.
+     * @param powerups The powerups.
+     */
+    public void setPowerups(ArrayList<Powerup> powerups) {
+        this.powerups = powerups;
+    }
+
+    /**
+     * This function returns the pausekey handler for releasing.
+     * @return The pauseKeyEventHandlerRelease
+     */
+    public EventHandler<KeyEvent> getPauseKeyEventHandlerRelease() {
+        return pauseKeyEventHandlerRelease;
+    }
+
+    /**
+     * This function returns the mousePressEventHandler.
+     * @return The startMousePressEventHandler.
+     */
+    public EventHandler<MouseEvent> getStartMousePressEventHandler() {
+        return startMousePressEventHandler;
+    }
+    
+    /**
+     * This method checks if there are any collisions.
+     * @param minX The minimum value of the X value.
+     * @param maxX The maximum value of the X value.
+     * @param minY The minimum value of the Y value.
+     * @param maxY The maximum value of the Y value.
+     * @return true is there is a collision.
+     */
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+
+        for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import utility.Logger;
 import utility.Settings;
 
 import java.io.BufferedReader;
@@ -12,6 +13,11 @@ import java.util.ArrayList;
  * @author Jim
  * @since 9/5/2015
  * @version 0.1
+ */
+
+/**
+ * This class is the Level class. When created it can load a
+ * level from a .txt file.
  */
 public class Level {
 
@@ -59,6 +65,8 @@ public class Level {
      * The list of the monsters that spawn.
      */
     private ArrayList<Player> players;
+    
+    private int counter;
 
     /**
      * When a level is created in the levelController, it is immediately drawn.
@@ -93,10 +101,10 @@ public class Level {
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
-                    System.out.format("Player found in %d, %d%n", row, col);
+                    Logger.log(String.format("Player found in %d, %d%n", row, col));
                     players.add(new Player(col * SPRITE_SIZE - 32,
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                            Settings.PLAYER_SPEED, null, levelController));
+                            Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, levelController));
                 }
             }
         }
@@ -174,7 +182,18 @@ public class Level {
             }
         });
         monsters = newMonsters;
-
-        return monsters.size() == 0;
+        
+        if (monsters.size() == 0) {
+        	if (counter < 200) {
+        		counter++;
+        		return false;
+        	}
+        	else {
+        		return true;
+        	}
+        }
+        else {
+        	return false;
+        }
     }
 }

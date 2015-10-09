@@ -6,7 +6,6 @@
     -fx-font-size: 40px;
 }
 
-
 .button {
     -fx-min-width: 300;
     -fx-text-alignment: center;
@@ -35,17 +34,17 @@
 
 .helpTitleText {
 	-fx-underline: true;
-    -fx-font-size: 40px;
+    -fx-font-size: 30px;
     -fx-fill: white;
 }
 
 .helpTextDescription {
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-fill: white;
 }
 
 .helpText {
-    -fx-font-size: 30px;
+    -fx-font-size: 20px;
     -fx-fill: #0099FF;
 }
 
@@ -55,6 +54,11 @@
 }
 
 /* Level */
+#gridPane{
+    -fx-background-color: black;
+    -fx-font-size: 30px;
+}
+
 .levelMessage{
     -fx-font-size: 50px;
     -fx-fill: white;
