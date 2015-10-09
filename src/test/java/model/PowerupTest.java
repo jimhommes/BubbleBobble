@@ -75,7 +75,7 @@ public class PowerupTest {
         when(levelController.getScreenController()).thenReturn(screenController);
 
         powerup.setAbleToPickup(true);
-        powerup.causesCollision(player);
+        powerup.causesCollision(player, null);
 
         assertTrue(powerup.getPickedUp());
         //verify(screenController, atLeastOnce()).removeSprite(any());

@@ -98,10 +98,10 @@ public class Powerup extends SpriteBase {
      * This is the function that checks if there is a collision with a player.
      * @param player The player there might be a collision with.
      */
-    public void causesCollision(SpriteBase player) {
+    public void causesCollision(SpriteBase player, LevelController lvlController) {
         if (player.causesCollision(getX(), getX() + getWidth(),
                 getY(), getY() + getHeight()) && ableToPickup) {
-            pickedUp((Player) player);
+            pickedUp((Player) player, lvlController);
         }
     }
 
@@ -109,7 +109,7 @@ public class Powerup extends SpriteBase {
      * The function that is called when there is a collision with a player.
      * The powerup should disappear.
      */
-    private void pickedUp(Player player) {
+    private void pickedUp(Player player, LevelController lvlController) {
         if (!pickedUp) {
             notifyAllObservers(this, 1);
             pickedUp = true;
@@ -126,13 +126,12 @@ public class Powerup extends SpriteBase {
                     player.activateBubblePowerup();
                     break;
                 case POWERUP_MONSTER:
-                    levelController.getCurrLvl().getMonsters().forEach((monster) -> {
+                    lvlController.getCurrLvl().getMonsters().forEach((monster) -> {
                         ((Monster) monster).activateMonsterPowerup();
                     });
                     break;
                 case POWERUP_POINTS:
-                    //TODO: the player scores 50 points
-                    //player.scorePoints(50); (has to be merged first).
+                    player.scorePoints(50);
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");

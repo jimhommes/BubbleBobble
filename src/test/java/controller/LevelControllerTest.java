@@ -422,7 +422,7 @@ public class LevelControllerTest {
         Powerup powerup = mock(Powerup.class);
         levelController.performPowerupsCycle(powerup, mock(Player.class));
 
-        verify(powerup, atLeastOnce()).causesCollision(any(Player.class));
+        verify(powerup, atLeastOnce()).causesCollision(any(Player.class), any(LevelController.class));
         verify(powerup, atLeastOnce()).move();
     }
 
