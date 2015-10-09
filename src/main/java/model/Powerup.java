@@ -19,11 +19,12 @@ public class Powerup extends SpriteBase {
     private boolean pickedUp;
     private int kindRounded;
 
-    public static final int AMOUNT_OF_POWERUPS = 4;
+    public static final int AMOUNT_OF_POWERUPS = 5;
     public static final int POWERUP_SPEED = 1;
     public static final int POWERUP_LIFE = 2;
     public static final int POWERUP_BUBBLE = 3;
     public static final int POWERUP_MONSTER = 4;
+    public static final int POWERUP_POINTS = 5;
 
     /**
      * The constructor. It instantiates the class.
@@ -64,6 +65,8 @@ public class Powerup extends SpriteBase {
             case POWERUP_BUBBLE: setImage("../apple.gif");
                 break;
             case POWERUP_MONSTER: setImage("../melon.png");
+                break;
+            case POWERUP_POINTS: setImage("../coin.gif");
                 break;
             default:
                 Logger.log("No suitable image found!");
@@ -126,6 +129,10 @@ public class Powerup extends SpriteBase {
                     levelController.getCurrLvl().getMonsters().forEach((monster) -> {
                         ((Monster) monster).activateMonsterPowerup();
                     });
+                    break;
+                case POWERUP_POINTS:
+                    //TODO: the player scores 50 points
+                    //player.scorePoints(50); (has to be merged first).
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");
