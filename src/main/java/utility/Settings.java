@@ -51,6 +51,11 @@ public final class Settings {
     public static final double BUBBLE_FLY_TIME = 30;
 
     /**
+     * The number of loops the bubble flies horizontally during powerup.
+     */
+    public static final double BUBBLE_POWERUP_FLY_TIME = 3 * BUBBLE_FLY_TIME;
+
+    /**
      * The jump speed.
      */
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
