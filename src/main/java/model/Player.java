@@ -62,6 +62,11 @@ public class Player extends GravityObject {
     private boolean isImmortal;
 
     /**
+     * This boolean states whether the player is in the delayed state.
+     */
+    private boolean isDelayed;
+
+    /**
      * The time the player is immortal in seconds.
      */
     private static final int TIME_IMMORTAL = 3;
@@ -69,7 +74,12 @@ public class Player extends GravityObject {
     /**
      * Timer for counting how long the player has been immortal.
      */
-    private Timer timer;
+    private Timer immortalTimer;
+
+    /**
+     * Timer for the delay after death before subtracting a life.
+     */
+    private Timer delayTimer;
 
     /**
      * This is the levelController.
@@ -179,7 +189,7 @@ public class Player extends GravityObject {
      */
     public void processInput() {
 
-        if (!isDead) {
+        if (!isDead && !isDelayed) {
             if (jumping && getDy() <= 0) {
                 setDy(getDy() + 0.6);
             } else if (jumping && getDy() > 0) {
@@ -193,7 +203,9 @@ public class Player extends GravityObject {
             moveHorizontal();
             checkFirePrimary();
         } else {
-            checkIfGameOver();
+            if (!isDelayed) {
+                checkIfGameOver();
+            }
         }
 
         checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
@@ -285,7 +297,8 @@ public class Player extends GravityObject {
      */
     public void checkCollideMonster(final Monster monster) {
 
-        if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())) {
+        if (monster.causesCollision(getX(), getX() + getWidth(), getY(), getY() + getHeight())
+                 && !isDelayed) {
             if (!monster.isCaughtByBubble()) {
                 if (!isImmortal) {
                     this.die();
@@ -294,14 +307,12 @@ public class Player extends GravityObject {
                 monster.die(this);
             }
         }
-
     }
 
     /**
      * This method is used when the character is killed.
      */
     public void die() {
-
         if (this.getLives() <= 1 && !this.isDead) {
             this.isDead = true;
             setDx(0);
@@ -309,22 +320,36 @@ public class Player extends GravityObject {
             counter = 0;
             setImage("/BubbleBobbleDeath.png");
         } else {
+            isDelayed = true;
+            setImage("/BubbleBobbleDeath.png");
             this.loseLife();
             this.scorePoints(Settings.POINTS_PLAYER_DIE);
-            isImmortal = true;
-            setDx(0);
-            setDy(0);
-            setX(startXPlayer);
-            setY(startYPlayer);
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    isImmortal = false;
-                    timer.cancel();
-                }
-            }, 1000 * TIME_IMMORTAL);
+            delayRespawn();
         }
+    }
+
+    private void delayRespawn() {
+        delayTimer = new Timer();
+        delayTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                isDelayed = false;
+                isImmortal = true;
+
+                setDx(0);
+                setDy(0);
+                setX(startXPlayer);
+                setY(startYPlayer);
+                immortalTimer = new Timer();
+                immortalTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        isImmortal = false;
+                        immortalTimer.cancel();
+                    }
+                }, 1000 * TIME_IMMORTAL);
+            }
+        }, 1000);
     }
 
     /**
