@@ -24,4 +24,5 @@ public class Wall extends SpriteBase {
                 double dx, double dy, double dr) {
         super("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
     }
+
 }

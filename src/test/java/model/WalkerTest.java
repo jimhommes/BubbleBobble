@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import controller.ScreenController;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,6 +12,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 /**
  * This class tests what happens to the walkers.
  * @author Lili
@@ -18,15 +22,23 @@ import static org.mockito.Mockito.when;
 public class WalkerTest {
 
 	private static Walker walker;
-	private static LevelController levelcontroller;
+	private static LevelController levelController;
+	private static ArrayList<Wall> walls;
 	
 	 /**
      * This is run before all the tests to initialize them.
      */
 	@BeforeClass
 	public static void before() {
-		levelcontroller = mock(LevelController.class);
-		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelcontroller);
+		levelController = mock(LevelController.class);
+		ScreenController screenController = mock(ScreenController.class);
+		Level level = mock(Level.class);
+		when(levelController.getScreenController()).thenReturn(screenController);
+		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelController);
+		walls = new ArrayList<Wall>();
+    	when(levelController.getCurrLvl()).thenReturn(level);
+    	when(level.getWalls()).thenReturn(walls);
+		
 	}
 	
 	/**
@@ -59,6 +71,9 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
+//		ArrayList<Wall> wall = new ArrayList<Wall>();
+//		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+//		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
 		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getX(), 0);
 		walker.setFacingRight(false);
@@ -75,6 +90,10 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveBubble() throws Exception {
+		ArrayList<Wall> wall = new ArrayList<Wall>();
+		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
+		//when(levelcon)
 		Bubble bubble = mock(Bubble.class);
 		when(bubble.getX()).thenReturn(30.0);
         when(bubble.getY()).thenReturn(4.0);
@@ -94,8 +113,11 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveDown() throws Exception {
+		ArrayList<Wall> wall = new ArrayList<Wall>();
+		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
-				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelcontroller);
+				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
     	assertEquals(Level.SPRITE_SIZE, walker1.getY(), 0.0001);
 	}
@@ -106,12 +128,11 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveCollision() throws Exception {
-		when(levelcontroller.causesCollision(walker.getX(), walker.getX() + walker.getWidth(), 
-				walker.getY() - walker.calculateGravity(), walker.getY() + walker.getHeight()
-								- walker.calculateGravity())
-				).thenReturn(true);
+		Wall wall = new Wall(32, 32, 32, 0, 0, 0);
+		walls.add(wall);
+		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
 		double locationY = walker.getY();
-		walker.move();
+		
 		assertEquals(locationY, walker.getY(), 0.0001);
 	}
 }

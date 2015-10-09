@@ -51,6 +51,11 @@ public final class Settings {
     public static final double BUBBLE_FLY_TIME = 30;
 
     /**
+     * The number of loops the bubble flies horizontally during powerup.
+     */
+    public static final double BUBBLE_POWERUP_FLY_TIME = 3 * BUBBLE_FLY_TIME;
+
+    /**
      * The jump speed.
      */
     public static final double JUMP_SPEED = 3 * PLAYER_SPEED;
@@ -73,6 +78,11 @@ public final class Settings {
     public static final int POINTS_PLAYER_DIE = -25;
     public static final int POINTS_KILL_MONSTER = 10;
     public static final int POINTS_LEVEL_COMPLETE = 30;
+
+    /**
+     * The sprite size.
+     */
+    public static final double SPRITE_SIZE = 64;
 
     /**
      * The private constructor that does nothing.

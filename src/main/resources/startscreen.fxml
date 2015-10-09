@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane fx:id="root"
-        fx:controller="controller.StartController"
-          xmlns:fx="http://javafx.com/fxml">
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartController">
 
    <children>
        <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -31,20 +22,53 @@
       </children>
        </VBox>
    
-       <GridPane fx:id="helpScreen" visible="false" AnchorPane.bottomAnchor="200" AnchorPane.leftAnchor="200" AnchorPane.rightAnchor="200" AnchorPane.topAnchor="200">
+       <GridPane fx:id="helpScreen" layoutY="165.0" maxHeight="764.0" minWidth="764.0" prefHeight="764.0" prefWidth="764.0" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
       <children>
-              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="NEVER" />
-              <Text text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpTextDescription" text="This is the help screen. Here the instructions for the game can be found." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-              <Text styleClass="helpText" text=" " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="P key - Pause the game" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
-              <Text styleClass="helpText" text="" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
-     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS" />
-     			
+              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Left Arrow - Move Left" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Right Arrow - Move Right" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Up Arrow - Jump" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="Space Bar - Shoot Bubble" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+              <Text styleClass="helpText" text="P key - Pause the game" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
+     		  <Text styleClass="helpTextDescription" text="Power Ups:" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
+              <Pane prefHeight="147.0" prefWidth="634.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
+               <children>
+                  <GridPane layoutX="-4.0" layoutY="5.0" prefHeight="102.0" prefWidth="647.0">
+                     <children>
+                        <Text styleClass="helpText" text=" - Player speed increases" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+     		 			<Text styleClass="helpText" text=" - Bubbles shoots straight longer" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+				     	<Text styleClass="helpText" text=" - Increase player's score" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+				     	<Text styleClass="helpText" text=" - Decreases monsters speed" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                        <Text styleClass="helpText" text=" - Adds a life" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+                           <image>
+                              <Image url="@banana.gif" />
+                           </image></ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                           <image>
+                              <Image url="@apple.gif" />
+                           </image></ImageView>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                           <image>
+                              <Image url="@heart.gif" />
+                           </image></ImageView>     
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints maxWidth="278.0" minWidth="220.0" prefWidth="278.0" />
+                        <ColumnConstraints maxWidth="427.0" minWidth="369.0" prefWidth="369.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
+                  </GridPane>
+               </children></Pane>
+     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
       </children>
          <columnConstraints>
             <ColumnConstraints />
@@ -60,11 +84,9 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints />
          </rowConstraints>
        </GridPane>
    </children>
-
 
     <stylesheets>
         <URL value="@stylesheet.css" />

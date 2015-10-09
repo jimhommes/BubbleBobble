@@ -44,6 +44,9 @@ public class Monster extends GravityObject {
         this.caughtByBubble = false;
         this.levelController = levelController;
         this.dead = false;
+        
+        attach(levelController);
+        attach(levelController.getScreenController());
     }
 
     /**
@@ -93,14 +96,14 @@ public class Monster extends GravityObject {
      */
     public void die(Player killer) {
         if (!dead) {
-            levelController.getScreenController().removeSprite(this);
-            levelController.getScreenController().removeSprite(prisonBubble);
+        	notifyAllObservers(this, 1);
             dead = true;
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
                 Logger.log("Monster was killed!");
             } else {
+                levelController.spawnPowerup(this);
                 Logger.log("Monster died!");
             }
         }
@@ -173,4 +176,7 @@ public class Monster extends GravityObject {
     public boolean isDead() {
         return dead;
     }
+    
+   
+
 }

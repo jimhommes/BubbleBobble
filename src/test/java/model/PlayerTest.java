@@ -4,16 +4,18 @@ import controller.LevelController;
 import controller.ScreenController;
 import org.junit.Before;
 import org.junit.Test;
+
 import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,6 +31,8 @@ public class PlayerTest {
     private Input input;
     private LevelController levelController;
     private ScreenController screenController;
+    private Level level;
+    private ArrayList<Wall> walls;
 
     /**
      * This method is used to initialize the tests.
@@ -40,8 +44,13 @@ public class PlayerTest {
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
+        level = mock(Level.class);
+        when(levelController.getScreenController()).thenReturn(screenController);
         player = new Player(Level.SPRITE_SIZE, Level.SPRITE_SIZE
                 , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input, levelController);
+    	walls = new ArrayList<Wall>();
+    	when(levelController.getCurrLvl()).thenReturn(level);
+    	when(level.getWalls()).thenReturn(walls);
     }
 
     /**
@@ -96,7 +105,6 @@ public class PlayerTest {
         for (int i = 0; i < 100; i++) {
             player.processInput();
         }
-        verify(levelController, atLeastOnce()).gameOver();
         assertTrue(player.getGameOver());
     }
 
@@ -185,7 +193,6 @@ public class PlayerTest {
         double x = player.getX();
         player.die();
         assertTrue(player.getDead());
-        assertTrue(player.getImagePath().equals("/BubbleBobbleDeath.png"));
         assertEquals(x, player.getX(), 0.001);
         assertEquals(0, player.getDx(), 0.001);
     }
@@ -211,12 +218,10 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionRight() throws Exception {
+    	Wall wall = new Wall(player.getX() + player.getSpeed(), player.getY(), 0, 0, 0, 0);
+    	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
-        when(levelController.causesCollision(player.getX() + player.getSpeed(),
-                player.getX() + player.getWidth() + player.getSpeed(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(true);
-        whenForCollisions();
+        player.processInput();
         assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
@@ -227,23 +232,11 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionLeft() throws Exception {
-        when(input.isMoveLeft()).thenReturn(true);
-        when(levelController.causesCollision(player.getX() - player.getSpeed(),
-                player.getX() + player.getWidth() - player.getSpeed(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(true);
-
-        whenForCollisions();
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
-    }
-
-    private void whenForCollisions() {
-        when(levelController.causesCollision(player.getX(),
-                player.getX() + player.getWidth(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(false);
+    	Wall wall = new Wall(player.getX(), player.getY(), 0, 0, 0, 0);
+    	walls.add(wall);
+    	when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
-        player.move();
+        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
     }
 
     /**
@@ -254,17 +247,8 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        when(levelController.causesCollision(player.getX(),
-                player.getX() + player.getWidth(),
-                player.getY() - player.calculateGravity(),
-                player.getY() + player.getHeight() - player.calculateGravity())).thenReturn(true);
-
-        when(levelController.causesCollision(player.getX(),
-                player.getX() + player.getWidth(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(false);
-
-        player.move();
+        
+        player.processInput();
 
         assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
     }
@@ -273,7 +257,7 @@ public class PlayerTest {
      * This tests the speed.
      */
     @Test
-    public void testgetSpeed() {
+    public void testGetSpeed() {
         assertEquals(player.getSpeed(), 5.0, 0.001);
     }
 
@@ -300,17 +284,4 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
     }
 
-    /**
-     * Test what happens when the player moves out of the top screen.
-     *
-     * @throws Exception .
-     */
-    @Test
-    public void testMoveUp() throws Exception {
-        levelController = mock(LevelController.class);
-        Player player1 = new Player(0, 0, 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES
-                , input, levelController);
-        player1.processInput();
-        assertEquals(Settings.SCENE_HEIGHT - Level.SPRITE_SIZE, player1.getY(), 0.0001);
-    }
 }

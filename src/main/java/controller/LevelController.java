@@ -9,16 +9,16 @@ import javafx.scene.layout.Pane;
 import model.Bubble;
 import model.Input;
 import model.Level;
-import model.Monster;
 import model.Player;
+import model.SpriteBase;
+import model.Monster;
+import model.Powerup;
 import model.Wall;
 import utility.Logger;
 import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * @author Jim
@@ -49,6 +49,11 @@ public class LevelController implements Observer {
      * The list of maps that the user is about to play.
      */
     private ArrayList<String> maps = new ArrayList<>();
+
+    /**
+     * The list of powerups.
+     */
+    private ArrayList<Powerup> powerups = new ArrayList<>();
     /**
      * The current index of the level the user is playing.
      */
@@ -196,27 +201,63 @@ public class LevelController implements Observer {
             public void handle(long now) {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
-                } else if (!isGamePaused()) {
-                    ((ArrayList<Player>) players).forEach(player -> {
-                        player.processInput();
-                        player.move();
-                        player.checkBubbles();
-                        player.getBubbles().forEach(Bubble::move);
-                    });
-                    ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                } else {
+                    if (!isGamePaused()) {
                         ((ArrayList<Player>) players).forEach(player -> {
-                            player.getBubbles().forEach(monster::checkCollision);
-                            player.checkCollideMonster(monster);
+                            performPlayerCycle(player);
+                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
+                            updatePowerups();
                         });
-                        monster.move();
-                    });
-                    screenController.updateUI();
+                        ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
+                            ((ArrayList<Player>) players).forEach(player -> {
+                                player.getBubbles().forEach(monster::checkCollision);
+                                player.checkCollideMonster(monster);
+                            });
+                            monster.move();
+                        });
+                    }
+
                     if (currLvl.update()) {
-                        nextLevel();
+						nextLevel();
                     }
                 }
             }
         };
+    }
+
+    /**
+     * This is the cycle that performs all powerups operations.
+     * @param powerup The powerup actions are performed on
+     * @param player The player there might be a collision with.
+     */
+    public void performPowerupsCycle(Powerup powerup, Player player) {
+        powerup.causesCollision(player);
+        powerup.move();
+    }
+
+    /**
+     * This is the cycle that performs all player operations.
+     * @param player The player the actions are performed on.
+     */
+    private void performPlayerCycle(Player player) {
+        player.processInput();
+        player.move();
+        player.checkBubbles();
+        player.getBubbles().forEach(Bubble::move);
+    }
+
+    /**
+     * This function updates the powerups, and removes
+     * the ones which have been picked up.
+     */
+    public void updatePowerups() {
+        ArrayList<Powerup> nPowerups = new ArrayList<>();
+        for (Powerup powerup : powerups) {
+            if (!powerup.getPickedUp()) {
+                nPowerups.add(powerup);
+            }
+        }
+        powerups = nPowerups;
     }
 
     /**
@@ -285,7 +326,6 @@ public class LevelController implements Observer {
             }
 
             newPlayer.setInput(input);
-            newPlayer.addObserver(this);
             this.players.add(newPlayer);
         }
 
@@ -297,32 +337,13 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
+        players = new ArrayList<>();
+        powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
             winGame();
         }
-    }
-
-    /**
-     * This function checks whether a set of coordinates collide with a wall.
-     *
-     * @param minX The smallest X
-     * @param maxX The highest X
-     * @param minY The smallest Y
-     * @param maxY The highest Y
-     * @return True if a collision was caused.
-     */
-    @SuppressWarnings("unchecked")
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
-        for (Wall wall : (ArrayList<Wall>) currLvl.getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -485,10 +506,6 @@ public class LevelController implements Observer {
     @SuppressWarnings("rawtypes")
 	public void setPlayers(ArrayList players) {
         this.players = players;
-
-        players.forEach((player) -> {
-            ((Player) player).addObserver(this);
-        });
     }
 
     /**
@@ -514,6 +531,71 @@ public class LevelController implements Observer {
     public boolean getGamePaused() {
         return gamePaused;
     }
+    
+    /**
+     * Do nothing because the sprite gets updated on the screen.
+     */
+	@Override
+	public void update(SpriteBase sprite) {
+		//doNothing	
+	}
+
+	/**
+	 * When the player dies, the game ends.
+     * Or a life is subtracted and score is updated.
+	 */
+	@Override
+	public void update(SpriteBase spriteBase, int state) {
+		if (state == 1 && (spriteBase instanceof Player)) {
+			gameOver();
+		} else if (state == 2 && (spriteBase instanceof Player)) {
+            Player p = (Player) spriteBase;
+            Logger.log(String.format("Score: %d", p.getScore()));
+            System.out.println(p.getScore());
+            mainController.showScore(p.getScore());
+            mainController.showLives(p.getLives());
+        }
+		
+	}
+
+    /**
+     * This function spawns a powerup when a monster dies.
+     * @param monster The monster that died
+     */
+    public void spawnPowerup(Monster monster) {
+        double randLocX = Math.random() * Settings.SCENE_WIDTH;
+        double randLocY = Math.random() * Settings.SCENE_HEIGHT;
+
+        while (causesCollision(randLocX,
+                randLocX + Settings.SPRITE_SIZE, randLocY, randLocY + Settings.SPRITE_SIZE)) {
+            randLocX = Math.random() * Settings.SCENE_WIDTH;
+            randLocY = Math.random() * Settings.SCENE_HEIGHT;
+        }
+
+        Powerup powerup = new Powerup(Math.random(), monster.getX(),
+                monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
+        powerups.add(powerup);
+        screenController.addToSprites(powerup);
+
+        Logger.log("Powerup spawned at (" + powerup.getX() + ", " + powerup.getY() + ")");
+        Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
+    }
+
+    /**
+     * This function returns the powerups.
+     * @return The powerups.
+     */
+    public ArrayList<Powerup> getPowerups() {
+        return powerups;
+    }
+
+    /**
+     * This function sets the powerups.
+     * @param powerups The powerups.
+     */
+    public void setPowerups(ArrayList<Powerup> powerups) {
+        this.powerups = powerups;
+    }
 
     /**
      * This function returns the pausekey handler for releasing.
@@ -530,22 +612,23 @@ public class LevelController implements Observer {
     public EventHandler<MouseEvent> getStartMousePressEventHandler() {
         return startMousePressEventHandler;
     }
-
+    
     /**
-     * This method is called whenever the observed object is changed. An
-     * application calls an <tt>Observable</tt> object's
-     * <code>notifyObservers</code> method to have all the object's
-     * observers notified of the change.
-     *
-     * @param o   the observable object.
-     * @param arg an argument passed to the <code>notifyObservers</code>
+     * This method checks if there are any collisions.
+     * @param minX The minimum value of the X value.
+     * @param maxX The maximum value of the X value.
+     * @param minY The minimum value of the Y value.
+     * @param maxY The maximum value of the Y value.
+     * @return true is there is a collision.
      */
-    @Override
-    public void update(Observable o, Object arg) {
-        Player p = (Player) arg;
-        Logger.log(String.format("Score: %d", p.getScore()));
+    @SuppressWarnings("unchecked")
+	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
-        mainController.showScore(p.getScore());
-        mainController.showLives(p.getLives());
+        for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
+            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
