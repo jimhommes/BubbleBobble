@@ -111,7 +111,7 @@ public class Powerup extends SpriteBase {
                     player.activateSpeedPowerup();
                     break;
                 case POWERUP_LIFE:
-                    System.out.println("TEST");
+                    //TODO: Call extra life function
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");
