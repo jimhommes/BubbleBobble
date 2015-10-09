@@ -44,6 +44,8 @@ public class Bubble extends SpriteBase {
      */
     private LevelController levelController;
 
+    private boolean powerup;
+
     /**
      * The bubble that will be shot to catch the monsters.
      * @param x The x coordinate 
@@ -53,6 +55,7 @@ public class Bubble extends SpriteBase {
      * @param dy The dy of y
      * @param dr The dr of r
      * @param firedRight If the bubble was fired to the right.
+     * @param powerup if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
     public Bubble(double x,
@@ -62,6 +65,7 @@ public class Bubble extends SpriteBase {
                   double dy,
                   double dr,
                   boolean firedRight,
+                  boolean powerup,
                   LevelController levelController) {
         super("../bubble.png", x, y, r, dx, dy, dr);
 
@@ -70,7 +74,7 @@ public class Bubble extends SpriteBase {
         this.ableToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
-
+        this.powerup = powerup;
     }
 
     /**
@@ -88,7 +92,8 @@ public class Bubble extends SpriteBase {
 
         counter++;
 
-        if (counter < Settings.BUBBLE_FLY_TIME) {
+        if ((!this.powerup && counter < Settings.BUBBLE_FLY_TIME)
+                || (this.powerup && counter < Settings.BUBBLE_POWERUP_FLY_TIME)) {
             moveHorizontally();
         } else {
             moveVertically();
