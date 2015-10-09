@@ -186,6 +186,8 @@ public class ScreenController extends Observer {
 			if (spriteBase instanceof Monster) {
 				removeSprite(((Monster) spriteBase).getPrisonBubble());
 			}
+		} else if (state == 2 && (spriteBase instanceof Bubble)) {
+			addToSprites(spriteBase);
 		}
 		
 	}

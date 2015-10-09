@@ -4,13 +4,15 @@
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
 <StackPane fx:id="root" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml" visible="true">
-    <Pane fx:id="playFieldLayer"/>
+
     <Text fx:id="startMessage" text="Click anywhere to start" styleClass="levelMessage"/>
-    
+
     <VBox fx:id="pauseVBox" visible="false" styleClass="pauseVBox">
         <Text fx:id="pauseMessage" text="Game paused" styleClass="levelMessage" visible="false"/>
         <Text fx:id="pauseMessageSub" text="Press 'p' to continue" styleClass="levelMessageSub" visible="false"/>
     </VBox>
+
+    <Pane fx:id="playFieldLayer"/>
 
     <stylesheets>
         <URL value="@stylesheet.css"/>
