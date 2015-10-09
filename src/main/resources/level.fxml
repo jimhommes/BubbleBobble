@@ -26,13 +26,14 @@
                </children>
             </GridPane>
             <StackPane fx:id="root" visible="true">
-                <Pane fx:id="playFieldLayer" />
+                
                 <Text fx:id="startMessage" styleClass="levelMessage" text="Click anywhere to start" />
                 
                 <VBox fx:id="pauseVBox" styleClass="pauseVBox" visible="false">
                     <Text fx:id="pauseMessage" styleClass="levelMessage" text="Game paused" visible="false" />
                     <Text fx:id="pauseMessageSub" styleClass="levelMessageSub" text="Press 'p' to continue" visible="false" />
                 </VBox>
+                <Pane fx:id="playFieldLayer" />
             </StackPane>
          </children>
       </VBox>
