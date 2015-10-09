@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import controller.LevelController;
 import controller.Observer;
 
+
 /**
  * The SpriteBase that will load the sprite (image).
  */
@@ -357,7 +358,7 @@ public abstract class SpriteBase implements Subject {
   	}
     
     /**
-     * This method notifys all the observers that something changed.
+     * This method notifies all the observers that something changed.
      * @param spriteBase the SpriteBase.
      * @param state the state the SpriteBase is in.
      */

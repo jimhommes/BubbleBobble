@@ -38,12 +38,12 @@ public class LevelController implements Observer {
      * KeyCode for pausing the game.
      */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    
+
     /**
      * The list of players in the game.
      */
     @SuppressWarnings("rawtypes")
-    private ArrayList players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<>();
     
     /**
      * The list of maps that the user is about to play.
@@ -135,7 +135,7 @@ public class LevelController implements Observer {
     };
 
     /**
-     * The mousepress handler for when the game starts.
+     * The mouse press handler for when the game starts.
      */
     private EventHandler<MouseEvent> startMousePressEventHandler = new EventHandler<MouseEvent>() {
         @Override
@@ -149,6 +149,14 @@ public class LevelController implements Observer {
                 mainController.hideStartMessage();
                 mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
+
+                if (players.size() > 0 && players.get(0) != null) {
+                    mainController.showLives(players.get(0).getLives());
+                    mainController.showScore(players.get(0).getScore());
+                } else {
+                    mainController.showLives(0);
+                    mainController.showScore(0);
+                }
                 gameLoop.start();
             }
         }
@@ -162,6 +170,7 @@ public class LevelController implements Observer {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
         findMaps();
+
         gameLoop = createTimer();
         startLevel();
     }
@@ -259,8 +268,8 @@ public class LevelController implements Observer {
             indexCurrLvl = 0;
 
             Pane playFieldLayer = mainController.getPlayFieldLayer();
-
             playFieldLayer.setOnMousePressed(startMousePressEventHandler);
+
         } else {
             mainController.getPlayFieldLayer().setOnMousePressed(null);
             Logger.log("No maps found!");
@@ -294,16 +303,33 @@ public class LevelController implements Observer {
      */
     @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
-        players.clear();
-        ArrayList<Player> players = currLvl.getPlayers();
-        players.forEach(player -> {
-            player.setInput(input);
-            this.players.add(player);
-        });
+        int[] scores = new int[this.players.size()];
+        int[] lives = new int[this.players.size()];
 
-        
-        screenController.addToSprites(this.players);
-        
+        for (int i = 0; i < this.players.size(); i++) {
+            scores[i] = this.players.get(i).getScore();
+            lives[i] = this.players.get(i).getLives();
+        }
+
+        this.players.clear();
+        ArrayList<Player> p = currLvl.getPlayers();
+
+        for (int i = 0; i < p.size(); i++) {
+            Player newPlayer = p.get(i);
+
+            if (scores.length > i) {
+                newPlayer.setScore(scores[i]);
+                newPlayer.setLives(lives[i]);
+            } else {
+                newPlayer.setScore(0);
+                newPlayer.setLives(Settings.PLAYER_LIVES);
+            }
+
+            newPlayer.setInput(input);
+            this.players.add(newPlayer);
+        }
+
+        screenController.addToSprites((ArrayList) this.players);
     }
 
     /**
@@ -516,12 +542,18 @@ public class LevelController implements Observer {
 
 	/**
 	 * When the player dies, the game ends.
+     * Or a life is subtracted and score is updated.
 	 */
 	@Override
 	public void update(SpriteBase spriteBase, int state) {
 		if (state == 1 && (spriteBase instanceof Player)) {
 			gameOver();
-		}
+		} else if (state == 2 && (spriteBase instanceof Player)) {
+            Player p = (Player) spriteBase;
+            Logger.log(String.format("Score: %d", p.getScore()));
+            mainController.showScore(p.getScore());
+            mainController.showLives(p.getLives());
+        }
 		
 	}
 

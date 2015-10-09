@@ -16,7 +16,7 @@ public interface Subject {
 	void attach(Observer observer);	
 	
 	/**
-     * This method notifys all the observers that something changed.
+     * This method notifies all the observers that something changed.
      * @param spriteBase the SpriteBase.
      * @param state the state the SpriteBase is in.
      */

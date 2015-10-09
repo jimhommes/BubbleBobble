@@ -52,6 +52,16 @@ public class MainController implements Initializable {
      */
     @FXML
     private Pane playFieldLayer;
+    /**
+     * The number of lives left text box.
+     */
+    @FXML
+    private Text livesText;
+    /**
+     * The score textbox.
+     */
+    @FXML
+    private Text scoreText;
 
     /**
      * The screen controller that handles all GUI/sprite interaction.
@@ -90,6 +100,26 @@ public class MainController implements Initializable {
      */
     public void hideStartMessage() {
         startMessage.setVisible(false);
+    }
+
+    /**
+     * Show lives in the top bar.
+     *
+     * @param lives The number of lives.
+     */
+    public void showLives(int lives) {
+        livesText.setVisible(true);
+        livesText.setText(String.format("Lives: %d", lives));
+    }
+
+    /**
+     * This function show the score of the player.
+     *
+     * @param score The score (number of points).
+     */
+    public void showScore(int score) {
+        scoreText.setVisible(true);
+        scoreText.setText(String.format("Score: %d", score));
     }
 
     /**
