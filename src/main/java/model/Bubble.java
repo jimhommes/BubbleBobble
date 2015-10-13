@@ -27,6 +27,8 @@ public class Bubble extends Observable {
     private LevelController levelController;
     private boolean powerup;
     private SpriteBase spriteBase;
+    private Player player;
+    private boolean isPopped;
 
     /**
      * The bubble that will be shot to catch the monsters.
@@ -55,6 +57,7 @@ public class Bubble extends Observable {
         this.isAbleToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
+        this.isPopped = false;
 
         this.spriteBase = new SpriteBase("/bubble.png", x, y, r, dx, dy, dr);
 
@@ -69,7 +72,14 @@ public class Bubble extends Observable {
      * @return true if Bubble extends life_time of Bubble
      */
     public boolean checkPop() {
-        return (counter > Settings.BUBBLE_LIVE_TIME);
+        boolean res = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
+
+        if (res) {
+            isPopped = true;
+            this.deleteObservers();
+        }
+
+        return res;
     }
 
     /**
@@ -220,6 +230,10 @@ public class Bubble extends Observable {
 
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public boolean getIsPopped() {
+        return isPopped;
     }
 
 }

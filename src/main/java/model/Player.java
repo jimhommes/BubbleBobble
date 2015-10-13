@@ -219,6 +219,16 @@ public class Player extends GravityObject {
         }
     }
 
+    public void checkBubbles() {
+        ArrayList<Bubble> nBubbles = new ArrayList<>();
+        bubbles.forEach(bubble -> {
+            if (!bubble.getIsPopped()) {
+                nBubbles.add(bubble);
+            }
+        });
+        bubbles = nBubbles;
+    }
+
 
     /**
      * This function checks if the player collides with a bubble.
@@ -317,28 +327,6 @@ public class Player extends GravityObject {
 
         this.setChanged();
         this.notifyObservers();
-    }
-
-    /**
-     * This method will remove a bubble from the ArrayList of Bubbles shot by the Player.
-     */
-    public void checkBubbles() {
-
-        Iterator<Bubble> i = bubbles.iterator();
-
-        while (i.hasNext()) {
-
-            Bubble bubble = i.next();
-            if (bubble.checkPop() && !bubble.isPrisonBubble()) {
-
-                i.remove();
-                this.setChanged();
-                this.notifyObservers();
-                
-                Logger.log("Bubble is popped");
-            }
-        }
-
     }
 
     /**
@@ -852,4 +840,7 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
+    public void removeBubble(Bubble bubble) {
+        bubbles.remove(bubble);
+    }
 }

@@ -156,12 +156,10 @@ public class PlayerTest {
 
         when(input.isFirePrimaryWeapon()).thenReturn(false);
         for (int i = 0; i <= 300; i++) {
-            player.checkBubbles();
             player.getBubbles().forEach(Bubble::move);
             assertTrue(player.getBubbles().size() > 0);
         }
 
-        player.checkBubbles();
         player.getBubbles().forEach(Bubble::move);
         assertSame(player.getBubbles().size(), 0);
 
