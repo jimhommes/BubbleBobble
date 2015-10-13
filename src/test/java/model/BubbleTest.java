@@ -90,14 +90,14 @@ public class BubbleTest {
      */
     @Test
     public void testPop() {
-        assertFalse(bubbleLeft.checkPop());
+        assertFalse(bubbleLeft.getIsPopped());
 
         for (int i = 1; i <= 300; i++) {
             bubbleLeft.move();
-            assertFalse(bubbleLeft.checkPop());
+            assertFalse(bubbleLeft.getIsPopped());
         }
         bubbleLeft.move();
 
-        assertTrue(bubbleLeft.checkPop());
+        assertTrue(bubbleLeft.getIsPopped());
     }
 }

@@ -208,6 +208,9 @@ public class Monster extends GravityObject {
     }
 
     public boolean isDead() {
+        if (isDead) {
+            this.deleteObservers();
+        }
         return isDead;
     }
 

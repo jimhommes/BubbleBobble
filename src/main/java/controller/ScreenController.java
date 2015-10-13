@@ -184,7 +184,7 @@ public class ScreenController implements Observer {
             update(p.getSpriteBase());
         } else if (o instanceof Bubble) {
             Bubble b = (Bubble) o;
-            if (b.checkPop()) {
+            if (b.getIsPopped()) {
                 removeSprite(b.getSpriteBase());
             } else if (!getSprites().contains(b.getSpriteBase())) {
                 addToSprites(b.getSpriteBase());

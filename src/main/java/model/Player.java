@@ -218,18 +218,7 @@ public class Player extends GravityObject {
             }
         }
     }
-
-    public void checkBubbles() {
-        ArrayList<Bubble> nBubbles = new ArrayList<>();
-        bubbles.forEach(bubble -> {
-            if (!bubble.getIsPopped()) {
-                nBubbles.add(bubble);
-            }
-        });
-        bubbles = nBubbles;
-    }
-
-
+    
     /**
      * This function checks if the player collides with a bubble.
      * @param x Minimal x.
@@ -279,6 +268,8 @@ public class Player extends GravityObject {
                 }
             } else {
                 monster.die(this);
+                monster.getPrisonBubble().setIsPopped(true);
+                bubbles.remove(monster.getPrisonBubble());
             }
         }
     }

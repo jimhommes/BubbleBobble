@@ -71,15 +71,10 @@ public class Bubble extends Observable {
      * This method is used to check if a bubble is .
      * @return true if Bubble extends life_time of Bubble
      */
-    public boolean checkPop() {
-        boolean res = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
-
-        if (res) {
-            isPopped = true;
-            this.deleteObservers();
+    public void checkPop() {
+        if (!isPopped) {
+            isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
         }
-
-        return res;
     }
 
     /**
@@ -106,6 +101,7 @@ public class Bubble extends Observable {
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
+        checkPop();
         this.setChanged();
         this.notifyObservers();
 
@@ -233,7 +229,13 @@ public class Bubble extends Observable {
     }
 
     public boolean getIsPopped() {
+        if (isPopped) {
+            this.deleteObservers();
+        }
         return isPopped;
     }
 
+    public void setIsPopped(boolean isPopped) {
+        this.isPopped = isPopped;
+    }
 }
