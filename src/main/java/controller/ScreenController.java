@@ -181,6 +181,7 @@ public class ScreenController implements Observer {
             if (p.isDead()) {
                 p.getSpriteBase().setImage("/BubbleBobbleDeath.png");
             }
+            update(p.getSpriteBase());
         } else if (o instanceof Bubble) {
             Bubble b = (Bubble) o;
             if (b.checkPop()) {
@@ -188,12 +189,14 @@ public class ScreenController implements Observer {
             } else if (!getSprites().contains(b.getSpriteBase())) {
                 addToSprites(b.getSpriteBase());
             }
+            update(b.getSpriteBase());
         } else if (o instanceof Monster) {
             Monster m = (Monster) o;
             if (m.isDead()) {
                 removeSprite(m.getSpriteBase());
                 removeSprite(m.getPrisonBubble().getSpriteBase());
             }
+            update(m.getSpriteBase());
         }
     }
 }

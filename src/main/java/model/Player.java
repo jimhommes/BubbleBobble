@@ -32,13 +32,6 @@ public class Player extends GravityObject {
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
 
-    private double xLocation;
-    private double yLocation;
-    private double rotation;
-    private double dX;
-    private double dY;
-    private double dR;
-
     private double playerMinX;
     private double playerMaxX;
     private double playerMinY;
@@ -106,13 +99,13 @@ public class Player extends GravityObject {
     public void processInput() {
 
         if (!isDead && !isDelayed) {
-            if (isJumping && getdY() <= 0) {
-                setdY(getdY() + 0.6);
-            } else if (isJumping && getdY() > 0) {
-                setdY(getdY() + 0.6);
+            if (isJumping && spriteBase.getDy() <= 0) {
+                spriteBase.setDy(spriteBase.getDy() + 0.6);
+            } else if (isJumping && spriteBase.getDy() > 0) {
+                spriteBase.setDy(spriteBase.getDy() + 0.6);
                 setJumping(false);
             } else {
-                setdY(0);
+                spriteBase.setDy(0);
             }
 
             moveVertical();
@@ -135,12 +128,12 @@ public class Player extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!spriteBase.causesCollisionWall(getxLocation(),
-                getxLocation() + spriteBase.getWidth(),
-                getyLocation() - calculateGravity(),
-                getyLocation() + spriteBase.getHeight() - calculateGravity(), levelController)) {
+        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY() - calculateGravity(),
+                spriteBase.getY() + spriteBase.getHeight() - calculateGravity(), levelController)) {
             if (!jumping) {
-                setyLocation(getyLocation() - calculateGravity());
+                spriteBase.setDy(spriteBase.getDy() - calculateGravity());
             }
             setAbleToJump(false);
         } else {
@@ -179,13 +172,14 @@ public class Player extends GravityObject {
      */
     public void move() {
         applyGravity();
+        spriteBase.move();
 
-        Double newX = getxLocation() + getdX();
-        Double newY = getyLocation() + getdY();
+        Double newX = spriteBase.getX() + spriteBase.getDx();
+        Double newY = spriteBase.getY() + spriteBase.getDy();
 
-        if (!newX.equals(getxLocation()) || !newY.equals(getyLocation())) {
+        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
             Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
-                    getxLocation(), getyLocation(), newX, newY));
+                    spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
     }
 
@@ -193,22 +187,24 @@ public class Player extends GravityObject {
      * This function applies gravity.
      */
     private void applyGravity() {
-        if (!spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation() - calculateGravity(), getyLocation() + spriteBase.getHeight() - calculateGravity(),
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
+        if (!spriteBase.causesCollisionWall(x, x + spriteBase.getWidth(),
+                y - calculateGravity(), y + spriteBase.getHeight() - calculateGravity(),
                 levelController)
-                || spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation(), getyLocation() + spriteBase.getHeight(), levelController)) {
+                || spriteBase.causesCollisionWall(x, x + spriteBase.getWidth(),
+                y, y + spriteBase.getHeight(), levelController)) {
             if (!isJumping) {
                 if (isAbleToDoubleJump
-                        && causesBubbleCollision(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                        getyLocation() - calculateGravity(),
-                        getyLocation() + spriteBase.getHeight() - calculateGravity())) {
+                        && causesBubbleCollision(x, x + spriteBase.getWidth(),
+                        y - calculateGravity(),
+                        y + spriteBase.getHeight() - calculateGravity())) {
                     setAbleToJump(true);
                     setAbleToDoubleJump(false);
                 } else if (isAbleToDoubleJump) {
                     setAbleToJump(false);
                 }
-                setyLocation(getyLocation() - calculateGravity());
+                spriteBase.setY(y - calculateGravity());
             } else {
                 setAbleToJump(false);
             }
@@ -258,7 +254,11 @@ public class Player extends GravityObject {
      */
     public void checkCollideMonster(final Monster monster) {
 
-        if (monster.getSpriteBase().causesCollision(getxLocation(), getxLocation() + spriteBase.getWidth(), getyLocation(), getyLocation() + spriteBase.getHeight())
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
+
+        if (monster.getSpriteBase().causesCollision(x, x + spriteBase.getWidth(),
+                y, y + spriteBase.getHeight())
                  && !isDelayed) {
             if (!monster.isCaughtByBubble()) {
                 if (!isImmortal) {
@@ -276,8 +276,8 @@ public class Player extends GravityObject {
     public void die() {
         if (this.getLives() <= 1 && !this.isDead) {
             this.isDead = true;
-            setdX(0);
-            setdY(0);
+            spriteBase.setDx(0);
+            spriteBase.setDy(0);
             counter = 0;
             spriteBase.setImage("/BubbleBobbleDeath.png");
         } else {
@@ -297,10 +297,10 @@ public class Player extends GravityObject {
                 isDelayed = false;
                 isImmortal = true;
 
-                setdX(0);
-                setdY(0);
-                setxLocation(xStartLocation);
-                setyLocation(yStartLocation);
+                spriteBase.setDx(0);
+                spriteBase.setDy(0);
+                spriteBase.setX(xStartLocation);
+                spriteBase.setY(yStartLocation);
                 immortalTimer = new Timer();
                 immortalTimer.schedule(new TimerTask() {
                     @Override
@@ -363,7 +363,7 @@ public class Player extends GravityObject {
     private void jump() {
         setAbleToJump(false);
         setJumping(true);
-        setdY(-Settings.JUMP_SPEED);
+        spriteBase.setDy(-Settings.JUMP_SPEED);
     }
 
 
@@ -376,7 +376,7 @@ public class Player extends GravityObject {
         } else if (input.isMoveRight()) {
             moveRight();
         } else {
-            setdX(0d);
+            spriteBase.setDx(0d);
         }
     }
 
@@ -384,17 +384,19 @@ public class Player extends GravityObject {
      * This function handles moving to the right.
      */
     private void moveRight() {
-        if (!spriteBase.causesCollisionWall(getxLocation() + speed,
-                getxLocation() + spriteBase.getWidth() + speed,
-                getyLocation(),
-                getyLocation() + spriteBase.getHeight(), levelController)) {
-            setdX(speed);
-        } else if (spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation(), getyLocation() + spriteBase.getHeight(), levelController)) {
-            setdX(speed);
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
+
+        if (!spriteBase.causesCollisionWall(x + speed,
+                x + spriteBase.getWidth() + speed,
+                y, y + spriteBase.getHeight(), levelController)) {
+            spriteBase.setDx(speed);
+        } else if (spriteBase.causesCollisionWall(x, x + spriteBase.getWidth(),
+                y, y + spriteBase.getHeight(), levelController)) {
+            spriteBase.setDx(speed);
         } else {
             if (!isJumping) {
-                setdX(0);
+                spriteBase.setDx(0);
             }
         }
 
@@ -410,17 +412,20 @@ public class Player extends GravityObject {
      * This function handles moving to the left.
      */
     private void moveLeft() {
-        if (!spriteBase.causesCollisionWall(getxLocation() - speed,
-                getxLocation() + spriteBase.getWidth() - speed,
-                getyLocation(),
-                getyLocation() + spriteBase.getHeight(), levelController)) {
-            setdX(-speed);
-        } else if (spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation(), getyLocation() + spriteBase.getHeight(), levelController)) {
-            setdX(-speed);
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
+
+        if (!spriteBase.causesCollisionWall(x - speed,
+                x + spriteBase.getWidth() - speed,
+                y,
+                y + spriteBase.getHeight(), levelController)) {
+            spriteBase.setDx(-speed);
+        } else if (spriteBase.causesCollisionWall(x, x + spriteBase.getWidth(),
+                y, y + spriteBase.getHeight(), levelController)) {
+            spriteBase.setDx(-speed);
         } else {
             if (!isJumping) {
-                setdX(0);
+                spriteBase.setDx(0);
             }
         }
 
@@ -448,7 +453,7 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(getxLocation(), getyLocation(), 0, 0, 0, 0,
+            Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
                     isFacingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
 
@@ -844,69 +849,4 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public double getxLocation() {
-        return xLocation;
-    }
-
-    public void setxLocation(double xLocation) {
-        this.xLocation = xLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getyLocation() {
-        return yLocation;
-    }
-
-    public void setyLocation(double yLocation) {
-        this.yLocation = yLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdX() {
-        return dX;
-    }
-
-    public void setdX(double dX) {
-        this.dX = dX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdY() {
-        return dY;
-    }
-
-    public void setdY(double dY) {
-        this.dY = dY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdR() {
-        return dR;
-    }
-
-    public void setdR(double dR) {
-        this.dR = dR;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
 }

@@ -201,17 +201,17 @@ public class LevelController implements Observer {
             @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
-                if (((Player) players.get(0)).isGameOver()) {
+                if ((players.get(0)).isGameOver()) {
                     stop();
                 } else {
                     if (!isGamePaused()) {
-                        ((ArrayList<Player>) players).forEach(player -> {
+                        players.forEach(player -> {
                             performPlayerCycle(player);
                             powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
                             updatePowerups();
                         });
-                        ((ArrayList<Monster>) currLvl.getMonsters()).forEach(monster -> {
-                            ((ArrayList<Player>) players).forEach(player -> {
+                        currLvl.getMonsters().forEach(monster -> {
+                            players.forEach(player -> {
                                 player.getBubbles().forEach(monster::checkCollision);
                                 player.checkCollideMonster(monster);
                             });

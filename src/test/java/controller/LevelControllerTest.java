@@ -118,8 +118,8 @@ public class LevelControllerTest {
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
-		assertEquals(200, players.get(0).getxLocation(), 0.001);
-		assertEquals(200, players.get(0).getyLocation(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getX(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getY(), 0.001);
 		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
 	}
 
