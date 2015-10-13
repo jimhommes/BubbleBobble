@@ -27,6 +27,7 @@ public class Powerup extends Observable {
     public static final int POWERUP_BUBBLE = 3;
     public static final int POWERUP_MONSTER = 4;
     public static final int POWERUP_POINTS = 5;
+    public static final int POWERUP_THRESHOLD = 10;
 
     /**
      * The constructor. It instantiates the class.
@@ -83,11 +84,10 @@ public class Powerup extends Observable {
      * This function calculates the movement to the destx and desty.
      */
     public void move() {
-        spriteBase.move();
 
         double diffX = destx - spriteBase.getX();
         double diffY = desty - spriteBase.getY();
-        if (diffX < 1 && diffY < 1) {
+        if (diffX < POWERUP_THRESHOLD && diffY < POWERUP_THRESHOLD) {
             spriteBase.setDx(0);
             spriteBase.setDy(0);
             ableToPickup = true;
@@ -95,6 +95,8 @@ public class Powerup extends Observable {
             spriteBase.setDx(diffX / 20.0);
             spriteBase.setDy(diffY / 20.0);
         }
+
+        spriteBase.move();
 
         this.setChanged();
         this.notifyObservers();
@@ -179,7 +181,13 @@ public class Powerup extends Observable {
     }
 
     public boolean isPickedUp() {
+
+        if (pickedUp) {
+            this.deleteObservers();
+        }
+
         return pickedUp;
+
     }
 
     public void setPickedUp(boolean pickedUp) {

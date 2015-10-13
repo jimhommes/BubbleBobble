@@ -3,10 +3,7 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import model.Bubble;
-import model.Monster;
-import model.Player;
-import model.SpriteBase;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -55,7 +52,7 @@ public class ScreenController implements Observer {
      * This method adds a list of sprite bases.
      * @param list the list of all the sprites.
      */
-    public void addToSprites(final ArrayList<SpriteBase> list) {
+    private void addToSprites(final ArrayList<SpriteBase> list) {
         sprites.addAll(list);
         list.forEach(element -> {
             ImageView imageView = new ImageView(
@@ -96,7 +93,7 @@ public class ScreenController implements Observer {
      * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
-    public void update(SpriteBase sprite) {
+    private void update(SpriteBase sprite) {
     	int place = sprites.indexOf(sprite);
     	if (place >= 0) {
     		ImageView image = images.get(sprites.indexOf(sprite));
@@ -197,6 +194,14 @@ public class ScreenController implements Observer {
                 removeSprite(m.getPrisonBubble().getSpriteBase());
             }
             update(m.getSpriteBase());
+        } else if (o instanceof Powerup) {
+            Powerup p = (Powerup) o;
+            if (p.isPickedUp()) {
+                removeSprite(p.getSpriteBase());
+            } else if (!getSprites().contains(p.getSpriteBase())) {
+                addToSprites(p.getSpriteBase());
+            }
+            update(p.getSpriteBase());
         }
     }
 }

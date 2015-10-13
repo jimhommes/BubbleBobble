@@ -218,7 +218,7 @@ public class Player extends GravityObject {
             }
         }
     }
-    
+
     /**
      * This function checks if the player collides with a bubble.
      * @param x Minimal x.
