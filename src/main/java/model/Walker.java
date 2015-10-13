@@ -117,8 +117,8 @@ public class Walker extends Monster {
         } else {
             setdX(0);
             setdY(0);
-            setxLocation(getPrisonBubble().getxLocation());
-            setyLocation(getPrisonBubble().getyLocation());
+            setxLocation(getPrisonBubble().getSpriteBase().getX());
+            setyLocation(getPrisonBubble().getSpriteBase().getY());
         }
 
         

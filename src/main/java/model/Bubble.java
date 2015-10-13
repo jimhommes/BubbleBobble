@@ -28,13 +28,6 @@ public class Bubble extends Observable {
     private boolean powerup;
     private SpriteBase spriteBase;
 
-    private double xLocation;
-    private double yLocation;
-    private double rotation;
-    private double dX;
-    private double dY;
-    private double dR;
-
     /**
      * The bubble that will be shot to catch the monsters.
      * @param x The x coordinate 
@@ -56,13 +49,6 @@ public class Bubble extends Observable {
                   boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
-
-        this.xLocation = x;
-        this.yLocation = y;
-        this.rotation = r;
-        this.dX = dx;
-        this.dY = dy;
-        this.dR = dr;
 
         counter = 0;
         this.firedRight = firedRight;
@@ -91,6 +77,8 @@ public class Bubble extends Observable {
      */
     public void move() {
 
+        spriteBase.move();
+
         counter++;
 
         if ((!this.powerup && counter < Settings.BUBBLE_FLY_TIME)
@@ -100,13 +88,17 @@ public class Bubble extends Observable {
             moveVertically();
         }
 
-        Double newX = getxLocation() + getdX();
-        Double newY = getyLocation() + getdY();
+        Double newX = spriteBase.getX() + spriteBase.getDx();
+        Double newY = spriteBase.getY() + spriteBase.getDy();
 
-        if (!newX.equals(getxLocation()) || !newY.equals(getyLocation())) {
+        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
-                    getxLocation(), getyLocation(), newX, newY));
+                    spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
+
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
     /**
@@ -114,16 +106,16 @@ public class Bubble extends Observable {
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
-        setdX(0);
-        if (!spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation() - Settings.BUBBLE_FLY_SPEED,
-                getyLocation() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
-            setdY(-Settings.BUBBLE_FLY_SPEED);
-            if (getyLocation() < 0) {
-                setyLocation(Settings.SCENE_HEIGHT);
+        spriteBase.setDx(0);
+        if (!spriteBase.causesCollisionWall(spriteBase.getX(), spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY() - Settings.BUBBLE_FLY_SPEED,
+                spriteBase.getY() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
+            spriteBase.setDy(-Settings.BUBBLE_FLY_SPEED);
+            if (spriteBase.getY() < 0) {
+                spriteBase.setY(Settings.SCENE_HEIGHT);
             }
-        } else if (getyLocation() <= 35) {
-            setdY(0);
+        } else if (spriteBase.getY() <= 35) {
+            spriteBase.setDy(0);
         }
         isAbleToCatch = false;
     }
@@ -133,22 +125,22 @@ public class Bubble extends Observable {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!spriteBase.causesCollisionWall(getxLocation() + Settings.BUBBLE_INIT_SPEED,
-                    getxLocation() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
-                    getyLocation(),
-                    getyLocation() + spriteBase.getHeight(), levelController)) {
-                setdX(Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(spriteBase.getX() + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getX() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getY(),
+                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDx(Settings.BUBBLE_INIT_SPEED);
             } else {
-                setdX(0);
+                spriteBase.setDx(0);
             }
         } else {
-            if (!spriteBase.causesCollisionWall(getxLocation() - Settings.BUBBLE_INIT_SPEED,
-                    getxLocation() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
-                    getyLocation(),
-                    getyLocation() + spriteBase.getHeight(), levelController)) {
-                setdX(-Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(spriteBase.getX() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getX() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getY(),
+                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDx(-Settings.BUBBLE_INIT_SPEED);
             } else {
-                setdX(0);
+                spriteBase.setDx(0);
             }
         }
     }
@@ -214,72 +206,6 @@ public class Bubble extends Observable {
 
     public void setPowerup(boolean powerup) {
         this.powerup = powerup;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getxLocation() {
-        return xLocation;
-    }
-
-    public void setxLocation(double xLocation) {
-        this.xLocation = xLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getyLocation() {
-        return yLocation;
-    }
-
-    public void setyLocation(double yLocation) {
-        this.yLocation = yLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdX() {
-        return dX;
-    }
-
-    public void setdX(double dX) {
-        this.dX = dX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdY() {
-        return dY;
-    }
-
-    public void setdY(double dY) {
-        this.dY = dY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdR() {
-        return dR;
-    }
-
-    public void setdR(double dR) {
-        this.dR = dR;
 
         this.setChanged();
         this.notifyObservers();

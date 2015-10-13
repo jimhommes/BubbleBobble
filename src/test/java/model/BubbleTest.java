@@ -48,8 +48,8 @@ public class BubbleTest {
         for (int i = 1; i < 30; i++) {
             bubbleRight.move();
 
-            assertEquals((double) 1.f + i * 7, bubbleRight.getxLocation(), 0.001);
-            assertEquals((double) 1.f, bubbleRight.getyLocation(), 0.001);
+            assertEquals((double) 1.f + i * 7, bubbleRight.getSpriteBase().getX(), 0.001);
+            assertEquals((double) 1.f, bubbleRight.getSpriteBase().getY(), 0.001);
         }
 
         assertTrue(bubbleRight.isAbleToCatch());
@@ -67,8 +67,8 @@ public class BubbleTest {
         for (int i = 1; i < 30; i++) {
             bubbleLeft.move();
 
-            assertEquals((double) 1.f + i * -7, bubbleLeft.getxLocation(), 0.001);
-            assertEquals((double) 1.f, bubbleLeft.getyLocation(), 0.001);
+            assertEquals((double) 1.f + i * -7, bubbleLeft.getSpriteBase().getX(), 0.001);
+            assertEquals((double) 1.f, bubbleLeft.getSpriteBase().getY(), 0.001);
         }
 
         assertTrue(bubbleLeft.isAbleToCatch());

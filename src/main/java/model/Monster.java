@@ -93,8 +93,8 @@ public class Monster extends GravityObject {
      */
     public void checkCollision(final Bubble bubble) {
         if (bubble.isAbleToCatch() && !isCaughtByBubble) {
-            double bubbleX = bubble.getxLocation();
-            double bubbleY = bubble.getyLocation();
+            double bubbleX = bubble.getSpriteBase().getX();
+            double bubbleY = bubble.getSpriteBase().getY();
             double bubbleX2 = bubbleX + bubble.getSpriteBase().getWidth();
             double bubbleY2 = bubbleY + bubble.getSpriteBase().getHeight();
             if (((bubbleX >= getxLocation() && bubbleX <= getxLocation() + spriteBase.getWidth())

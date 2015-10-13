@@ -47,8 +47,8 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision1() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getxLocation()).thenReturn(1.0);
-        when(bubble.getyLocation()).thenReturn(1.0);
+		when(bubble.getSpriteBase().getX()).thenReturn(1.0);
+        when(bubble.getSpriteBase().getY()).thenReturn(1.0);
         when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
         when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
@@ -66,8 +66,8 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision2() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getxLocation()).thenReturn(1.0);
-        when(bubble.getyLocation()).thenReturn(1.0);
+		when(bubble.getSpriteBase().getX()).thenReturn(1.0);
+        when(bubble.getSpriteBase().getY()).thenReturn(1.0);
         when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
         when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);

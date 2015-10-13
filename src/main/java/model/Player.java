@@ -181,6 +181,9 @@ public class Player extends GravityObject {
             Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
