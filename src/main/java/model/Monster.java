@@ -315,4 +315,5 @@ public class Monster extends GravityObject {
         this.setChanged();
         this.notifyObservers();
     }
+
 }

@@ -149,7 +149,7 @@ public class Level {
      * @return The arrayList of monsters.
      */
     @SuppressWarnings("rawtypes")
-    public ArrayList getMonsters() {
+    public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
@@ -166,7 +166,7 @@ public class Level {
      * @return The walls in the game.
      */
     @SuppressWarnings("rawtypes")
-    public ArrayList getWalls() {
+    public ArrayList<Wall> getWalls() {
         return walls;
     }
 

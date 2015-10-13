@@ -353,7 +353,7 @@ public class SpriteBase extends Observable {
 			double maxY, LevelController levelController) {
 
         for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+            if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }

@@ -288,8 +288,8 @@ public class LevelController implements Observer {
 
         createPlayer(input);
 
-        screenController.addToSprites(currLvl.getWalls());
-        screenController.addToSprites(currLvl.getMonsters());
+        currLvl.getWalls().forEach(wall -> screenController.addToSprites(wall.getSpriteBase()));
+        currLvl.getMonsters().forEach(monster -> screenController.addToSprites(monster.getSpriteBase()));
     }
 
     private void createInput() {
@@ -331,7 +331,7 @@ public class LevelController implements Observer {
             this.players.add(newPlayer);
         }
 
-        screenController.addToSprites((ArrayList) this.players);
+        players.forEach(player -> screenController.addToSprites(player.getSpriteBase()));
     }
 
     /**
@@ -601,7 +601,7 @@ public class LevelController implements Observer {
 	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+            if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }
