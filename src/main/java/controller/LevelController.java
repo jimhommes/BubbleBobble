@@ -16,8 +16,6 @@ import model.Powerup;
 import model.Wall;
 import utility.Logger;
 import utility.Settings;
-
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -67,10 +65,6 @@ public class LevelController implements Observer {
      */
     private boolean gameStarted = false;
     /**
-     * A boolean to see if the game is going on or not.
-     */
-    private boolean gamePaused = false;
-    /**
      * The screenController that handles all GUI.
      */
     private ScreenController screenController;
@@ -91,14 +85,11 @@ public class LevelController implements Observer {
     private Input input;
 
     /**
-     * The path to the maps.
-     */
-    private String pathMaps = "src/main/resources";
-
-    /**
      * The boolean preventing the pauseScreen from switching many times.
      */
     private boolean switchedPauseScreen = false;
+    
+    private LevelControllerMethods levelControllerMethods;
 
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
@@ -109,8 +100,8 @@ public class LevelController implements Observer {
 
             if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
                 switchedPauseScreen = true;
-                gamePaused = !gamePaused;
-                if (gamePaused) {
+                levelControllerMethods.setGamePaused(!levelControllerMethods.getGamePaused());
+                if (levelControllerMethods.getGamePaused()) {
                     mainController.showPauseScreen();
                 } else {
                     mainController.hidePauseScreen();
@@ -169,25 +160,14 @@ public class LevelController implements Observer {
     public LevelController(MainController mainController) {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
-        findMaps();
+        this.levelControllerMethods = new LevelControllerMethods(this);
+        maps = levelControllerMethods.findMaps();
 
         gameLoop = createTimer();
         startLevel();
     }
 
-    /**
-     * This function scans the resources folder for maps.
-     */
-    public void findMaps() {
-        File folder = new File(pathMaps);
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        for (File file : listOfFiles) {
-            if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
-                maps.add(file.getName());
-            }
-        }
-    }
+    
 
     /**
      * This function returns the gameLoop.
@@ -202,7 +182,7 @@ public class LevelController implements Observer {
                 if (((Player) players.get(0)).getGameOver()) {
                     stop();
                 } else {
-                    if (!isGamePaused()) {
+                    if (!levelControllerMethods.getGamePaused()) {
                         ((ArrayList<Player>) players).forEach(player -> {
                             performPlayerCycle(player);
                             powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
@@ -418,15 +398,6 @@ public class LevelController implements Observer {
     }
 
     /**
-     * This is the boolean to check if the game is paused or not.
-     *
-     * @return True if the gamePaused is true.
-     */
-    public boolean isGamePaused() {
-        return this.gamePaused;
-    }
-
-    /**
      * The function that gets the players.
      * @return The players.
      */
@@ -441,22 +412,6 @@ public class LevelController implements Observer {
      */
     public Level getCurrLvl() {
         return currLvl;
-    }
-
-    /**
-     * The function that sets the path to the maps.
-     * @param pathMaps The path to the maps.
-     */
-    public void setPathMaps(String pathMaps) {
-        this.pathMaps = pathMaps;
-    }
-    
-    /**
-     * This method gets the path of the maps.
-     * @return pathMaps, the path to the maps.
-     */
-    public String getPathMaps() {
-    	return pathMaps;
     }
 
     /**
@@ -522,14 +477,6 @@ public class LevelController implements Observer {
      */
     public EventHandler<KeyEvent> getPauseKeyEventHandler() {
         return pauseKeyEventHandler;
-    }
-
-    /**
-     * This function returns true if the game is paused.
-     * @return True if the game is paused.
-     */
-    public boolean getGamePaused() {
-        return gamePaused;
     }
     
     /**
