@@ -108,17 +108,17 @@ public class Walker extends Monster {
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
             } else if (jumpCounter == jumpMaxCounter) {
-                setdY(0);
+                getSpriteBase().setDy(0);
                 jumping = false;
             }
             moveHorizontal();
             moveVertical();
             getSpriteBase().checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
         } else {
-            setdX(0);
-            setdY(0);
-            setxLocation(getPrisonBubble().getSpriteBase().getX());
-            setyLocation(getPrisonBubble().getSpriteBase().getY());
+            getSpriteBase().setDx(0);
+            getSpriteBase().setDy(0);
+            getSpriteBase().setX(getPrisonBubble().getSpriteBase().getX());
+            getSpriteBase().setY(getPrisonBubble().getSpriteBase().getY());
         }
 
         
@@ -133,7 +133,7 @@ public class Walker extends Monster {
             if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
-                setdY(-Settings.JUMP_SPEED_WALKER);
+                getSpriteBase().setDy(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
             }
     }
@@ -142,19 +142,22 @@ public class Walker extends Monster {
      * This function handles the horizontal movement.
      */
     private void moveHorizontal() {
+        double x = getSpriteBase().getX();
+        double y = getSpriteBase().getY();
+
         if (isFacingRight()) {
-            if (!getSpriteBase().causesCollisionWall(getxLocation() + getSpeed(),
-                    getxLocation() + getSpriteBase().getWidth() + getSpeed(), getyLocation(),
-                    getyLocation() + getSpriteBase().getHeight(), levelController)) {
-                setdX(getSpeed());
+            if (!getSpriteBase().causesCollisionWall(x + getSpeed(),
+                    x + getSpriteBase().getWidth() + getSpeed(), y,
+                    y + getSpriteBase().getHeight(), levelController)) {
+                getSpriteBase().setDx(getSpeed());
             } else {
                 switchDirection();
             }
         } else {
-            if (!getSpriteBase().causesCollisionWall(getxLocation() - getSpeed(),
-                    getxLocation() + getSpriteBase().getWidth() - getSpeed(), getyLocation(),
-                    getyLocation() + getSpriteBase().getHeight(), levelController)) {
-                setdX(-getSpeed());
+            if (!getSpriteBase().causesCollisionWall(x - getSpeed(),
+                    x + getSpriteBase().getWidth() - getSpeed(), y,
+                    y + getSpriteBase().getHeight(), levelController)) {
+                getSpriteBase().setDx(-getSpeed());
             } else {
                 switchDirection();
             }

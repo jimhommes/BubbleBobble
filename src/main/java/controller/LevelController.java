@@ -548,8 +548,8 @@ public class LevelController implements Observer {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(Math.random(), monster.getxLocation(),
-                monster.getyLocation(), 2, 0, 0, 0, randLocX, randLocY, this);
+        Powerup powerup = new Powerup(Math.random(), monster.getSpriteBase().getX(),
+                monster.getSpriteBase().getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 

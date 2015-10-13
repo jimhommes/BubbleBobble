@@ -23,13 +23,6 @@ public class Monster extends GravityObject {
     private boolean isReducedSpeed;
     private SpriteBase spriteBase;
 
-    private double xLocation;
-    private double yLocation;
-    private double rotation;
-    private double dX;
-    private double dY;
-    private double dR;
-
     /**
      * The monster that is trying to catch the character.
      *
@@ -55,13 +48,6 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.xLocation = x;
-        this.yLocation = y;
-        this.rotation = r;
-        this.dX = dx;
-        this.dY = dy;
-        this.dR = dr;
-
         this.spriteBase = new SpriteBase("/ZenChanLeft.png", x, y, r, dx, dy, dr);
 
         this.addObserver(levelController);
@@ -72,18 +58,23 @@ public class Monster extends GravityObject {
      * The movement of the monster.
      */
     public void move() {
-        Double newX = getxLocation() + getdX();
-        Double newY = getyLocation() + getdY();
+        spriteBase.move();
 
-        if (!newX.equals(getxLocation()) || !newY.equals(getyLocation())) {
+        Double newX = spriteBase.getX() + spriteBase.getDx();
+        Double newY = spriteBase.getY() + spriteBase.getDy();
+
+        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
-                    getxLocation(), getyLocation(), newX, newY));
+                    spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
         checkPowerups();
         if (this.isReducedSpeed) {
             setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
         }
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -97,10 +88,10 @@ public class Monster extends GravityObject {
             double bubbleY = bubble.getSpriteBase().getY();
             double bubbleX2 = bubbleX + bubble.getSpriteBase().getWidth();
             double bubbleY2 = bubbleY + bubble.getSpriteBase().getHeight();
-            if (((bubbleX >= getxLocation() && bubbleX <= getxLocation() + spriteBase.getWidth())
-                    || (bubbleX2 >= getxLocation() && bubbleX2 <= getxLocation() + spriteBase.getWidth()))
-                    && ((bubbleY >= getyLocation() && bubbleY <= getyLocation() + spriteBase.getHeight())
-                    || bubbleY2 >= getyLocation() && bubbleY2 <= getyLocation() + spriteBase.getHeight())) {
+            if (((bubbleX >= spriteBase.getX() && bubbleX <= spriteBase.getX() + spriteBase.getWidth())
+                    || (bubbleX2 >= spriteBase.getX() && bubbleX2 <= spriteBase.getX() + spriteBase.getWidth()))
+                    && ((bubbleY >= spriteBase.getY() && bubbleY <= spriteBase.getY() + spriteBase.getHeight())
+                    || bubbleY2 >= spriteBase.getY() && bubbleY2 <= spriteBase.getY() + spriteBase.getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
                 prisonBubble.setPrisonBubble(true);
@@ -123,7 +114,6 @@ public class Monster extends GravityObject {
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
                 levelController.spawnPowerup(this);
-//                notifyAllObservers(killer.getSpriteBase(), 2);
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
@@ -153,12 +143,12 @@ public class Monster extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!spriteBase.causesCollisionWall(getxLocation(),
-                getxLocation() + spriteBase.getWidth(),
-                getyLocation() - calculateGravity(),
-                getyLocation() + spriteBase.getHeight() - calculateGravity(), levelController)) {
+        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY() - calculateGravity(),
+                spriteBase.getY() + spriteBase.getHeight() - calculateGravity(), levelController)) {
             if (!jumping) {
-                setyLocation(getyLocation() - calculateGravity());
+                spriteBase.setY(spriteBase.getY() - calculateGravity());
             }
             ableToJump = false;
         } else {
@@ -245,72 +235,6 @@ public class Monster extends GravityObject {
 
     public void setSpriteBase(SpriteBase spriteBase) {
         this.spriteBase = spriteBase;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getxLocation() {
-        return xLocation;
-    }
-
-    public void setxLocation(double xLocation) {
-        this.xLocation = xLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getyLocation() {
-        return yLocation;
-    }
-
-    public void setyLocation(double yLocation) {
-        this.yLocation = yLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdX() {
-        return dX;
-    }
-
-    public void setdX(double dX) {
-        this.dX = dX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdY() {
-        return dY;
-    }
-
-    public void setdY(double dY) {
-        this.dY = dY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdR() {
-        return dR;
-    }
-
-    public void setdR(double dR) {
-        this.dR = dR;
 
         this.setChanged();
         this.notifyObservers();

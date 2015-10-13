@@ -452,8 +452,8 @@ public class LevelControllerTest {
     public void testSpawnPowerup() {
         assertEquals(0, levelController.getPowerups().size());
         Monster monster = mock(Monster.class);
-        when(monster.getxLocation()).thenReturn(15.0);
-        when(monster.getyLocation()).thenReturn(30.0);
+        when(monster.getSpriteBase().getX()).thenReturn(15.0);
+        when(monster.getSpriteBase().getY()).thenReturn(30.0);
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();

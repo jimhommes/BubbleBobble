@@ -103,7 +103,7 @@ public class MonsterTest {
 	@Test
 	public void testMove() throws Exception {
 		monster.move();
-		assertEquals(monster.getxLocation(), 2, 0);
+		assertEquals(monster.getSpriteBase().getX(), 2, 0);
 	}
 	
 	/**
@@ -112,10 +112,10 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testR() throws Exception {
-    	monster.setRotation(10);
-    	assertEquals(10.0, monster.getRotation(), epsilon);
-    	monster.setdR(10);
-    	assertEquals(10.0, monster.getdR(), epsilon);
+    	monster.getSpriteBase().setR(10);
+    	assertEquals(10.0, monster.getSpriteBase().getR(), epsilon);
+    	monster.getSpriteBase().setDr(10);
+    	assertEquals(10.0, monster.getSpriteBase().getDr(), epsilon);
     }
 
 	/**
@@ -148,6 +148,6 @@ public class MonsterTest {
     public void testCanMove() throws Exception {
     	monster.getSpriteBase().setCanMove(false);
     	monster.move();
-    	assertEquals(1.0, monster.getxLocation(), epsilon);
+    	assertEquals(1.0, monster.getSpriteBase().getX(), epsilon);
     }
 }

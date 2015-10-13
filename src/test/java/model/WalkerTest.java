@@ -75,10 +75,10 @@ public class WalkerTest {
 //		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 //		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
-		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getxLocation(), 0);
+		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getSpriteBase().getX(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(Level.SPRITE_SIZE, walker.getxLocation(), 0);
+		assertEquals(Level.SPRITE_SIZE, walker.getSpriteBase().getX(), 0);
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class WalkerTest {
         walker.getSpriteBase().setHeight(32.0);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(bubble.getSpriteBase().getX(), walker.getxLocation(), 0);
+        assertEquals(bubble.getSpriteBase().getX(), walker.getSpriteBase().getX(), 0);
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class WalkerTest {
 		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
 				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
-    	assertEquals(Level.SPRITE_SIZE, walker1.getyLocation(), 0.0001);
+    	assertEquals(Level.SPRITE_SIZE, walker1.getSpriteBase().getY(), 0.0001);
 	}
 	
 	/**
@@ -131,8 +131,8 @@ public class WalkerTest {
 		Wall wall = new Wall(32, 32, 32, 0, 0, 0);
 		walls.add(wall);
 		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
-		double locationY = walker.getyLocation();
+		double locationY = walker.getSpriteBase().getY();
 		
-		assertEquals(locationY, walker.getyLocation(), 0.0001);
+		assertEquals(locationY, walker.getSpriteBase().getY(), 0.0001);
 	}
 }
