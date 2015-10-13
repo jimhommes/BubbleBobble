@@ -9,6 +9,8 @@ import model.Player;
 import model.SpriteBase;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Jim on 9/11/2015.
@@ -172,21 +174,26 @@ public class ScreenController implements Observer {
         this.images = images;
     }
 
-    /**
-     * The changes made are updated.
-     */
-	@Override
-	public void update(SpriteBase spriteBase, int state) {
-		if (state == 1 && (spriteBase instanceof Player)) {
-			spriteBase.setImage("/BubbleBobbleDeath.png");
-		} else if (state == 1) {
-			removeSprite(spriteBase);
-			if (spriteBase instanceof Monster) {
-				removeSprite(((Monster) spriteBase).getPrisonBubble());
-			}
-		} else if (state == 2 && (spriteBase instanceof Bubble)) {
-			addToSprites(spriteBase);
-		}
-	}
-
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Player) {
+            Player p = (Player) o;
+            if (p.isDead()) {
+                p.getSpriteBase().setImage("/BubbleBobbleDeath.png");
+            }
+        } else if (o instanceof Bubble) {
+            Bubble b = (Bubble) o;
+            if (b.checkPop()) {
+                removeSprite(b.getSpriteBase());
+            } else if (!getSprites().contains(b.getSpriteBase())) {
+                addToSprites(b.getSpriteBase());
+            }
+        } else if (o instanceof Monster) {
+            Monster m = (Monster) o;
+            if (m.isDead()) {
+                removeSprite(m.getSpriteBase());
+                removeSprite(m.getPrisonBubble().getSpriteBase());
+            }
+        }
+    }
 }

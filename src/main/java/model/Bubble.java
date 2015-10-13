@@ -4,6 +4,8 @@ import controller.LevelController;
 import utility.Logger;
 import utility.Settings;
 
+import java.util.Observable;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -16,35 +18,22 @@ import utility.Settings;
  * This class is the base where the sprite is loaded.
  * Any instance that is represented by a sprite extends this class.
  */
-public class Bubble extends SpriteBase {
+public class Bubble extends Observable {
 
-    /**
-     * The counter that is needed for the movement of the bubble.
-     */
     private int counter;
-
-    /**
-     * This boolean indicates whether it is fired to the right.
-     */
     private boolean firedRight;
-
-    /**
-     * Only in the first stage of firing the bubble, the bubble is able to catch monsters.
-     * This boolean indicates if the bubble can catch a monster.
-     */
-    private boolean ableToCatch;
-
-    /**
-     * This boolean indicates if the bubble has captured a monster.
-     */
+    private boolean isAbleToCatch;
     private boolean isPrisonBubble;
-
-    /**
-     * The levelController that created the player.
-     */
     private LevelController levelController;
-
     private boolean powerup;
+    private SpriteBase spriteBase;
+
+    private double xLocation;
+    private double yLocation;
+    private double rotation;
+    private double dX;
+    private double dY;
+    private double dR;
 
     /**
      * The bubble that will be shot to catch the monsters.
@@ -67,17 +56,25 @@ public class Bubble extends SpriteBase {
                   boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
-        super("../bubble.png", x, y, r, dx, dy, dr);
+
+        this.xLocation = x;
+        this.yLocation = y;
+        this.rotation = r;
+        this.dX = dx;
+        this.dY = dy;
+        this.dR = dr;
 
         counter = 0;
         this.firedRight = firedRight;
-        this.ableToCatch = true;
+        this.isAbleToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
 
-        attach(levelController);
-        attach(levelController.getScreenController());
-        
+        this.spriteBase = new SpriteBase("/bubble.png", x, y, r, dx, dy, dr);
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
+
         this.powerup = powerup;
     }
 
@@ -103,15 +100,13 @@ public class Bubble extends SpriteBase {
             moveVertically();
         }
 
-        Double newX = getX() + getDx();
-        Double newY = getY() + getDy();
+        Double newX = getxLocation() + getdX();
+        Double newY = getyLocation() + getdY();
 
-        if (!newX.equals(getX()) || !newY.equals(getY())) {
+        if (!newX.equals(getxLocation()) || !newY.equals(getyLocation())) {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
-                    getX(), getY(), newX, newY));
+                    getxLocation(), getyLocation(), newX, newY));
         }
-
-        super.move();
     }
 
     /**
@@ -119,18 +114,18 @@ public class Bubble extends SpriteBase {
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
-        setDx(0);
-        if (!causesCollisionWall(getX(), getX() + getWidth(),
-                getY() - Settings.BUBBLE_FLY_SPEED,
-                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
-            setDy(-Settings.BUBBLE_FLY_SPEED);
-            if (getY() < 0) {
-                setY(Settings.SCENE_HEIGHT);
+        setdX(0);
+        if (!spriteBase.causesCollisionWall(getxLocation(), getxLocation() + spriteBase.getWidth(),
+                getyLocation() - Settings.BUBBLE_FLY_SPEED,
+                getyLocation() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
+            setdY(-Settings.BUBBLE_FLY_SPEED);
+            if (getyLocation() < 0) {
+                setyLocation(Settings.SCENE_HEIGHT);
             }
-        } else if (getY() <= 35) {
-            setDy(0);
+        } else if (getyLocation() <= 35) {
+            setdY(0);
         }
-        ableToCatch = false;
+        isAbleToCatch = false;
     }
 
     /**
@@ -138,55 +133,167 @@ public class Bubble extends SpriteBase {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!causesCollisionWall(getX() + Settings.BUBBLE_INIT_SPEED,
-                    getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
-                    getY(),
-                    getY() + getHeight(), levelController)) {
-                setDx(Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(getxLocation() + Settings.BUBBLE_INIT_SPEED,
+                    getxLocation() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    getyLocation(),
+                    getyLocation() + spriteBase.getHeight(), levelController)) {
+                setdX(Settings.BUBBLE_INIT_SPEED);
             } else {
-                setDx(0);
+                setdX(0);
             }
         } else {
-            if (!causesCollisionWall(getX() - Settings.BUBBLE_INIT_SPEED,
-                    getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
-                    getY(),
-                    getY() + getHeight(), levelController)) {
-                setDx(-Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(getxLocation() - Settings.BUBBLE_INIT_SPEED,
+                    getxLocation() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    getyLocation(),
+                    getyLocation() + spriteBase.getHeight(), levelController)) {
+                setdX(-Settings.BUBBLE_INIT_SPEED);
             } else {
-                setDx(0);
+                setdX(0);
             }
         }
     }
 
-    /**
-     * This method sets the boolean to whether it is able to be caught.
-     * @param bool set to the boolean of whether the monsters can be caught.
-     */
-    public void setAbleToCatch(final boolean bool) {
-        ableToCatch = bool;
+    public int getCounter() {
+        return counter;
     }
 
-    /**
-     * This method checks to see if a monster is able to be caught.
-     * @return true if the monster can be caught.
-     */
-    public boolean getAbleToCatch() {
-        return ableToCatch;
+    public void setCounter(int counter) {
+        this.counter = counter;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
-    /**
-     * This method sets the boolean to whether it is a prisonBubble.
-     * @param bool set to the boolean of whether the monsters is a prisonBubble.
-     */
-    public void setIsPrisonBubble(final boolean bool) {
-        isPrisonBubble = bool;
+    public boolean isFiredRight() {
+        return firedRight;
     }
 
-    /**
-     * This method checks to see if a bubble has caught a monster.
-     * @return true if the monster can be caught.
-     */
-    public boolean getIsPrisonBubble() {
+    public void setFiredRight(boolean firedRight) {
+        this.firedRight = firedRight;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public boolean isAbleToCatch() {
+        return isAbleToCatch;
+    }
+
+    public void setAbleToCatch(boolean ableToCatch) {
+        this.isAbleToCatch = ableToCatch;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public boolean isPrisonBubble() {
         return isPrisonBubble;
     }
+
+    public void setPrisonBubble(boolean prisonBubble) {
+        isPrisonBubble = prisonBubble;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public LevelController getLevelController() {
+        return levelController;
+    }
+
+    public void setLevelController(LevelController levelController) {
+        this.levelController = levelController;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public boolean isPowerup() {
+        return powerup;
+    }
+
+    public void setPowerup(boolean powerup) {
+        this.powerup = powerup;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getxLocation() {
+        return xLocation;
+    }
+
+    public void setxLocation(double xLocation) {
+        this.xLocation = xLocation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getyLocation() {
+        return yLocation;
+    }
+
+    public void setyLocation(double yLocation) {
+        this.yLocation = yLocation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdX() {
+        return dX;
+    }
+
+    public void setdX(double dX) {
+        this.dX = dX;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdY() {
+        return dY;
+    }
+
+    public void setdY(double dY) {
+        this.dY = dY;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdR() {
+        return dR;
+    }
+
+    public void setdR(double dR) {
+        this.dR = dR;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public SpriteBase getSpriteBase() {
+        return spriteBase;
+    }
+
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
 }

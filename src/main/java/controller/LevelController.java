@@ -19,6 +19,8 @@ import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * @author Jim
@@ -199,7 +201,7 @@ public class LevelController implements Observer {
             @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
-                if (((Player) players.get(0)).getGameOver()) {
+                if (((Player) players.get(0)).isGameOver()) {
                     stop();
                 } else {
                     if (!isGamePaused()) {
@@ -253,7 +255,7 @@ public class LevelController implements Observer {
     public void updatePowerups() {
         ArrayList<Powerup> nPowerups = new ArrayList<>();
         for (Powerup powerup : powerups) {
-            if (!powerup.getPickedUp()) {
+            if (!powerup.isPickedUp()) {
                 nPowerups.add(powerup);
             }
         }
@@ -531,31 +533,6 @@ public class LevelController implements Observer {
     public boolean getGamePaused() {
         return gamePaused;
     }
-    
-    /**
-     * Do nothing because the sprite gets updated on the screen.
-     */
-	@Override
-	public void update(SpriteBase sprite) {
-		//doNothing	
-	}
-
-	/**
-	 * When the player dies, the game ends.
-     * Or a life is subtracted and score is updated.
-	 */
-	@Override
-	public void update(SpriteBase spriteBase, int state) {
-		if (state == 1 && (spriteBase instanceof Player)) {
-			gameOver();
-		} else if (state == 2 && (spriteBase instanceof Player)) {
-            Player p = (Player) spriteBase;
-            Logger.log(String.format("Score: %d", p.getScore()));
-            mainController.showScore(p.getScore());
-            mainController.showLives(p.getLives());
-        }
-		
-	}
 
     /**
      * This function spawns a powerup when a monster dies.
@@ -571,12 +548,12 @@ public class LevelController implements Observer {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(Math.random(), monster.getX(),
-                monster.getY(), 2, 0, 0, 0, randLocX, randLocY, this);
+        Powerup powerup = new Powerup(Math.random(), monster.getxLocation(),
+                monster.getyLocation(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
-        screenController.addToSprites(powerup);
+        screenController.addToSprites(powerup.getSpriteBase());
 
-        Logger.log("Powerup spawned at (" + powerup.getX() + ", " + powerup.getY() + ")");
+        Logger.log("Powerup spawned at (" + powerup.getxLocation() + ", " + powerup.getyLocation() + ")");
         Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 
@@ -629,5 +606,19 @@ public class LevelController implements Observer {
             }
         }
         return false;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Player) {
+            Player p = (Player) o;
+            if (p.isDead()) {
+                gameOver();
+            } else {
+                Logger.log(String.format("Score: %d", p.getScore()));
+                mainController.showScore(p.getScore());
+                mainController.showLives(p.getLives());
+            }
+        }
     }
 }

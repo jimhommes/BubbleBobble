@@ -102,9 +102,9 @@ public class Level {
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
-                    players.add(new Player(col * SPRITE_SIZE - 32,
+                    players.add(new Player(levelController, col * SPRITE_SIZE - 32,
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                            Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, levelController));
+                            Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null));
                 }
             }
         }

@@ -36,7 +36,7 @@ public class MonsterTest {
 		LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        monster = new Monster("../resources/ZenChanLeft.png", 1, 1, 0, 1, 0, 0, 
+        monster = new Monster(1, 1, 0, 1, 0, 0,
 				Settings.MONSTER_SPEED, true, levelController);
 	}
 	
@@ -47,13 +47,13 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision1() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getX()).thenReturn(1.0);
-        when(bubble.getY()).thenReturn(1.0);
-        when(bubble.getWidth()).thenReturn(300.0);
-        when(bubble.getHeight()).thenReturn(300.0);
-        when(bubble.getAbleToCatch()).thenReturn(true);
+		when(bubble.getxLocation()).thenReturn(1.0);
+        when(bubble.getyLocation()).thenReturn(1.0);
+        when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
+        when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
+        when(bubble.isAbleToCatch()).thenReturn(true);
         monster.checkCollision(bubble);
-        when(bubble.getAbleToCatch()).thenReturn(false);
+        when(bubble.isAbleToCatch()).thenReturn(false);
         monster.checkCollision(bubble);
         assertTrue(monster.isCaughtByBubble());
         assertEquals(monster.getPrisonBubble(), bubble);
@@ -66,11 +66,11 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision2() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getX()).thenReturn(1.0);
-        when(bubble.getY()).thenReturn(1.0);
-        when(bubble.getWidth()).thenReturn(300.0);
-        when(bubble.getHeight()).thenReturn(300.0);
-        when(bubble.getAbleToCatch()).thenReturn(true);
+		when(bubble.getxLocation()).thenReturn(1.0);
+        when(bubble.getyLocation()).thenReturn(1.0);
+        when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
+        when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
+        when(bubble.isAbleToCatch()).thenReturn(true);
         monster.checkCollision(bubble);
         monster.checkCollision(bubble);
         assertTrue(monster.isCaughtByBubble());
@@ -103,7 +103,7 @@ public class MonsterTest {
 	@Test
 	public void testMove() throws Exception {
 		monster.move();
-		assertEquals(monster.getX(), 2, 0);
+		assertEquals(monster.getxLocation(), 2, 0);
 	}
 	
 	/**
@@ -112,10 +112,10 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testR() throws Exception {
-    	monster.setR(10);
-    	assertEquals(10.0, monster.getR(), epsilon);
-    	monster.setDr(10);
-    	assertEquals(10.0, monster.getDr(), epsilon);
+    	monster.setRotation(10);
+    	assertEquals(10.0, monster.getRotation(), epsilon);
+    	monster.setdR(10);
+    	assertEquals(10.0, monster.getdR(), epsilon);
     }
 
 	/**
@@ -124,10 +124,10 @@ public class MonsterTest {
 	 */
 	@Test
     public void testHeightWidth() throws Exception {
-    	monster.setHeight(100);
-    	assertEquals(100.0, monster.getHeight(), epsilon);
-    	monster.setWidth(100);
-    	assertEquals(100.0, monster.getWidth(), epsilon);
+    	monster.getSpriteBase().setHeight(100);
+    	assertEquals(100.0, monster.getSpriteBase().getHeight(), epsilon);
+    	monster.getSpriteBase().setWidth(100);
+    	assertEquals(100.0, monster.getSpriteBase().getWidth(), epsilon);
     }
     
     /**
@@ -136,8 +136,8 @@ public class MonsterTest {
      */
 	@Test
     public void testSpriteChanged() throws Exception {
-    	monster.setSpriteChanged(false);
-    	assertFalse(monster.getSpriteChanged());
+    	monster.getSpriteBase().setSpriteChanged(false);
+    	assertFalse(monster.getSpriteBase().getSpriteChanged());
     }
     
     /**
@@ -146,8 +146,8 @@ public class MonsterTest {
      */
 	@Test
     public void testCanMove() throws Exception {
-    	monster.setCanMove(false);
+    	monster.getSpriteBase().setCanMove(false);
     	monster.move();
-    	assertEquals(1.0, monster.getX(), epsilon);
+    	assertEquals(1.0, monster.getxLocation(), epsilon);
     }
 }

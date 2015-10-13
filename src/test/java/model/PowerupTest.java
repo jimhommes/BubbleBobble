@@ -43,21 +43,21 @@ public class PowerupTest {
      */
     @Test
     public void testMove() {
-        assertEquals(0, powerup.getDx(), 0.1);
-        assertEquals(0, powerup.getDy(), 0.1);
-        assertFalse(powerup.getAbleToPickup());
+        assertEquals(0, powerup.getdX(), 0.1);
+        assertEquals(0, powerup.getdY(), 0.1);
+        assertFalse(powerup.isAbleToPickup());
 
         powerup.move();
 
-        assertEquals((destx - powerup.getX()) / 20.0, powerup.getDx(), 0.1);
-        assertEquals((desty - powerup.getY()) / 20.0, powerup.getDy(), 0.1);
+        assertEquals((destx - powerup.getxLocation()) / 20.0, powerup.getdX(), 0.1);
+        assertEquals((desty - powerup.getyLocation()) / 20.0, powerup.getdY(), 0.1);
 
         powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, 0, levelController);
         powerup.move();
 
-        assertEquals(0, powerup.getDx(), 0.1);
-        assertEquals(0, powerup.getDy(), 0.1);
-        assertTrue(powerup.getAbleToPickup());
+        assertEquals(0, powerup.getdX(), 0.1);
+        assertEquals(0, powerup.getdY(), 0.1);
+        assertTrue(powerup.isAbleToPickup());
     }
 
     /**
@@ -65,11 +65,11 @@ public class PowerupTest {
      */
     @Test
     public void testCausesCollision() {
-        Player player = new Player(1, 1, 0, 0, 0, 0, 0, 1, mock(Input.class), levelController);
-        player.setHeight(10.0);
-        player.setWidth(10.0);
-        powerup.setHeight(10.0);
-        powerup.setWidth(10.0);
+        Player player = new Player(levelController, 1, 1, 0, 0, 0, 0, 0, 1, mock(Input.class));
+        player.getSpriteBase().setHeight(10.0);
+        player.getSpriteBase().setWidth(10.0);
+        powerup.getSpriteBase().setHeight(10.0);
+        powerup.getSpriteBase().setWidth(10.0);
 
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
@@ -77,7 +77,7 @@ public class PowerupTest {
         powerup.setAbleToPickup(true);
         powerup.causesCollision(player, null);
 
-        assertTrue(powerup.getPickedUp());
+        assertTrue(powerup.isPickedUp());
         //verify(screenController, atLeastOnce()).removeSprite(any());
     }
 

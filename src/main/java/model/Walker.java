@@ -81,7 +81,7 @@ public class Walker extends Monster {
                   double speed,
                   boolean facingRight,
                   LevelController levelController) {
-        super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        super(x, y, r, dx, dy, dr, speed, facingRight, levelController);
 
         this.levelController = levelController;
         this.jumpCounter = 20;
@@ -108,17 +108,17 @@ public class Walker extends Monster {
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
             } else if (jumpCounter == jumpMaxCounter) {
-                setDy(0);
+                setdY(0);
                 jumping = false;
             }
             moveHorizontal();
             moveVertical();
-            checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
+            getSpriteBase().checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
         } else {
-            setDx(0);
-            setDy(0);
-            setX(getPrisonBubble().getX());
-            setY(getPrisonBubble().getY());
+            setdX(0);
+            setdY(0);
+            setxLocation(getPrisonBubble().getxLocation());
+            setyLocation(getPrisonBubble().getyLocation());
         }
 
         
@@ -133,7 +133,7 @@ public class Walker extends Monster {
             if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
-                setDy(-Settings.JUMP_SPEED_WALKER);
+                setdY(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
             }
     }
@@ -143,18 +143,18 @@ public class Walker extends Monster {
      */
     private void moveHorizontal() {
         if (isFacingRight()) {
-            if (!causesCollisionWall(getX() + getSpeed(),
-                    getX() + getWidth() + getSpeed(), getY(), 
-                    getY() + getHeight(), levelController)) {
-                setDx(getSpeed());
+            if (!getSpriteBase().causesCollisionWall(getxLocation() + getSpeed(),
+                    getxLocation() + getSpriteBase().getWidth() + getSpeed(), getyLocation(),
+                    getyLocation() + getSpriteBase().getHeight(), levelController)) {
+                setdX(getSpeed());
             } else {
                 switchDirection();
             }
         } else {
-            if (!causesCollisionWall(getX() - getSpeed(),
-                    getX() + getWidth() - getSpeed(), getY(), 
-                    getY() + getHeight(), levelController)) {
-                setDx(-getSpeed());
+            if (!getSpriteBase().causesCollisionWall(getxLocation() - getSpeed(),
+                    getxLocation() + getSpriteBase().getWidth() - getSpeed(), getyLocation(),
+                    getyLocation() + getSpriteBase().getHeight(), levelController)) {
+                setdX(-getSpeed());
             } else {
                 switchDirection();
             }
@@ -166,7 +166,12 @@ public class Walker extends Monster {
      */
     public void switchDirection() {
         setFacingRight(!isFacingRight());
-        setNewImage("../ZenChanRight.png", "../ZenChanLeft.png");
+        if (isFacingRight()) {
+            getSpriteBase().setImage("../ZenChanRight.png");
+        } else {
+            getSpriteBase().setImage("../ZenChanLeft.png");
+        }
+
     }
 
     /**

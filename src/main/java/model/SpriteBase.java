@@ -1,15 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import controller.LevelController;
-import controller.Observer;
-
 
 /**
  * The SpriteBase that will load the sprite (image).
  */
-public abstract class SpriteBase implements Subject {
+public class SpriteBase extends Observable {
 
     /**
      * Image to be loaded.
@@ -67,11 +66,6 @@ public abstract class SpriteBase implements Subject {
     private boolean spriteChanged;
     
     /**
-     * The observers.
-     */
-    private ArrayList<Observer> observers;
-
-    /**
      * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
@@ -96,8 +90,6 @@ public abstract class SpriteBase implements Subject {
         this.w = 0;
         this.canMove = true;
         this.spriteChanged = false;
-        observers = new ArrayList<Observer>();
-        
     }
 
     /**
@@ -113,9 +105,8 @@ public abstract class SpriteBase implements Subject {
         y += dy;
         r += dr;
         
-        observers.forEach(observer -> observer.update(this));
-        
-        
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -347,26 +338,6 @@ public abstract class SpriteBase implements Subject {
             setY(spriteMinY);
         }
     }
-    
-    
-    /**
-     * This method adds a observer.
-     * @param observer the added observer.
-     */
-    public void attach(Observer observer) {
-  	   observers.add(observer);
-  	}
-    
-    /**
-     * This method notifies all the observers that something changed.
-     * @param spriteBase the SpriteBase.
-     * @param state the state the SpriteBase is in.
-     */
-    public void notifyAllObservers(SpriteBase spriteBase, int state) {
- 	   for (Observer observer : observers) {
- 		   observer.update(spriteBase, state);
- 	   }
- 	}
     
     /**
      * This method check if there is a collision between SpriteBase and Wall.

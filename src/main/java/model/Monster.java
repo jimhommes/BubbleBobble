@@ -13,18 +13,26 @@ import utility.Settings;
  */
 public class Monster extends GravityObject {
 
-    private double speed;
     private final LevelController levelController;
-    private boolean facingRight;
+
+    private double speed;
+    private boolean isFacingRight;
     private Bubble prisonBubble;
-    private boolean caughtByBubble;
-    private boolean dead;
-    private boolean reducedSpeed;
+    private boolean isCaughtByBubble;
+    private boolean isDead;
+    private boolean isReducedSpeed;
+    private SpriteBase spriteBase;
+
+    private double xLocation;
+    private double yLocation;
+    private double rotation;
+    private double dX;
+    private double dY;
+    private double dR;
 
     /**
      * The monster that is trying to catch the character.
      *
-     * @param imagePath       the path to the image.
      * @param x               The x coordinate.
      * @param y               The y coordinate.
      * @param r               The rotation.
@@ -32,43 +40,50 @@ public class Monster extends GravityObject {
      * @param dy              The dy of y.
      * @param dr              The dr of r.
      * @param speed           The speed at which the monster is travelling.
-     * @param facingRight     Whether the monster is facing to the right or not.
+     * @param isFacingRight     Whether the monster is facing to the right or not.
      * @param levelController is the controller that controls the level.
      */
-    public Monster(String imagePath, double x, double y, double r,
-                   double dx, double dy, double dr, double speed, boolean facingRight,
+    public Monster(double x, double y, double r,
+                   double dx, double dy, double dr,
+                   double speed, boolean isFacingRight,
                    LevelController levelController) {
-        super(imagePath, x, y, r, dx, dy, dr, levelController);
 
         this.speed = speed;
-        this.facingRight = facingRight;
-        this.caughtByBubble = false;
+        this.isFacingRight = isFacingRight;
+        this.isCaughtByBubble = false;
         this.levelController = levelController;
-        this.dead = false;
-        this.reducedSpeed = false;
+        this.isDead = false;
+        this.isReducedSpeed = false;
 
-        attach(levelController);
-        attach(levelController.getScreenController());
+        this.xLocation = x;
+        this.yLocation = y;
+        this.rotation = r;
+        this.dX = dx;
+        this.dY = dy;
+        this.dR = dr;
+
+        this.spriteBase = new SpriteBase("/ZenChanLeft.png", x, y, r, dx, dy, dr);
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
     }
 
     /**
      * The movement of the monster.
      */
     public void move() {
-        Double newX = getX() + getDx();
-        Double newY = getY() + getDy();
+        Double newX = getxLocation() + getdX();
+        Double newY = getyLocation() + getdY();
 
-        if (!newX.equals(getX()) || !newY.equals(getY())) {
+        if (!newX.equals(getxLocation()) || !newY.equals(getyLocation())) {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
-                    getX(), getY(), newX, newY));
+                    getxLocation(), getyLocation(), newX, newY));
         }
 
         checkPowerups();
-        if (this.reducedSpeed) {
+        if (this.isReducedSpeed) {
             setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
         }
-
-        super.move();
     }
 
     /**
@@ -77,19 +92,19 @@ public class Monster extends GravityObject {
      * @param bubble the bubble that is shot from the character.
      */
     public void checkCollision(final Bubble bubble) {
-        if (bubble.getAbleToCatch() && !caughtByBubble) {
-            double bubbleX = bubble.getX();
-            double bubbleY = bubble.getY();
-            double bubbleX2 = bubbleX + getWidth();
-            double bubbleY2 = bubbleY + getHeight();
-            if (((bubbleX >= getX() && bubbleX <= getX() + getWidth())
-                    || (bubbleX2 >= getX() && bubbleX2 <= getX() + getWidth()))
-                    && ((bubbleY >= getY() && bubbleY <= getY() + getHeight())
-                    || bubbleY2 >= getY() && bubbleY2 <= getY() + getHeight())) {
+        if (bubble.isAbleToCatch() && !isCaughtByBubble) {
+            double bubbleX = bubble.getxLocation();
+            double bubbleY = bubble.getyLocation();
+            double bubbleX2 = bubbleX + bubble.getSpriteBase().getWidth();
+            double bubbleY2 = bubbleY + bubble.getSpriteBase().getHeight();
+            if (((bubbleX >= getxLocation() && bubbleX <= getxLocation() + spriteBase.getWidth())
+                    || (bubbleX2 >= getxLocation() && bubbleX2 <= getxLocation() + spriteBase.getWidth()))
+                    && ((bubbleY >= getyLocation() && bubbleY <= getyLocation() + spriteBase.getHeight())
+                    || bubbleY2 >= getyLocation() && bubbleY2 <= getyLocation() + spriteBase.getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
-                prisonBubble.setIsPrisonBubble(true);
-                caughtByBubble = true;
+                prisonBubble.setPrisonBubble(true);
+                isCaughtByBubble = true;
 
                 Logger.log("Monster is caught by bubble!");
             }
@@ -102,14 +117,13 @@ public class Monster extends GravityObject {
      * @param killer The player that killed the monster.
      */
     public void die(Player killer) {
-        if (!dead) {
-        	notifyAllObservers(this, 1);
-            dead = true;
+        if (!isDead) {
+        	setDead(true);
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
                 levelController.spawnPowerup(this);
-                notifyAllObservers(killer, 2);
+//                notifyAllObservers(killer.getSpriteBase(), 2);
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
@@ -121,7 +135,7 @@ public class Monster extends GravityObject {
      * Activate the reduced speed powerup.
      */
     public void activateMonsterPowerup() {
-        this.reducedSpeed = true;
+        setReducedSpeed(true);
     }
 
     /**
@@ -133,94 +147,172 @@ public class Monster extends GravityObject {
     }
 
     /**
-     * This function returns the speed.
-     *
-     * @return The speed.
+     * Check for collision combined with jumping.
+     * @param jumping The variable whether a GravityObject is jumping.
+     * @param ableToJump The variable whether a GravityObject is able to jump.
+     * @return The ableToJump variable.
      */
+    public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
+        if (!spriteBase.causesCollisionWall(getxLocation(),
+                getxLocation() + spriteBase.getWidth(),
+                getyLocation() - calculateGravity(),
+                getyLocation() + spriteBase.getHeight() - calculateGravity(), levelController)) {
+            if (!jumping) {
+                setyLocation(getyLocation() - calculateGravity());
+            }
+            ableToJump = false;
+        } else {
+            if (!jumping) {
+                ableToJump = true;
+            }
+        }
+        return ableToJump;
+    }
+
     public double getSpeed() {
         return speed;
     }
 
-    /**
-     * Set the speed.
-     * @param speed the speed.
-     */
     public void setSpeed(double speed) {
         this.speed = speed;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
-    /**
-     * This function sets the boolean that indicates if the monster is facing right.
-     *
-     * @return True if facing right.
-     */
+    public LevelController getLevelController() {
+        return levelController;
+    }
+
     public boolean isFacingRight() {
-        return facingRight;
+        return isFacingRight;
     }
 
-    /**
-     * This functions sets the boolean if the monster is facing right.
-     *
-     * @param facingRight The boolean if the monster is facing right.
-     */
     public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
+        this.isFacingRight = facingRight;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
-    /**
-     * This function sets the correct image of the Monster for it's direction.
-     *
-     * @param rightImgPath The path to the right image.
-     * @param leftImgPath The path to the left image.
-     */
-    public void setNewImage(String rightImgPath, String leftImgPath) {
-        if (isFacingRight()) {
-            setImage(rightImgPath);
-        } else {
-            setImage(leftImgPath);
-        }
-    }
-
-    /**
-     * This function returns the bubble that imprisons the monster.
-     *
-     * @return The bubble that imprisons the monster.
-     */
     public Bubble getPrisonBubble() {
         return prisonBubble;
     }
 
-    /**
-     * This boolean indicates if the monster is caught by a bubble.
-     *
-     * @return True if caught by a bubble.
-     */
+    public void setPrisonBubble(Bubble prisonBubble) {
+        this.prisonBubble = prisonBubble;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     public boolean isCaughtByBubble() {
-        return caughtByBubble;
+        return isCaughtByBubble;
     }
 
-    /**
-     * This method checks if the player is dead.
-     *
-     * @return true if they are dead.
-     */
+    public void setCaughtByBubble(boolean caughtByBubble) {
+        this.isCaughtByBubble = caughtByBubble;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     public boolean isDead() {
-        return dead;
+        return isDead;
     }
 
-    /**
-     * Check if the reduced speed is active.
-     * @return if it is active.
-     */
+    public void setDead(boolean dead) {
+        this.isDead = dead;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     public boolean isReducedSpeed() {
-        return reducedSpeed;
+        return isReducedSpeed;
     }
 
-    /**
-     * Set is the reduced speed powerup is active.
-     * @param reducedSpeed if it is active.
-     */
     public void setReducedSpeed(boolean reducedSpeed) {
-        this.reducedSpeed = reducedSpeed;
+        this.isReducedSpeed = reducedSpeed;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public SpriteBase getSpriteBase() {
+        return spriteBase;
+    }
+
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getxLocation() {
+        return xLocation;
+    }
+
+    public void setxLocation(double xLocation) {
+        this.xLocation = xLocation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getyLocation() {
+        return yLocation;
+    }
+
+    public void setyLocation(double yLocation) {
+        this.yLocation = yLocation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdX() {
+        return dX;
+    }
+
+    public void setdX(double dX) {
+        this.dX = dX;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdY() {
+        return dY;
+    }
+
+    public void setdY(double dY) {
+        this.dY = dY;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getdR() {
+        return dR;
+    }
+
+    public void setdR(double dR) {
+        this.dR = dR;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 }
