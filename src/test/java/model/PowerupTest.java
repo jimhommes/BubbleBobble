@@ -43,20 +43,20 @@ public class PowerupTest {
      */
     @Test
     public void testMove() {
-        assertEquals(0, powerup.getdX(), 0.1);
-        assertEquals(0, powerup.getdY(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDy(), 0.1);
         assertFalse(powerup.isAbleToPickup());
 
         powerup.move();
 
-        assertEquals((destx - powerup.getxLocation()) / 20.0, powerup.getdX(), 0.1);
-        assertEquals((desty - powerup.getyLocation()) / 20.0, powerup.getdY(), 0.1);
+        assertEquals((destx - powerup.getSpriteBase().getX()) / 20.0, powerup.getSpriteBase().getDx(), 0.1);
+        assertEquals((desty - powerup.getSpriteBase().getY()) / 20.0, powerup.getSpriteBase().getDy(), 0.1);
 
         powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, 0, levelController);
         powerup.move();
 
-        assertEquals(0, powerup.getdX(), 0.1);
-        assertEquals(0, powerup.getdY(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDy(), 0.1);
         assertTrue(powerup.isAbleToPickup());
     }
 

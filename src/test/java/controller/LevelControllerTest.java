@@ -467,8 +467,8 @@ public class LevelControllerTest {
 
         assertEquals(1, levelController.getPowerups().size());
         Powerup powerup = levelController.getPowerups().get(0);
-        assertEquals(15.0, powerup.getxLocation(), 0.1);
-        assertEquals(30.0, powerup.getyLocation(), 0.1);
+        assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
+        assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
     }
     
     /**

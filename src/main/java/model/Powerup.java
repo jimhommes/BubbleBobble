@@ -21,13 +21,6 @@ public class Powerup extends Observable {
     private int kindRounded;
     private SpriteBase spriteBase;
 
-    private double xLocation;
-    private double yLocation;
-    private double rotation;
-    private double dX;
-    private double dY;
-    private double dR;
-
     public static final int AMOUNT_OF_POWERUPS = 5;
     public static final int POWERUP_SPEED = 1;
     public static final int POWERUP_LIFE = 2;
@@ -57,14 +50,7 @@ public class Powerup extends Observable {
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
-
-        this.xLocation = x;
-        this.yLocation = y;
-        this.rotation = r;
-        this.dX = dx;
-        this.dY = dy;
-        this.dR = dr;
-
+        
         this.spriteBase = new SpriteBase("/banana.gif", x, y, r, dx, dy, dr);
 
         this.addObserver(levelController);
@@ -97,16 +83,21 @@ public class Powerup extends Observable {
      * This function calculates the movement to the destx and desty.
      */
     public void move() {
-        double diffX = destx - getxLocation();
-        double diffY = desty - getyLocation();
+        spriteBase.move();
+
+        double diffX = destx - spriteBase.getX();
+        double diffY = desty - spriteBase.getY();
         if (diffX < 1 && diffY < 1) {
-            setdX(0);
-            setdY(0);
+            spriteBase.setDx(0);
+            spriteBase.setDy(0);
             ableToPickup = true;
         } else {
-            setdX(diffX / 20.0);
-            setdY(diffY / 20.0);
+            spriteBase.setDx(diffX / 20.0);
+            spriteBase.setDy(diffY / 20.0);
         }
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
@@ -114,8 +105,8 @@ public class Powerup extends Observable {
      * @param player The player there might be a collision with.
      */
     public void causesCollision(Player player, LevelController lvlController) {
-        if (player.getSpriteBase().causesCollision(getxLocation(), getxLocation() + spriteBase.getWidth(),
-                getyLocation(), getyLocation() + spriteBase.getHeight()) && ableToPickup) {
+        if (player.getSpriteBase().causesCollision(spriteBase.getX(), spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY(), spriteBase.getY() + spriteBase.getHeight()) && ableToPickup) {
             pickedUp(player, lvlController);
         }
     }
@@ -141,9 +132,7 @@ public class Powerup extends Observable {
                     player.activateBubblePowerup();
                     break;
                 case POWERUP_MONSTER:
-                    lvlController.getCurrLvl().getMonsters().forEach((monster) -> {
-                        ((Monster) monster).activateMonsterPowerup();
-                    });
+                    lvlController.getCurrLvl().getMonsters().forEach(Monster::activateMonsterPowerup);
                     break;
                 case POWERUP_POINTS:
                     player.scorePoints(50);
@@ -221,70 +210,5 @@ public class Powerup extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
-
-    public double getxLocation() {
-        return xLocation;
-    }
-
-    public void setxLocation(double xLocation) {
-        this.xLocation = xLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getyLocation() {
-        return yLocation;
-    }
-
-    public void setyLocation(double yLocation) {
-        this.yLocation = yLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdX() {
-        return dX;
-    }
-
-    public void setdX(double dX) {
-        this.dX = dX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdY() {
-        return dY;
-    }
-
-    public void setdY(double dY) {
-        this.dY = dY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getdR() {
-        return dR;
-    }
-
-    public void setdR(double dR) {
-        this.dR = dR;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
+    
 }

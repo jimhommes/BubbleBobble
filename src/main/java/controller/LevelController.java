@@ -553,7 +553,7 @@ public class LevelController implements Observer {
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 
-        Logger.log("Powerup spawned at (" + powerup.getxLocation() + ", " + powerup.getyLocation() + ")");
+        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", " + powerup.getSpriteBase().getY() + ")");
         Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 
@@ -600,7 +600,7 @@ public class LevelController implements Observer {
     @SuppressWarnings("unchecked")
 	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
-        for (Wall wall : (ArrayList<Wall>) getCurrLvl().getWalls()) {
+        for (Wall wall : getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
