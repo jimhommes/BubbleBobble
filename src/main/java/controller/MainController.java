@@ -76,7 +76,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);
-        new LevelController(this);
+        new LevelController(this, StartController.limitOfPlayers);
     }
 
     /**

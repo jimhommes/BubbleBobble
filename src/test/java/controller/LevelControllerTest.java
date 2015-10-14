@@ -63,7 +63,7 @@ public class LevelControllerTest {
         mainController = mock(MainController.class);
         pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
-        levelController = new LevelController(mainController);
+        levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));
         
         gameLoopTest = levelController.createTimer();

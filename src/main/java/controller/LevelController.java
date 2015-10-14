@@ -101,6 +101,8 @@ public class LevelController implements Observer {
      */
     private boolean switchedPauseScreen = false;
 
+    private int limitOfPlayers;
+
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
@@ -167,9 +169,10 @@ public class LevelController implements Observer {
      * The constructor of this class.
      * @param mainController The main controller that creates this class.
      */
-    public LevelController(MainController mainController) {
+    public LevelController(MainController mainController, int limitOfPlayers) {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
+        this.limitOfPlayers = limitOfPlayers;
         findMaps();
 
         gameLoop = createTimer();
@@ -282,7 +285,7 @@ public class LevelController implements Observer {
      */
     @SuppressWarnings("unchecked")
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), this);
+        currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
         screenController.removeSprites();
 
         createPlayer(input);

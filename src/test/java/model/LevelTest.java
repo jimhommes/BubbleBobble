@@ -28,7 +28,7 @@ public class LevelTest {
     	LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        level = new Level("map1.txt", levelController);
+        level = new Level("map1.txt", levelController, 1);
     }
 
     /**

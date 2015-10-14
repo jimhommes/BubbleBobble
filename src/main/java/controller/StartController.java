@@ -54,6 +54,8 @@ public class StartController implements Initializable {
      */
     @FXML private Button helpButton;
 
+    public static int limitOfPlayers;
+
     /**
      * Initializes the view.
      *
@@ -63,13 +65,19 @@ public class StartController implements Initializable {
     public final void initialize(final URL location, final ResourceBundle resources) {
         singlePlayerButton.setOnAction(event -> {
              try {
+                 limitOfPlayers = 1;
                  startLevel();
              } catch (IOException e) {
                  e.printStackTrace();
              }
          });
         multiPlayerButton.setOnAction(event -> {
-            //TODO: Add multiplayer ding
+            limitOfPlayers = 2;
+            try {
+                startLevel();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         helpButton.setOnMousePressed((event ->
                 helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
