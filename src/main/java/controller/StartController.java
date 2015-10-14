@@ -54,7 +54,7 @@ public class StartController implements Initializable {
      */
     @FXML private Button helpButton;
 
-    public static int limitOfPlayers;
+    protected static int limitOfPlayers;
 
     /**
      * Initializes the view.
