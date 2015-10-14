@@ -5,7 +5,6 @@ import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,6 +52,20 @@ public class Player extends GravityObject {
 
     private SpriteBase spriteBase;
 
+    /**
+     * The constructor of the Player class.
+     *
+     * @param levelController The levelController.
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     * @param r The rotation factor.
+     * @param dx The dx.
+     * @param dy The dy.
+     * @param dr The dr.
+     * @param speed The speed.
+     * @param lives The amount of lives.
+     * @param input The input.
+     */
     public Player(LevelController levelController,
                   double x,
                   double y,
@@ -241,7 +254,8 @@ public class Player extends GravityObject {
         } else {
             boolean res = false;
             for (Bubble bubble : bubbles) {
-                if (bubble.getSpriteBase().causesCollision(x, x1, y, y2) && !bubble.isAbleToCatch()) {
+                if (bubble.getSpriteBase().causesCollision(x, x1, y, y2)
+                        && !bubble.isAbleToCatch()) {
                     res = true;
                 }
             }
@@ -512,10 +526,18 @@ public class Player extends GravityObject {
         setBubblePowerup(true);
     }
 
+    /**
+     * This function returns whether the player is jumping.
+     * @return True if jumping.
+     */
     public boolean isJumping() {
         return isJumping;
     }
 
+    /**
+     * This function sets whether the player is jumping.
+     * @param jumping True if jumping.
+     */
     public void setJumping(boolean jumping) {
         isJumping = jumping;
 
@@ -523,10 +545,18 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the input.
+     * @return The input.
+     */
     public Input getInput() {
         return input;
     }
 
+    /**
+     * This function sets the input.
+     * @param input The input.
+     */
     public void setInput(Input input) {
         this.input = input;
 
@@ -534,10 +564,18 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the speed.
+     * @return The speed.
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * This function sets the speed.
+     * @param speed The speed.
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
 
@@ -545,10 +583,18 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the bubbles.
+     * @return The bubbles.
+     */
     public ArrayList<Bubble> getBubbles() {
         return bubbles;
     }
 
+    /**
+     * This function sets the bubbles.
+     * @param bubbles The bubbles.
+     */
     public void setBubbles(ArrayList<Bubble> bubbles) {
         this.bubbles = bubbles;
 
@@ -556,10 +602,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public boolean isFacingRight() {
-        return isFacingRight;
-    }
-
+    /**
+     * This function sets whether the player is facing right.
+     * @param facingRight True if facing right.
+     */
     public void setFacingRight(boolean facingRight) {
         isFacingRight = facingRight;
 
@@ -567,32 +613,32 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the player is dead.
+     * @return True if dead.
+     */
     public boolean isDead() {
+
+        if (isDead) {
+            this.deleteObservers();
+        }
+
         return isDead;
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the player is game over.
+     * AKA no lives left.
+     * @return True if game over.
+     */
     public boolean isGameOver() {
         return isGameOver;
     }
 
+    /**
+     * This function sets whether the player is game over.
+     * @param gameOver True if gameover.
+     */
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
 
@@ -600,54 +646,18 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public boolean isImmortal() {
-        return isImmortal;
-    }
-
-    public void setImmortal(boolean immortal) {
-        isImmortal = immortal;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public boolean isDelayed() {
-        return isDelayed;
-    }
-
-    public void setDelayed(boolean delayed) {
-        isDelayed = delayed;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public Timer getImmortalTimer() {
-        return immortalTimer;
-    }
-
-    public void setImmortalTimer(Timer immortalTimer) {
-        this.immortalTimer = immortalTimer;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public Timer getDelayTimer() {
-        return delayTimer;
-    }
-
-    public void setDelayTimer(Timer delayTimer) {
-        this.delayTimer = delayTimer;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns the levelcontroller.
+     * @return The levelcontroller.
+     */
     public LevelController getLevelController() {
         return levelController;
     }
 
+    /**
+     * This function sets the levelcontroller.
+     * @param levelController The levelcontroller.
+     */
     public void setLevelController(LevelController levelController) {
         this.levelController = levelController;
 
@@ -655,10 +665,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public boolean isAbleToJump() {
-        return isAbleToJump;
-    }
-
+    /**
+     * This function sets if the player is able to jump.
+     * @param ableToJump True if able to jump.
+     */
     public void setAbleToJump(boolean ableToJump) {
         isAbleToJump = ableToJump;
 
@@ -666,10 +676,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public boolean isAbleToDoubleJump() {
-        return isAbleToDoubleJump;
-    }
-
+    /**
+     * This function sets if the player is able to double jump.
+     * @param ableToDoubleJump True if able to double jump.
+     */
     public void setAbleToDoubleJump(boolean ableToDoubleJump) {
         isAbleToDoubleJump = ableToDoubleJump;
 
@@ -677,54 +687,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public double getPlayerMinX() {
-        return playerMinX;
-    }
-
-    public void setPlayerMinX(double playerMinX) {
-        this.playerMinX = playerMinX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getPlayerMaxX() {
-        return playerMaxX;
-    }
-
-    public void setPlayerMaxX(double playerMaxX) {
-        this.playerMaxX = playerMaxX;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getPlayerMinY() {
-        return playerMinY;
-    }
-
-    public void setPlayerMinY(double playerMinY) {
-        this.playerMinY = playerMinY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getPlayerMaxY() {
-        return playerMaxY;
-    }
-
-    public void setPlayerMaxY(double playerMaxY) {
-        this.playerMaxY = playerMaxY;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public boolean isDoubleSpeed() {
-        return doubleSpeed;
-    }
-
+    /**
+     * This function sets the double speed.
+     * @param doubleSpeed True if double speed.
+     */
     public void setDoubleSpeed(boolean doubleSpeed) {
         this.doubleSpeed = doubleSpeed;
 
@@ -732,10 +698,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public int getDoubleSpeedCounter() {
-        return doubleSpeedCounter;
-    }
-
+    /**
+     * This function sets the double speed counter.
+     * @param doubleSpeedCounter The double speed counter.
+     */
     public void setDoubleSpeedCounter(int doubleSpeedCounter) {
         this.doubleSpeedCounter = doubleSpeedCounter;
 
@@ -743,21 +709,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public int getDurationDoubleSpeed() {
-        return durationDoubleSpeed;
-    }
-
-    public void setDurationDoubleSpeed(int durationDoubleSpeed) {
-        this.durationDoubleSpeed = durationDoubleSpeed;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public boolean isBubblePowerup() {
-        return bubblePowerup;
-    }
-
+    /**
+     * This function sets the bubble powerup.
+     * @param bubblePowerup True if bubble powerup.
+     */
     public void setBubblePowerup(boolean bubblePowerup) {
         this.bubblePowerup = bubblePowerup;
 
@@ -765,10 +720,10 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public int getBubblePowerupCounter() {
-        return bubblePowerupCounter;
-    }
-
+    /**
+     * This function sets the bubble powerup counter.
+     * @param bubblePowerupCounter The powerup counter.
+     */
     public void setBubblePowerupCounter(int bubblePowerupCounter) {
         this.bubblePowerupCounter = bubblePowerupCounter;
 
@@ -776,43 +731,18 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    public int getDurationBubblePowerup() {
-        return durationBubblePowerup;
-    }
-
-    public void setDurationBubblePowerup(int durationBubblePowerup) {
-        this.durationBubblePowerup = durationBubblePowerup;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getxStartLocation() {
-        return xStartLocation;
-    }
-
-    public void setxStartLocation(double xStartLocation) {
-        this.xStartLocation = xStartLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getyStartLocation() {
-        return yStartLocation;
-    }
-
-    public void setyStartLocation(double yStartLocation) {
-        this.yStartLocation = yStartLocation;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns the score.
+     * @return The score.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * This function sets the score.
+     * @param score The score.
+     */
     public void setScore(int score) {
         this.score = score;
 
@@ -820,21 +750,17 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the sprite.
+     * @return The sprite.
+     */
     public SpriteBase getSpriteBase() {
         return spriteBase;
     }
 
-    public void setSpriteBase(SpriteBase spriteBase) {
-        this.spriteBase = spriteBase;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public void removeBubble(Bubble bubble) {
-        bubbles.remove(bubble);
-    }
-
+    /**
+     * This function checks whether the bubbles are popped.
+     */
     public void checkBubbles() {
         ArrayList<Bubble> nBubbles = new ArrayList<>();
         bubbles.forEach(bubble -> {

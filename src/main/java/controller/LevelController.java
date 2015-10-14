@@ -10,7 +10,6 @@ import model.Bubble;
 import model.Input;
 import model.Level;
 import model.Player;
-import model.SpriteBase;
 import model.Monster;
 import model.Powerup;
 import model.Wall;
@@ -288,8 +287,10 @@ public class LevelController implements Observer {
 
         createPlayer(input);
 
-        currLvl.getWalls().forEach(wall -> screenController.addToSprites(wall.getSpriteBase()));
-        currLvl.getMonsters().forEach(monster -> screenController.addToSprites(monster.getSpriteBase()));
+        currLvl.getWalls().forEach(wall ->
+                screenController.addToSprites(wall.getSpriteBase()));
+        currLvl.getMonsters().forEach(monster ->
+                screenController.addToSprites(monster.getSpriteBase()));
     }
 
     private void createInput() {
@@ -553,7 +554,8 @@ public class LevelController implements Observer {
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 
-        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", " + powerup.getSpriteBase().getY() + ")");
+        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", "
+                + powerup.getSpriteBase().getY() + ")");
         Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 

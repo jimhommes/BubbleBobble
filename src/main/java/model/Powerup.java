@@ -52,7 +52,7 @@ public class Powerup extends Observable {
         this.destx = destx;
         this.desty = desty;
         
-        this.spriteBase = new SpriteBase("/banana.gif", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("../banana.gif", x, y, r, dx, dy, dr);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -63,6 +63,11 @@ public class Powerup extends Observable {
             kindRounded = (int) kind;
         }
 
+        setCorrectImage(kindRounded);
+
+    }
+
+    private void setCorrectImage(int kindRounded) {
         switch (kindRounded) {
             case POWERUP_SPEED: spriteBase.setImage("../banana.gif");
                 break;
@@ -77,7 +82,6 @@ public class Powerup extends Observable {
             default:
                 Logger.log("No suitable image found!");
         }
-
     }
 
     /**
@@ -105,10 +109,13 @@ public class Powerup extends Observable {
     /**
      * This is the function that checks if there is a collision with a player.
      * @param player The player there might be a collision with.
+     * @param lvlController The levelController.
      */
     public void causesCollision(Player player, LevelController lvlController) {
-        if (player.getSpriteBase().causesCollision(spriteBase.getX(), spriteBase.getX() + spriteBase.getWidth(),
-                spriteBase.getY(), spriteBase.getY() + spriteBase.getHeight()) && ableToPickup) {
+        if (player.getSpriteBase().causesCollision(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY(), spriteBase.getY()
+                        + spriteBase.getHeight()) && ableToPickup) {
             pickedUp(player, lvlController);
         }
     }
@@ -134,7 +141,8 @@ public class Powerup extends Observable {
                     player.activateBubblePowerup();
                     break;
                 case POWERUP_MONSTER:
-                    lvlController.getCurrLvl().getMonsters().forEach(Monster::activateMonsterPowerup);
+                    lvlController.getCurrLvl().getMonsters()
+                            .forEach(Monster::activateMonsterPowerup);
                     break;
                 case POWERUP_POINTS:
                     player.scorePoints(50);
@@ -147,32 +155,18 @@ public class Powerup extends Observable {
         }
     }
 
-    public double getDestx() {
-        return destx;
-    }
-
-    public void setDestx(double destx) {
-        this.destx = destx;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public double getDesty() {
-        return desty;
-    }
-
-    public void setDesty(double desty) {
-        this.desty = desty;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the powerup is able to be picked up.
+     * @return True if able to pick up.
+     */
     public boolean isAbleToPickup() {
         return ableToPickup;
     }
 
+    /**
+     * This function sets whether the powerup is able to be picked up.
+     * @param ableToPickup True if able to pick up.
+     */
     public void setAbleToPickup(boolean ableToPickup) {
         this.ableToPickup = ableToPickup;
 
@@ -180,6 +174,10 @@ public class Powerup extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns whether the powerup is picked up.
+     * @return True if picked up.
+     */
     public boolean isPickedUp() {
 
         if (pickedUp) {
@@ -190,6 +188,10 @@ public class Powerup extends Observable {
 
     }
 
+    /**
+     * This function sets whether the powerup is picked up.
+     * @param pickedUp True if picked up.
+     */
     public void setPickedUp(boolean pickedUp) {
         this.pickedUp = pickedUp;
 
@@ -197,26 +199,12 @@ public class Powerup extends Observable {
         this.notifyObservers();
     }
 
-    public int getKindRounded() {
-        return kindRounded;
-    }
-
-    public void setKindRounded(int kindRounded) {
-        this.kindRounded = kindRounded;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns the spritebase.
+     * @return The spritebase.
+     */
     public SpriteBase getSpriteBase() {
         return spriteBase;
-    }
-
-    public void setSpriteBase(SpriteBase spriteBase) {
-        this.spriteBase = spriteBase;
-
-        this.setChanged();
-        this.notifyObservers();
     }
     
 }

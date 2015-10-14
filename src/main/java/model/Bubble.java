@@ -27,7 +27,6 @@ public class Bubble extends Observable {
     private LevelController levelController;
     private boolean powerup;
     private SpriteBase spriteBase;
-    private Player player;
     private boolean isPopped;
 
     /**
@@ -69,7 +68,6 @@ public class Bubble extends Observable {
 
     /**
      * This method is used to check if a bubble is .
-     * @return true if Bubble extends life_time of Bubble
      */
     public void checkPop() {
         if (!isPopped) {
@@ -113,9 +111,11 @@ public class Bubble extends Observable {
      */
     private void moveVertically() {
         spriteBase.setDx(0);
-        if (!spriteBase.causesCollisionWall(spriteBase.getX(), spriteBase.getX() + spriteBase.getWidth(),
+        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
                 spriteBase.getY() - Settings.BUBBLE_FLY_SPEED,
-                spriteBase.getY() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
+                spriteBase.getY() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED,
+                levelController)) {
             spriteBase.setDy(-Settings.BUBBLE_FLY_SPEED);
             if (spriteBase.getY() < 0) {
                 spriteBase.setY(Settings.SCENE_HEIGHT);
@@ -151,32 +151,18 @@ public class Bubble extends Observable {
         }
     }
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public boolean isFiredRight() {
-        return firedRight;
-    }
-
-    public void setFiredRight(boolean firedRight) {
-        this.firedRight = firedRight;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns if the bubble is able to catch a monster.
+     * @return True if able to catch a monster.
+     */
     public boolean isAbleToCatch() {
         return isAbleToCatch;
     }
 
+    /**
+     * This function sets if the bubble is able to catch a monster.
+     * @param ableToCatch True if able to catch a monster.
+     */
     public void setAbleToCatch(boolean ableToCatch) {
         this.isAbleToCatch = ableToCatch;
 
@@ -184,10 +170,11 @@ public class Bubble extends Observable {
         this.notifyObservers();
     }
 
-    public boolean isPrisonBubble() {
-        return isPrisonBubble;
-    }
-
+    /**
+     * This function sets if the bubble is a prisonbubble.
+     * A prisonbubble is a bubble that captured a monster.
+     * @param prisonBubble True if a prisonbubble.
+     */
     public void setPrisonBubble(boolean prisonBubble) {
         isPrisonBubble = prisonBubble;
 
@@ -195,39 +182,18 @@ public class Bubble extends Observable {
         this.notifyObservers();
     }
 
-    public LevelController getLevelController() {
-        return levelController;
-    }
-
-    public void setLevelController(LevelController levelController) {
-        this.levelController = levelController;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    public boolean isPowerup() {
-        return powerup;
-    }
-
-    public void setPowerup(boolean powerup) {
-        this.powerup = powerup;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns the sprite of this bubble.
+     * @return The sprite.
+     */
     public SpriteBase getSpriteBase() {
         return spriteBase;
     }
 
-    public void setSpriteBase(SpriteBase spriteBase) {
-        this.spriteBase = spriteBase;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the bubble is popped.
+     * @return True if popped.
+     */
     public boolean getIsPopped() {
         if (isPopped) {
             this.deleteObservers();
@@ -235,6 +201,10 @@ public class Bubble extends Observable {
         return isPopped;
     }
 
+    /**
+     * This function sets whether the bubble is popped.
+     * @param isPopped True if popped.
+     */
     public void setIsPopped(boolean isPopped) {
         this.isPopped = isPopped;
     }

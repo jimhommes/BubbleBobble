@@ -88,10 +88,14 @@ public class Monster extends GravityObject {
             double bubbleY = bubble.getSpriteBase().getY();
             double bubbleX2 = bubbleX + bubble.getSpriteBase().getWidth();
             double bubbleY2 = bubbleY + bubble.getSpriteBase().getHeight();
-            if (((bubbleX >= spriteBase.getX() && bubbleX <= spriteBase.getX() + spriteBase.getWidth())
-                    || (bubbleX2 >= spriteBase.getX() && bubbleX2 <= spriteBase.getX() + spriteBase.getWidth()))
-                    && ((bubbleY >= spriteBase.getY() && bubbleY <= spriteBase.getY() + spriteBase.getHeight())
-                    || bubbleY2 >= spriteBase.getY() && bubbleY2 <= spriteBase.getY() + spriteBase.getHeight())) {
+            if (((bubbleX >= spriteBase.getX()
+                    && bubbleX <= spriteBase.getX() + spriteBase.getWidth())
+                    || (bubbleX2 >= spriteBase.getX()
+                    && bubbleX2 <= spriteBase.getX() + spriteBase.getWidth()))
+                    && ((bubbleY >= spriteBase.getY()
+                    && bubbleY <= spriteBase.getY() + spriteBase.getHeight())
+                    || bubbleY2 >= spriteBase.getY()
+                    && bubbleY2 <= spriteBase.getY() + spriteBase.getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
                 prisonBubble.setPrisonBubble(true);
@@ -159,10 +163,18 @@ public class Monster extends GravityObject {
         return ableToJump;
     }
 
+    /**
+     * This function returns the speed.
+     * @return The speed.
+     */
     public double getSpeed() {
         return speed;
     }
 
+    /**
+     * This function sets the speed.
+     * @param speed The speed.
+     */
     public void setSpeed(double speed) {
         this.speed = speed;
 
@@ -170,14 +182,18 @@ public class Monster extends GravityObject {
         this.notifyObservers();
     }
 
-    public LevelController getLevelController() {
-        return levelController;
-    }
-
+    /**
+     * This function returns whether the monster faces right.
+     * @return True if facing right.
+     */
     public boolean isFacingRight() {
         return isFacingRight;
     }
 
+    /**
+     * This function sets whether the monster faces right.
+     * @param facingRight True if facing right.
+     */
     public void setFacingRight(boolean facingRight) {
         this.isFacingRight = facingRight;
 
@@ -185,28 +201,26 @@ public class Monster extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the prisonbubble.
+     * @return The prisonbubble.
+     */
     public Bubble getPrisonBubble() {
         return prisonBubble;
     }
 
-    public void setPrisonBubble(Bubble prisonBubble) {
-        this.prisonBubble = prisonBubble;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the monster is caught by a bubble.
+     * @return True if caught by bubble.
+     */
     public boolean isCaughtByBubble() {
         return isCaughtByBubble;
     }
 
-    public void setCaughtByBubble(boolean caughtByBubble) {
-        this.isCaughtByBubble = caughtByBubble;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    /**
+     * This function returns whether the monster is dead.
+     * @return True if dead.
+     */
     public boolean isDead() {
         if (isDead) {
             this.deleteObservers();
@@ -214,6 +228,11 @@ public class Monster extends GravityObject {
         return isDead;
     }
 
+    /**
+     * This function sets whether the monster is dead.
+     * If the monster is killed the function die() should be used.
+     * @param dead True if dead.
+     */
     public void setDead(boolean dead) {
         this.isDead = dead;
 
@@ -221,10 +240,18 @@ public class Monster extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns true if the monster has reduced speed.
+     * @return True if it has reduced speed.
+     */
     public boolean isReducedSpeed() {
         return isReducedSpeed;
     }
 
+    /**
+     * This function sets whether the monster has reduced speed.
+     * @param reducedSpeed True if it has reduced speed.
+     */
     public void setReducedSpeed(boolean reducedSpeed) {
         this.isReducedSpeed = reducedSpeed;
 
@@ -232,15 +259,12 @@ public class Monster extends GravityObject {
         this.notifyObservers();
     }
 
+    /**
+     * This function returns the sprite base of the monster.
+     * @return The sprite base.
+     */
     public SpriteBase getSpriteBase() {
         return spriteBase;
-    }
-
-    public void setSpriteBase(SpriteBase spriteBase) {
-        this.spriteBase = spriteBase;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
 }

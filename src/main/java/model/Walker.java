@@ -113,7 +113,8 @@ public class Walker extends Monster {
             }
             moveHorizontal();
             moveVertical();
-            getSpriteBase().checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
+            getSpriteBase().checkBounds(walkerMinX, walkerMaxX,
+                    walkerMinY, walkerMaxY, levelController);
         } else {
             getSpriteBase().setDx(0);
             getSpriteBase().setDy(0);
