@@ -35,9 +35,14 @@ public class StartController implements Initializable {
     @FXML private AnchorPane root;
 
     /**
-     * The start button. If you press this the game will start.
+     * The singleplayer button. If you press this the game will start for a single player.
      */
-    @FXML private Button startButton;
+    @FXML private Button singlePlayerButton;
+
+    /**
+     * The multiplayer button. If you press this the multiplayer game will start.
+     */
+    @FXML private Button multiPlayerButton;
 
     /**
      * The exit button. If you press this the application will close.
@@ -56,12 +61,15 @@ public class StartController implements Initializable {
      */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        startButton.setOnAction(event -> {
-            try {
-                startLevel();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        singlePlayerButton.setOnAction(event -> {
+             try {
+                 startLevel();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         });
+        multiPlayerButton.setOnAction(event -> {
+            //TODO: Add multiplayer ding
         });
         helpButton.setOnMousePressed((event ->
                 helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
