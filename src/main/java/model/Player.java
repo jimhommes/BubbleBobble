@@ -14,6 +14,7 @@ import java.util.TimerTask;
 public class Player extends GravityObject {
 
     private static final int TIME_IMMORTAL = 3;
+    private final int playerNumber;
 
     private boolean isJumping;
     private Input input;
@@ -75,7 +76,8 @@ public class Player extends GravityObject {
                   double dr,
                   double speed,
                   int lives,
-                  Input input) {
+                  Input input,
+                  int playerNumber) {
 
         this.speed = speed;
         this.input = input;
@@ -90,6 +92,7 @@ public class Player extends GravityObject {
         this.levelController = levelController;
         this.lives = lives;
         this.score = 0;
+        this.playerNumber = playerNumber;
 
 
         playerMinX = Level.SPRITE_SIZE;
@@ -100,7 +103,7 @@ public class Player extends GravityObject {
         xStartLocation = x;
         yStartLocation = y;
 
-        this.spriteBase = new SpriteBase("/BubLeft.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/Bub"+playerNumber+"Left.png", x, y, r, dx, dy, dr);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -297,10 +300,10 @@ public class Player extends GravityObject {
             spriteBase.setDx(0);
             spriteBase.setDy(0);
             counter = 0;
-            spriteBase.setImage("/BubbleBobbleDeath.png");
+            spriteBase.setImage("/Bub"+playerNumber+"Death.png");
         } else {
             isDelayed = true;
-            spriteBase.setImage("/BubbleBobbleDeath.png");
+            spriteBase.setImage("/Bub"+playerNumber+"Death.png");
             this.loseLife();
             this.scorePoints(Settings.POINTS_PLAYER_DIE);
             delayRespawn();
@@ -343,15 +346,15 @@ public class Player extends GravityObject {
         }
         if (isFacingRight) {
             if (isImmortal) {
-                spriteBase.setImage("/BubRightRed.png");
+                spriteBase.setImage("/Bub"+playerNumber+"RightRed.png");
             } else {
-                spriteBase.setImage("/BubRight.png");
+                spriteBase.setImage("/Bub"+playerNumber+"Right.png");
             }
         } else {
             if (isImmortal) {
-                spriteBase.setImage("/BubLeftRed.png");
+                spriteBase.setImage("/Bub"+playerNumber+"LeftRed.png");
             } else {
-                spriteBase.setImage("/BubLeft.png");
+                spriteBase.setImage("/Bub"+playerNumber+"Left.png");
             }
         }
     }
@@ -397,9 +400,9 @@ public class Player extends GravityObject {
         }
 
         if (isImmortal) {
-            spriteBase.setImage("/BubRightRed.png");
+            spriteBase.setImage("/Bub"+playerNumber+"RightRed.png");
         } else {
-            spriteBase.setImage("/BubRight.png");
+            spriteBase.setImage("/Bub"+playerNumber+"Right.png");
         }
         isFacingRight = true;
     }
@@ -426,9 +429,9 @@ public class Player extends GravityObject {
         }
 
         if (isImmortal) {
-            spriteBase.setImage("/BubLeftRed.png");
+            spriteBase.setImage("/Bub"+playerNumber+"LeftRed.png");
         } else {
-            spriteBase.setImage("/BubLeft.png");
+            spriteBase.setImage("/Bub"+playerNumber+"Left.png");
         }
         setFacingRight(false);
     }

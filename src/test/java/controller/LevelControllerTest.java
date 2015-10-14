@@ -113,7 +113,7 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
         resplayers.add(new Player(levelController, 200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class)));
+                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), 1));
         when(level.getPlayers()).thenReturn(resplayers);
         levelController.createPlayer(mock(Input.class));
         ArrayList<Player> players = levelController.getPlayers();

@@ -69,6 +69,8 @@ public class Level {
     
     private int counter;
 
+    private int playerCounter;
+
     /**
      * When a level is created in the levelController, it is immediately drawn.
      * @param lvlTitle The title of the file.
@@ -83,6 +85,7 @@ public class Level {
         this.players = new ArrayList<>();
         this.levelController = levelController;
         this.limitOfPlayers = limitOfPlayers;
+        this.playerCounter = 1;
         drawMap();
     }
 
@@ -108,7 +111,8 @@ public class Level {
                     if (players.size() < limitOfPlayers) {
                         players.add(new Player(levelController, col * SPRITE_SIZE - 32,
                                 row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null));
+                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, playerCounter));
+                        playerCounter++;
                     }
                 }
             }
