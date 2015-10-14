@@ -13,6 +13,8 @@ import java.util.BitSet;
  */
 public class Input {
 
+    private final int playerNumber;
+
     /**
      * The scene the player moves in.
      */
@@ -53,6 +55,23 @@ public class Input {
      */
     public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
     /**
+     * KeyCode for the W key.
+     */
+    public static final KeyCode W_KEY = KeyCode.W;
+    /**
+     * KeyCode for the A key.
+     */
+    public static final KeyCode A_KEY = KeyCode.A;
+    /**
+     * KeyCode for the D key.
+     */
+    public static final KeyCode D_KEY = KeyCode.D;
+    /**
+     * KeyCode for the Shift key (fire primary).
+     */
+    public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
+
+    /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
      */
     private EventHandler<KeyEvent> keyPressedEventHandler = new EventHandler<KeyEvent>() {
@@ -84,8 +103,9 @@ public class Input {
      *
      * @param scene The scene the player moves in.
      */
-    public Input(Scene scene) {
+    public Input(Scene scene, int playerNumber) {
         this.scene = scene;
+        this.playerNumber = playerNumber;
     }
 
     /**
@@ -121,7 +141,11 @@ public class Input {
      * @return True if the up key is pressed.
      */
     public boolean isMoveUp() {
-        return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        }
     }
 
     /**
@@ -139,7 +163,11 @@ public class Input {
      * @return True if the left key is pressed.
      */
     public boolean isMoveLeft() {
-        return keyboardBitSet.get(LEFT_KEY.ordinal()) && !keyboardBitSet.get(RIGHT_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(LEFT_KEY.ordinal()) && !keyboardBitSet.get(RIGHT_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(A_KEY.ordinal()) && !keyboardBitSet.get(D_KEY.ordinal());
+        }
     }
 
 
@@ -149,7 +177,11 @@ public class Input {
      * @return True if the right key is pressed.
      */
     public boolean isMoveRight() {
-        return keyboardBitSet.get(RIGHT_KEY.ordinal()) && !keyboardBitSet.get(LEFT_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(RIGHT_KEY.ordinal()) && !keyboardBitSet.get(LEFT_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(D_KEY.ordinal()) && !keyboardBitSet.get(A_KEY.ordinal());
+        }
     }
 
     /**
@@ -158,7 +190,11 @@ public class Input {
      * @return True if the space key is pressed.
      */
     public boolean isFirePrimaryWeapon() {
-        return keyboardBitSet.get(PRIMARY_WEAPON_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(PRIMARY_WEAPON_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(SHIFT_KEY.ordinal());
+        }
     }
 
 

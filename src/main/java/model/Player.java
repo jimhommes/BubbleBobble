@@ -773,4 +773,8 @@ public class Player extends GravityObject {
         });
         bubbles = nBubbles;
     }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
 }

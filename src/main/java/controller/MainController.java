@@ -181,7 +181,7 @@ public class MainController implements Initializable {
      * This creates an input for the controls.
      * @return The Input
      */
-    public Input createInput() {
-        return new Input(playFieldLayer.getScene());
+    public Input createInput(int playerNumber) {
+        return new Input(playFieldLayer.getScene(), playerNumber);
     }
 }
