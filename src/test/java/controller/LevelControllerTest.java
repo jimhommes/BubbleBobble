@@ -7,7 +7,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.*;
+import model.Input;
+import model.Level;
+import model.Monster;
+import model.Player;
+import model.Powerup;
+import model.SpriteBase;
+import model.Wall;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -417,7 +423,8 @@ public class LevelControllerTest {
         Powerup powerup = mock(Powerup.class);
         levelController.performPowerupsCycle(powerup, mock(Player.class));
 
-        verify(powerup, atLeastOnce()).causesCollision(any(Player.class), any(LevelController.class));
+        verify(powerup, atLeastOnce()).causesCollision(any(Player.class),
+                any(LevelController.class));
         verify(powerup, atLeastOnce()).move();
     }
 

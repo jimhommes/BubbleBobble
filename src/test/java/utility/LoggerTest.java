@@ -37,7 +37,7 @@ public class LoggerTest {
      * folder must be private, but @Rule believes that it should be public.
      */
     @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    private TemporaryFolder folder = new TemporaryFolder();
 
     /**
      * Set up the test class.
