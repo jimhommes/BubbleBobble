@@ -61,6 +61,7 @@ public class LevelControllerTest {
 	@Before
     public void setUp() {
         mainController = mock(MainController.class);
+        when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
         pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController, 1);
@@ -310,7 +311,7 @@ public class LevelControllerTest {
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
         when(playerTest.isGameOver()).thenReturn(false);
-        
+
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
