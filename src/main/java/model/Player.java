@@ -834,4 +834,14 @@ public class Player extends GravityObject {
     public void removeBubble(Bubble bubble) {
         bubbles.remove(bubble);
     }
+
+    public void checkBubbles() {
+        ArrayList<Bubble> nBubbles = new ArrayList<>();
+        bubbles.forEach(bubble -> {
+            if (!bubble.getIsPopped()) {
+                nBubbles.add(bubble);
+            }
+        });
+        bubbles = nBubbles;
+    }
 }

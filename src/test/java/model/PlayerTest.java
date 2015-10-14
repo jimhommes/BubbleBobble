@@ -48,7 +48,7 @@ public class PlayerTest {
         when(levelController.getScreenController()).thenReturn(screenController);
         player = new Player(levelController, Level.SPRITE_SIZE, Level.SPRITE_SIZE
                 , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input);
-    	walls = new ArrayList<Wall>();
+    	walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
     }
@@ -64,8 +64,8 @@ public class PlayerTest {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         SpriteBase sprite = player.getSpriteBase();
-        assertEquals(0.0, sprite.getX(), 0.001);
-        assertEquals(0.0, sprite.getY(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
     }
 
     /**
@@ -155,13 +155,14 @@ public class PlayerTest {
         assertTrue(player.getBubbles().size() > 0);
 
         when(input.isFirePrimaryWeapon()).thenReturn(false);
-        for (int i = 0; i <= 300; i++) {
+        for (int i = 0; i <= 500; i++) {
             player.getBubbles().forEach(Bubble::move);
             assertTrue(player.getBubbles().size() > 0);
         }
 
         player.getBubbles().forEach(Bubble::move);
-        assertSame(player.getBubbles().size(), 0);
+        player.checkBubbles();
+        assertEquals(player.getBubbles().size(), 0);
 
     }
 
@@ -173,10 +174,12 @@ public class PlayerTest {
     @Test
     public void testCheckCollideMonster() throws Exception {
         Monster monster = mock(Monster.class);
+        SpriteBase monsterSprite = mock(SpriteBase.class);
+        when(monster.getSpriteBase()).thenReturn(monsterSprite);
         player.getSpriteBase().setWidth(100);
         player.getSpriteBase().setHeight(100);
         SpriteBase sprite = player.getSpriteBase();
-        when(monster.getSpriteBase().causesCollision(sprite.getX(),
+        when(monsterSprite.causesCollision(sprite.getX(),
                 sprite.getX() + sprite.getWidth(),
                 sprite.getY(),
                 sprite.getY() + sprite.getHeight())).thenReturn(true);
@@ -285,6 +288,8 @@ public class PlayerTest {
     @Test
     public void testMoveDown() throws Exception {
         levelController = mock(LevelController.class);
+        ScreenController screenController = mock(ScreenController.class);
+        when(levelController.getScreenController()).thenReturn(screenController);
         Player player1 = new Player(levelController, 0, Settings.SCENE_HEIGHT
                 , 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input);
         player1.processInput();

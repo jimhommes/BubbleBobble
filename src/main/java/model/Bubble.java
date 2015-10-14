@@ -82,8 +82,6 @@ public class Bubble extends Observable {
      */
     public void move() {
 
-        spriteBase.move();
-
         counter++;
 
         if ((!this.powerup && counter < Settings.BUBBLE_FLY_TIME)
@@ -100,6 +98,8 @@ public class Bubble extends Observable {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
+
+        spriteBase.move();
 
         checkPop();
         this.setChanged();

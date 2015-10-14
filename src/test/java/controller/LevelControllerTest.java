@@ -7,12 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.Input;
-import model.Level;
-import model.Monster;
-import model.Player;
-import model.Powerup;
-import model.Wall;
+import model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -452,8 +447,10 @@ public class LevelControllerTest {
     public void testSpawnPowerup() {
         assertEquals(0, levelController.getPowerups().size());
         Monster monster = mock(Monster.class);
-        when(monster.getSpriteBase().getX()).thenReturn(15.0);
-        when(monster.getSpriteBase().getY()).thenReturn(30.0);
+        SpriteBase sprite = mock(SpriteBase.class);
+        when(monster.getSpriteBase()).thenReturn(sprite);
+        when(sprite.getX()).thenReturn(15.0);
+        when(sprite.getY()).thenReturn(30.0);
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();

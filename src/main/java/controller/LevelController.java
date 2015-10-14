@@ -245,6 +245,7 @@ public class LevelController implements Observer {
         player.processInput();
         player.move();
         player.getBubbles().forEach(Bubble::move);
+        player.checkBubbles();
     }
 
     /**

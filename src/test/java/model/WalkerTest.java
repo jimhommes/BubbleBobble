@@ -95,10 +95,12 @@ public class WalkerTest {
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		//when(levelcon)
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getSpriteBase().getX()).thenReturn(30.0);
-        when(bubble.getSpriteBase().getY()).thenReturn(4.0);
-        when(bubble.getSpriteBase().getWidth()).thenReturn(32.0);
-        when(bubble.getSpriteBase().getHeight()).thenReturn(32.0);
+		SpriteBase bubbleSprite = mock(SpriteBase.class);
+		when(bubble.getSpriteBase()).thenReturn(bubbleSprite);
+		when(bubbleSprite.getX()).thenReturn(30.0);
+        when(bubbleSprite.getY()).thenReturn(4.0);
+        when(bubbleSprite.getWidth()).thenReturn(32.0);
+        when(bubbleSprite.getHeight()).thenReturn(32.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
         walker.getSpriteBase().setWidth(32.0);
         walker.getSpriteBase().setHeight(32.0);

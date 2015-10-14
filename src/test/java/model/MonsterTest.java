@@ -47,10 +47,12 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision1() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getSpriteBase().getX()).thenReturn(1.0);
-        when(bubble.getSpriteBase().getY()).thenReturn(1.0);
-        when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
-        when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
+		SpriteBase sprite = mock(SpriteBase.class);
+		when(bubble.getSpriteBase()).thenReturn(sprite);
+		when(sprite.getX()).thenReturn(1.0);
+		when(sprite.getY()).thenReturn(1.0);
+		when(sprite.getWidth()).thenReturn(300.0);
+		when(sprite.getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
         monster.checkCollision(bubble);
         when(bubble.isAbleToCatch()).thenReturn(false);
@@ -66,10 +68,12 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision2() throws Exception {
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getSpriteBase().getX()).thenReturn(1.0);
-        when(bubble.getSpriteBase().getY()).thenReturn(1.0);
-        when(bubble.getSpriteBase().getWidth()).thenReturn(300.0);
-        when(bubble.getSpriteBase().getHeight()).thenReturn(300.0);
+		SpriteBase sprite = mock(SpriteBase.class);
+		when(bubble.getSpriteBase()).thenReturn(sprite);
+		when(sprite.getX()).thenReturn(1.0);
+        when(sprite.getY()).thenReturn(1.0);
+        when(sprite.getWidth()).thenReturn(300.0);
+        when(sprite.getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
         monster.checkCollision(bubble);
         monster.checkCollision(bubble);
