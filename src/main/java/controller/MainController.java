@@ -179,6 +179,7 @@ public class MainController implements Initializable {
 
     /**
      * This creates an input for the controls.
+     * @param playerNumber The number of the player.
      * @return The Input
      */
     public Input createInput(int playerNumber) {

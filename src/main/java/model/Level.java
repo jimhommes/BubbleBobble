@@ -75,6 +75,7 @@ public class Level {
      * When a level is created in the levelController, it is immediately drawn.
      * @param lvlTitle The title of the file.
      * @param levelController the controller that controls the level.
+     * @param limitOfPlayers The limit of players allowed by the game.
      */
     public Level(final String lvlTitle, 
     		final LevelController levelController,

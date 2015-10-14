@@ -162,6 +162,7 @@ public class LevelController implements Observer {
     /**
      * The constructor of this class.
      * @param mainController The main controller that creates this class.
+     * @param limitOfPlayers The limit of players allowed by the game.
      */
     public LevelController(MainController mainController, int limitOfPlayers) {
         this.mainController = mainController;

@@ -102,6 +102,7 @@ public class Input {
      * The constructor. This only appoints the scene the player moves in.
      *
      * @param scene The scene the player moves in.
+     * @param playerNumber The number of the player.
      */
     public Input(Scene scene, int playerNumber) {
         this.scene = scene;
@@ -164,7 +165,8 @@ public class Input {
      */
     public boolean isMoveLeft() {
         if (playerNumber == 1) {
-            return keyboardBitSet.get(LEFT_KEY.ordinal()) && !keyboardBitSet.get(RIGHT_KEY.ordinal());
+            return keyboardBitSet.get(LEFT_KEY.ordinal())
+                    && !keyboardBitSet.get(RIGHT_KEY.ordinal());
         } else {
             return keyboardBitSet.get(A_KEY.ordinal()) && !keyboardBitSet.get(D_KEY.ordinal());
         }
@@ -178,7 +180,8 @@ public class Input {
      */
     public boolean isMoveRight() {
         if (playerNumber == 1) {
-            return keyboardBitSet.get(RIGHT_KEY.ordinal()) && !keyboardBitSet.get(LEFT_KEY.ordinal());
+            return keyboardBitSet.get(RIGHT_KEY.ordinal())
+                    && !keyboardBitSet.get(LEFT_KEY.ordinal());
         } else {
             return keyboardBitSet.get(D_KEY.ordinal()) && !keyboardBitSet.get(A_KEY.ordinal());
         }
