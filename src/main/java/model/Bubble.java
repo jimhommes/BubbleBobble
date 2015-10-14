@@ -4,6 +4,8 @@ import controller.LevelController;
 import utility.Logger;
 import utility.Settings;
 
+import java.util.Observable;
+
 /**
  * Created by Jim on 9/8/2015.
  *
@@ -16,35 +18,16 @@ import utility.Settings;
  * This class is the base where the sprite is loaded.
  * Any instance that is represented by a sprite extends this class.
  */
-public class Bubble extends SpriteBase {
+public class Bubble extends Observable {
 
-    /**
-     * The counter that is needed for the movement of the bubble.
-     */
     private int counter;
-
-    /**
-     * This boolean indicates whether it is fired to the right.
-     */
     private boolean firedRight;
-
-    /**
-     * Only in the first stage of firing the bubble, the bubble is able to catch monsters.
-     * This boolean indicates if the bubble can catch a monster.
-     */
-    private boolean ableToCatch;
-
-    /**
-     * This boolean indicates if the bubble has captured a monster.
-     */
+    private boolean isAbleToCatch;
     private boolean isPrisonBubble;
-
-    /**
-     * The levelController that created the player.
-     */
     private LevelController levelController;
-
     private boolean powerup;
+    private SpriteBase spriteBase;
+    private boolean isPopped;
 
     /**
      * The bubble that will be shot to catch the monsters.
@@ -67,26 +50,29 @@ public class Bubble extends SpriteBase {
                   boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
-        super("../bubble.png", x, y, r, dx, dy, dr);
 
         counter = 0;
         this.firedRight = firedRight;
-        this.ableToCatch = true;
+        this.isAbleToCatch = true;
         this.isPrisonBubble = false;
         this.levelController = levelController;
+        this.isPopped = false;
 
-        attach(levelController);
-        attach(levelController.getScreenController());
-        
+        this.spriteBase = new SpriteBase("/bubble.png", x, y, r, dx, dy, dr);
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
+
         this.powerup = powerup;
     }
 
     /**
      * This method is used to check if a bubble is .
-     * @return true if Bubble extends life_time of Bubble
      */
-    public boolean checkPop() {
-        return (counter > Settings.BUBBLE_LIVE_TIME);
+    public void checkPop() {
+        if (!isPopped) {
+            isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
+        }
     }
 
     /**
@@ -103,15 +89,20 @@ public class Bubble extends SpriteBase {
             moveVertically();
         }
 
-        Double newX = getX() + getDx();
-        Double newY = getY() + getDy();
+        Double newX = spriteBase.getX() + spriteBase.getDx();
+        Double newY = spriteBase.getY() + spriteBase.getDy();
 
-        if (!newX.equals(getX()) || !newY.equals(getY())) {
+        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
-                    getX(), getY(), newX, newY));
+                    spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
-        super.move();
+        spriteBase.move();
+
+        checkPop();
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
     /**
@@ -119,18 +110,20 @@ public class Bubble extends SpriteBase {
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
-        setDx(0);
-        if (!causesCollisionWall(getX(), getX() + getWidth(),
-                getY() - Settings.BUBBLE_FLY_SPEED,
-                getY() + getHeight() - Settings.BUBBLE_FLY_SPEED, levelController)) {
-            setDy(-Settings.BUBBLE_FLY_SPEED);
-            if (getY() < 0) {
-                setY(Settings.SCENE_HEIGHT);
+        spriteBase.setDx(0);
+        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY() - Settings.BUBBLE_FLY_SPEED,
+                spriteBase.getY() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED,
+                levelController)) {
+            spriteBase.setDy(-Settings.BUBBLE_FLY_SPEED);
+            if (spriteBase.getY() < 0) {
+                spriteBase.setY(Settings.SCENE_HEIGHT);
             }
-        } else if (getY() <= 35) {
-            setDy(0);
+        } else if (spriteBase.getY() <= 35) {
+            spriteBase.setDy(0);
         }
-        ableToCatch = false;
+        isAbleToCatch = false;
     }
 
     /**
@@ -138,55 +131,81 @@ public class Bubble extends SpriteBase {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!causesCollisionWall(getX() + Settings.BUBBLE_INIT_SPEED,
-                    getX() + getWidth() + Settings.BUBBLE_INIT_SPEED,
-                    getY(),
-                    getY() + getHeight(), levelController)) {
-                setDx(Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(spriteBase.getX() + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getX() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getY(),
+                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDx(Settings.BUBBLE_INIT_SPEED);
             } else {
-                setDx(0);
+                spriteBase.setDx(0);
             }
         } else {
-            if (!causesCollisionWall(getX() - Settings.BUBBLE_INIT_SPEED,
-                    getX() + getWidth() - Settings.BUBBLE_INIT_SPEED,
-                    getY(),
-                    getY() + getHeight(), levelController)) {
-                setDx(-Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(spriteBase.getX() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getX() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getY(),
+                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDx(-Settings.BUBBLE_INIT_SPEED);
             } else {
-                setDx(0);
+                spriteBase.setDx(0);
             }
         }
     }
 
     /**
-     * This method sets the boolean to whether it is able to be caught.
-     * @param bool set to the boolean of whether the monsters can be caught.
+     * This function returns if the bubble is able to catch a monster.
+     * @return True if able to catch a monster.
      */
-    public void setAbleToCatch(final boolean bool) {
-        ableToCatch = bool;
+    public boolean isAbleToCatch() {
+        return isAbleToCatch;
     }
 
     /**
-     * This method checks to see if a monster is able to be caught.
-     * @return true if the monster can be caught.
+     * This function sets if the bubble is able to catch a monster.
+     * @param ableToCatch True if able to catch a monster.
      */
-    public boolean getAbleToCatch() {
-        return ableToCatch;
+    public void setAbleToCatch(boolean ableToCatch) {
+        this.isAbleToCatch = ableToCatch;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
-     * This method sets the boolean to whether it is a prisonBubble.
-     * @param bool set to the boolean of whether the monsters is a prisonBubble.
+     * This function sets if the bubble is a prisonbubble.
+     * A prisonbubble is a bubble that captured a monster.
+     * @param prisonBubble True if a prisonbubble.
      */
-    public void setIsPrisonBubble(final boolean bool) {
-        isPrisonBubble = bool;
+    public void setPrisonBubble(boolean prisonBubble) {
+        isPrisonBubble = prisonBubble;
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
-     * This method checks to see if a bubble has caught a monster.
-     * @return true if the monster can be caught.
+     * This function returns the sprite of this bubble.
+     * @return The sprite.
      */
-    public boolean getIsPrisonBubble() {
-        return isPrisonBubble;
+    public SpriteBase getSpriteBase() {
+        return spriteBase;
+    }
+
+    /**
+     * This function returns whether the bubble is popped.
+     * @return True if popped.
+     */
+    public boolean getIsPopped() {
+        if (isPopped) {
+            this.deleteObservers();
+        }
+        return isPopped;
+    }
+
+    /**
+     * This function sets whether the bubble is popped.
+     * @param isPopped True if popped.
+     */
+    public void setIsPopped(boolean isPopped) {
+        this.isPopped = isPopped;
     }
 }

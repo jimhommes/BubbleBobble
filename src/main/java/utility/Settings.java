@@ -87,6 +87,8 @@ public final class Settings {
     public static final double MONSTER_SLOWDOWN_FACTOR = 0.5;
     public static final double MONSTER_POWERUP_TIME = 450;
 
+    public static final float GRAVITY_CONSTANT = 5.f;
+
     /**
      * The private constructor that does nothing.
      * This is a utility class.

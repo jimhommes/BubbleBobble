@@ -43,18 +43,18 @@ public class BubbleTest {
      */
     @Test
     public void testMoveRight() {
-        assertTrue(bubbleRight.getAbleToCatch());
+        assertTrue(bubbleRight.isAbleToCatch());
 
         for (int i = 1; i < 30; i++) {
             bubbleRight.move();
 
-            assertEquals((double) 1.f + i * 7, bubbleRight.getX(), 0.001);
-            assertEquals((double) 1.f, bubbleRight.getY(), 0.001);
+            assertEquals((double) 1.f + i * 7, bubbleRight.getSpriteBase().getX(), 0.001);
+            assertEquals((double) 1.f, bubbleRight.getSpriteBase().getY(), 0.001);
         }
 
-        assertTrue(bubbleRight.getAbleToCatch());
+        assertTrue(bubbleRight.isAbleToCatch());
         bubbleRight.move();
-        assertFalse(bubbleRight.getAbleToCatch());
+        assertFalse(bubbleRight.isAbleToCatch());
     }
 
     /**
@@ -62,18 +62,18 @@ public class BubbleTest {
      */
     @Test
     public void testMoveLeft() {
-        assertTrue(bubbleLeft.getAbleToCatch());
+        assertTrue(bubbleLeft.isAbleToCatch());
 
         for (int i = 1; i < 30; i++) {
             bubbleLeft.move();
 
-            assertEquals((double) 1.f + i * -7, bubbleLeft.getX(), 0.001);
-            assertEquals((double) 1.f, bubbleLeft.getY(), 0.001);
+            assertEquals((double) 1.f + i * -7, bubbleLeft.getSpriteBase().getX(), 0.001);
+            assertEquals((double) 1.f, bubbleLeft.getSpriteBase().getY(), 0.001);
         }
 
-        assertTrue(bubbleLeft.getAbleToCatch());
+        assertTrue(bubbleLeft.isAbleToCatch());
         bubbleLeft.move();
-        assertFalse(bubbleLeft.getAbleToCatch());
+        assertFalse(bubbleLeft.isAbleToCatch());
     }
 
     /**
@@ -82,7 +82,7 @@ public class BubbleTest {
     @Test
     public void testSetAbleToCatch() {
         bubbleRight.setAbleToCatch(false);
-        assertFalse(bubbleRight.getAbleToCatch());
+        assertFalse(bubbleRight.isAbleToCatch());
     }
 
     /**
@@ -90,14 +90,14 @@ public class BubbleTest {
      */
     @Test
     public void testPop() {
-        assertFalse(bubbleLeft.checkPop());
+        assertFalse(bubbleLeft.getIsPopped());
 
         for (int i = 1; i <= 300; i++) {
             bubbleLeft.move();
-            assertFalse(bubbleLeft.checkPop());
+            assertFalse(bubbleLeft.getIsPopped());
         }
         bubbleLeft.move();
 
-        assertTrue(bubbleLeft.checkPop());
+        assertTrue(bubbleLeft.getIsPopped());
     }
 }

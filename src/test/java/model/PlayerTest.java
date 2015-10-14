@@ -46,9 +46,9 @@ public class PlayerTest {
         screenController = mock(ScreenController.class);
         level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        player = new Player(Level.SPRITE_SIZE, Level.SPRITE_SIZE
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input, levelController);
-    	walls = new ArrayList<Wall>();
+        player = new Player(levelController, Level.SPRITE_SIZE, Level.SPRITE_SIZE
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input);
+    	walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
     }
@@ -63,8 +63,9 @@ public class PlayerTest {
     public void testProcessInputNotDeadGetDs() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
-        assertEquals(0.0, player.getDy(), 0.001);
-        assertEquals(0.0, player.getDx(), 0.001);
+        SpriteBase sprite = player.getSpriteBase();
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
     }
 
     /**
@@ -78,10 +79,11 @@ public class PlayerTest {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
-        assertEquals(-Settings.PLAYER_SPEED, player.getDx(), 0.001);
-        assertEquals(0.0, player.getDy(), 0.001);
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
-        assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
+        SpriteBase sprite = player.getSpriteBase();
+        assertEquals(-Settings.PLAYER_SPEED, sprite.getDx(), 0.001);
+        assertEquals(0.0, sprite.getDy(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
     }
 
 
@@ -105,7 +107,7 @@ public class PlayerTest {
         for (int i = 0; i < 100; i++) {
             player.processInput();
         }
-        assertTrue(player.getGameOver());
+        assertTrue(player.isGameOver());
     }
 
     /**
@@ -118,8 +120,9 @@ public class PlayerTest {
         when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
         player.move();
-        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
-        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), player.getY(), 0.001);
+        SpriteBase sprite = player.getSpriteBase();
+        assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, sprite.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), sprite.getY(), 0.001);
     }
 
 
@@ -152,15 +155,14 @@ public class PlayerTest {
         assertTrue(player.getBubbles().size() > 0);
 
         when(input.isFirePrimaryWeapon()).thenReturn(false);
-        for (int i = 0; i <= 300; i++) {
-            player.checkBubbles();
+        for (int i = 0; i <= 500; i++) {
             player.getBubbles().forEach(Bubble::move);
             assertTrue(player.getBubbles().size() > 0);
         }
 
-        player.checkBubbles();
         player.getBubbles().forEach(Bubble::move);
-        assertSame(player.getBubbles().size(), 0);
+        player.checkBubbles();
+        assertEquals(player.getBubbles().size(), 0);
 
     }
 
@@ -172,14 +174,17 @@ public class PlayerTest {
     @Test
     public void testCheckCollideMonster() throws Exception {
         Monster monster = mock(Monster.class);
-        player.setWidth(100);
-        player.setHeight(100);
-        when(monster.causesCollision(player.getX(),
-                player.getX() + player.getWidth(),
-                player.getY(),
-                player.getY() + player.getHeight())).thenReturn(true);
+        SpriteBase monsterSprite = mock(SpriteBase.class);
+        when(monster.getSpriteBase()).thenReturn(monsterSprite);
+        player.getSpriteBase().setWidth(100);
+        player.getSpriteBase().setHeight(100);
+        SpriteBase sprite = player.getSpriteBase();
+        when(monsterSprite.causesCollision(sprite.getX(),
+                sprite.getX() + sprite.getWidth(),
+                sprite.getY(),
+                sprite.getY() + sprite.getHeight())).thenReturn(true);
         player.checkCollideMonster(monster);
-        assertTrue(player.getDead());
+        assertTrue(player.isDead());
     }
 
     /**
@@ -189,12 +194,13 @@ public class PlayerTest {
      */
     @Test
     public void testDie() throws Exception {
-        assertFalse(player.getDead());
-        double x = player.getX();
+        assertFalse(player.isDead());
+        SpriteBase sprite = player.getSpriteBase();
+        double x = sprite.getX();
         player.die();
-        assertTrue(player.getDead());
-        assertEquals(x, player.getX(), 0.001);
-        assertEquals(0, player.getDx(), 0.001);
+        assertTrue(player.isDead());
+        assertEquals(x, sprite.getX(), 0.001);
+        assertEquals(0, sprite.getDx(), 0.001);
     }
 
     /**
@@ -205,10 +211,11 @@ public class PlayerTest {
     @Test
     public void testMoveRight() throws Exception {
         when(input.isMoveRight()).thenReturn(true);
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+        SpriteBase sprite = player.getSpriteBase();
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
         player.processInput();
         player.move();
-        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, player.getX(), 0.001);
+        assertEquals(Settings.PLAYER_SPEED + Level.SPRITE_SIZE, sprite.getX(), 0.001);
     }
 
     /**
@@ -218,11 +225,12 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionRight() throws Exception {
-    	Wall wall = new Wall(player.getX() + player.getSpeed(), player.getY(), 0, 0, 0, 0);
+        SpriteBase sprite = player.getSpriteBase();
+    	Wall wall = new Wall(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
     	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
         player.processInput();
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
     }
 
     /**
@@ -232,11 +240,12 @@ public class PlayerTest {
      */
     @Test
     public void testCollisionLeft() throws Exception {
-    	Wall wall = new Wall(player.getX(), player.getY(), 0, 0, 0, 0);
+        SpriteBase sprite = player.getSpriteBase();
+    	Wall wall = new Wall(sprite.getX(), sprite.getY(), 0, 0, 0, 0);
     	walls.add(wall);
     	when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
-        assertEquals(Level.SPRITE_SIZE, player.getX(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
     }
 
     /**
@@ -249,8 +258,9 @@ public class PlayerTest {
         when(input.isMoveUp()).thenReturn(true);
         
         player.processInput();
+        SpriteBase sprite = player.getSpriteBase();
 
-        assertEquals(Level.SPRITE_SIZE, player.getY(), 0.001);
+        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
     }
 
     /**
@@ -267,7 +277,7 @@ public class PlayerTest {
     @Test
     public void testSetJumping() {
         player.setJumping(true);
-        assertTrue(player.getJumping());
+        assertTrue(player.isJumping());
     }
 
     /**
@@ -278,10 +288,13 @@ public class PlayerTest {
     @Test
     public void testMoveDown() throws Exception {
         levelController = mock(LevelController.class);
-        Player player1 = new Player(0, Settings.SCENE_HEIGHT
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, levelController);
+        ScreenController screenController = mock(ScreenController.class);
+        when(levelController.getScreenController()).thenReturn(screenController);
+        Player player1 = new Player(levelController, 0, Settings.SCENE_HEIGHT
+                , 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input);
         player1.processInput();
-        assertEquals(Level.SPRITE_SIZE, player1.getY(), 0.0001);
+        SpriteBase sprite = player1.getSpriteBase();
+        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.0001);
     }
 
 }
