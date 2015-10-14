@@ -15,8 +15,7 @@ import java.util.Observable;
  */
 
 /**
- * This class is the base where the sprite is loaded.
- * Any instance that is represented by a sprite extends this class.
+ * This class is where the bubbles are created.
  */
 public class Bubble extends Observable {
 

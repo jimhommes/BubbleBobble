@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
  */
 
 /**
- * This is the StartScreen controller. This controller handles all GUI interactions.
+ * This is the Start Screen Controller, it handles all GUI interactions.
  */
 public class StartController implements Initializable {
 

@@ -7,7 +7,7 @@ package model;
  */
 
 /**
- * The class that represents a wall in the game.
+ * This class represents a wall in the game.
  */
 public class Wall  {
 

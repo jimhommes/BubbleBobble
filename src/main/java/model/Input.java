@@ -9,7 +9,7 @@ import utility.Logger;
 import java.util.BitSet;
 
 /**
- * The class that defines the input for the character.
+ * This class defines the input for the character.
  */
 public class Input {
 

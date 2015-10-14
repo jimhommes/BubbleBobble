@@ -5,8 +5,8 @@ import utility.Settings;
 import java.util.Random;
 
 /**
- *  Walker class which is a kind of monster, which just moves around and kills
- *  the player when they touch. It can be captured by a bubble shot by the player.
+ *  This class represents a type of monster, which just moves around and kills
+ *  the player when they collide. It can be captured by a bubble shot by the player.
  */
 public class Walker extends Monster {
 

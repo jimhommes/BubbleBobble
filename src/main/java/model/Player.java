@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This is the player class. It has a sprite to display.
+ * This is the player class, that creates are interacts with the player sprite.
  */
 public class Player extends GravityObject {
 

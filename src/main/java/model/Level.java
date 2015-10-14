@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 /**
- * This class is the Level class. When created it can load a
+ * This class creates the levels for the game. When created it can load a
  * level from a .txt file.
  */
 public class Level {
@@ -148,7 +148,6 @@ public class Level {
      * The function that returns the arrayList of monsters.
      * @return The arrayList of monsters.
      */
-    @SuppressWarnings("rawtypes")
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
@@ -165,7 +164,6 @@ public class Level {
      * This method gets the walls in the game.
      * @return The walls in the game.
      */
-    @SuppressWarnings("rawtypes")
     public ArrayList<Wall> getWalls() {
         return walls;
     }

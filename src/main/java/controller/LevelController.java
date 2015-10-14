@@ -22,16 +22,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
+ * This is the Level Controller, here all the interactions with the level happens.
  * @author Jim
  * @version 0.1
  * @since 9/5/2015
  * Last Modified: Lili
- */
-
-/**
- * This is the level controller.
- * Here all the interactions with the level happens.
- * It's kind of the main controller.
  */
 public class LevelController implements Observer {
 
@@ -43,7 +38,6 @@ public class LevelController implements Observer {
     /**
      * The list of players in the game.
      */
-    @SuppressWarnings("rawtypes")
     private ArrayList<Player> players = new ArrayList<>();
     
     /**
@@ -197,7 +191,6 @@ public class LevelController implements Observer {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if ((players.get(0)).isGameOver()) {
@@ -280,7 +273,6 @@ public class LevelController implements Observer {
     /**
      * This function creates the current level of currLvl.
      */
-    @SuppressWarnings("unchecked")
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this);
         screenController.removeSprites();
@@ -304,7 +296,6 @@ public class LevelController implements Observer {
      * The function that is used to create the player.
      * @param input The input.
      */
-    @SuppressWarnings("unchecked")
     public void createPlayer(Input input) {
         int[] scores = new int[this.players.size()];
         int[] lives = new int[this.players.size()];
@@ -506,7 +497,7 @@ public class LevelController implements Observer {
      * This function sets the players.
      * @param players The players.
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setPlayers(ArrayList players) {
         this.players = players;
     }
@@ -599,8 +590,7 @@ public class LevelController implements Observer {
      * @param maxY The maximum value of the Y value.
      * @return true is there is a collision.
      */
-    @SuppressWarnings("unchecked")
-	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {

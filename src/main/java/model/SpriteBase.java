@@ -6,7 +6,7 @@ import java.util.Observable;
 import controller.LevelController;
 
 /**
- * The SpriteBase that will load the sprite (image).
+ * This class will load the sprites (image).
  */
 public class SpriteBase extends Observable {
 
@@ -348,8 +348,7 @@ public class SpriteBase extends Observable {
      * @param levelController the LevelController.
      * @return true if there is a collision.
      */
-    @SuppressWarnings("unchecked")
-	public boolean causesCollisionWall(double minX, double maxX, double minY, 
+    public boolean causesCollisionWall(double minX, double maxX, double minY, 
 			double maxY, LevelController levelController) {
 
         for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {

@@ -5,6 +5,7 @@ import utility.Logger;
 import utility.Settings;
 
 /**
+ * This class is where the monsters are created.
  * Created by Jim on 9/8/2015.
  *
  * @author Jim
