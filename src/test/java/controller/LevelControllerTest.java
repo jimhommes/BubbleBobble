@@ -468,8 +468,7 @@ public class LevelControllerTest {
      */
     @Test
     public void testSetGameStarted() {
-    	Boolean game = true;
-    	levelController.setGameStarted(game);
-    	assertEquals(levelController.getGameStarted(), game);
+        levelController.setGameStarted(true);
+        assertEquals(levelController.getGameStarted(), true);
     }
 }
