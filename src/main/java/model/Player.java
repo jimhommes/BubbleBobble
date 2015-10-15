@@ -235,9 +235,7 @@ public class Player extends GravityObject {
                 y, y + spriteBase.getHeight(), levelController)) {
             if (!isJumping) {
                 if (isAbleToDoubleJump
-                        && causesBubbleCollision(x, x + spriteBase.getWidth(),
-                        y - calculateGravity(),
-                        y + spriteBase.getHeight() - calculateGravity())) {
+                        && causesBubbleCollision()) {
                     setAbleToJump(true);
                     setAbleToDoubleJump(false);
                 } else if (isAbleToDoubleJump) {
@@ -258,17 +256,15 @@ public class Player extends GravityObject {
     /**
      * This function checks if the player collides with a bubble.
      *
-     * @param x  Minimal x.
-     * @param x1 Maximal x.
-     * @param y  Minimal y.
-     * @param y2 Maximal y.
      * @return True if collision.
      */
     @SuppressWarnings("unchecked")
-    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
-        ArrayList<Bubble> bubbles = new ArrayList<>();
-        levelController.getPlayers().forEach(player -> bubbles.addAll(levelController.getBubbles()));
-
+    private boolean causesBubbleCollision() {
+        ArrayList<Bubble> bubbles = levelController.getBubbles();
+        double x = spriteBase.getX();
+        double x1 = x + spriteBase.getWidth();
+        double y = spriteBase.getY();
+        double y2 = y + spriteBase.getHeight();
 
         if (bubbles.size() == 0) {
             return false;

@@ -64,6 +64,7 @@ public class Monster extends GravityObject {
             @Override
             public void handle(long now) {
                 if (!levelController.getGamePaused()) {
+                    levelController.getBubbles().forEach(Monster.this::checkCollision);
                     move();
                 }
                 

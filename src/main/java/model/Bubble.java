@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
 
@@ -28,6 +29,7 @@ public class Bubble extends Observable {
     private boolean powerup;
     private SpriteBase spriteBase;
     private boolean isPopped;
+    private AnimationTimer timer;
 
     /**
      * The bubble that will be shot to catch the monsters.
@@ -64,6 +66,20 @@ public class Bubble extends Observable {
         this.addObserver(levelController.getScreenController());
 
         this.powerup = powerup;
+        this.timer = createTimer();
+        timer.start();
+    }
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(long now) {
+                if (!levelController.getGamePaused()) {
+                    move();
+                }
+            }
+        };
     }
 
     /**
@@ -165,9 +181,6 @@ public class Bubble extends Observable {
      */
     public void setAbleToCatch(boolean ableToCatch) {
         this.isAbleToCatch = ableToCatch;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -177,9 +190,6 @@ public class Bubble extends Observable {
      */
     public void setPrisonBubble(boolean prisonBubble) {
         isPrisonBubble = prisonBubble;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
