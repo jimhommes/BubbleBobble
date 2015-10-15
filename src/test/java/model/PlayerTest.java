@@ -31,7 +31,6 @@ public class PlayerTest {
     private Input input;
     private LevelController levelController;
     private ScreenController screenController;
-    private Level level;
     private ArrayList<Wall> walls;
 
     /**
@@ -44,7 +43,7 @@ public class PlayerTest {
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
-        level = mock(Level.class);
+        Level level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         player = new Player(levelController, Level.SPRITE_SIZE, Level.SPRITE_SIZE
                 , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input, 1);

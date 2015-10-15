@@ -17,9 +17,11 @@ public final class Settings {
     public static final double BUBBLE_LIVE_TIME = 300;
     public static final double BUBBLE_FLY_TIME = 30;
     public static final double BUBBLE_POWERUP_FLY_TIME = 3 * BUBBLE_FLY_TIME;
+    public static final double BUBBLE_POWERUP_DURATION = 400;
 
     public static final double PLAYER_SPEED = 5.0;
     public static final int PLAYER_LIVES = 5;
+    public static final int PLAYER_DOUBLESPEED_DURATION = 200;
 
     public static final int POINTS_PLAYER_DIE = -25;
     public static final int POINTS_KILL_MONSTER = 10;

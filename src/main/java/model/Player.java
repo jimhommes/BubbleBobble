@@ -27,7 +27,6 @@ public class Player extends GravityObject {
     private boolean isImmortal;
     private boolean isDelayed;
     private Timer immortalTimer;
-    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -39,11 +38,9 @@ public class Player extends GravityObject {
 
     private boolean doubleSpeed;
     private int doubleSpeedCounter;
-    private int durationDoubleSpeed = 200;
 
     private boolean bubblePowerup;
     private int bubblePowerupCounter;
-    private int durationBubblePowerup = 400;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -163,7 +160,7 @@ public class Player extends GravityObject {
     private void checkPowerups() {
         if (doubleSpeed) {
             doubleSpeedCounter++;
-            if (doubleSpeedCounter >= durationDoubleSpeed) {
+            if (doubleSpeedCounter >= Settings.PLAYER_DOUBLESPEED_DURATION) {
                 setDoubleSpeed(false);
                 setSpeed(Settings.PLAYER_SPEED);
                 setDoubleSpeedCounter(0);
@@ -174,7 +171,7 @@ public class Player extends GravityObject {
 
         if (bubblePowerup) {
             bubblePowerupCounter++;
-            if (bubblePowerupCounter >= durationBubblePowerup) {
+            if (bubblePowerupCounter >= Settings.BUBBLE_POWERUP_DURATION) {
                 setBubblePowerup(false);
                 setBubblePowerupCounter(0);
             }
@@ -312,7 +309,7 @@ public class Player extends GravityObject {
     }
 
     private void delayRespawn() {
-        delayTimer = new Timer();
+        Timer delayTimer = new Timer();
         delayTimer.schedule(new TimerTask() {
             @Override
             public void run() {

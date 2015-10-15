@@ -44,8 +44,7 @@ public class LevelControllerTest {
 
     private LevelController levelController;
     private MainController mainController;
-    private Pane pane;
-   
+
     private AnimationTimer gameLoopTest; 
     @SuppressWarnings("rawtypes")
 	private ArrayList playersTest = new ArrayList();
@@ -62,7 +61,7 @@ public class LevelControllerTest {
     public void setUp() {
         mainController = mock(MainController.class);
         when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
-        pane = mock(Pane.class);
+        Pane pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));

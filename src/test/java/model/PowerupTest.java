@@ -23,7 +23,6 @@ public class PowerupTest {
 
     private Powerup powerup;
     private LevelController levelController;
-    private ScreenController screenController;
     private double destx = 10.0;
     private double desty = 10.0;
 
@@ -33,7 +32,7 @@ public class PowerupTest {
     @Before
     public void setUp() {
     	levelController = mock(LevelController.class);
-        screenController = mock(ScreenController.class);
+        ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, destx, desty, levelController);
     }
