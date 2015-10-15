@@ -36,8 +36,8 @@ public class MonsterTest {
 		LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        monster = new Monster(1, 1, 0, 1, 0, 0,
-				Settings.MONSTER_SPEED, true, levelController);
+        Coordinates coordinates = new Coordinates(1, 1, 0, 1, 0, 0);
+        monster = new Monster(coordinates, Settings.MONSTER_SPEED, true, levelController);
 	}
 	
 	/**

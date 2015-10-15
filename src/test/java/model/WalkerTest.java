@@ -34,7 +34,8 @@ public class WalkerTest {
 		ScreenController screenController = mock(ScreenController.class);
 		Level level = mock(Level.class);
 		when(levelController.getScreenController()).thenReturn(screenController);
-		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelController);
+		Coordinates coordinates = new Coordinates(0, 0, 0, 10, 0, 0);
+		walker = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
 		walls = new ArrayList<Wall>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
@@ -91,7 +92,8 @@ public class WalkerTest {
 	@Test
 	public void testMoveBubble() throws Exception {
 		ArrayList<Wall> wall = new ArrayList<Wall>();
-		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+		Coordinates coordinates = new Coordinates(32, 32, 32, 1, 1, 1);
+		wall.add(new Wall(coordinates));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		//when(levelcon)
 		Bubble bubble = mock(Bubble.class);
@@ -116,10 +118,12 @@ public class WalkerTest {
 	@Test
 	public void testMoveDown() throws Exception {
 		ArrayList<Wall> wall = new ArrayList<Wall>();
-		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+		Coordinates wallCoordinates = new Coordinates(32, 32, 32, 1, 1, 1);
+		wall.add(new Wall(wallCoordinates));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
-		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
-				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelController);
+		Coordinates walkerCoordinates = new Coordinates(0, Settings.SCENE_HEIGHT
+				, 0, 0, 0, 0);
+		Walker walker1 = new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
     	assertEquals(Level.SPRITE_SIZE, walker1.getSpriteBase().getY(), 0.0001);
 	}
@@ -130,7 +134,8 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveCollision() throws Exception {
-		Wall wall = new Wall(32, 32, 32, 0, 0, 0);
+		Coordinates coordinates = new Coordinates(32, 32, 32, 0, 0, 0);
+		Wall wall = new Wall(coordinates);
 		walls.add(wall);
 		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
 		double locationY = walker.getSpriteBase().getY();
