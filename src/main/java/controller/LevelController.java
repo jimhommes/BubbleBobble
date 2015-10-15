@@ -386,8 +386,7 @@ public class LevelController implements Observer {
      * The function that gets the players.
      * @return The players.
      */
-    @SuppressWarnings("rawtypes")
-	public ArrayList getPlayers() {
+	public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -427,8 +426,7 @@ public class LevelController implements Observer {
      * This function sets the players.
      * @param players The players.
      */
-    @SuppressWarnings("rawtypes")
-	public void setPlayers(ArrayList players) {
+	public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 

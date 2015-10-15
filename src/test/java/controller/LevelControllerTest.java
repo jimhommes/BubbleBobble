@@ -47,10 +47,10 @@ public class LevelControllerTest {
 
     private AnimationTimer gameLoopTest; 
     @SuppressWarnings("rawtypes")
-	private ArrayList playersTest = new ArrayList();
+	private ArrayList<Player> playersTest = new ArrayList<>();
     private Player playerTest = mock(Player.class);
     @SuppressWarnings("rawtypes")
-	private ArrayList monstersTest = new ArrayList();
+	private ArrayList<Monster> monstersTest = new ArrayList<>();
     private Monster monsterTest = mock(Monster.class);
 
     /**
@@ -231,11 +231,11 @@ public class LevelControllerTest {
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
-        ArrayList players = new ArrayList();
+        ArrayList<Player> players = new ArrayList<Player>();
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList monsters = new ArrayList();
+        ArrayList<Monster> monsters = new ArrayList<Monster>();
         Monster monster = mock(Monster.class);
         monsters.add(monster);
 
