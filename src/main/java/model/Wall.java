@@ -9,7 +9,9 @@ package model;
 /**
  * The class that represents a wall in the game.
  */
-public class Wall extends SpriteBase {
+public class Wall  {
+
+    private SpriteBase spriteBase;
 
     /**
      * The constructor that implements the X and Y coordinate.
@@ -22,7 +24,15 @@ public class Wall extends SpriteBase {
      */
     public Wall(double x, double y, double r,
                 double dx, double dy, double dr) {
-        super("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
+    }
+
+    /**
+     * This function returns the spriteBase.
+     * @return The spriteBase.
+     */
+    public SpriteBase getSpriteBase() {
+        return spriteBase;
     }
 
 }

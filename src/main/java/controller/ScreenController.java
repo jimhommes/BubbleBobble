@@ -6,9 +6,12 @@ import javafx.scene.layout.Pane;
 import model.Bubble;
 import model.Monster;
 import model.Player;
+import model.Powerup;
 import model.SpriteBase;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Jim on 9/11/2015.
@@ -53,7 +56,7 @@ public class ScreenController implements Observer {
      * This method adds a list of sprite bases.
      * @param list the list of all the sprites.
      */
-    public void addToSprites(final ArrayList<SpriteBase> list) {
+    private void addToSprites(final ArrayList<SpriteBase> list) {
         sprites.addAll(list);
         list.forEach(element -> {
             ImageView imageView = new ImageView(
@@ -94,7 +97,7 @@ public class ScreenController implements Observer {
      * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
-    public void update(SpriteBase sprite) {
+    private void update(SpriteBase sprite) {
     	int place = sprites.indexOf(sprite);
     	if (place >= 0) {
     		ImageView image = images.get(sprites.indexOf(sprite));
@@ -172,21 +175,49 @@ public class ScreenController implements Observer {
         this.images = images;
     }
 
-    /**
-     * The changes made are updated.
-     */
-	@Override
-	public void update(SpriteBase spriteBase, int state) {
-		if (state == 1 && (spriteBase instanceof Player)) {
-			spriteBase.setImage("/BubbleBobbleDeath.png");
-		} else if (state == 1) {
-			removeSprite(spriteBase);
-			if (spriteBase instanceof Monster) {
-				removeSprite(((Monster) spriteBase).getPrisonBubble());
-			}
-		} else if (state == 2 && (spriteBase instanceof Bubble)) {
-			addToSprites(spriteBase);
-		}
-	}
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Player) {
+            updatePlayer((Player) o);
+        } else if (o instanceof Bubble) {
+            updateBubble((Bubble) o);
+        } else if (o instanceof Monster) {
+            updateMonster((Monster) o);
+        } else if (o instanceof Powerup) {
+            updatePowerup((Powerup) o);
+        }
+    }
 
+    private void updatePowerup(Powerup p) {
+        if (p.isPickedUp()) {
+            removeSprite(p.getSpriteBase());
+        } else if (!getSprites().contains(p.getSpriteBase())) {
+            addToSprites(p.getSpriteBase());
+        }
+        update(p.getSpriteBase());
+    }
+
+    private void updateMonster(Monster m) {
+        if (m.isDead()) {
+            removeSprite(m.getSpriteBase());
+            removeSprite(m.getPrisonBubble().getSpriteBase());
+        }
+        update(m.getSpriteBase());
+    }
+
+    private void updateBubble(Bubble b) {
+        if (b.getIsPopped()) {
+            removeSprite(b.getSpriteBase());
+        } else if (!getSprites().contains(b.getSpriteBase())) {
+            addToSprites(b.getSpriteBase());
+        }
+        update(b.getSpriteBase());
+    }
+
+    private void updatePlayer(Player p) {
+        if (p.isDead()) {
+            p.getSpriteBase().setImage("/BubbleBobbleDeath.png");
+        }
+        update(p.getSpriteBase());
+    }
 }

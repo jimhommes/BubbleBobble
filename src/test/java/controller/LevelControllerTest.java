@@ -12,6 +12,7 @@ import model.Level;
 import model.Monster;
 import model.Player;
 import model.Powerup;
+import model.SpriteBase;
 import model.Wall;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,15 +112,15 @@ public class LevelControllerTest {
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
-        resplayers.add(new Player(200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), levelController));
+        resplayers.add(new Player(levelController, 200.0,
+                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class)));
         when(level.getPlayers()).thenReturn(resplayers);
         levelController.createPlayer(mock(Input.class));
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
-		assertEquals(200, players.get(0).getX(), 0.001);
-		assertEquals(200, players.get(0).getY(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getX(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getY(), 0.001);
 		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
 	}
 
@@ -257,7 +258,7 @@ public class LevelControllerTest {
         when(level.getMonsters()).thenReturn(monsters);
         when(level.update()).thenReturn(true);
         int index = levelController.getIndexCurrLvl();
-        when(player.getGameOver()).thenReturn(false);
+        when(player.isGameOver()).thenReturn(false);
 
         gameLoop.handle(1);
 
@@ -285,7 +286,7 @@ public class LevelControllerTest {
         when(level.update()).thenReturn(false);
         int index = levelController.getIndexCurrLvl();
 
-        when(playerTest.getGameOver()).thenReturn(false);
+        when(playerTest.isGameOver()).thenReturn(false);
 
         gameLoopTest.handle(1);
 
@@ -310,7 +311,7 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
-        when(playerTest.getGameOver()).thenReturn(false);
+        when(playerTest.isGameOver()).thenReturn(false);
         
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
@@ -336,7 +337,7 @@ public class LevelControllerTest {
         levelController.setPlayers(players);
         levelController.setCurrLvl(mock(Level.class));
 
-        when(player.getGameOver()).thenReturn(true);
+        when(player.isGameOver()).thenReturn(true);
 
         gameLoop.handle(1);
 
@@ -361,7 +362,7 @@ public class LevelControllerTest {
 
         int index = levelController.getIndexCurrLvl();
 
-        when(player.getGameOver()).thenReturn(true);
+        when(player.isGameOver()).thenReturn(true);
         when(level.update()).thenReturn(false);
 
         gameLoop.handle(1);
@@ -422,7 +423,8 @@ public class LevelControllerTest {
         Powerup powerup = mock(Powerup.class);
         levelController.performPowerupsCycle(powerup, mock(Player.class));
 
-        verify(powerup, atLeastOnce()).causesCollision(any(Player.class), any(LevelController.class));
+        verify(powerup, atLeastOnce()).causesCollision(any(Player.class),
+                any(LevelController.class));
         verify(powerup, atLeastOnce()).move();
     }
 
@@ -436,11 +438,11 @@ public class LevelControllerTest {
         list.add(powerup);
         levelController.setPowerups(list);
 
-        when(powerup.getPickedUp()).thenReturn(false);
+        when(powerup.isPickedUp()).thenReturn(false);
         levelController.updatePowerups();
         assertEquals(1, levelController.getPowerups().size());
 
-        when(powerup.getPickedUp()).thenReturn(true);
+        when(powerup.isPickedUp()).thenReturn(true);
         levelController.updatePowerups();
         assertEquals(0, levelController.getPowerups().size());
     }
@@ -452,8 +454,10 @@ public class LevelControllerTest {
     public void testSpawnPowerup() {
         assertEquals(0, levelController.getPowerups().size());
         Monster monster = mock(Monster.class);
-        when(monster.getX()).thenReturn(15.0);
-        when(monster.getY()).thenReturn(30.0);
+        SpriteBase sprite = mock(SpriteBase.class);
+        when(monster.getSpriteBase()).thenReturn(sprite);
+        when(sprite.getX()).thenReturn(15.0);
+        when(sprite.getY()).thenReturn(30.0);
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
@@ -467,8 +471,8 @@ public class LevelControllerTest {
 
         assertEquals(1, levelController.getPowerups().size());
         Powerup powerup = levelController.getPowerups().get(0);
-        assertEquals(15.0, powerup.getX(), 0.1);
-        assertEquals(30.0, powerup.getY(), 0.1);
+        assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
+        assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
     }
     
     /**

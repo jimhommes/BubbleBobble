@@ -3,6 +3,8 @@ package model;
 import controller.LevelController;
 import utility.Logger;
 
+import java.util.Observable;
+
 /**
  * Created by Jim on 10/7/2015.
  *
@@ -10,13 +12,14 @@ import utility.Logger;
  * @version 1.0
  * @since 10/7/2015
  */
-public class Powerup extends SpriteBase {
+public class Powerup extends Observable {
 
     private double destx;
     private double desty;
     private boolean ableToPickup;
     private boolean pickedUp;
     private int kindRounded;
+    private SpriteBase spriteBase;
 
     public static final int AMOUNT_OF_POWERUPS = 5;
     public static final int POWERUP_SPEED = 1;
@@ -24,6 +27,7 @@ public class Powerup extends SpriteBase {
     public static final int POWERUP_BUBBLE = 3;
     public static final int POWERUP_MONSTER = 4;
     public static final int POWERUP_POINTS = 5;
+    public static final int POWERUP_THRESHOLD = 10;
 
     /**
      * The constructor. It instantiates the class.
@@ -43,14 +47,15 @@ public class Powerup extends SpriteBase {
      */
     public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
                    double destx, double desty, LevelController levelController) {
-        super("../banana.gif", x, y, r, dx, dy, dr);
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
+        
+        this.spriteBase = new SpriteBase("../banana.gif", x, y, r, dx, dy, dr);
 
-        attach(levelController);
-        attach(levelController.getScreenController());
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
 
         if (kind < 1) {
             kindRounded = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);
@@ -58,50 +63,60 @@ public class Powerup extends SpriteBase {
             kindRounded = (int) kind;
         }
 
+        setCorrectImage(kindRounded);
+
+    }
+
+    private void setCorrectImage(int kindRounded) {
         switch (kindRounded) {
-            case POWERUP_SPEED: setImage("../banana.gif");
+            case POWERUP_SPEED: spriteBase.setImage("../banana.gif");
                 break;
-            case POWERUP_LIFE: setImage("../heart.gif");
+            case POWERUP_LIFE: spriteBase.setImage("../heart.gif");
                 break;
-            case POWERUP_BUBBLE: setImage("../apple.gif");
+            case POWERUP_BUBBLE: spriteBase.setImage("../apple.gif");
                 break;
-            case POWERUP_MONSTER: setImage("../melon.png");
+            case POWERUP_MONSTER: spriteBase.setImage("../melon.png");
                 break;
-            case POWERUP_POINTS: setImage("../coin.gif");
+            case POWERUP_POINTS: spriteBase.setImage("../coin.gif");
                 break;
             default:
                 Logger.log("No suitable image found!");
         }
-
     }
 
     /**
      * This function calculates the movement to the destx and desty.
      */
-    @Override
     public void move() {
-        double diffX = destx - getX();
-        double diffY = desty - getY();
-        if (diffX < 1 && diffY < 1) {
-            setDx(0);
-            setDy(0);
+
+        double diffX = destx - spriteBase.getX();
+        double diffY = desty - spriteBase.getY();
+        if (diffX < POWERUP_THRESHOLD && diffY < POWERUP_THRESHOLD) {
+            spriteBase.setDx(0);
+            spriteBase.setDy(0);
             ableToPickup = true;
         } else {
-            setDx(diffX / 20.0);
-            setDy(diffY / 20.0);
+            spriteBase.setDx(diffX / 20.0);
+            spriteBase.setDy(diffY / 20.0);
         }
 
-        super.move();
+        spriteBase.move();
+
+        this.setChanged();
+        this.notifyObservers();
     }
 
     /**
      * This is the function that checks if there is a collision with a player.
      * @param player The player there might be a collision with.
+     * @param lvlController The levelController.
      */
-    public void causesCollision(SpriteBase player, LevelController lvlController) {
-        if (player.causesCollision(getX(), getX() + getWidth(),
-                getY(), getY() + getHeight()) && ableToPickup) {
-            pickedUp((Player) player, lvlController);
+    public void causesCollision(Player player, LevelController lvlController) {
+        if (player.getSpriteBase().causesCollision(spriteBase.getX(),
+                spriteBase.getX() + spriteBase.getWidth(),
+                spriteBase.getY(), spriteBase.getY()
+                        + spriteBase.getHeight()) && ableToPickup) {
+            pickedUp(player, lvlController);
         }
     }
 
@@ -111,8 +126,8 @@ public class Powerup extends SpriteBase {
      */
     private void pickedUp(Player player, LevelController lvlController) {
         if (!pickedUp) {
-            notifyAllObservers(this, 1);
-            pickedUp = true;
+            setPickedUp(true);
+
             Logger.log("Picked up Powerup.");
 
             switch (kindRounded) {
@@ -126,13 +141,11 @@ public class Powerup extends SpriteBase {
                     player.activateBubblePowerup();
                     break;
                 case POWERUP_MONSTER:
-                    lvlController.getCurrLvl().getMonsters().forEach((monster) -> {
-                        ((Monster) monster).activateMonsterPowerup();
-                    });
+                    lvlController.getCurrLvl().getMonsters()
+                            .forEach(Monster::activateMonsterPowerup);
                     break;
                 case POWERUP_POINTS:
                     player.scorePoints(50);
-                    notifyAllObservers(player, 2);
                     break;
                 default:
                     Logger.log("Unknown Powerup int, should use static int.");
@@ -143,26 +156,55 @@ public class Powerup extends SpriteBase {
     }
 
     /**
-     * This returns the boolean whether this has been picked up.
-     * @return True if it has been picked up.
-     */
-    public boolean getPickedUp() {
-        return pickedUp;
-    }
-
-    /**
-     * This function returns the ableToPickup.
+     * This function returns whether the powerup is able to be picked up.
      * @return True if able to pick up.
      */
-    public boolean getAbleToPickup() {
+    public boolean isAbleToPickup() {
         return ableToPickup;
     }
 
     /**
-     * This function sets the boolean ableToPickUp.
-     * @param ableToPickup True if able to pick up
+     * This function sets whether the powerup is able to be picked up.
+     * @param ableToPickup True if able to pick up.
      */
     public void setAbleToPickup(boolean ableToPickup) {
         this.ableToPickup = ableToPickup;
+
+        this.setChanged();
+        this.notifyObservers();
     }
+
+    /**
+     * This function returns whether the powerup is picked up.
+     * @return True if picked up.
+     */
+    public boolean isPickedUp() {
+
+        if (pickedUp) {
+            this.deleteObservers();
+        }
+
+        return pickedUp;
+
+    }
+
+    /**
+     * This function sets whether the powerup is picked up.
+     * @param pickedUp True if picked up.
+     */
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    /**
+     * This function returns the spritebase.
+     * @return The spritebase.
+     */
+    public SpriteBase getSpriteBase() {
+        return spriteBase;
+    }
+    
 }
