@@ -185,7 +185,7 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-    	Wall wall = new Wall(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0, levelController);
+    	Wall wall = new Wall(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
     	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
         player.processInput();
@@ -200,7 +200,7 @@ public class PlayerTest {
     @Test
     public void testCollisionLeft() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-    	Wall wall = new Wall(sprite.getX(), sprite.getY(), 0, 0, 0, 0, levelController);
+    	Wall wall = new Wall(sprite.getX(), sprite.getY(), 0, 0, 0, 0);
     	walls.add(wall);
     	when(input.isMoveLeft()).thenReturn(true);
         player.processInput();

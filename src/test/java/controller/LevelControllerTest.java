@@ -424,7 +424,7 @@ public class LevelControllerTest {
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
-        list.add(new Wall(0, 0, 0, 0, 0, 0, levelController));
+        list.add(new Wall(0, 0, 0, 0, 0, 0));
         when(level.getWalls()).thenReturn(list);
         levelController.setCurrLvl(level);
 

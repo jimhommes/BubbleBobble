@@ -98,7 +98,7 @@ public class Level {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0, levelController));
+                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
                 } else if (map[row][col] == 2) {
                     monsters.add(new Walker(col * SPRITE_SIZE - 32,
                             row * SPRITE_SIZE - 32, 0, 0, 0, 0,

@@ -25,9 +25,8 @@ public class Wall  {
      * @param dr The dr of r
      */
     public Wall(double x, double y, double r,
-                double dx, double dy, double dr, LevelController levelController) {
+                double dx, double dy, double dr) {
         this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
-        levelController.getScreenController().addToSprites(spriteBase);
     }
 
     /**

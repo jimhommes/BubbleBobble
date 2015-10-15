@@ -91,7 +91,7 @@ public class WalkerTest {
 	@Test
 	public void testMoveBubble() throws Exception {
 		ArrayList<Wall> wall = new ArrayList<Wall>();
-		wall.add(new Wall(32, 32, 32, 1, 1, 1, levelController));
+		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		//when(levelcon)
 		Bubble bubble = mock(Bubble.class);
@@ -116,7 +116,7 @@ public class WalkerTest {
 	@Test
 	public void testMoveDown() throws Exception {
 		ArrayList<Wall> wall = new ArrayList<Wall>();
-		wall.add(new Wall(32, 32, 32, 1, 1, 1, levelController));
+		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
 				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelController);
@@ -130,7 +130,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveCollision() throws Exception {
-		Wall wall = new Wall(32, 32, 32, 0, 0, 0, levelController);
+		Wall wall = new Wall(32, 32, 32, 0, 0, 0);
 		walls.add(wall);
 		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
 		double locationY = walker.getSpriteBase().getY();

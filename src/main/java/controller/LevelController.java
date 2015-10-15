@@ -18,7 +18,6 @@ import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -246,6 +245,9 @@ public class LevelController implements Observer {
         screenController.removeSprites();
 
         createPlayers();
+
+        currLvl.getWalls().forEach(wall -> screenController.addToSprites(wall.getSpriteBase()));
+        currLvl.getMonsters().forEach(monster -> screenController.addToSprites(monster.getSpriteBase()));
     }
 
     private Input createInput(int playerNumber) {
@@ -284,6 +286,8 @@ public class LevelController implements Observer {
             newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
             this.players.add(newPlayer);
         }
+
+        screenController.addToSprites(players.get(0).getSpriteBase());
 
     }
 
@@ -488,6 +492,7 @@ public class LevelController implements Observer {
         Powerup powerup = new Powerup(Math.random(), monster.getSpriteBase().getX(),
                 monster.getSpriteBase().getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
+        screenController.addToSprites(powerup.getSpriteBase());
 
         Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", "
                 + powerup.getSpriteBase().getY() + ")");
@@ -500,14 +505,6 @@ public class LevelController implements Observer {
      */
     public ArrayList<Powerup> getPowerups() {
         return powerups;
-    }
-
-    /**
-     * This function sets the powerups.
-     * @param powerups The powerups.
-     */
-    public void setPowerups(ArrayList<Powerup> powerups) {
-        this.powerups = powerups;
     }
 
     /**
@@ -570,4 +567,8 @@ public class LevelController implements Observer {
         return bubbles;
     }
 
+    public void addBubble(Bubble bubble) {
+        bubbles.add(bubble);
+        screenController.addToSprites(bubble.getSpriteBase());
+    }
 }

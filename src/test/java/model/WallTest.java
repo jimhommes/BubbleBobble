@@ -17,7 +17,7 @@ public class WallTest {
      */
     @Test
     public void testWall() {
-        wall = new Wall(0, 0, 0, 0, 0, 0, mock(LevelController.class));
+        wall = new Wall(0, 0, 0, 0, 0, 0);
         assertNotNull(wall);
     }
 }
