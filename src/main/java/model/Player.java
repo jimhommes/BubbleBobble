@@ -298,7 +298,6 @@ public class Player extends GravityObject {
                 }
             } else {
                 monster.die(this);
-                monster.getPrisonBubble().setIsPopped(true);
             }
         }
     }

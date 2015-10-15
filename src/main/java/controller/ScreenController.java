@@ -173,8 +173,6 @@ public class ScreenController implements Observer {
     private void updatePowerup(Powerup p) {
         if (p.isPickedUp()) {
             removeSprite(p.getSpriteBase());
-        } else if (!getSprites().contains(p.getSpriteBase())) {
-            addToSprites(p.getSpriteBase());
         }
         update(p.getSpriteBase());
     }
@@ -190,8 +188,6 @@ public class ScreenController implements Observer {
     private void updateBubble(Bubble b) {
         if (b.getIsPopped()) {
             removeSprite(b.getSpriteBase());
-        } else if (!getSprites().contains(b.getSpriteBase())) {
-            addToSprites(b.getSpriteBase());
         }
         update(b.getSpriteBase());
     }

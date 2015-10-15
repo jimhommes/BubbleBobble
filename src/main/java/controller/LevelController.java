@@ -557,8 +557,6 @@ public class LevelController implements Observer {
             Bubble b = (Bubble) o;
             if (b.getIsPopped()) {
                 bubbles.remove(b);
-            } else {
-                b.move();
             }
         }
     }

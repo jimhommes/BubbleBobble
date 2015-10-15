@@ -64,7 +64,6 @@ public class Bubble extends Observable {
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
-        levelController.getScreenController().addToSprites(spriteBase);
 
         this.powerup = powerup;
         this.timer = createTimer();
@@ -79,6 +78,9 @@ public class Bubble extends Observable {
                 if (!levelController.getGamePaused()) {
                     move();
                 }
+
+                setChanged();
+                notifyObservers();
             }
         };
     }
@@ -117,8 +119,6 @@ public class Bubble extends Observable {
         spriteBase.move();
 
         checkPop();
-        this.setChanged();
-        this.notifyObservers();
 
     }
 
