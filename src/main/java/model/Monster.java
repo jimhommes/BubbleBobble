@@ -27,12 +27,7 @@ public class Monster extends GravityObject {
     /**
      * The monster that is trying to catch the character.
      *
-     * @param x               The x coordinate.
-     * @param y               The y coordinate.
-     * @param r               The rotation.
-     * @param dx              The dx of x.
-     * @param dy              The dy of y.
-     * @param dr              The dr of r.
+     * @param coordinates 	The coordinates of the monster.
      * @param speed           The speed at which the monster is travelling.
      * @param isFacingRight     Whether the monster is facing to the right or not.
      * @param levelController is the controller that controls the level.

@@ -21,12 +21,7 @@ public class SpriteBase extends Observable {
      * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
-     * @param x         The x coordinate.
-     * @param y         The y coordinate.
-     * @param r         The r coordinate.
-     * @param dx        The difference in x.
-     * @param dy        The difference in y.
-     * @param dr        The difference in r.
+     * @param  coordinates The coordinates of the Sprite.
      */
     public SpriteBase(String imagePath, Coordinates coordinates) {
 

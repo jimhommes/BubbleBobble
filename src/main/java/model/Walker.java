@@ -62,12 +62,7 @@ public class Walker extends Monster {
 
     /**
      * A walking monster.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @param r The rotation of the walker.
-     * @param dx The dx of x.
-     * @param dy The dy of y.
-     * @param dr The dr of r.
+     * @param coordinates The coordinates of the walker monster.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
      * @param levelController The controllers that controls the level.

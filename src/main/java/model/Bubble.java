@@ -30,12 +30,7 @@ public class Bubble extends Observable {
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param x The x coordinate 
-     * @param y The y coordinate
-     * @param r The rotation
-     * @param dx The dx of x
-     * @param dy The dy of y
-     * @param dr The dr of r
+     * @param coordinates The coordinates of the bubbles.
      * @param firedRight If the bubble was fired to the right.
      * @param powerup if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.

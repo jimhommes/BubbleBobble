@@ -36,12 +36,7 @@ public class Powerup extends Observable {
      * @param kind The kind of Powerup and effect it has.
      *             If it is < 1 then it is random, but from 2 and up it can be forced.
      *             Then a static value should be used.
-     * @param x The x to spawn on.
-     * @param y The y to spawn on.
-     * @param r The r to spawn with.
-     * @param dx The dx to spawn with.
-     * @param dy The dy to spawn with.
-     * @param dr The dr to spawn with.
+     * @param coordinates The coordinates of the PowerUp.
      * @param destx The randomly calculated destination x.
      * @param desty The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.

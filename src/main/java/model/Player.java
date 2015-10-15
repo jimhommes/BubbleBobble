@@ -56,12 +56,7 @@ public class Player extends GravityObject {
      * The constructor of the Player class.
      *
      * @param levelController The levelController.
-     * @param x The X coordinate.
-     * @param y The Y coordinate.
-     * @param r The rotation factor.
-     * @param dx The dx.
-     * @param dy The dy.
-     * @param dr The dr.
+     * @param coordinates The coordinates of the player.
      * @param speed The speed.
      * @param lives The amount of lives.
      * @param input The input.
@@ -444,7 +439,8 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-        	Coordinates bubbleCoordinates = new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+        	Coordinates bubbleCoordinates = 
+        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
             Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
