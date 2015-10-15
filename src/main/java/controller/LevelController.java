@@ -207,7 +207,6 @@ public class LevelController implements Observer {
                         stop = false;
                     }
                 }
-
                 if (stop) {
                     stop();
                 } else {
@@ -235,14 +234,20 @@ public class LevelController implements Observer {
         }
     }
 
+    private void refresh() {
+        bubbles.clear();
+        screenController.removeSprites();
+
+    }
+
     /**
      * This function creates the current level of currLvl.
      */
     @SuppressWarnings("unchecked")
     public final void createLvl() {
-        bubbles.clear();
+        refresh();
+        System.out.println(players);
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
-        screenController.removeSprites();
 
         createPlayers();
 
@@ -269,7 +274,8 @@ public class LevelController implements Observer {
             lives[i] = this.players.get(i).getLives();
         }
 
-        this.players.clear();
+        players.forEach(Player::destroy);
+        players.clear();
         ArrayList<Player> p = currLvl.getPlayers();
 
         for (int i = 0; i < p.size(); i++) {
@@ -284,8 +290,10 @@ public class LevelController implements Observer {
             }
 
             newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
-            this.players.add(newPlayer);
+            players.add(newPlayer);
         }
+
+        System.out.println(players);
 
         players.forEach(player ->
                 screenController.addToSprites(player.getSpriteBase()));
@@ -297,7 +305,6 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        players = new ArrayList<>();
         powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();

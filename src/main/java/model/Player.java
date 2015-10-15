@@ -603,6 +603,7 @@ public class Player extends GravityObject {
 
         if (isDead) {
             this.deleteObservers();
+            timer.stop();
         }
 
         return isDead;
@@ -733,4 +734,10 @@ public class Player extends GravityObject {
     public int getPlayerNumber() {
         return playerNumber;
     }
+
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
+    }
+
 }

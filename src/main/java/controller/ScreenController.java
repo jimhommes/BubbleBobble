@@ -112,7 +112,6 @@ public class ScreenController implements Observer {
      */
     public void removeSprites() {
         sprites.clear();
-
         images.clear();
         playFieldLayer.getChildren().clear();
     }
@@ -193,9 +192,6 @@ public class ScreenController implements Observer {
     }
 
     private void updatePlayer(Player p) {
-        if (p.isDead()) {
-            p.getSpriteBase().setImage("/BubbleBobbleDeath.png");
-        }
         update(p.getSpriteBase());
     }
 }
