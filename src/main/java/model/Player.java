@@ -245,7 +245,7 @@ public class Player extends GravityObject {
     private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         levelController.getPlayers().forEach(player -> {
-            Player p = (Player) player;
+            Player p = player;
             bubbles.addAll(p.getBubbles());
         });
 
