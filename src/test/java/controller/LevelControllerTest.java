@@ -263,7 +263,6 @@ public class LevelControllerTest {
 
         verify(player, atLeastOnce()).processInput();
         verify(player, atLeastOnce()).move();
-        verify(player, atLeastOnce()).getBubbles();
         verify(player, atLeastOnce()).checkCollideMonster(monster);
         verify(monster, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index + 1);
@@ -291,7 +290,6 @@ public class LevelControllerTest {
 
         verify(playerTest, atLeastOnce()).processInput();
         verify(playerTest, atLeastOnce()).move();
-        verify(playerTest, atLeastOnce()).getBubbles();
         verify(playerTest, atLeastOnce()).checkCollideMonster(monsterTest);
         verify(monsterTest, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index);
@@ -319,7 +317,6 @@ public class LevelControllerTest {
 
         verify(playerTest, never()).processInput();
         verify(playerTest, never()).move();
-        verify(playerTest, never()).getBubbles();
     }
 
     
@@ -342,7 +339,6 @@ public class LevelControllerTest {
 
         verify(player, never()).processInput();
         verify(player, never()).move();
-        verify(player, never()).getBubbles();
     }
 
     /**

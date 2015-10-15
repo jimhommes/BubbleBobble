@@ -19,7 +19,6 @@ public class Player extends GravityObject {
     private boolean isJumping;
     private Input input;
     private double speed;
-    private ArrayList<Bubble> bubbles;
     private boolean isFacingRight;
     private int counter;
     private boolean isDead;
@@ -82,7 +81,6 @@ public class Player extends GravityObject {
 
         this.speed = speed;
         this.input = input;
-        this.bubbles = new ArrayList<>();
         this.counter = 31;
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
@@ -247,10 +245,7 @@ public class Player extends GravityObject {
     @SuppressWarnings("unchecked")
     private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
-        levelController.getPlayers().forEach(player -> {
-            Player p = (Player) player;
-            bubbles.addAll(p.getBubbles());
-        });
+        levelController.getPlayers().forEach(player -> bubbles.addAll(levelController.getBubbles()));
 
 
         if (bubbles.size() == 0) {
@@ -287,7 +282,6 @@ public class Player extends GravityObject {
             } else {
                 monster.die(this);
                 monster.getPrisonBubble().setIsPopped(true);
-                bubbles.remove(monster.getPrisonBubble());
             }
         }
     }
@@ -455,7 +449,7 @@ public class Player extends GravityObject {
         if (input.isFirePrimaryWeapon() && counter > 30) {
             Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
                     isFacingRight, bubblePowerup, levelController);
-            bubbles.add(bubble);
+            levelController.getBubbles().add(bubble);
 
             this.setChanged();
             this.notifyObservers();
@@ -591,27 +585,6 @@ public class Player extends GravityObject {
      */
     public void setSpeed(double speed) {
         this.speed = speed;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    /**
-     * This function returns the bubbles.
-     *
-     * @return The bubbles.
-     */
-    public ArrayList<Bubble> getBubbles() {
-        return bubbles;
-    }
-
-    /**
-     * This function sets the bubbles.
-     *
-     * @param bubbles The bubbles.
-     */
-    public void setBubbles(ArrayList<Bubble> bubbles) {
-        this.bubbles = bubbles;
 
         this.setChanged();
         this.notifyObservers();
@@ -786,19 +759,6 @@ public class Player extends GravityObject {
      */
     public SpriteBase getSpriteBase() {
         return spriteBase;
-    }
-
-    /**
-     * This function checks whether the bubbles are popped.
-     */
-    public void checkBubbles() {
-        ArrayList<Bubble> nBubbles = new ArrayList<>();
-        bubbles.forEach(bubble -> {
-            if (!bubble.getIsPopped()) {
-                nBubbles.add(bubble);
-            }
-        });
-        bubbles = nBubbles;
     }
 
     /**

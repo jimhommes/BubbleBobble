@@ -55,6 +55,8 @@ public class LevelController implements Observer {
      * The list of powerups.
      */
     private ArrayList<Powerup> powerups = new ArrayList<>();
+
+    private ArrayList<Bubble>  bubbles = new ArrayList<>();
     /**
      * The current index of the level the user is playing.
      */
@@ -208,12 +210,11 @@ public class LevelController implements Observer {
                             updatePowerups();
                         });
                         currLvl.getMonsters().forEach(monster -> {
-                            players.forEach(player -> {
-                                player.getBubbles().forEach(monster::checkCollision);
-                                player.checkCollideMonster(monster);
-                            });
+                            players.forEach(player -> player.checkCollideMonster(monster));
+                            bubbles.forEach(monster::checkCollision);
                             monster.move();
                         });
+                        bubbles.forEach(LevelController.this::performBubbleCycle);
                     }
 
                     if (currLvl.update()) {
@@ -222,6 +223,10 @@ public class LevelController implements Observer {
                 }
             }
         };
+    }
+
+    private void performBubbleCycle(Bubble bubble) {
+        bubble.move();
     }
 
     /**
@@ -241,8 +246,6 @@ public class LevelController implements Observer {
     private void performPlayerCycle(Player player) {
         player.processInput();
         player.move();
-        player.getBubbles().forEach(Bubble::move);
-        player.checkBubbles();
     }
 
     /**
@@ -280,6 +283,7 @@ public class LevelController implements Observer {
      */
     @SuppressWarnings("unchecked")
     public final void createLvl() {
+        bubbles.clear();
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
         screenController.removeSprites();
 
@@ -601,6 +605,15 @@ public class LevelController implements Observer {
                 mainController.showScore(p.getScore());
                 mainController.showLives(p.getLives());
             }
+        } else if (o instanceof Bubble) {
+            Bubble b = (Bubble) o;
+            if (b.getIsPopped()) {
+                bubbles.remove(b);
+            }
         }
+    }
+
+    public ArrayList<Bubble> getBubbles() {
+        return bubbles;
     }
 }
