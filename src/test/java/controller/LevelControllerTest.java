@@ -242,27 +242,16 @@ public class LevelControllerTest {
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList<Monster> monsters = new ArrayList<>();
-        Monster monster = mock(Monster.class);
-        monsters.add(monster);
-
         levelController.setPlayers(players);
         Level level = mock(Level.class);
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
-        when(level.getMonsters()).thenReturn(monsters);
         when(level.update()).thenReturn(true);
         int index = levelController.getIndexCurrLvl();
-        when(player.isGameOver()).thenReturn(false);
 
         gameLoop.handle(1);
 
-        verify(player, atLeastOnce()).processInput();
-        verify(player, atLeastOnce()).move();
-        verify(player, atLeastOnce()).checkCollideMonster(monster);
-        verify(monster, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index + 1);
-        
          
     }
     
@@ -285,10 +274,6 @@ public class LevelControllerTest {
 
         gameLoopTest.handle(1);
 
-        verify(playerTest, atLeastOnce()).processInput();
-        verify(playerTest, atLeastOnce()).move();
-        verify(playerTest, atLeastOnce()).checkCollideMonster(monsterTest);
-        verify(monsterTest, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index);
     }
     
@@ -298,8 +283,8 @@ public class LevelControllerTest {
 	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
-   
-       
+
+
         levelController.setPlayers(playersTest);
         Level level = mock(Level.class);
         levelController.setCurrLvl(level);
@@ -342,7 +327,7 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop when the game is over for player 1.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes"})
 	@Test
     public void testGameLoopNextLevel() {
         AnimationTimer gameLoop = levelController.createTimer();
