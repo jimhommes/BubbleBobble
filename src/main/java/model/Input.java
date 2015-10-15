@@ -21,7 +21,7 @@ public class Input {
     // will vary when you let the user customize the key codes
     // or when you add support for a 2nd player
     // -------------------------------------------------
-    private BitSet keyboardBitSet = new BitSet();
+    public BitSet keyboardBitSet = new BitSet();
     public static final KeyCode UP_KEY = KeyCode.UP;
     public static final KeyCode DOWN_KEY = KeyCode.DOWN;
     public static final KeyCode LEFT_KEY = KeyCode.LEFT;

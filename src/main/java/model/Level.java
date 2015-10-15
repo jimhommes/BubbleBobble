@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class Level {
 
-    protected static final int NUM_ROWS = 26;
-    protected static final int NUM_COLS = 26;
+    private static final int NUM_ROWS = 26;
+    private static final int NUM_COLS = 26;
     public static final double SPRITE_SIZE = 32.0;
 
     private final LevelController levelController;
@@ -109,7 +109,7 @@ public class Level {
     /**
      * This function reads the file and translates it to a 2dim array.
      */
-    public final void readMap() {
+    private void readMap() {
         int row = 0;
         map = new Integer[NUM_ROWS][NUM_COLS];
         BufferedReader reader = null;

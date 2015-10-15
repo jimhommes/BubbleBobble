@@ -32,7 +32,7 @@ public class MonsterTest {
      * @throws Exception .
      */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);

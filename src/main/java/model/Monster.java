@@ -136,7 +136,7 @@ public class Monster extends GravityObject {
      * Check if the powerups expired.
      * Is used in subclass.
      */
-    public void checkPowerups() {
+    void checkPowerups() {
 
     }
 

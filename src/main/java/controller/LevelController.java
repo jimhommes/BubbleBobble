@@ -314,7 +314,7 @@ public class LevelController implements Observer {
     /**
      * This method calls the win screen when the game has been won.
      */
-    public void winGame() {
+    private void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
         mainController.showWinScreen();
@@ -378,7 +378,7 @@ public class LevelController implements Observer {
      *
      * @return True if the gamePaused is true.
      */
-    public boolean isGamePaused() {
+    private boolean isGamePaused() {
         return this.gamePaused;
     }
 
@@ -518,8 +518,7 @@ public class LevelController implements Observer {
      * @param maxY The maximum value of the Y value.
      * @return true is there is a collision.
      */
-    @SuppressWarnings("unchecked")
-	public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
+	private boolean causesCollision(double minX, double maxX, double minY, double maxY) {
 
         for (Wall wall : getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {

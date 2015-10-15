@@ -69,7 +69,7 @@ public class Bubble extends Observable {
     /**
      * This method is used to check if a bubble is .
      */
-    public void checkPop() {
+    private void checkPop() {
         if (!isPopped) {
             isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
         }

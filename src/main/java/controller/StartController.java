@@ -30,7 +30,7 @@ public class StartController implements Initializable {
     @FXML private Button exitButton;
     @FXML private Button helpButton;
 
-    protected static int limitOfPlayers;
+    static int limitOfPlayers;
 
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
