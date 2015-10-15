@@ -25,7 +25,7 @@ public class LevelControllerMethods {
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (File file : listOfFiles) {
-            if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
+            if (file.isFile() && file.getName().matches("map[5-9]*.txt")) {
                 maps.add(file.getName());
             }
         }

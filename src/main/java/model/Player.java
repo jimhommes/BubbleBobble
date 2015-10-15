@@ -140,11 +140,14 @@ public class Player extends GravityObject {
                 checkIfGameOver();
             }
         }
-
-        spriteBase.checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
-        checkPowerups();
+        
         applyGravity();
+        checkBounds();
+        //spriteBase.checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
         setLocation(location);
+        checkPowerups();
+        
+        
     }
 
     /**
@@ -284,13 +287,13 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-
         double x = location[0];
         double y = location[2];
-
+        
         if (monster.getSpriteBase().causesCollision(x, x + width,
                 y, y + height)
                 && !isDelayed) {
+        	
             if (!monster.isCaughtByBubble()) {
                 if (!isImmortal) {
                     this.die();
@@ -307,11 +310,13 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
+    	location[1] = 0;
+        location[3] = 0;
+        setLocation(location);
         if (this.getLives() <= 1 && !this.isDead) {
             this.isDead = true;
-            location[1] = 0;
-            location[3] = 0;
             counter = 0;
+            setLocation(location);
             spriteBase.setImage("/Bub" + playerNumber + "Death.png");
         } else {
             isDelayed = true;
@@ -834,5 +839,31 @@ public class Player extends GravityObject {
      */
     public void setLocation(double[] newLocation) {
     	spriteBase.setLocation(newLocation);
+    }
+    
+    /**
+     * This function returns the player if it is out of bounds.
+     */
+    public void checkBounds() {
+    	double x = location[0];
+    	double y = location[2];
+        if (x < playerMinX) {
+            location[0] = playerMinX;
+        } else if (x + width > playerMaxX) {
+            location[0] = playerMaxX - width;
+        }
+
+        if (y < playerMinY) {
+        	if (!spriteBase.causesCollisionWall(x,
+                    x + width,
+                    y,
+                    y + height, levelController)) {
+        		location[2] = playerMaxY - height;
+        	} else {
+        		location[2] = playerMinY;
+        	}	
+        } else if (y + height > playerMaxY) {
+            location[2] = playerMinY;
+        }
     }
 }
