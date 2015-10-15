@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 /**
- * This class is the Level class. When created it can load a
+ * This class creates the levels for the game. When created it can load a
  * level from a .txt file.
  */
 public class Level {
@@ -83,21 +83,24 @@ public class Level {
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
+            	Coordinates coordinatesWalker = new Coordinates(col * SPRITE_SIZE - 32,
+                        row * SPRITE_SIZE - 32, 0, 0, 0, 0);
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
+                	Coordinates coordinatesWall = 
+                			new Coordinates(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0);
+                    walls.add(new Wall(coordinatesWall));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(coordinatesWalker,
                             Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    monsters.add(new Walker(coordinatesWalker,
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
                     if (players.size() < limitOfPlayers) {
-                        players.add(new Player(levelController, col * SPRITE_SIZE - 32,
-                                row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    	 Coordinates coordinatesPlayer = new Coordinates(col * SPRITE_SIZE - 32,
+                                 row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                        players.add(new Player(levelController, coordinatesPlayer,
                                 Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, playerCounter));
                         playerCounter++;
                     }
@@ -144,7 +147,6 @@ public class Level {
      * The function that returns the arrayList of monsters.
      * @return The arrayList of monsters.
      */
-    @SuppressWarnings("rawtypes")
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
@@ -161,7 +163,6 @@ public class Level {
      * This method gets the walls in the game.
      * @return The walls in the game.
      */
-    @SuppressWarnings("rawtypes")
     public ArrayList<Wall> getWalls() {
         return walls;
     }

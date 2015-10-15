@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * This is the Main Controller, that controls the other controllers.
  * Created by Jim on 9/22/2015.
  *
  * @author Jim

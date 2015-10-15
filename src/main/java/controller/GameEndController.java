@@ -14,8 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * This is the Game Over Controller, which controls what happens when the 
+ * character is killed and there is a game over.
  * @author Lili de Bree
- * This controller controls what happens when the character is killed and there is a game over.
  *
  */
 public class GameEndController implements Initializable {

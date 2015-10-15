@@ -15,8 +15,7 @@ import java.util.Observable;
  */
 
 /**
- * This class is the base where the sprite is loaded.
- * Any instance that is represented by a sprite extends this class.
+ * This class is where the bubbles are created.
  */
 public class Bubble extends Observable {
 
@@ -31,22 +30,12 @@ public class Bubble extends Observable {
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param x The x coordinate 
-     * @param y The y coordinate
-     * @param r The rotation
-     * @param dx The dx of x
-     * @param dy The dy of y
-     * @param dr The dr of r
+     * @param coordinates The coordinates of the bubbles.
      * @param firedRight If the bubble was fired to the right.
      * @param powerup if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
-    public Bubble(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Bubble(Coordinates coordinates,
                   boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
@@ -58,7 +47,7 @@ public class Bubble extends Observable {
         this.levelController = levelController;
         this.isPopped = false;
 
-        this.spriteBase = new SpriteBase("/bubble.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/bubble.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

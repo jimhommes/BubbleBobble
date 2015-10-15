@@ -5,8 +5,8 @@ import utility.Settings;
 import java.util.Random;
 
 /**
- *  Walker class which is a kind of monster, which just moves around and kills
- *  the player when they touch. It can be captured by a bubble shot by the player.
+ *  This class represents a type of monster, which just moves around and kills
+ *  the player when they collide. It can be captured by a bubble shot by the player.
  */
 public class Walker extends Monster {
 
@@ -23,26 +23,16 @@ public class Walker extends Monster {
 
     /**
      * A walking monster.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @param r The rotation of the walker.
-     * @param dx The dx of x.
-     * @param dy The dy of y.
-     * @param dr The dr of r.
+     * @param coordinates The coordinates of the walker monster.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
      * @param levelController The controllers that controls the level.
      */
-    public Walker(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Walker(Coordinates coordinates,
                   double speed,
                   boolean facingRight,
                   LevelController levelController) {
-        super(x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        super(coordinates, speed, facingRight, levelController);
 
         this.levelController = levelController;
         this.jumpCounter = 20;

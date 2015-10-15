@@ -5,7 +5,7 @@ import utility.Settings;
 import java.util.Observable;
 
 /**
- * Class that represents object affected by gravity.
+ * This class represents objects affected by gravity.
  */
 abstract class GravityObject extends Observable {
 

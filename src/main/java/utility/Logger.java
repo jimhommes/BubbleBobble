@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Logger class for logging events.
+ * This class is used for logging events.
  *
  * Logs to file or stdout, or every possible @link{Stream}.
  */

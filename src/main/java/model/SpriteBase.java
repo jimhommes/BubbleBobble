@@ -5,17 +5,12 @@ import controller.LevelController;
 import java.util.Observable;
 
 /**
- * The SpriteBase that will load the sprite (image).
+ * This class will load the sprites (image).
  */
 public class SpriteBase extends Observable {
 
     private String imagePath;
-    private double x;
-    private double y;
-    private double r;
-    private double dx;
-    private double dy;
-    private double dr;
+    private Coordinates coordinates;
     private double w;
     private double h;
     private boolean canMove;
@@ -25,23 +20,12 @@ public class SpriteBase extends Observable {
      * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
-     * @param x         The x coordinate.
-     * @param y         The y coordinate.
-     * @param r         The r coordinate.
-     * @param dx        The difference in x.
-     * @param dy        The difference in y.
-     * @param dr        The difference in r.
+     * @param  coordinates The coordinates of the Sprite.
      */
-    public SpriteBase(String imagePath, double x, double y, double r,
-                      double dx, double dy, double dr) {
+    public SpriteBase(String imagePath, Coordinates coordinates) {
 
         this.imagePath = imagePath;
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.dx = dx;
-        this.dy = dy;
-        this.dr = dr;
+        this.coordinates = coordinates;
         this.h = 0;
         this.w = 0;
         this.canMove = true;
@@ -57,9 +41,9 @@ public class SpriteBase extends Observable {
             return;
         }
         
-        x += dx;
-        y += dy;
-        r += dr;
+       coordinates.setX(coordinates.getX() + coordinates.getDX());
+       coordinates.setY(coordinates.getY() + coordinates.getDY());
+       coordinates.setR(coordinates.getR() + coordinates.getDR());
         
         this.setChanged();
         this.notifyObservers();
@@ -80,7 +64,7 @@ public class SpriteBase extends Observable {
      * @return x coordinate
      */
     public double getX() {
-        return x;
+        return coordinates.getX();
     }
 
     /**
@@ -89,7 +73,7 @@ public class SpriteBase extends Observable {
      * @return y coordinate.
      */
     public double getY() {
-        return y;
+        return coordinates.getY();
     }
 
     /**
@@ -98,7 +82,7 @@ public class SpriteBase extends Observable {
      * @return The rotation degree.
      */
     public double getR() {
-        return r;
+        return coordinates.getR();
     }
 
     /**
@@ -170,9 +154,9 @@ public class SpriteBase extends Observable {
      * @return True if there is a collision.
      */
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-        double minX2 = x;
+        double minX2 = coordinates.getX();
         double maxX2 = minX2 + getWidth();
-        double minY2 = y;
+        double minY2 = coordinates.getY();
         double maxY2 = minY2 + getHeight();
         return ((minX > minX2 && minX < maxX2)
                 || (maxX > minX2 && maxX < maxX2)
@@ -189,7 +173,7 @@ public class SpriteBase extends Observable {
      * @param x The X coordinate.
      */
     public void setX(double x) {
-        this.x = x;
+        coordinates.setX(x);
     }
 
     /**
@@ -197,7 +181,7 @@ public class SpriteBase extends Observable {
      * @param y The Y coordinate.
      */
     public void setY(double y) {
-        this.y = y;
+    	coordinates.setY(y);
     }
 
     /**
@@ -205,7 +189,7 @@ public class SpriteBase extends Observable {
      * @param r The R coordinate.
      */
     public void setR(double r) {
-        this.r = r;
+    	coordinates.setR(r);
     }
 
     /**
@@ -213,7 +197,7 @@ public class SpriteBase extends Observable {
      * @param dx The Dx.
      */
     public void setDx(double dx) {
-        this.dx = dx;
+        coordinates.setDX(dx);
     }
 
     /**
@@ -221,7 +205,7 @@ public class SpriteBase extends Observable {
      * @param dy The Dy.
      */
     public void setDy(double dy) {
-        this.dy = dy;
+        coordinates.setDY(dy);
     }
 
     /**
@@ -229,7 +213,7 @@ public class SpriteBase extends Observable {
      * @param dr The Dr.
      */
     public void setDr(double dr) {
-        this.dr = dr;
+       coordinates.setDR(dr);
     }
 
     /**
@@ -237,7 +221,7 @@ public class SpriteBase extends Observable {
      * @return The Dx.
      */
     public double getDx() {
-        return dx;
+        return coordinates.getDX();
     }
 
     /**
@@ -245,7 +229,7 @@ public class SpriteBase extends Observable {
      * @return The Dy.
      */
     public double getDy() {
-        return dy;
+        return coordinates.getDY();
     }
 
     /**
@@ -253,7 +237,7 @@ public class SpriteBase extends Observable {
      * @return The Dr.
      */
     public double getDr() {
-        return dr;
+        return coordinates.getDR();
     }
     
     /**
@@ -304,8 +288,7 @@ public class SpriteBase extends Observable {
      * @param levelController the LevelController.
      * @return true if there is a collision.
      */
-    @SuppressWarnings("unchecked")
-	public boolean causesCollisionWall(double minX, double maxX, double minY, 
+    public boolean causesCollisionWall(double minX, double maxX, double minY, 
 			double maxY, LevelController levelController) {
 
         for (Wall wall : levelController.getCurrLvl().getWalls()) {

@@ -34,7 +34,8 @@ public class PowerupTest {
     	levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, destx, desty, levelController);
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        powerup = new Powerup(0, coordinates, destx, desty, levelController);
     }
 
     /**
@@ -53,7 +54,8 @@ public class PowerupTest {
         assertEquals((desty - powerup.getSpriteBase().getY()) / 20.0,
                 powerup.getSpriteBase().getDy(), 0.1);
 
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, 0, levelController);
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        powerup = new Powerup(0, coordinates, 0, 0, levelController);
         powerup.move();
 
         assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
@@ -66,7 +68,8 @@ public class PowerupTest {
      */
     @Test
     public void testCausesCollision() {
-        Player player = new Player(levelController, 1, 1, 0, 0, 0, 0, 0, 1, mock(Input.class), 1);
+    	Coordinates coordinates = new Coordinates(1, 1, 0, 0, 0, 0);
+        Player player = new Player(levelController, coordinates, 0, 1, mock(Input.class), 1);
         player.getSpriteBase().setHeight(10.0);
         player.getSpriteBase().setWidth(10.0);
         powerup.getSpriteBase().setHeight(10.0);
