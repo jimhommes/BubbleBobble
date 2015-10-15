@@ -29,7 +29,6 @@ public class MonsterTest {
 	
     /**
      * This is run before all the tests to initialize them.
-     * @throws Exception .
      */
 	@Before
 	public void setUp() {

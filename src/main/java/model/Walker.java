@@ -141,7 +141,7 @@ public class Walker extends Monster {
 
     /**
      * Generate a random int.
-     * @return
+     * @return a random int.
      */
     private int randInt() {
         Random rand = new Random();

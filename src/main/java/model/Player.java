@@ -467,7 +467,6 @@ public class Player extends GravityObject {
      * Add/subtract points to/from the player's score.
      *
      * @param points the amount of scored points.
-     * @return the Player instance for chaining.
      */
     public void scorePoints(int points) {
         this.setScore(this.getScore() + points);
