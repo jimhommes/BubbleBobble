@@ -287,7 +287,8 @@ public class LevelController implements Observer {
             this.players.add(newPlayer);
         }
 
-        screenController.addToSprites(players.get(0).getSpriteBase());
+        players.forEach(player ->
+                screenController.addToSprites(player.getSpriteBase()));
 
     }
 
