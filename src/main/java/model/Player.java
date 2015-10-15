@@ -723,6 +723,9 @@ public class Player extends GravityObject {
         return playerNumber;
     }
 
+    /**
+     * This function forces the player to die entirely.
+     */
     public void destroy() {
         this.deleteObservers();
         timer.stop();

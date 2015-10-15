@@ -21,7 +21,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
@@ -194,13 +193,14 @@ public class LevelController implements Observer {
      */
     public final void createLvl() {
         refresh();
-        System.out.println(players);
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
 
         createPlayers();
 
-        currLvl.getWalls().forEach(wall -> screenController.addToSprites(wall.getSpriteBase()));
-        currLvl.getMonsters().forEach(monster -> screenController.addToSprites(monster.getSpriteBase()));
+        currLvl.getWalls().forEach(wall ->
+                screenController.addToSprites(wall.getSpriteBase()));
+        currLvl.getMonsters().forEach(monster ->
+                screenController.addToSprites(monster.getSpriteBase()));
     }
 
     private Input createInput(int playerNumber) {
@@ -225,6 +225,20 @@ public class LevelController implements Observer {
         players.clear();
         ArrayList<Player> p = currLvl.getPlayers();
 
+        applyNewPlayers(p, scores, lives);
+
+        players.forEach(player ->
+                screenController.addToSprites(player.getSpriteBase()));
+
+    }
+
+    /**
+     * This function adds the new players and takes over the previous status.
+     * @param p List of players.
+     * @param scores The scores.
+     * @param lives The lives.
+     */
+    private void applyNewPlayers(ArrayList<Player> p, int[] scores, int[] lives) {
         for (int i = 0; i < p.size(); i++) {
             Player newPlayer = p.get(i);
 
@@ -239,12 +253,6 @@ public class LevelController implements Observer {
             newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
             players.add(newPlayer);
         }
-
-        System.out.println(players);
-
-        players.forEach(player ->
-                screenController.addToSprites(player.getSpriteBase()));
-
     }
 
     /**
@@ -498,10 +506,18 @@ public class LevelController implements Observer {
         }
     }
 
+    /**
+     * This function returns the bubbles.
+     * @return The bubbles.
+     */
     public ArrayList<Bubble> getBubbles() {
         return bubbles;
     }
 
+    /**
+     * This function adds a bubble.
+     * @param bubble The bubble.
+     */
     public void addBubble(Bubble bubble) {
         bubbles.add(bubble);
         screenController.addToSprites(bubble.getSpriteBase());
