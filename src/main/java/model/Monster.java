@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
 
@@ -22,6 +23,7 @@ public class Monster extends GravityObject {
     private boolean isDead;
     private boolean isReducedSpeed;
     private SpriteBase spriteBase;
+    private AnimationTimer timer;
 
     /**
      * The monster that is trying to catch the character.
@@ -52,6 +54,24 @@ public class Monster extends GravityObject {
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        this.timer = createTimer();
+        timer.start();
+    }
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(long now) {
+                if (!levelController.getGamePaused()) {
+                    move();
+                }
+                
+                setChanged();
+                notifyObservers();
+            }
+        };
+        
     }
 
     /**
@@ -73,8 +93,6 @@ public class Monster extends GravityObject {
             setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
         }
 
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -177,9 +195,6 @@ public class Monster extends GravityObject {
      */
     public void setSpeed(double speed) {
         this.speed = speed;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -196,9 +211,6 @@ public class Monster extends GravityObject {
      */
     public void setFacingRight(boolean facingRight) {
         this.isFacingRight = facingRight;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -235,9 +247,6 @@ public class Monster extends GravityObject {
      */
     public void setDead(boolean dead) {
         this.isDead = dead;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -254,9 +263,6 @@ public class Monster extends GravityObject {
      */
     public void setReducedSpeed(boolean reducedSpeed) {
         this.isReducedSpeed = reducedSpeed;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**

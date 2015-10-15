@@ -102,11 +102,11 @@ public class Player extends GravityObject {
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
         xStartLocation = x;
         yStartLocation = y;
-
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", x, y, r, dx, dy, dr);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
         this.timer = createTimer();
+        timer.start();
     }
 
     private AnimationTimer createTimer() {
