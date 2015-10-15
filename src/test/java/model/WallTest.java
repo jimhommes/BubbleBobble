@@ -15,7 +15,8 @@ public class WallTest {
      */
     @Test
     public void testWall() {
-        wall = new Wall(0, 0, 0, 0, 0, 0);
+    	Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        wall = new Wall(coordinates);
         assertNotNull(wall);
     }
 }

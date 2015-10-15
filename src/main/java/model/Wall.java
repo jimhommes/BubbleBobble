@@ -7,7 +7,7 @@ package model;
  */
 
 /**
- * The class that represents a wall in the game.
+ * This class represents a wall in the game.
  */
 public class Wall  {
 
@@ -15,16 +15,10 @@ public class Wall  {
 
     /**
      * The constructor that implements the X and Y coordinate.
-     * @param x The X coordinate
-     * @param y The Y coordinate
-     * @param r The rotation
-     * @param dx The dx of x
-     * @param dy The dy of y
-     * @param dr The dr of r
+     * @param coordinates The coordinates of the wall.
      */
-    public Wall(double x, double y, double r,
-                double dx, double dy, double dr) {
-        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
+    public Wall(Coordinates coordinates) {
+        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", coordinates);
     }
 
     /**

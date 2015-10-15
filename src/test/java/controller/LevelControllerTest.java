@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import model.Coordinates;
 import model.Input;
 import model.Level;
 import model.Monster;
@@ -100,8 +101,8 @@ public class LevelControllerTest {
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
-        resplayers.add(new Player(levelController, 200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), 1));
+        Coordinates coordinates = new Coordinates(200.0, 200.0, 0, 0, 0, 0);
+        resplayers.add(new Player(levelController, coordinates, 5.0, 5, mock(Input.class), 1));
         when(level.getPlayers()).thenReturn(resplayers);
         levelController.createPlayers();
         ArrayList<Player> players = levelController.getPlayers();
@@ -251,6 +252,7 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -277,6 +279,7 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
    
@@ -437,7 +440,8 @@ public class LevelControllerTest {
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
-        list.add(new Wall(0, 0, 0, 0, 0, 0));
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        list.add(new Wall(coordinates));
         when(level.getWalls()).thenReturn(list);
         levelController.setCurrLvl(level);
 

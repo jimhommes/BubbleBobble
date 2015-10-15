@@ -1,7 +1,7 @@
 package utility;
 
 /**
- * Class used for storing default settings.
+ * This class is used for storing default settings.
  */
 public final class Settings {
 
