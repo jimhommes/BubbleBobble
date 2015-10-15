@@ -9,11 +9,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This is the player class. It has a sprite to display.
+ * This is the player class, that creates are interacts with the player sprite.
  */
 public class Player extends GravityObject {
 
     private static final int TIME_IMMORTAL = 3;
+    private final int playerNumber;
 
     private boolean isJumping;
     private Input input;
@@ -56,26 +57,18 @@ public class Player extends GravityObject {
      * The constructor of the Player class.
      *
      * @param levelController The levelController.
-     * @param x The X coordinate.
-     * @param y The Y coordinate.
-     * @param r The rotation factor.
-     * @param dx The dx.
-     * @param dy The dy.
-     * @param dr The dr.
+     * @param coordinates The coordinates of the player.
      * @param speed The speed.
      * @param lives The amount of lives.
      * @param input The input.
+     * @param playerNumber The number of the player.
      */
     public Player(LevelController levelController,
-                  double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+                 Coordinates coordinates,
                   double speed,
                   int lives,
-                  Input input) {
+                  Input input,
+                  int playerNumber) {
 
         this.speed = speed;
         this.input = input;
@@ -90,18 +83,17 @@ public class Player extends GravityObject {
         this.levelController = levelController;
         this.lives = lives;
         this.score = 0;
-
+        this.playerNumber = playerNumber;
 
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
-        xStartLocation = x;
-        yStartLocation = y;
-
-        this.spriteBase = new SpriteBase("/BubLeft.png", x, y, r, dx, dy, dr);
-
+        xStartLocation = coordinates.getX();
+        yStartLocation = coordinates.getY();
+        
+        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
     }
@@ -136,7 +128,8 @@ public class Player extends GravityObject {
 
     /**
      * Check for collision combined with jumping.
-     * @param jumping The variable whether a GravityObject is jumping.
+     *
+     * @param jumping    The variable whether a GravityObject is jumping.
      * @param ableToJump The variable whether a GravityObject is able to jump.
      * @return The ableToJump variable.
      */
@@ -234,14 +227,15 @@ public class Player extends GravityObject {
 
     /**
      * This function checks if the player collides with a bubble.
-     * @param x Minimal x.
+     *
+     * @param x  Minimal x.
      * @param x1 Maximal x.
-     * @param y Minimal y.
+     * @param y  Minimal y.
      * @param y2 Maximal y.
      * @return True if collision.
      */
     @SuppressWarnings("unchecked")
-	private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
+    private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         levelController.getPlayers().forEach(player -> {
             Player p = (Player) player;
@@ -275,7 +269,7 @@ public class Player extends GravityObject {
 
         if (monster.getSpriteBase().causesCollision(x, x + spriteBase.getWidth(),
                 y, y + spriteBase.getHeight())
-                 && !isDelayed) {
+                && !isDelayed) {
             if (!monster.isCaughtByBubble()) {
                 if (!isImmortal) {
                     this.die();
@@ -297,10 +291,10 @@ public class Player extends GravityObject {
             spriteBase.setDx(0);
             spriteBase.setDy(0);
             counter = 0;
-            spriteBase.setImage("/BubbleBobbleDeath.png");
+            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
         } else {
             isDelayed = true;
-            spriteBase.setImage("/BubbleBobbleDeath.png");
+            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
             this.loseLife();
             this.scorePoints(Settings.POINTS_PLAYER_DIE);
             delayRespawn();
@@ -343,15 +337,15 @@ public class Player extends GravityObject {
         }
         if (isFacingRight) {
             if (isImmortal) {
-                spriteBase.setImage("/BubRightRed.png");
+                spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
             } else {
-                spriteBase.setImage("/BubRight.png");
+                spriteBase.setImage("/Bub" + playerNumber + "Right.png");
             }
         } else {
             if (isImmortal) {
-                spriteBase.setImage("/BubLeftRed.png");
+                spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
             } else {
-                spriteBase.setImage("/BubLeft.png");
+                spriteBase.setImage("/Bub" + playerNumber + "Left.png");
             }
         }
     }
@@ -397,9 +391,9 @@ public class Player extends GravityObject {
         }
 
         if (isImmortal) {
-            spriteBase.setImage("/BubRightRed.png");
+            spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
         } else {
-            spriteBase.setImage("/BubRight.png");
+            spriteBase.setImage("/Bub" + playerNumber + "Right.png");
         }
         isFacingRight = true;
     }
@@ -426,9 +420,9 @@ public class Player extends GravityObject {
         }
 
         if (isImmortal) {
-            spriteBase.setImage("/BubLeftRed.png");
+            spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
         } else {
-            spriteBase.setImage("/BubLeft.png");
+            spriteBase.setImage("/Bub" + playerNumber + "Left.png");
         }
         setFacingRight(false);
     }
@@ -449,13 +443,15 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
+        	Coordinates bubbleCoordinates = 
+        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+            Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
 
             this.setChanged();
             this.notifyObservers();
-            
+
             counter = 0;
         } else {
             counter++;
@@ -464,6 +460,7 @@ public class Player extends GravityObject {
 
     /**
      * Add/subtract points to/from the player's score.
+     *
      * @param points the amount of scored points.
      * @return the Player instance for chaining.
      */
@@ -492,6 +489,7 @@ public class Player extends GravityObject {
 
     /**
      * Get the number of lives.
+     *
      * @return the number of lives.
      */
     public int getLives() {
@@ -500,6 +498,7 @@ public class Player extends GravityObject {
 
     /**
      * Set the number of lives.
+     *
      * @param lives the number of lives.
      */
     public void setLives(int lives) {
@@ -528,6 +527,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns whether the player is jumping.
+     *
      * @return True if jumping.
      */
     public boolean isJumping() {
@@ -536,6 +536,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets whether the player is jumping.
+     *
      * @param jumping True if jumping.
      */
     public void setJumping(boolean jumping) {
@@ -547,6 +548,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the input.
+     *
      * @return The input.
      */
     public Input getInput() {
@@ -555,6 +557,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the input.
+     *
      * @param input The input.
      */
     public void setInput(Input input) {
@@ -566,6 +569,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the speed.
+     *
      * @return The speed.
      */
     public double getSpeed() {
@@ -574,6 +578,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the speed.
+     *
      * @param speed The speed.
      */
     public void setSpeed(double speed) {
@@ -585,6 +590,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the bubbles.
+     *
      * @return The bubbles.
      */
     public ArrayList<Bubble> getBubbles() {
@@ -593,6 +599,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the bubbles.
+     *
      * @param bubbles The bubbles.
      */
     public void setBubbles(ArrayList<Bubble> bubbles) {
@@ -604,6 +611,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets whether the player is facing right.
+     *
      * @param facingRight True if facing right.
      */
     public void setFacingRight(boolean facingRight) {
@@ -615,6 +623,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns whether the player is dead.
+     *
      * @return True if dead.
      */
     public boolean isDead() {
@@ -629,6 +638,7 @@ public class Player extends GravityObject {
     /**
      * This function returns whether the player is game over.
      * AKA no lives left.
+     *
      * @return True if game over.
      */
     public boolean isGameOver() {
@@ -637,6 +647,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets whether the player is game over.
+     *
      * @param gameOver True if gameover.
      */
     public void setGameOver(boolean gameOver) {
@@ -648,6 +659,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the levelcontroller.
+     *
      * @return The levelcontroller.
      */
     public LevelController getLevelController() {
@@ -656,6 +668,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the levelcontroller.
+     *
      * @param levelController The levelcontroller.
      */
     public void setLevelController(LevelController levelController) {
@@ -667,6 +680,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets if the player is able to jump.
+     *
      * @param ableToJump True if able to jump.
      */
     public void setAbleToJump(boolean ableToJump) {
@@ -678,6 +692,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets if the player is able to double jump.
+     *
      * @param ableToDoubleJump True if able to double jump.
      */
     public void setAbleToDoubleJump(boolean ableToDoubleJump) {
@@ -689,6 +704,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the double speed.
+     *
      * @param doubleSpeed True if double speed.
      */
     public void setDoubleSpeed(boolean doubleSpeed) {
@@ -700,6 +716,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the double speed counter.
+     *
      * @param doubleSpeedCounter The double speed counter.
      */
     public void setDoubleSpeedCounter(int doubleSpeedCounter) {
@@ -711,6 +728,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the bubble powerup.
+     *
      * @param bubblePowerup True if bubble powerup.
      */
     public void setBubblePowerup(boolean bubblePowerup) {
@@ -722,6 +740,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the bubble powerup counter.
+     *
      * @param bubblePowerupCounter The powerup counter.
      */
     public void setBubblePowerupCounter(int bubblePowerupCounter) {
@@ -733,6 +752,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the score.
+     *
      * @return The score.
      */
     public int getScore() {
@@ -741,6 +761,7 @@ public class Player extends GravityObject {
 
     /**
      * This function sets the score.
+     *
      * @param score The score.
      */
     public void setScore(int score) {
@@ -752,6 +773,7 @@ public class Player extends GravityObject {
 
     /**
      * This function returns the sprite.
+     *
      * @return The sprite.
      */
     public SpriteBase getSpriteBase() {
@@ -769,5 +791,13 @@ public class Player extends GravityObject {
             }
         });
         bubbles = nBubbles;
+    }
+
+    /**
+     * This function returns the player number.
+     * @return The player number.
+     */
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 }

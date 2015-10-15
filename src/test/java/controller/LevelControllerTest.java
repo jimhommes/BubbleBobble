@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import model.Coordinates;
 import model.Input;
 import model.Level;
 import model.Monster;
@@ -61,9 +62,10 @@ public class LevelControllerTest {
 	@Before
     public void setUp() {
         mainController = mock(MainController.class);
+        when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
         pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
-        levelController = new LevelController(mainController);
+        levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));
         
         gameLoopTest = levelController.createTimer();
@@ -112,10 +114,10 @@ public class LevelControllerTest {
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
-        resplayers.add(new Player(levelController, 200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class)));
+        Coordinates coordinates = new Coordinates(200.0, 200.0, 0, 0, 0, 0);
+        resplayers.add(new Player(levelController, coordinates, 5.0, 5, mock(Input.class), 1));
         when(level.getPlayers()).thenReturn(resplayers);
-        levelController.createPlayer(mock(Input.class));
+        levelController.createPlayers();
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
@@ -182,10 +184,8 @@ public class LevelControllerTest {
     @Test
     public void testStartLevelMouseEvent() {
         assertFalse(levelController.getGameStarted());
-        assertNull(levelController.getInput());
         assertNull(levelController.getCurrLvl());
 
-        when(mainController.createInput()).thenReturn(mock(Input.class));
         levelController.setScreenController(mock(ScreenController.class));
 
         EventHandler<MouseEvent> handler = levelController.getStartMousePressEventHandler();
@@ -275,6 +275,7 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -301,6 +302,7 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
    
@@ -312,7 +314,7 @@ public class LevelControllerTest {
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
         when(playerTest.isGameOver()).thenReturn(false);
-        
+
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
@@ -461,7 +463,8 @@ public class LevelControllerTest {
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
-        list.add(new Wall(0, 0, 0, 0, 0, 0));
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        list.add(new Wall(coordinates));
         when(level.getWalls()).thenReturn(list);
         levelController.setCurrLvl(level);
 
@@ -474,17 +477,7 @@ public class LevelControllerTest {
         assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
         assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
     }
-    
-    /**
-     * This tests the setInput method.
-     */
-    @Test
-    public void testSetInput() {
-    	Input input = mock(Input.class);
-    	levelController.setInput(input);
-    	assertEquals(levelController.getInput(), input);
-    }
-    
+
     /**
      * This tests the SetGameStarted method.
      */

@@ -28,7 +28,7 @@ public class LevelTest {
     	LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        level = new Level("map1.txt", levelController);
+        level = new Level("map1.txt", levelController, 1);
     }
 
     /**
@@ -39,14 +39,13 @@ public class LevelTest {
         level.drawMap();
         assertEquals(8, level.getMonsters().size());
         assertEquals(380, level.getWalls().size());
-        assertEquals(2, level.getPlayers().size());
+        assertEquals(1, level.getPlayers().size());
     }
     
     /**
      * This tests the update method when all the monsters are still alive.
      */
-    @SuppressWarnings("unchecked")
-	@Test
+    @Test
     public void testUpdate() {
     	ArrayList<Monster> mon = level.getMonsters();
     	assertEquals(mon.size(), 4);
@@ -56,8 +55,7 @@ public class LevelTest {
     /**
      * This tests the update method when all the monsters have just been killed.
      */
-    @SuppressWarnings("unchecked")
-   	@Test
+    @Test
        public void testUpdateNoMonsters() {
        	ArrayList<Monster> mon = level.getMonsters();
        	mon.clear();
@@ -69,8 +67,7 @@ public class LevelTest {
      * This tests the update method when all the monsters have been 
      * killed and the counter has reached 200.
      */
-    @SuppressWarnings("unchecked")
-   	@Test
+    @Test
        public void testUpdateNoMonstersTimeUp() {
        	ArrayList<Monster> mon = level.getMonsters();
        	int counter = 0;

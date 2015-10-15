@@ -27,7 +27,7 @@ public class InputTest {
      */
     @Before
     public void setUp() {
-        input = new Input(scene);
+        input = new Input(scene, 1);
         keyboardBitSet = mock(BitSet.class);
         input.setKeyboardBitSet(keyboardBitSet);
     }

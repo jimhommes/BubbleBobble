@@ -46,8 +46,8 @@ public class PlayerTest {
         screenController = mock(ScreenController.class);
         level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        player = new Player(levelController, Level.SPRITE_SIZE, Level.SPRITE_SIZE
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, 1, input);
+        Coordinates coordinates = new Coordinates(Level.SPRITE_SIZE, Level.SPRITE_SIZE, 0, 0, 0, 0);
+        player = new Player(levelController, coordinates, Settings.PLAYER_SPEED, 1, input, 1);
     	walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
@@ -226,7 +226,9 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-    	Wall wall = new Wall(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
+        Coordinates coordinates = 
+        		new Coordinates(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
+    	Wall wall = new Wall(coordinates);
     	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
         player.processInput();
@@ -241,7 +243,8 @@ public class PlayerTest {
     @Test
     public void testCollisionLeft() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-    	Wall wall = new Wall(sprite.getX(), sprite.getY(), 0, 0, 0, 0);
+        Coordinates coordinates = new Coordinates(sprite.getX(), sprite.getY(), 0, 0, 0, 0);
+    	Wall wall = new Wall(coordinates);
     	walls.add(wall);
     	when(input.isMoveLeft()).thenReturn(true);
         player.processInput();
@@ -290,8 +293,9 @@ public class PlayerTest {
         levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        Player player1 = new Player(levelController, 0, Settings.SCENE_HEIGHT
-                , 0, 0, 0, 0, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input);
+        Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
+        Player player1 = new Player(levelController, coordinates, 
+        		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
         player1.processInput();
         SpriteBase sprite = player1.getSpriteBase();
         assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.0001);
