@@ -56,11 +56,6 @@ public class StartController implements Initializable {
 
     protected static int limitOfPlayers;
 
-    /**
-     * Initializes the view.
-     *
-     * This is the place for setting onclick handlers, for example.
-     */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         singlePlayerButton.setOnAction(event -> {

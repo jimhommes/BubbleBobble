@@ -68,11 +68,6 @@ public class MainController implements Initializable {
      */
     private ScreenController screenController;
 
-    /**
-     * The initialize function.
-     * @param location The URL.
-     * @param resources The resourceBundle.
-     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);

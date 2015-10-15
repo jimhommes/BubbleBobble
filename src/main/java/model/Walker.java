@@ -189,9 +189,6 @@ public class Walker extends Monster {
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    /**
-     * Check if the powerup is not expired.
-     */
     @Override
     public void checkPowerups() {
         if (this.isReducedSpeed()) {

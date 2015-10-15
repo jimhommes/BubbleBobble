@@ -31,15 +31,6 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    /**
-     * The start method sets up the application window.
-     * <p>
-     * The view is loaded from an FXML file. A title for the window is set.
-     * The loaded view is set as the current scene.
-     *
-     * @param primaryStage The primary stage (window).
-     * @throws IOException When the FXML file is not found.
-     */
     @Override
     public final void start(final Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));

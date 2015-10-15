@@ -36,10 +36,6 @@ public class GameEndController implements Initializable {
      */
     @FXML private Button quitButton;
 
-    /**
-     * Initializes the view.
-     * This is the place for setting onclick handlers, for example.
-     */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         restartButton.setOnAction(event -> {
