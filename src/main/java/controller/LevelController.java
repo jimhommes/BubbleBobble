@@ -74,7 +74,7 @@ public class LevelController implements Observer {
     };
 
     /**
-     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     * "Key Released" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
