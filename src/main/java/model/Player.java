@@ -2,6 +2,7 @@ package model;
 
 import controller.LevelController;
 import model.powerups.DoubleSpeed;
+import model.powerups.Immortality;
 import model.powerups.PlayerEnhancement;
 import utility.Logger;
 import utility.Settings;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
  */
 public class Player extends GravityObject {
 
-    private static final int TIME_IMMORTAL = 3;
     private final int playerNumber;
 
     private boolean isJumping;
@@ -29,9 +29,8 @@ public class Player extends GravityObject {
     private int counter;
     private boolean isDead;
     private boolean isGameOver;
-    private boolean isImmortal;
     private boolean isDelayed;
-    private Timer immortalTimer;
+    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -43,6 +42,7 @@ public class Player extends GravityObject {
 
     private boolean doubleSpeed;
     private boolean bubblePowerup;
+    private boolean isImmortal;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -300,26 +300,22 @@ public class Player extends GravityObject {
         delayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                isDelayed = false;
-                isImmortal = true;
-
-                spriteBase.setDx(0);
-                spriteBase.setDy(0);
-                spriteBase.setX(xStartLocation);
-                spriteBase.setY(yStartLocation);
-                immortalTimer = new Timer();
-                immortalTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        isImmortal = false;
-                        immortalTimer.cancel();
-                    }
-                }, 1000 * TIME_IMMORTAL);
+                respawn();
             }
         }, 1000);
 
         this.setChanged();
         this.notifyObservers();
+    }
+
+    private void respawn() {
+        isDelayed = false;
+        this.addPowerup(Immortality::new);
+
+        spriteBase.setDx(0);
+        spriteBase.setDy(0);
+        spriteBase.setX(xStartLocation);
+        spriteBase.setY(yStartLocation);
     }
 
     /**
@@ -742,5 +738,12 @@ public class Player extends GravityObject {
      */
     public int getPlayerNumber() {
         return playerNumber;
+    }
+
+    public void setImmortal(boolean immortal) {
+        isImmortal = immortal;
+
+        this.setChanged();
+        this.notifyObservers(this);
     }
 }
