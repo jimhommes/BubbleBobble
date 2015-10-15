@@ -1,9 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Observable;
-
 import controller.LevelController;
+
+import java.util.Observable;
 
 /**
  * This class will load the sprites (image).
@@ -292,7 +291,7 @@ public class SpriteBase extends Observable {
     public boolean causesCollisionWall(double minX, double maxX, double minY, 
 			double maxY, LevelController levelController) {
 
-        for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
+        for (Wall wall : levelController.getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }

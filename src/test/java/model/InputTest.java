@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by toinehartman on 11/09/15.
+ * Tests the Input class.
  */
 public class InputTest {
     private BitSet keyboardBitSet;

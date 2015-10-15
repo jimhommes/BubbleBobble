@@ -1,20 +1,19 @@
 package model;
 
 import utility.Settings;
-
 import java.util.Observable;
 
 /**
  * This class represents objects affected by gravity.
  */
-public abstract class GravityObject extends Observable {
+abstract class GravityObject extends Observable {
 
     /**
      * This method calculates the gravity.
      *
      * @return The gravity constant.
      */
-    protected float calculateGravity() {
+    float calculateGravity() {
         return -Settings.GRAVITY_CONSTANT;
     }
 

@@ -12,18 +12,12 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by Jim on 10/8/2015.
  * This class tests the Powerup class.
- *
- * @author Jim
- * @version 1.0
- * @since 10/8/2015
  */
 public class PowerupTest {
 
     private Powerup powerup;
     private LevelController levelController;
-    private ScreenController screenController;
     private double destx = 10.0;
     private double desty = 10.0;
 
@@ -33,7 +27,7 @@ public class PowerupTest {
     @Before
     public void setUp() {
     	levelController = mock(LevelController.class);
-        screenController = mock(ScreenController.class);
+        ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
         powerup = new Powerup(0, coordinates, destx, desty, levelController);

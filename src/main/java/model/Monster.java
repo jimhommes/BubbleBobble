@@ -6,11 +6,6 @@ import utility.Settings;
 
 /**
  * This class is where the monsters are created.
- * Created by Jim on 9/8/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/8/2015
  */
 public class Monster extends GravityObject {
 
@@ -131,7 +126,7 @@ public class Monster extends GravityObject {
      * Check if the powerups expired.
      * Is used in subclass.
      */
-    public void checkPowerups() {
+    void checkPowerups() {
 
     }
 

@@ -38,21 +38,18 @@ import static org.mockito.Mockito.never;
 
 /**
  * Tests the creation of a LevelController.
- *
- * @author Lili
  */
 public class LevelControllerTest {
 
     private LevelController levelController;
     private MainController mainController;
-    private Pane pane;
-   
+
     private AnimationTimer gameLoopTest; 
     @SuppressWarnings("rawtypes")
-	private ArrayList playersTest = new ArrayList();
+	private ArrayList<Player> playersTest = new ArrayList<>();
     private Player playerTest = mock(Player.class);
     @SuppressWarnings("rawtypes")
-	private ArrayList monstersTest = new ArrayList();
+	private ArrayList<Monster> monstersTest = new ArrayList<>();
     private Monster monsterTest = mock(Monster.class);
 
     /**
@@ -63,7 +60,7 @@ public class LevelControllerTest {
     public void setUp() {
         mainController = mock(MainController.class);
         when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
-        pane = mock(Pane.class);
+        Pane pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));
@@ -155,16 +152,6 @@ public class LevelControllerTest {
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
     }
-
-    /**
-     * The function that sets the path to the maps.
-     */
-    @Test
-    public void testSetPathMaps() {
-        String pathMaps = "path";
-        levelController.setPathMaps(pathMaps);
-        assertEquals(pathMaps, levelController.getPathMaps());
-    }
     
     /**
      * This is the test that tests the createLvl() function.
@@ -243,11 +230,11 @@ public class LevelControllerTest {
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
-        ArrayList players = new ArrayList();
+        ArrayList<Player> players = new ArrayList<>();
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList monsters = new ArrayList();
+        ArrayList<Monster> monsters = new ArrayList<>();
         Monster monster = mock(Monster.class);
         monsters.add(monster);
 
@@ -483,8 +470,7 @@ public class LevelControllerTest {
      */
     @Test
     public void testSetGameStarted() {
-    	Boolean game = true;
-    	levelController.setGameStarted(game);
-    	assertEquals(levelController.getGameStarted(), game);
+        levelController.setGameStarted(true);
+        assertEquals(levelController.getGameStarted(), true);
     }
 }

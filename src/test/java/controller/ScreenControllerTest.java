@@ -16,12 +16,7 @@ import static org.mockito.Mockito.any;
 
 
 /**
- * Created by Jim on 9/18/2015.
- * The tests for the ScreenController Class
- *
- * @author Jim
- * @version 1.0
- * @since 9/18/2015
+ * The tests for the Screen Controller Class.
  */
 
 public class ScreenControllerTest {

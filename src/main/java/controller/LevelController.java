@@ -21,76 +21,31 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
- * @author Jim
- * @version 0.1
- * @since 9/5/2015
- * Last Modified: Lili
  */
 public class LevelController implements Observer {
 
-    /**
-     * KeyCode for pausing the game.
-     */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
+    private static final String MAPS_PATH = "src/main/resources";
 
-    /**
-     * The list of players in the game.
-     */
     private ArrayList<Player> players = new ArrayList<>();
-    
-    /**
-     * The list of maps that the user is about to play.
-     */
     private ArrayList<String> maps = new ArrayList<>();
-
-    /**
-     * The list of powerups.
-     */
     private ArrayList<Powerup> powerups = new ArrayList<>();
-    /**
-     * The current index of the level the user is playing.
-     */
+
     private int indexCurrLvl;
-    /**
-     * The current level the user is playing.
-     */
     private Level currLvl;
-    /**
-     * A boolean to see if the game is going on or not.
-     */
+
     private boolean gameStarted = false;
-    /**
-     * A boolean to see if the game is going on or not.
-     */
     private boolean gamePaused = false;
-    /**
-     * The screenController that handles all GUI.
-     */
+
     private ScreenController screenController;
-
-    /**
-     * The gameLoop timer. This timer is the main timer.
-     */
     private AnimationTimer gameLoop;
-
-    /**
-     * The Main Controller.
-     */
     private MainController mainController;
 
-    /**
-     * The path to the maps.
-     */
-    private String pathMaps = "src/main/resources";
-
-    /**
-     * The boolean preventing the pauseScreen from switching many times.
-     */
     private boolean switchedPauseScreen = false;
-
     private int limitOfPlayers;
 
     /**
@@ -116,15 +71,12 @@ public class LevelController implements Observer {
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
-    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
-            if (event.getCode() == PAUSE_KEY) {
-                switchedPauseScreen = false;
-            }
-
+        if (event.getCode() == PAUSE_KEY) {
+            switchedPauseScreen = false;
         }
+
     };
 
     /**
@@ -173,7 +125,7 @@ public class LevelController implements Observer {
      * This function scans the resources folder for maps.
      */
     public void findMaps() {
-        File folder = new File(pathMaps);
+        File folder = new File(MAPS_PATH);
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (File file : listOfFiles) {
@@ -244,13 +196,9 @@ public class LevelController implements Observer {
      * the ones which have been picked up.
      */
     public void updatePowerups() {
-        ArrayList<Powerup> nPowerups = new ArrayList<>();
-        for (Powerup powerup : powerups) {
-            if (!powerup.isPickedUp()) {
-                nPowerups.add(powerup);
-            }
-        }
-        powerups = nPowerups;
+        powerups = powerups.stream()
+                .filter(powerup -> !powerup.isPickedUp())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -349,7 +297,7 @@ public class LevelController implements Observer {
     /**
      * This method calls the win screen when the game has been won.
      */
-    public void winGame() {
+    private void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
         mainController.showWinScreen();
@@ -413,7 +361,7 @@ public class LevelController implements Observer {
      *
      * @return True if the gamePaused is true.
      */
-    public boolean isGamePaused() {
+    private boolean isGamePaused() {
         return this.gamePaused;
     }
 
@@ -421,8 +369,7 @@ public class LevelController implements Observer {
      * The function that gets the players.
      * @return The players.
      */
-    @SuppressWarnings("rawtypes")
-	public ArrayList getPlayers() {
+	public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -432,22 +379,6 @@ public class LevelController implements Observer {
      */
     public Level getCurrLvl() {
         return currLvl;
-    }
-
-    /**
-     * The function that sets the path to the maps.
-     * @param pathMaps The path to the maps.
-     */
-    public void setPathMaps(String pathMaps) {
-        this.pathMaps = pathMaps;
-    }
-    
-    /**
-     * This method gets the path of the maps.
-     * @return pathMaps, the path to the maps.
-     */
-    public String getPathMaps() {
-    	return pathMaps;
     }
 
     /**
@@ -478,8 +409,7 @@ public class LevelController implements Observer {
      * This function sets the players.
      * @param players The players.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	public void setPlayers(ArrayList players) {
+	public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -573,8 +503,7 @@ public class LevelController implements Observer {
      * @param maxY The maximum value of the Y value.
      * @return true is there is a collision.
      */
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
+	private boolean causesCollision(double minX, double maxX, double minY, double maxY) {
         for (Wall wall : getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
