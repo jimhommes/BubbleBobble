@@ -31,8 +31,10 @@ public class BubbleTest {
     	ScreenController screenController = mock(ScreenController.class);
     	Level level = mock(Level.class);
     	when(levelController.getScreenController()).thenReturn(screenController);
-        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, false, levelController);
-        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, false, levelController);
+    	Coordinates coordinatesBubble = new Coordinates(1, 1, 0, 0, 0, 0);
+    	
+        bubbleRight = new Bubble(coordinatesBubble, true, false, levelController);
+        bubbleLeft = new Bubble(coordinatesBubble, false, false, levelController);
         walls = new ArrayList<Wall>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);

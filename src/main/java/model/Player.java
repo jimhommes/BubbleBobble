@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This is the player class. It has a sprite to display.
+ * This is the player class, that creates are interacts with the player sprite.
  */
 public class Player extends GravityObject {
 
@@ -57,24 +57,14 @@ public class Player extends GravityObject {
      * The constructor of the Player class.
      *
      * @param levelController The levelController.
-     * @param x               The X coordinate.
-     * @param y               The Y coordinate.
-     * @param r               The rotation factor.
-     * @param dx              The dx.
-     * @param dy              The dy.
-     * @param dr              The dr.
-     * @param speed           The speed.
-     * @param lives           The amount of lives.
-     * @param input           The input.
-     * @param playerNumber    The number of the player.
+     * @param coordinates The coordinates of the player.
+     * @param speed The speed.
+     * @param lives The amount of lives.
+     * @param input The input.
+     * @param playerNumber The number of the player.
      */
     public Player(LevelController levelController,
-                  double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+                 Coordinates coordinates,
                   double speed,
                   int lives,
                   Input input,
@@ -100,10 +90,10 @@ public class Player extends GravityObject {
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
-        xStartLocation = x;
-        yStartLocation = y;
-
-        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", x, y, r, dx, dy, dr);
+        xStartLocation = coordinates.getX();
+        yStartLocation = coordinates.getY();
+        
+        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
     }
@@ -453,7 +443,9 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
+        	Coordinates bubbleCoordinates = 
+        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+            Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
 
