@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 /**
  * @author Jim
@@ -78,15 +79,12 @@ public class LevelController implements Observer {
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
      */
-    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
-            if (event.getCode() == PAUSE_KEY) {
-                switchedPauseScreen = false;
-            }
-
+        if (event.getCode() == PAUSE_KEY) {
+            switchedPauseScreen = false;
         }
+
     };
 
     /**
@@ -207,13 +205,9 @@ public class LevelController implements Observer {
      * the ones which have been picked up.
      */
     public void updatePowerups() {
-        ArrayList<Powerup> nPowerups = new ArrayList<>();
-        for (Powerup powerup : powerups) {
-            if (!powerup.isPickedUp()) {
-                nPowerups.add(powerup);
-            }
-        }
-        powerups = nPowerups;
+        powerups = powerups.stream()
+                .filter(powerup -> !powerup.isPickedUp())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

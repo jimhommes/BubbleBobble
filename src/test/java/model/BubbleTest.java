@@ -29,7 +29,7 @@ public class BubbleTest {
     	when(levelController.getScreenController()).thenReturn(screenController);
         bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, false, levelController);
         bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, false, levelController);
-        ArrayList<Wall> walls = new ArrayList<Wall>();
+        ArrayList<Wall> walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
     }

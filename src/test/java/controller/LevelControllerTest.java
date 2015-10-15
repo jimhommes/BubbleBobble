@@ -231,11 +231,11 @@ public class LevelControllerTest {
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList<Monster> monsters = new ArrayList<Monster>();
+        ArrayList<Monster> monsters = new ArrayList<>();
         Monster monster = mock(Monster.class);
         monsters.add(monster);
 

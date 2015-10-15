@@ -35,7 +35,7 @@ public class WalkerTest {
 		Level level = mock(Level.class);
 		when(levelController.getScreenController()).thenReturn(screenController);
 		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelController);
-		walls = new ArrayList<Wall>();
+		walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
 		
@@ -90,7 +90,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveBubble() throws Exception {
-		ArrayList<Wall> wall = new ArrayList<Wall>();
+		ArrayList<Wall> wall = new ArrayList<>();
 		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		//when(levelcon)
@@ -115,7 +115,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveDown() throws Exception {
-		ArrayList<Wall> wall = new ArrayList<Wall>();
+		ArrayList<Wall> wall = new ArrayList<>();
 		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT

@@ -36,28 +36,22 @@ public class Input {
     /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
      */
-    private EventHandler<KeyEvent> keyPressedEventHandler = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> keyPressedEventHandler = event -> {
 
-            // register key down
-            keyboardBitSet.set(event.getCode().ordinal(), true);
+        // register key down
+        keyboardBitSet.set(event.getCode().ordinal(), true);
 
-            Logger.log(String.format("Key %s was pressed", event.getCode().getName()));
+        Logger.log(String.format("Key %s was pressed", event.getCode().getName()));
 
-        }
     };
     /**
      * "Key Released" handler for all input events: unregister released key in the bitset.
      */
-    private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> keyReleasedEventHandler = event -> {
 
-            // register key up
-            keyboardBitSet.set(event.getCode().ordinal(), false);
+        // register key up
+        keyboardBitSet.set(event.getCode().ordinal(), false);
 
-        }
     };
 
     /**
