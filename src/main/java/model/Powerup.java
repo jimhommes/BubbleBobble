@@ -75,6 +75,9 @@ public class Powerup extends Observable {
                     levelController.getPlayers().forEach(Powerup.this::causesCollision);
                     move();
                 }
+
+                setChanged();
+                notifyObservers();
             }
         };
     }
@@ -113,9 +116,6 @@ public class Powerup extends Observable {
         }
 
         spriteBase.move();
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -180,24 +180,13 @@ public class Powerup extends Observable {
      */
     public void setAbleToPickup(boolean ableToPickup) {
         this.ableToPickup = ableToPickup;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
      * This function returns whether the powerup is picked up.
      * @return True if picked up.
      */
-    public boolean isPickedUp() {
-
-        if (pickedUp) {
-            this.deleteObservers();
-        }
-
-        return pickedUp;
-
-    }
+    public boolean getPickedUp() { return pickedUp; }
 
     /**
      * This function sets whether the powerup is picked up.
@@ -206,8 +195,11 @@ public class Powerup extends Observable {
     public void setPickedUp(boolean pickedUp) {
         this.pickedUp = pickedUp;
 
-        this.setChanged();
-        this.notifyObservers();
+        if (pickedUp) {
+            setChanged();
+            notifyObservers();
+            destroy();
+        }
     }
 
     /**

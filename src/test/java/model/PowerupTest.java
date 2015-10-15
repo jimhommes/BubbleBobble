@@ -76,7 +76,7 @@ public class PowerupTest {
         powerup.setAbleToPickup(true);
         powerup.causesCollision(player);
 
-        assertTrue(powerup.isPickedUp());
+        assertTrue(powerup.getPickedUp());
     }
 
 }

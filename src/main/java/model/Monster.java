@@ -57,7 +57,7 @@ public class Monster extends GravityObject {
                     levelController.getBubbles().forEach(Monster.this::checkCollision);
                     move();
                 }
-                
+
                 setChanged();
                 notifyObservers();
             }
@@ -126,7 +126,13 @@ public class Monster extends GravityObject {
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
+                prisonBubble.setIsPopped(true);
                 levelController.spawnPowerup(this);
+
+                setChanged();
+                notifyObservers();
+                destroy();
+
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
@@ -224,12 +230,7 @@ public class Monster extends GravityObject {
      * This function returns whether the monster is dead.
      * @return True if dead.
      */
-    public boolean isDead() {
-        if (isDead) {
-            this.deleteObservers();
-        }
-        return isDead;
-    }
+    public boolean isDead() { return isDead; }
 
     /**
      * This function sets whether the monster is dead.

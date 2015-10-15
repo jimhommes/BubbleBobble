@@ -151,7 +151,7 @@ public class ScreenController implements Observer {
     }
 
     private void updatePowerup(Powerup p) {
-        if (p.isPickedUp()) {
+        if (p.getPickedUp()) {
             removeSprite(p.getSpriteBase());
         }
         update(p.getSpriteBase());
@@ -160,7 +160,6 @@ public class ScreenController implements Observer {
     private void updateMonster(Monster m) {
         if (m.isDead()) {
             removeSprite(m.getSpriteBase());
-            removeSprite(m.getPrisonBubble().getSpriteBase());
         }
         update(m.getSpriteBase());
     }

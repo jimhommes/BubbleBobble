@@ -70,7 +70,7 @@ public class Bubble extends Observable {
      */
     private void checkPop() {
         if (!isPopped) {
-            isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
+            setIsPopped(counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble);
         }
     }
 
@@ -185,12 +185,7 @@ public class Bubble extends Observable {
      * This function returns whether the bubble is popped.
      * @return True if popped.
      */
-    public boolean getIsPopped() {
-        if (isPopped) {
-            this.deleteObservers();
-        }
-        return isPopped;
-    }
+    public boolean getIsPopped() { return isPopped; }
 
     /**
      * This function forces the player to die entirely.
@@ -200,4 +195,16 @@ public class Bubble extends Observable {
         timer.stop();
     }
 
+    /**
+     * This function sets if the bubble is popped or not.
+     * @param isPopped True if popped.
+     */
+    public void setIsPopped(boolean isPopped) {
+        this.isPopped = isPopped;
+        if (isPopped) {
+            setChanged();
+            notifyObservers();
+            destroy();
+        }
+    }
 }
