@@ -10,54 +10,15 @@ import java.util.Random;
  */
 public class Walker extends Monster {
 
-    /**
-     * This is the levelController.
-     */
     private LevelController levelController;
-
-    /**
-     * This boolean indicates whether the monster is jumping.
-     */
     private boolean jumping;
-
-    /**
-     * This boolean indicates whether the player is ready for a jump.
-     */
     private boolean ableToJump;
-
-    /**
-     * This counter is used to check how long the player is in the air.
-     */
     private int jumpCounter;
-
-    /**
-     * This is the minimal X coordinate the walker can move around in.
-     */
     private double walkerMinX;
-
-    /**
-     * This is the maximal X coordinate the walker can move around in.
-     */
     private double walkerMaxX;
-
-    /**
-     * This is the minimal Y coordinate the walker can move around in.
-     */
     private double walkerMinY;
-
-    /**
-     * This is the maximal Y coordinate the walker can move around in.
-     */
     private double walkerMaxY;
-
-    /**
-     * Jump threshold.
-     */
     private static final int JUMP_THRESHOLD = 5;
-
-    /**
-     * Count cycles for reduced speed powerup.
-     */
     private double reducedSpeedCounter;
 
     /**

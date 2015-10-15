@@ -10,59 +10,16 @@ import controller.LevelController;
  */
 public class SpriteBase extends Observable {
 
-    /**
-     * Image to be loaded.
-     */
     private String imagePath;
-
-    /**
-     * The x coordinate.
-     */
     private double x;
-
-    /**
-     * The y coordinate.
-     */
     private double y;
-
-    /**
-     * The r coordinate.
-     */
     private double r;
-
-    /**
-     * The difference in x.
-     */
     private double dx;
-
-    /**
-     * The difference in y.
-     */
     private double dy;
-
-    /**
-     * The difference in r.
-     */
     private double dr;
-
-    /**
-     * The width.
-     */
     private double w;
-
-    /**
-     * The height.
-     */
     private double h;
-
-    /**
-     * The boolean that resembles if the image should be able to move or not.
-     */
     private boolean canMove;
-
-    /**
-     * The boolean to check if the sprite has changed or not.
-     */
     private boolean spriteChanged;
     
     /**

@@ -14,10 +14,6 @@ import java.util.BitSet;
 public class Input {
 
     private final int playerNumber;
-
-    /**
-     * The scene the player moves in.
-     */
     private Scene scene;
 
     // -------------------------------------------------
@@ -25,50 +21,16 @@ public class Input {
     // will vary when you let the user customize the key codes
     // or when you add support for a 2nd player
     // -------------------------------------------------
-    /**
-     * Bitset which registers if any {@link KeyCode}
-     * keeps being pressed or if it is released.
-     */
     private BitSet keyboardBitSet = new BitSet();
-    /**
-     * KeyCode for the up key.
-     */
     public static final KeyCode UP_KEY = KeyCode.UP;
-    /**
-     * KeyCode for the down key.
-     */
     public static final KeyCode DOWN_KEY = KeyCode.DOWN;
-    /**
-     * KeyCode for the left key.
-     */
     public static final KeyCode LEFT_KEY = KeyCode.LEFT;
-    /**
-     * KeyCode for the right key.
-     */
     public static final KeyCode RIGHT_KEY = KeyCode.RIGHT;
-    /**
-     * KeyCode for the space key. (fire primary weapon)
-     */
     public static final KeyCode PRIMARY_WEAPON_KEY = KeyCode.SPACE;
-    /**
-     * KeyCode for the control key. (fire secondary weapon)
-     */
     public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
-    /**
-     * KeyCode for the W key.
-     */
     public static final KeyCode W_KEY = KeyCode.W;
-    /**
-     * KeyCode for the A key.
-     */
     public static final KeyCode A_KEY = KeyCode.A;
-    /**
-     * KeyCode for the D key.
-     */
     public static final KeyCode D_KEY = KeyCode.D;
-    /**
-     * KeyCode for the Shift key (fire primary).
-     */
     public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
 
     /**

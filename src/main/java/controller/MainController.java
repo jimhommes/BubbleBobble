@@ -27,45 +27,14 @@ import java.util.ResourceBundle;
  */
 public class MainController implements Initializable {
 
-    /**
-     * The message that says "Click when ready".
-     */
-    @FXML
-    private Text startMessage;
-    /**
-     * The message that says "Game Paused".
-     */
-    @FXML
-    private Text pauseMessage;
-    /**
-     * The message that gives extra information when game is paused.
-     */
-    @FXML
-    private Text pauseMessageSub;
-    /**
-     * The VBox that contains pauseMessage and pauseMessageSub.
-     */
-    @FXML
-    private VBox pauseVBox;
-    /**
-     * The layer the player "moves" in.
-     */
-    @FXML
-    private Pane playFieldLayer;
-    /**
-     * The number of lives left text box.
-     */
-    @FXML
-    private Text livesText;
-    /**
-     * The score textbox.
-     */
-    @FXML
-    private Text scoreText;
+    @FXML private Text startMessage;
+    @FXML private Text pauseMessage;
+    @FXML private Text pauseMessageSub;
+    @FXML private VBox pauseVBox;
+    @FXML private Pane playFieldLayer;
+    @FXML private Text livesText;
+    @FXML private Text scoreText;
 
-    /**
-     * The screen controller that handles all GUI/sprite interaction.
-     */
     private ScreenController screenController;
 
     @Override

@@ -154,16 +154,6 @@ public class LevelControllerTest {
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
     }
-
-    /**
-     * The function that sets the path to the maps.
-     */
-    @Test
-    public void testSetPathMaps() {
-        String pathMaps = "path";
-        levelController.setPathMaps(pathMaps);
-        assertEquals(pathMaps, levelController.getPathMaps());
-    }
     
     /**
      * This is the test that tests the createLvl() function.

@@ -27,19 +27,8 @@ import java.util.Observer;
  */
 public class ScreenController implements Observer {
 
-    /**
-     * All the sprites that are drawn on the board.
-     */
     private ArrayList<SpriteBase> sprites;
-
-    /**
-     * All the images that are linked to the sprites.
-     */
     private ArrayList<ImageView> images;
-
-    /**
-     * The pane where everything is drawn in.
-     */
     private Pane playFieldLayer;
 
 	/**

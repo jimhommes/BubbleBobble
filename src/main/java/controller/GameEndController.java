@@ -20,20 +20,8 @@ import java.util.ResourceBundle;
  */
 public class GameEndController implements Initializable {
 
-    /**
-     * The @FXML annotation links the view element to this object in the controller.
-     * The variable name of the object has to match the fx:id of the view element.
-     */
     @FXML private AnchorPane root;
-
-    /**
-     * The restart button. When pressed the game will restart.
-     */
     @FXML private Button restartButton;
-
-    /**
-     * The quit button. If pressed the application will close.
-     */
     @FXML private Button quitButton;
 
     @Override

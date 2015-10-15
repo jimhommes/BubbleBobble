@@ -21,24 +21,10 @@ import java.util.ArrayList;
  */
 public class Level {
 
-    /**
-     * The number of rows.
-     */
     protected static final int NUM_ROWS = 26;
-
-    /**
-     * Number of columns.
-     */
     protected static final int NUM_COLS = 26;
-
-    /**
-     * The size in pixels of a sprite.
-     */
     public static final double SPRITE_SIZE = 32.0;
 
-    /**
-     * The controller of this class.
-     */
     private final LevelController levelController;
     private final int limitOfPlayers;
 

@@ -23,35 +23,11 @@ import java.util.ResourceBundle;
  */
 public class StartController implements Initializable {
 
-    /**
-     * The help screen.
-     */
     @FXML private GridPane helpScreen;
-
-    /**
-     * The @FXML annotation links the view element to this object in the controller.
-     * The variable name of the object has to match the fx:id of the view element.
-     */
     @FXML private AnchorPane root;
-
-    /**
-     * The singleplayer button. If you press this the game will start for a single player.
-     */
     @FXML private Button singlePlayerButton;
-
-    /**
-     * The multiplayer button. If you press this the multiplayer game will start.
-     */
     @FXML private Button multiPlayerButton;
-
-    /**
-     * The exit button. If you press this the application will close.
-     */
     @FXML private Button exitButton;
-
-    /**
-     * The help button. If you press this you will be shown some text that should help you.
-     */
     @FXML private Button helpButton;
 
     protected static int limitOfPlayers;
