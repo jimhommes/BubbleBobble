@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Bubble;
+import model.Coordinates;
 import model.Input;
 import model.Level;
 import model.Player;
@@ -540,8 +541,10 @@ public class LevelController implements Observer {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Powerup powerup = new Powerup(Math.random(), monster.getSpriteBase().getX(),
-                monster.getSpriteBase().getY(), 2, 0, 0, 0, randLocX, randLocY, this);
+        Coordinates powerUpCoordinates = new Coordinates(monster.getSpriteBase().getX(),
+                monster.getSpriteBase().getY(), 2, 0, 0, 0);
+        
+        Powerup powerup = new Powerup(Math.random(), powerUpCoordinates,  randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 

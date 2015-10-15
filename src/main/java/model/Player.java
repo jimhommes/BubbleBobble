@@ -67,12 +67,7 @@ public class Player extends GravityObject {
      * @param input The input.
      */
     public Player(LevelController levelController,
-                  double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+                 Coordinates coordinates,
                   double speed,
                   int lives,
                   Input input) {
@@ -97,10 +92,10 @@ public class Player extends GravityObject {
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
-        xStartLocation = x;
-        yStartLocation = y;
+        xStartLocation = coordinates.getX();
+        yStartLocation = coordinates.getY();
 
-        this.spriteBase = new SpriteBase("/BubLeft.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/BubLeft.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -449,7 +444,8 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
+        	Coordinates bubbleCoordinates = new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+            Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             bubbles.add(bubble);
 

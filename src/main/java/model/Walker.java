@@ -72,16 +72,11 @@ public class Walker extends Monster {
      * @param facingRight If the monster is facing right or not.
      * @param levelController The controllers that controls the level.
      */
-    public Walker(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Walker(Coordinates coordinates,
                   double speed,
                   boolean facingRight,
                   LevelController levelController) {
-        super(x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        super(coordinates, speed, facingRight, levelController);
 
         this.levelController = levelController;
         this.jumpCounter = 20;

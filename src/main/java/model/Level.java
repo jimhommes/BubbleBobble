@@ -91,19 +91,24 @@ public class Level {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
                 if (map[row][col] == 1) {
-                    walls.add(new Wall(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0));
+                	Coordinates coordinatesWall = 
+                			new Coordinates(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0);
+                    walls.add(new Wall(coordinatesWall));
                 } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                	Coordinates coordinatesWalker1 = new Coordinates(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                    monsters.add(new Walker(coordinatesWalker1,
                             Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                	Coordinates coordinatesWalker2 = new Coordinates(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                    monsters.add(new Walker(coordinatesWalker2,
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
-                    players.add(new Player(levelController, col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                    Coordinates coordinatesPlayer = new Coordinates(col * SPRITE_SIZE - 32,
+                            row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                    players.add(new Player(levelController, coordinatesPlayer,
                             Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null));
                 }
             }

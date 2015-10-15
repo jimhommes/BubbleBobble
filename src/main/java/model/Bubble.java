@@ -40,12 +40,7 @@ public class Bubble extends Observable {
      * @param powerup if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
-    public Bubble(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Bubble(Coordinates coordinates,
                   boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
@@ -57,7 +52,7 @@ public class Bubble extends Observable {
         this.levelController = levelController;
         this.isPopped = false;
 
-        this.spriteBase = new SpriteBase("/bubble.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/bubble.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

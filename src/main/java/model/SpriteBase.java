@@ -211,7 +211,7 @@ public class SpriteBase extends Observable {
      * @param dy The Dy.
      */
     public void setDy(double dy) {
-        coordinates.setY(dy);
+        coordinates.setDY(dy);
     }
 
     /**

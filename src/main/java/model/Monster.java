@@ -37,8 +37,7 @@ public class Monster extends GravityObject {
      * @param isFacingRight     Whether the monster is facing to the right or not.
      * @param levelController is the controller that controls the level.
      */
-    public Monster(double x, double y, double r,
-                   double dx, double dy, double dr,
+    public Monster(Coordinates coordinates,
                    double speed, boolean isFacingRight,
                    LevelController levelController) {
 
@@ -49,7 +48,7 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.spriteBase = new SpriteBase("/ZenChanLeft.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/ZenChanLeft.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

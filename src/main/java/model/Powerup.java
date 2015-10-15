@@ -46,14 +46,14 @@ public class Powerup extends Observable {
      * @param desty The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.
      */
-    public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
+    public Powerup(double kind, Coordinates coordinates,
                    double destx, double desty, LevelController levelController) {
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
         
-        this.spriteBase = new SpriteBase("../banana.gif", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("../banana.gif", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

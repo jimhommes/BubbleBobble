@@ -22,9 +22,8 @@ public class Wall  {
      * @param dy The dy of y
      * @param dr The dr of r
      */
-    public Wall(double x, double y, double r,
-                double dx, double dy, double dr) {
-        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
+    public Wall(Coordinates coordinates) {
+        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", coordinates);
     }
 
     /**
