@@ -14,32 +14,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by Jim on 9/11/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/11/2015
- */
-
-/**
  * This is the Screen Controller, which handles all GUI interactions.
  * If there is a change in coordinates, this controller draws it on the screen.
  */
 public class ScreenController implements Observer {
 
-    /**
-     * All the sprites that are drawn on the board.
-     */
     private ArrayList<SpriteBase> sprites;
-
-    /**
-     * All the images that are linked to the sprites.
-     */
     private ArrayList<ImageView> images;
-
-    /**
-     * The pane where everything is drawn in.
-     */
     private Pane playFieldLayer;
 
 	/**

@@ -6,11 +6,7 @@ import utility.Logger;
 import utility.Settings;
 
 /**
- * Created by Jim on 9/8/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/8/2015
+ * This class is where the monsters are created.
  */
 public class Monster extends GravityObject {
 
@@ -28,18 +24,12 @@ public class Monster extends GravityObject {
     /**
      * The monster that is trying to catch the character.
      *
-     * @param x               The x coordinate.
-     * @param y               The y coordinate.
-     * @param r               The rotation.
-     * @param dx              The dx of x.
-     * @param dy              The dy of y.
-     * @param dr              The dr of r.
+     * @param coordinates 	The coordinates of the monster.
      * @param speed           The speed at which the monster is travelling.
      * @param isFacingRight     Whether the monster is facing to the right or not.
      * @param levelController is the controller that controls the level.
      */
-    public Monster(double x, double y, double r,
-                   double dx, double dy, double dr,
+    public Monster(Coordinates coordinates,
                    double speed, boolean isFacingRight,
                    LevelController levelController) {
 
@@ -50,7 +40,7 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.spriteBase = new SpriteBase("/ZenChanLeft.png", x, y, r, dx, dy, dr);
+        this.spriteBase = new SpriteBase("/ZenChanLeft.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -155,7 +145,7 @@ public class Monster extends GravityObject {
      * Check if the powerups expired.
      * Is used in subclass.
      */
-    public void checkPowerups() {
+    void checkPowerups() {
 
     }
 

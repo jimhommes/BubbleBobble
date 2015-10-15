@@ -5,83 +5,34 @@ import utility.Settings;
 import java.util.Random;
 
 /**
- *  Walker class which is a kind of monster, which just moves around and kills
- *  the player when they touch. It can be captured by a bubble shot by the player.
+ *  This class represents a type of monster, which just moves around and kills
+ *  the player when they collide. It can be captured by a bubble shot by the player.
  */
 public class Walker extends Monster {
 
-    /**
-     * This is the levelController.
-     */
     private LevelController levelController;
-
-    /**
-     * This boolean indicates whether the monster is jumping.
-     */
     private boolean jumping;
-
-    /**
-     * This boolean indicates whether the player is ready for a jump.
-     */
     private boolean ableToJump;
-
-    /**
-     * This counter is used to check how long the player is in the air.
-     */
     private int jumpCounter;
-
-    /**
-     * This is the minimal X coordinate the walker can move around in.
-     */
     private double walkerMinX;
-
-    /**
-     * This is the maximal X coordinate the walker can move around in.
-     */
     private double walkerMaxX;
-
-    /**
-     * This is the minimal Y coordinate the walker can move around in.
-     */
     private double walkerMinY;
-
-    /**
-     * This is the maximal Y coordinate the walker can move around in.
-     */
     private double walkerMaxY;
-
-    /**
-     * Jump threshold.
-     */
     private static final int JUMP_THRESHOLD = 5;
-
-    /**
-     * Count cycles for reduced speed powerup.
-     */
     private double reducedSpeedCounter;
 
     /**
      * A walking monster.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @param r The rotation of the walker.
-     * @param dx The dx of x.
-     * @param dy The dy of y.
-     * @param dr The dr of r.
+     * @param coordinates The coordinates of the walker monster.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
      * @param levelController The controllers that controls the level.
      */
-    public Walker(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Walker(Coordinates coordinates,
                   double speed,
                   boolean facingRight,
                   LevelController levelController) {
-        super(x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        super(coordinates, speed, facingRight, levelController);
 
         this.levelController = levelController;
         this.jumpCounter = 20;
@@ -180,7 +131,7 @@ public class Walker extends Monster {
 
     /**
      * Generate a random int.
-     * @return
+     * @return a random int.
      */
     private int randInt() {
         Random rand = new Random();
@@ -189,9 +140,6 @@ public class Walker extends Monster {
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    /**
-     * Check if the powerup is not expired.
-     */
     @Override
     public void checkPowerups() {
         if (this.isReducedSpeed()) {

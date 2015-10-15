@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This is the player class. It has a sprite to display.
+ * This is the player class, that creates are interacts with the player sprite.
  */
 public class Player extends GravityObject {
 
@@ -27,7 +27,6 @@ public class Player extends GravityObject {
     private boolean isImmortal;
     private boolean isDelayed;
     private Timer immortalTimer;
-    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -39,11 +38,9 @@ public class Player extends GravityObject {
 
     private boolean doubleSpeed;
     private int doubleSpeedCounter;
-    private int durationDoubleSpeed = 200;
 
     private boolean bubblePowerup;
     private int bubblePowerupCounter;
-    private int durationBubblePowerup = 400;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -59,24 +56,14 @@ public class Player extends GravityObject {
      * The constructor of the Player class.
      *
      * @param levelController The levelController.
-     * @param x               The X coordinate.
-     * @param y               The Y coordinate.
-     * @param r               The rotation factor.
-     * @param dx              The dx.
-     * @param dy              The dy.
-     * @param dr              The dr.
-     * @param speed           The speed.
-     * @param lives           The amount of lives.
-     * @param input           The input.
-     * @param playerNumber    The number of the player.
+     * @param coordinates The coordinates of the player.
+     * @param speed The speed.
+     * @param lives The amount of lives.
+     * @param input The input.
+     * @param playerNumber The number of the player.
      */
     public Player(LevelController levelController,
-                  double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+                 Coordinates coordinates,
                   double speed,
                   int lives,
                   Input input,
@@ -99,9 +86,11 @@ public class Player extends GravityObject {
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
-        xStartLocation = x;
-        yStartLocation = y;
-        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", x, y, r, dx, dy, dr);
+
+        xStartLocation = coordinates.getX();
+        yStartLocation = coordinates.getY();
+        
+        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
         this.timer = createTimer();
@@ -184,7 +173,7 @@ public class Player extends GravityObject {
     private void checkPowerups() {
         if (doubleSpeed) {
             doubleSpeedCounter++;
-            if (doubleSpeedCounter >= durationDoubleSpeed) {
+            if (doubleSpeedCounter >= Settings.PLAYER_DOUBLESPEED_DURATION) {
                 setDoubleSpeed(false);
                 setSpeed(Settings.PLAYER_SPEED);
                 setDoubleSpeedCounter(0);
@@ -195,7 +184,7 @@ public class Player extends GravityObject {
 
         if (bubblePowerup) {
             bubblePowerupCounter++;
-            if (bubblePowerupCounter >= durationBubblePowerup) {
+            if (bubblePowerupCounter >= Settings.BUBBLE_POWERUP_DURATION) {
                 setBubblePowerup(false);
                 setBubblePowerupCounter(0);
             }
@@ -322,7 +311,7 @@ public class Player extends GravityObject {
     }
 
     private void delayRespawn() {
-        delayTimer = new Timer();
+        Timer delayTimer = new Timer();
         delayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -460,7 +449,9 @@ public class Player extends GravityObject {
      */
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
-            Bubble bubble = new Bubble(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0,
+        	Coordinates bubbleCoordinates = 
+        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+            Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);
 
@@ -474,12 +465,9 @@ public class Player extends GravityObject {
      * Add/subtract points to/from the player's score.
      *
      * @param points the amount of scored points.
-     * @return the Player instance for chaining.
      */
-    public Player scorePoints(int points) {
+    public void scorePoints(int points) {
         this.setScore(this.getScore() + points);
-
-        return this;
     }
 
     /**

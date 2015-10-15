@@ -12,18 +12,12 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by Jim on 10/8/2015.
  * This class tests the Powerup class.
- *
- * @author Jim
- * @version 1.0
- * @since 10/8/2015
  */
 public class PowerupTest {
 
     private Powerup powerup;
     private LevelController levelController;
-    private ScreenController screenController;
     private double destx = 10.0;
     private double desty = 10.0;
 
@@ -33,9 +27,10 @@ public class PowerupTest {
     @Before
     public void setUp() {
     	levelController = mock(LevelController.class);
-        screenController = mock(ScreenController.class);
+        ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, destx, desty, levelController);
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        powerup = new Powerup(0, coordinates, destx, desty, levelController);
     }
 
     /**
@@ -54,7 +49,8 @@ public class PowerupTest {
         assertEquals((desty - powerup.getSpriteBase().getY()) / 20.0,
                 powerup.getSpriteBase().getDy(), 0.1);
 
-        powerup = new Powerup(0, 0, 0, 0, 0, 0, 0, 0, 0, levelController);
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        powerup = new Powerup(0, coordinates, 0, 0, levelController);
         powerup.move();
 
         assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
@@ -67,7 +63,8 @@ public class PowerupTest {
      */
     @Test
     public void testCausesCollision() {
-        Player player = new Player(levelController, 1, 1, 0, 0, 0, 0, 0, 1, mock(Input.class), 1);
+    	Coordinates coordinates = new Coordinates(1, 1, 0, 0, 0, 0);
+        Player player = new Player(levelController, coordinates, 0, 1, mock(Input.class), 1);
         player.getSpriteBase().setHeight(10.0);
         player.getSpriteBase().setWidth(10.0);
         powerup.getSpriteBase().setHeight(10.0);

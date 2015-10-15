@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import model.Coordinates;
 import model.Input;
 import model.Level;
 import model.Monster;
@@ -37,21 +38,18 @@ import static org.mockito.Mockito.never;
 
 /**
  * Tests the creation of a LevelController.
- *
- * @author Lili
  */
 public class LevelControllerTest {
 
     private LevelController levelController;
     private MainController mainController;
-    private Pane pane;
-   
+
     private AnimationTimer gameLoopTest; 
     @SuppressWarnings("rawtypes")
-	private ArrayList playersTest = new ArrayList();
+	private ArrayList<Player> playersTest = new ArrayList<>();
     private Player playerTest = mock(Player.class);
     @SuppressWarnings("rawtypes")
-	private ArrayList monstersTest = new ArrayList();
+	private ArrayList<Monster> monstersTest = new ArrayList<>();
     private Monster monsterTest = mock(Monster.class);
 
     /**
@@ -62,7 +60,7 @@ public class LevelControllerTest {
     public void setUp() {
         mainController = mock(MainController.class);
         when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
-        pane = mock(Pane.class);
+        Pane pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
         levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));
@@ -113,8 +111,8 @@ public class LevelControllerTest {
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
-        resplayers.add(new Player(levelController, 200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), 1));
+        Coordinates coordinates = new Coordinates(200.0, 200.0, 0, 0, 0, 0);
+        resplayers.add(new Player(levelController, coordinates, 5.0, 5, mock(Input.class), 1));
         when(level.getPlayers()).thenReturn(resplayers);
         levelController.createPlayers();
         ArrayList<Player> players = levelController.getPlayers();
@@ -153,16 +151,6 @@ public class LevelControllerTest {
     	ScreenController sc = mock(ScreenController.class);
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
-    }
-
-    /**
-     * The function that sets the path to the maps.
-     */
-    @Test
-    public void testSetPathMaps() {
-        String pathMaps = "path";
-        levelController.setPathMaps(pathMaps);
-        assertEquals(pathMaps, levelController.getPathMaps());
     }
     
     /**
@@ -242,11 +230,11 @@ public class LevelControllerTest {
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
-        ArrayList players = new ArrayList();
+        ArrayList<Player> players = new ArrayList<>();
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList monsters = new ArrayList();
+        ArrayList<Monster> monsters = new ArrayList<>();
         Monster monster = mock(Monster.class);
         monsters.add(monster);
 
@@ -273,6 +261,7 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -298,6 +287,7 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
    
@@ -424,7 +414,8 @@ public class LevelControllerTest {
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
-        list.add(new Wall(0, 0, 0, 0, 0, 0));
+        Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
+        list.add(new Wall(coordinates));
         when(level.getWalls()).thenReturn(list);
         levelController.setCurrLvl(level);
 
@@ -443,8 +434,7 @@ public class LevelControllerTest {
      */
     @Test
     public void testSetGameStarted() {
-    	Boolean game = true;
-    	levelController.setGameStarted(game);
-    	assertEquals(levelController.getGameStarted(), game);
+        levelController.setGameStarted(true);
+        assertEquals(levelController.getGameStarted(), true);
     }
 }

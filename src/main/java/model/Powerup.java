@@ -7,11 +7,7 @@ import utility.Logger;
 import java.util.Observable;
 
 /**
- * Created by Jim on 10/7/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 10/7/2015
+ * This class creates the different types of power ups that are used in the game.
  */
 public class Powerup extends Observable {
 
@@ -23,13 +19,13 @@ public class Powerup extends Observable {
     private int kindRounded;
     private SpriteBase spriteBase;
 
-    public static final int AMOUNT_OF_POWERUPS = 5;
-    public static final int POWERUP_SPEED = 1;
-    public static final int POWERUP_LIFE = 2;
-    public static final int POWERUP_BUBBLE = 3;
-    public static final int POWERUP_MONSTER = 4;
-    public static final int POWERUP_POINTS = 5;
-    public static final int POWERUP_THRESHOLD = 10;
+    private static final int AMOUNT_OF_POWERUPS = 5;
+    private static final int POWERUP_SPEED = 1;
+    private static final int POWERUP_LIFE = 2;
+    private static final int POWERUP_BUBBLE = 3;
+    private static final int POWERUP_MONSTER = 4;
+    private static final int POWERUP_POINTS = 5;
+    private static final int POWERUP_THRESHOLD = 10;
 
     private AnimationTimer timer;
 
@@ -39,25 +35,20 @@ public class Powerup extends Observable {
      * @param kind The kind of Powerup and effect it has.
      *             If it is < 1 then it is random, but from 2 and up it can be forced.
      *             Then a static value should be used.
-     * @param x The x to spawn on.
-     * @param y The y to spawn on.
-     * @param r The r to spawn with.
-     * @param dx The dx to spawn with.
-     * @param dy The dy to spawn with.
-     * @param dr The dr to spawn with.
+     * @param coordinates The coordinates of the PowerUp.
      * @param destx The randomly calculated destination x.
      * @param desty The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.
      */
-    public Powerup(double kind, double x, double y, double r, double dx, double dy, double dr,
+    public Powerup(double kind, Coordinates coordinates,
                    double destx, double desty, LevelController levelController) {
         this.ableToPickup = false;
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
         
-        this.spriteBase = new SpriteBase("../banana.gif", x, y, r, dx, dy, dr);
         this.levelController = levelController;
+        this.spriteBase = new SpriteBase("../banana.gif", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

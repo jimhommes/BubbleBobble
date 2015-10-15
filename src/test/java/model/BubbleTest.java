@@ -15,13 +15,12 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 
 /**
- * Created by toinehartman on 11/09/15.
+ * Tests the bubbles.
  */
 public class BubbleTest {
     private Bubble bubbleRight;
     private Bubble bubbleLeft;
-    private ArrayList<Wall> walls;
-    
+
     /**
      * This method is run before all the tests to initialize them.
      */
@@ -31,9 +30,12 @@ public class BubbleTest {
     	ScreenController screenController = mock(ScreenController.class);
     	Level level = mock(Level.class);
     	when(levelController.getScreenController()).thenReturn(screenController);
-        bubbleRight = new Bubble(1, 1, 0, 0, 0, 0, true, false, levelController);
-        bubbleLeft = new Bubble(1, 1, 0, 0, 0, 0, false, false, levelController);
-        walls = new ArrayList<Wall>();
+
+    	Coordinates coordinatesBubble = new Coordinates(1, 1, 0, 0, 0, 0);
+    	
+        bubbleRight = new Bubble(coordinatesBubble, true, false, levelController);
+        bubbleLeft = new Bubble(coordinatesBubble, false, false, levelController);
+        ArrayList<Wall> walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
     }

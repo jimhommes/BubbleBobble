@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 
 /**
- * Created by toinehartman on 11/09/15.
+ * Tests the Level class.
  */
 public class LevelTest {
     private Level level;
@@ -45,8 +45,7 @@ public class LevelTest {
     /**
      * This tests the update method when all the monsters are still alive.
      */
-    @SuppressWarnings("unchecked")
-	@Test
+    @Test
     public void testUpdate() {
     	ArrayList<Monster> mon = level.getMonsters();
     	assertEquals(mon.size(), 4);
@@ -56,8 +55,7 @@ public class LevelTest {
     /**
      * This tests the update method when all the monsters have just been killed.
      */
-    @SuppressWarnings("unchecked")
-   	@Test
+    @Test
        public void testUpdateNoMonsters() {
        	ArrayList<Monster> mon = level.getMonsters();
        	mon.clear();
@@ -69,8 +67,7 @@ public class LevelTest {
      * This tests the update method when all the monsters have been 
      * killed and the counter has reached 200.
      */
-    @SuppressWarnings("unchecked")
-   	@Test
+    @Test
        public void testUpdateNoMonstersTimeUp() {
        	ArrayList<Monster> mon = level.getMonsters();
        	int counter = 0;

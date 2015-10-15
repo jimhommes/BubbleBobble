@@ -16,9 +16,7 @@ import static org.mockito.Mockito.when;
 
 
 /**
- * 
- * @author jeffrey
- *
+ * This class tests the Monster class.
  */
 public class MonsterTest {
 
@@ -29,15 +27,14 @@ public class MonsterTest {
 	
     /**
      * This is run before all the tests to initialize them.
-     * @throws Exception .
      */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        monster = new Monster(1, 1, 0, 1, 0, 0,
-				Settings.MONSTER_SPEED, true, levelController);
+        Coordinates coordinates = new Coordinates(1, 1, 0, 1, 0, 0);
+        monster = new Monster(coordinates, Settings.MONSTER_SPEED, true, levelController);
 	}
 	
 	/**
