@@ -53,6 +53,7 @@ public class ScreenController implements Observer {
     }
 
     /**
+<<<<<<< HEAD
      * This method adds a list of sprite bases.
      * @param list the list of all the sprites.
      */
@@ -72,6 +73,8 @@ public class ScreenController implements Observer {
     }
 
     /**
+=======
+>>>>>>> development
      * This method adds one spriteBase.
      * @param sprite the sprite that is being added.
      */

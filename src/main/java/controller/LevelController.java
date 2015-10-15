@@ -82,11 +82,6 @@ public class LevelController implements Observer {
     private MainController mainController;
 
     /**
-     * The input for the player.
-     */
-    private Input input;
-
-    /**
      * The path to the maps.
      */
     private String pathMaps = "src/main/resources";
@@ -95,6 +90,8 @@ public class LevelController implements Observer {
      * The boolean preventing the pauseScreen from switching many times.
      */
     private boolean switchedPauseScreen = false;
+
+    private int limitOfPlayers;
 
     /**
      * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
@@ -138,7 +135,6 @@ public class LevelController implements Observer {
         public void handle(MouseEvent event) {
             if (!gameStarted) {
                 gameStarted = true;
-                createInput();
 
                 createLvl();
 
@@ -161,10 +157,12 @@ public class LevelController implements Observer {
     /**
      * The constructor of this class.
      * @param mainController The main controller that creates this class.
+     * @param limitOfPlayers The limit of players allowed by the game.
      */
-    public LevelController(MainController mainController) {
+    public LevelController(MainController mainController, int limitOfPlayers) {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
+        this.limitOfPlayers = limitOfPlayers;
         findMaps();
 
         gameLoop = createTimer();
@@ -275,10 +273,10 @@ public class LevelController implements Observer {
      * This function creates the current level of currLvl.
      */
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), this);
+        currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
         screenController.removeSprites();
 
-        createPlayer(input);
+        createPlayers();
 
         currLvl.getWalls().forEach(wall ->
                 screenController.addToSprites(wall.getSpriteBase()));
@@ -286,18 +284,16 @@ public class LevelController implements Observer {
                 screenController.addToSprites(monster.getSpriteBase()));
     }
 
-    private void createInput() {
-        if (input == null) {
-            input = mainController.createInput();
-            input.addListeners();
-        }
+    private Input createInput(int playerNumber) {
+        Input input = mainController.createInput(playerNumber);
+        input.addListeners();
+        return input;
     }
 
     /**
      * The function that is used to create the player.
-     * @param input The input.
      */
-    public void createPlayer(Input input) {
+    public void createPlayers() {
         int[] scores = new int[this.players.size()];
         int[] lives = new int[this.players.size()];
 
@@ -320,7 +316,7 @@ public class LevelController implements Observer {
                 newPlayer.setLives(Settings.PLAYER_LIVES);
             }
 
-            newPlayer.setInput(input);
+            newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
             this.players.add(newPlayer);
         }
 
@@ -460,22 +456,6 @@ public class LevelController implements Observer {
      */
     public boolean getGameStarted() {
         return gameStarted;
-    }
-
-    /**
-     * This function returns the input.
-     * @return The input.
-     */
-    public Input getInput() {
-        return input;
-    }
-
-    /**
-     * This function sets the input.
-     * @param input The input.
-     */
-    public void setInput(Input input) {
-        this.input = input;
     }
 
     /**

@@ -77,7 +77,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);
-        new LevelController(this);
+        new LevelController(this, StartController.limitOfPlayers);
     }
 
     /**
@@ -180,9 +180,10 @@ public class MainController implements Initializable {
 
     /**
      * This creates an input for the controls.
+     * @param playerNumber The number of the player.
      * @return The Input
      */
-    public Input createInput() {
-        return new Input(playFieldLayer.getScene());
+    public Input createInput(int playerNumber) {
+        return new Input(playFieldLayer.getScene(), playerNumber);
     }
 }
