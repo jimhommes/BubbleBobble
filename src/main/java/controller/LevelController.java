@@ -570,4 +570,12 @@ public class LevelController implements Observer {
             }
         }
     }
+    
+    /**
+     * This method return the current LevelControlerMethods.
+     * @return the LevelControllerMethod.
+     */
+    public LevelControllerMethods getLevelControllerMethods() {
+    	return levelControllerMethods;
+    }
 }

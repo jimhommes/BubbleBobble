@@ -12,7 +12,7 @@ public class LevelControllerMethods {
 	private boolean gamePaused;
 	
 	public LevelControllerMethods(LevelController levelController){
-		this.levelController = levelController;
+		this.setLevelController(levelController);
 		gamePaused = false;
 	}
 	
@@ -62,5 +62,21 @@ public class LevelControllerMethods {
 	 */
 	public void setGamePaused(boolean gamePaused) {
 		this.gamePaused = gamePaused;
+	}
+
+	/**
+	 * This method returns the LevelController.
+	 * @return the levelController.
+	 */
+	public LevelController getLevelController() {
+		return levelController;
+	}
+
+	/**
+	 * This method sets the LevelController.
+	 * @param levelController the new LevelController.
+	 */
+	public void setLevelController(LevelController levelController) {
+		this.levelController = levelController;
 	}
 }

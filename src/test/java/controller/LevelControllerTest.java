@@ -77,20 +77,7 @@ public class LevelControllerTest {
     @Test
     public void testInitialisation() {
         assertTrue(levelController != null);
-    }
-
-    /**
-     * Tests the findmaps function.
-     */
-    @Test
-    public void testFindMaps() {
-        ArrayList<String> maps = levelController.getMaps();
-        assertEquals(Settings.AMOUNT_MAPS, maps.size());
-        levelController.findMaps();
-        assertEquals(2 * Settings.AMOUNT_MAPS, maps.size());
-        maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
-    }
-    
+    }    
 
     /**
      * Tests the createTimer() method.
@@ -153,16 +140,6 @@ public class LevelControllerTest {
     	levelController.setScreenController(sc);
     	assertEquals(sc, levelController.getScreenController());
     }
-
-    /**
-     * The function that sets the path to the maps.
-     */
-    @Test
-    public void testSetPathMaps() {
-        String pathMaps = "path";
-        levelController.setPathMaps(pathMaps);
-        assertEquals(pathMaps, levelController.getPathMaps());
-    }
     
     /**
      * This is the test that tests the createLvl() function.
@@ -171,7 +148,7 @@ public class LevelControllerTest {
 	public void testCreateLevel() {
         levelController.setScreenController(mock(ScreenController.class));
 		assertNull(levelController.getCurrLvl());
-		levelController.findMaps();
+		levelController.getLevelControllerMethods().findMaps();
 		levelController.createLvl();
 		assertNotNull(levelController.getCurrLvl());
 	}
@@ -380,7 +357,7 @@ public class LevelControllerTest {
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).showPauseScreen();
-        assertTrue(levelController.getGamePaused());
+        assertTrue(levelController.getLevelControllerMethods().getGamePaused());
     }
 
     /**
@@ -392,7 +369,7 @@ public class LevelControllerTest {
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).showPauseScreen();
-        assertTrue(levelController.getGamePaused());
+        assertTrue(levelController.getLevelControllerMethods().getGamePaused());
 
         EventHandler<KeyEvent> handlerRelease = levelController.getPauseKeyEventHandlerRelease();
         handlerRelease.handle(new KeyEvent(null, null,
@@ -401,7 +378,7 @@ public class LevelControllerTest {
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).hidePauseScreen();
-        assertFalse(levelController.getGamePaused());
+        assertFalse(levelController.getLevelControllerMethods().getGamePaused());
     }
 
     /**
@@ -412,7 +389,7 @@ public class LevelControllerTest {
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
                 null, "a", "a", KeyCode.A, false, false, false, false));
-        assertFalse(levelController.getGamePaused());
+        assertFalse(levelController.getLevelControllerMethods().getGamePaused());
     }
 
     /**
