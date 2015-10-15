@@ -61,9 +61,10 @@ public class LevelControllerTest {
 	@Before
     public void setUp() {
         mainController = mock(MainController.class);
+        when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
         pane = mock(Pane.class);
         when(mainController.getPlayFieldLayer()).thenReturn(pane);
-        levelController = new LevelController(mainController);
+        levelController = new LevelController(mainController, 1);
         levelController.setScreenController(new ScreenController(new Pane()));
         
         gameLoopTest = levelController.createTimer();
@@ -113,9 +114,9 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         ArrayList resplayers = new ArrayList();
         resplayers.add(new Player(levelController, 200.0,
-                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class)));
+                200.0, 0, 0, 0, 0, 5.0, 5, mock(Input.class), 1));
         when(level.getPlayers()).thenReturn(resplayers);
-        levelController.createPlayer(mock(Input.class));
+        levelController.createPlayers();
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
@@ -182,10 +183,8 @@ public class LevelControllerTest {
     @Test
     public void testStartLevelMouseEvent() {
         assertFalse(levelController.getGameStarted());
-        assertNull(levelController.getInput());
         assertNull(levelController.getCurrLvl());
 
-        when(mainController.createInput()).thenReturn(mock(Input.class));
         levelController.setScreenController(mock(ScreenController.class));
 
         EventHandler<MouseEvent> handler = levelController.getStartMousePressEventHandler();
@@ -312,7 +311,7 @@ public class LevelControllerTest {
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
         when(playerTest.isGameOver()).thenReturn(false);
-        
+
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
@@ -474,17 +473,7 @@ public class LevelControllerTest {
         assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
         assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
     }
-    
-    /**
-     * This tests the setInput method.
-     */
-    @Test
-    public void testSetInput() {
-    	Input input = mock(Input.class);
-    	levelController.setInput(input);
-    	assertEquals(levelController.getInput(), input);
-    }
-    
+
     /**
      * This tests the SetGameStarted method.
      */

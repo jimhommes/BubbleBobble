@@ -40,6 +40,7 @@ public class Level {
      * The controller of this class.
      */
     private final LevelController levelController;
+    private final int limitOfPlayers;
 
     /**
      * The map in a 2 dim array.
@@ -68,18 +69,24 @@ public class Level {
     
     private int counter;
 
+    private int playerCounter;
+
     /**
      * When a level is created in the levelController, it is immediately drawn.
      * @param lvlTitle The title of the file.
      * @param levelController the controller that controls the level.
+     * @param limitOfPlayers The limit of players allowed by the game.
      */
     public Level(final String lvlTitle, 
-    		final LevelController levelController) {
+    		final LevelController levelController,
+                 final int limitOfPlayers) {
         this.lvlTitle = lvlTitle;
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.players = new ArrayList<>();
         this.levelController = levelController;
+        this.limitOfPlayers = limitOfPlayers;
+        this.playerCounter = 1;
         drawMap();
     }
 
@@ -102,9 +109,12 @@ public class Level {
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
-                    players.add(new Player(levelController, col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0,
-                            Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null));
+                    if (players.size() < limitOfPlayers) {
+                        players.add(new Player(levelController, col * SPRITE_SIZE - 32,
+                                row * SPRITE_SIZE - 32, 0, 0, 0, 0,
+                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, playerCounter));
+                        playerCounter++;
+                    }
                 }
             }
         }
