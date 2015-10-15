@@ -64,6 +64,7 @@ public class Bubble extends Observable {
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        levelController.getScreenController().addToSprites(spriteBase);
 
         this.powerup = powerup;
         this.timer = createTimer();

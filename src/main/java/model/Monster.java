@@ -54,6 +54,7 @@ public class Monster extends GravityObject {
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        levelController.getScreenController().addToSprites(spriteBase);
         this.timer = createTimer();
         timer.start();
     }

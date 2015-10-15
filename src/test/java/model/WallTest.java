@@ -1,8 +1,10 @@
 package model;
 
+import controller.LevelController;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by toinehartman on 11/09/15.
@@ -15,7 +17,7 @@ public class WallTest {
      */
     @Test
     public void testWall() {
-        wall = new Wall(0, 0, 0, 0, 0, 0);
+        wall = new Wall(0, 0, 0, 0, 0, 0, mock(LevelController.class));
         assertNotNull(wall);
     }
 }

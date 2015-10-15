@@ -95,7 +95,6 @@ public class Player extends GravityObject {
         this.lives = lives;
         this.score = 0;
         this.playerNumber = playerNumber;
-
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
@@ -105,6 +104,7 @@ public class Player extends GravityObject {
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", x, y, r, dx, dy, dr);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        levelController.getScreenController().addToSprites(spriteBase);
         this.timer = createTimer();
         timer.start();
     }

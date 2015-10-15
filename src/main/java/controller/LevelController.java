@@ -246,11 +246,6 @@ public class LevelController implements Observer {
         screenController.removeSprites();
 
         createPlayers();
-
-        currLvl.getWalls().forEach(wall ->
-                screenController.addToSprites(wall.getSpriteBase()));
-        currLvl.getMonsters().forEach(monster ->
-                screenController.addToSprites(monster.getSpriteBase()));
     }
 
     private Input createInput(int playerNumber) {
@@ -290,7 +285,6 @@ public class LevelController implements Observer {
             this.players.add(newPlayer);
         }
 
-        players.forEach(player -> screenController.addToSprites(player.getSpriteBase()));
     }
 
     /**
@@ -494,7 +488,6 @@ public class LevelController implements Observer {
         Powerup powerup = new Powerup(Math.random(), monster.getSpriteBase().getX(),
                 monster.getSpriteBase().getY(), 2, 0, 0, 0, randLocX, randLocY, this);
         powerups.add(powerup);
-        screenController.addToSprites(powerup.getSpriteBase());
 
         Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", "
                 + powerup.getSpriteBase().getY() + ")");

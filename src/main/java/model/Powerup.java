@@ -61,6 +61,7 @@ public class Powerup extends Observable {
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        levelController.getScreenController().addToSprites(spriteBase);
 
         if (kind < 1) {
             kindRounded = (int) Math.ceil(kind * AMOUNT_OF_POWERUPS);

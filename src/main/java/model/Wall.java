@@ -6,6 +6,8 @@ package model;
  * @version 0.1
  */
 
+import controller.LevelController;
+
 /**
  * The class that represents a wall in the game.
  */
@@ -23,8 +25,9 @@ public class Wall  {
      * @param dr The dr of r
      */
     public Wall(double x, double y, double r,
-                double dx, double dy, double dr) {
+                double dx, double dy, double dr, LevelController levelController) {
         this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", x, y, r, dx, dy, dr);
+        levelController.getScreenController().addToSprites(spriteBase);
     }
 
     /**

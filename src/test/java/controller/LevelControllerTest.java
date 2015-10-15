@@ -411,38 +411,6 @@ public class LevelControllerTest {
     }
 
     /**
-     * This tests if the performPowerupsCycle activates the right methods.
-     */
-    @Test
-    public void testPerformPowerupsCycle() {
-        Powerup powerup = mock(Powerup.class);
-        levelController.performPowerupsCycle(powerup, mock(Player.class));
-
-        verify(powerup, atLeastOnce()).causesCollision(any(Player.class),
-                any(LevelController.class));
-        verify(powerup, atLeastOnce()).move();
-    }
-
-    /**
-     * This tests the updatePowerups function.
-     */
-    @Test
-    public void testUpdatePowerups() {
-        Powerup powerup = mock(Powerup.class);
-        ArrayList<Powerup> list = new ArrayList<>();
-        list.add(powerup);
-        levelController.setPowerups(list);
-
-        when(powerup.isPickedUp()).thenReturn(false);
-        levelController.updatePowerups();
-        assertEquals(1, levelController.getPowerups().size());
-
-        when(powerup.isPickedUp()).thenReturn(true);
-        levelController.updatePowerups();
-        assertEquals(0, levelController.getPowerups().size());
-    }
-
-    /**
      * This function tests the spawnPowerup function.
      */
     @Test
@@ -456,7 +424,7 @@ public class LevelControllerTest {
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
-        list.add(new Wall(0, 0, 0, 0, 0, 0));
+        list.add(new Wall(0, 0, 0, 0, 0, 0, levelController));
         when(level.getWalls()).thenReturn(list);
         levelController.setCurrLvl(level);
 
