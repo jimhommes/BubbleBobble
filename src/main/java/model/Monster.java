@@ -24,9 +24,9 @@ public class Monster extends GravityObject {
     /**
      * The monster that is trying to catch the character.
      *
-     * @param coordinates 	The coordinates of the monster.
+     * @param coordinates     The coordinates of the monster.
      * @param speed           The speed at which the monster is travelling.
-     * @param isFacingRight     Whether the monster is facing to the right or not.
+     * @param isFacingRight   Whether the monster is facing to the right or not.
      * @param levelController is the controller that controls the level.
      */
     public Monster(Coordinates coordinates,
@@ -62,7 +62,7 @@ public class Monster extends GravityObject {
                 notifyObservers();
             }
         };
-        
+
     }
 
     /**
@@ -122,7 +122,7 @@ public class Monster extends GravityObject {
      */
     public void die(Player killer) {
         if (!isDead) {
-        	setDead(true);
+            setDead(true);
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
@@ -157,7 +157,8 @@ public class Monster extends GravityObject {
 
     /**
      * Check for collision combined with jumping.
-     * @param jumping The variable whether a GravityObject is jumping.
+     *
+     * @param jumping    The variable whether a GravityObject is jumping.
      * @param ableToJump The variable whether a GravityObject is able to jump.
      * @return The ableToJump variable.
      */
@@ -180,6 +181,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns the speed.
+     *
      * @return The speed.
      */
     public double getSpeed() {
@@ -188,6 +190,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function sets the speed.
+     *
      * @param speed The speed.
      */
     public void setSpeed(double speed) {
@@ -196,6 +199,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns whether the monster faces right.
+     *
      * @return True if facing right.
      */
     public boolean isFacingRight() {
@@ -204,6 +208,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function sets whether the monster faces right.
+     *
      * @param facingRight True if facing right.
      */
     public void setFacingRight(boolean facingRight) {
@@ -212,6 +217,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns the prisonbubble.
+     *
      * @return The prisonbubble.
      */
     public Bubble getPrisonBubble() {
@@ -220,6 +226,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns whether the monster is caught by a bubble.
+     *
      * @return True if caught by bubble.
      */
     public boolean isCaughtByBubble() {
@@ -228,13 +235,17 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns whether the monster is dead.
+     *
      * @return True if dead.
      */
-    public boolean isDead() { return isDead; }
+    public boolean isDead() {
+        return isDead;
+    }
 
     /**
      * This function sets whether the monster is dead.
      * If the monster is killed the function die() should be used.
+     *
      * @param dead True if dead.
      */
     public void setDead(boolean dead) {
@@ -243,6 +254,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns true if the monster has reduced speed.
+     *
      * @return True if it has reduced speed.
      */
     public boolean isReducedSpeed() {
@@ -251,6 +263,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function sets whether the monster has reduced speed.
+     *
      * @param reducedSpeed True if it has reduced speed.
      */
     public void setReducedSpeed(boolean reducedSpeed) {
@@ -259,6 +272,7 @@ public class Monster extends GravityObject {
 
     /**
      * This function returns the sprite base of the monster.
+     *
      * @return The sprite base.
      */
     public SpriteBase getSpriteBase() {

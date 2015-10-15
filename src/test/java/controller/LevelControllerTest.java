@@ -192,6 +192,10 @@ public class LevelControllerTest {
     public void testNextLevel() {
         levelController.setScreenController(mock(ScreenController.class));
         int index = levelController.getIndexCurrLvl();
+        Level level = mock(Level.class);
+        ArrayList<Monster> list = new ArrayList<>();
+        when(level.getMonsters()).thenReturn(list);
+        levelController.setCurrLvl(level);
 
         levelController.nextLevel();
 
@@ -206,6 +210,10 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         levelController.setIndexCurrLvl(levelController.getMaps().size());
         int index = levelController.getIndexCurrLvl();
+        Level level = mock(Level.class);
+        ArrayList<Monster> list = new ArrayList<>();
+        when(level.getMonsters()).thenReturn(list);
+        levelController.setCurrLvl(level);
 
         levelController.nextLevel();
 

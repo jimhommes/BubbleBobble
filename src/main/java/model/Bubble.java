@@ -4,6 +4,7 @@ import controller.LevelController;
 import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
+
 import java.util.Observable;
 
 /**
@@ -23,9 +24,10 @@ public class Bubble extends Observable {
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param coordinates The coordinates of the bubbles.
-     * @param firedRight If the bubble was fired to the right.
-     * @param powerup if the bubble is shot during bubble powerup.
+     *
+     * @param coordinates     The coordinates of the bubbles.
+     * @param firedRight      If the bubble was fired to the right.
+     * @param powerup         if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
     public Bubble(Coordinates coordinates,
@@ -103,7 +105,7 @@ public class Bubble extends Observable {
     }
 
     /**
-     * This function handles the vertical movement, 
+     * This function handles the vertical movement,
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
@@ -150,6 +152,7 @@ public class Bubble extends Observable {
 
     /**
      * This function returns if the bubble is able to catch a monster.
+     *
      * @return True if able to catch a monster.
      */
     public boolean isAbleToCatch() {
@@ -158,6 +161,7 @@ public class Bubble extends Observable {
 
     /**
      * This function sets if the bubble is able to catch a monster.
+     *
      * @param ableToCatch True if able to catch a monster.
      */
     public void setAbleToCatch(boolean ableToCatch) {
@@ -167,6 +171,7 @@ public class Bubble extends Observable {
     /**
      * This function sets if the bubble is a prisonbubble.
      * A prisonbubble is a bubble that captured a monster.
+     *
      * @param prisonBubble True if a prisonbubble.
      */
     public void setPrisonBubble(boolean prisonBubble) {
@@ -175,6 +180,7 @@ public class Bubble extends Observable {
 
     /**
      * This function returns the sprite of this bubble.
+     *
      * @return The sprite.
      */
     public SpriteBase getSpriteBase() {
@@ -183,20 +189,16 @@ public class Bubble extends Observable {
 
     /**
      * This function returns whether the bubble is popped.
+     *
      * @return True if popped.
      */
-    public boolean getIsPopped() { return isPopped; }
-
-    /**
-     * This function forces the player to die entirely.
-     */
-    public void destroy() {
-        this.deleteObservers();
-        timer.stop();
+    public boolean getIsPopped() {
+        return isPopped;
     }
 
     /**
      * This function sets if the bubble is popped or not.
+     *
      * @param isPopped True if popped.
      */
     public void setIsPopped(boolean isPopped) {
@@ -206,5 +208,13 @@ public class Bubble extends Observable {
             notifyObservers();
             destroy();
         }
+    }
+
+    /**
+     * This function forces the player to die entirely.
+     */
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
     }
 }

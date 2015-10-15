@@ -11,14 +11,6 @@ import java.util.Observable;
  */
 public class Powerup extends Observable {
 
-    private final LevelController levelController;
-    private double destx;
-    private double desty;
-    private boolean ableToPickup;
-    private boolean pickedUp;
-    private int kindRounded;
-    private SpriteBase spriteBase;
-
     private static final int AMOUNT_OF_POWERUPS = 5;
     private static final int POWERUP_SPEED = 1;
     private static final int POWERUP_LIFE = 2;
@@ -26,18 +18,24 @@ public class Powerup extends Observable {
     private static final int POWERUP_MONSTER = 4;
     private static final int POWERUP_POINTS = 5;
     private static final int POWERUP_THRESHOLD = 10;
-
+    private final LevelController levelController;
+    private double destx;
+    private double desty;
+    private boolean ableToPickup;
+    private boolean pickedUp;
+    private int kindRounded;
+    private SpriteBase spriteBase;
     private AnimationTimer timer;
 
     /**
      * The constructor. It instantiates the class.
      *
-     * @param kind The kind of Powerup and effect it has.
-     *             If it is < 1 then it is random, but from 2 and up it can be forced.
-     *             Then a static value should be used.
-     * @param coordinates The coordinates of the PowerUp.
-     * @param destx The randomly calculated destination x.
-     * @param desty The randomly calculated destination y.
+     * @param kind            The kind of Powerup and effect it has.
+     *                        If it is < 1 then it is random, but from 2 and up it can be forced.
+     *                        Then a static value should be used.
+     * @param coordinates     The coordinates of the PowerUp.
+     * @param destx           The randomly calculated destination x.
+     * @param desty           The randomly calculated destination y.
      * @param levelController The levelcontroller that instantiates this powerup.
      */
     public Powerup(double kind, Coordinates coordinates,
@@ -46,7 +44,7 @@ public class Powerup extends Observable {
         this.pickedUp = false;
         this.destx = destx;
         this.desty = desty;
-        
+
         this.levelController = levelController;
         this.spriteBase = new SpriteBase("../banana.gif", coordinates);
 
@@ -84,15 +82,20 @@ public class Powerup extends Observable {
 
     private void setCorrectImage(int kindRounded) {
         switch (kindRounded) {
-            case POWERUP_SPEED: spriteBase.setImage("../banana.gif");
+            case POWERUP_SPEED:
+                spriteBase.setImage("../banana.gif");
                 break;
-            case POWERUP_LIFE: spriteBase.setImage("../heart.gif");
+            case POWERUP_LIFE:
+                spriteBase.setImage("../heart.gif");
                 break;
-            case POWERUP_BUBBLE: spriteBase.setImage("../apple.gif");
+            case POWERUP_BUBBLE:
+                spriteBase.setImage("../apple.gif");
                 break;
-            case POWERUP_MONSTER: spriteBase.setImage("../melon.png");
+            case POWERUP_MONSTER:
+                spriteBase.setImage("../melon.png");
                 break;
-            case POWERUP_POINTS: spriteBase.setImage("../coin.gif");
+            case POWERUP_POINTS:
+                spriteBase.setImage("../coin.gif");
                 break;
             default:
                 Logger.log("No suitable image found!");
@@ -120,6 +123,7 @@ public class Powerup extends Observable {
 
     /**
      * This is the function that checks if there is a collision with a player.
+     *
      * @param player The player there might be a collision with.
      */
     public void causesCollision(Player player) {
@@ -168,6 +172,7 @@ public class Powerup extends Observable {
 
     /**
      * This function returns whether the powerup is able to be picked up.
+     *
      * @return True if able to pick up.
      */
     public boolean isAbleToPickup() {
@@ -176,6 +181,7 @@ public class Powerup extends Observable {
 
     /**
      * This function sets whether the powerup is able to be picked up.
+     *
      * @param ableToPickup True if able to pick up.
      */
     public void setAbleToPickup(boolean ableToPickup) {
@@ -184,12 +190,16 @@ public class Powerup extends Observable {
 
     /**
      * This function returns whether the powerup is picked up.
+     *
      * @return True if picked up.
      */
-    public boolean getPickedUp() { return pickedUp; }
+    public boolean getPickedUp() {
+        return pickedUp;
+    }
 
     /**
      * This function sets whether the powerup is picked up.
+     *
      * @param pickedUp True if picked up.
      */
     public void setPickedUp(boolean pickedUp) {
@@ -204,6 +214,7 @@ public class Powerup extends Observable {
 
     /**
      * This function returns the spritebase.
+     *
      * @return The spritebase.
      */
     public SpriteBase getSpriteBase() {
@@ -217,5 +228,5 @@ public class Powerup extends Observable {
         this.deleteObservers();
         timer.stop();
     }
-    
+
 }
