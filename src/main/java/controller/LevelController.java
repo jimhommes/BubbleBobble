@@ -69,7 +69,7 @@ public class LevelController implements Observer {
     };
 
     /**
-     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     * "Key Released" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
@@ -276,7 +276,6 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        players = new ArrayList<>();
         powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();
