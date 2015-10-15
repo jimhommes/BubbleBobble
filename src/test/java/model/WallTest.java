@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by toinehartman on 11/09/15.
- */
 public class WallTest {
 
     /**

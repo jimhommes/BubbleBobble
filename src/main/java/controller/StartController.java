@@ -15,10 +15,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by toinehartman on 01/09/15.
- */
-
-/**
  * This is the StartScreen controller. This controller handles all GUI interactions.
  */
 public class StartController implements Initializable {

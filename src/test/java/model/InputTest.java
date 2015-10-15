@@ -14,9 +14,6 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by toinehartman on 11/09/15.
- */
 public class InputTest {
     private BitSet keyboardBitSet;
     @Mock private Scene scene;
