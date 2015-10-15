@@ -54,6 +54,9 @@ public class StartController implements Initializable {
      */
     @FXML private Button helpButton;
 
+    /**
+     * This causes a checkstyle error because findBugs says that it should be protected.
+     */
     protected static int limitOfPlayers;
 
     /**

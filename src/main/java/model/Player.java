@@ -57,23 +57,11 @@ public class Player extends GravityObject {
      * The constructor of the Player class.
      *
      * @param levelController The levelController.
-<<<<<<< HEAD
      * @param coordinates The coordinates of the player.
      * @param speed The speed.
      * @param lives The amount of lives.
      * @param input The input.
-=======
-     * @param x               The X coordinate.
-     * @param y               The Y coordinate.
-     * @param r               The rotation factor.
-     * @param dx              The dx.
-     * @param dy              The dy.
-     * @param dr              The dr.
-     * @param speed           The speed.
-     * @param lives           The amount of lives.
-     * @param input           The input.
-     * @param playerNumber    The number of the player.
->>>>>>> development
+     * @param playerNumber The number of the player.
      */
     public Player(LevelController levelController,
                  Coordinates coordinates,

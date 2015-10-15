@@ -53,28 +53,6 @@ public class ScreenController implements Observer {
     }
 
     /**
-<<<<<<< HEAD
-     * This method adds a list of sprite bases.
-     * @param list the list of all the sprites.
-     */
-    @SuppressWarnings("unused")
-	private void addToSprites(final ArrayList<SpriteBase> list) {
-        sprites.addAll(list);
-        list.forEach(element -> {
-            ImageView imageView = new ImageView(
-            		new Image(getClass().getResource(element.getImagePath()).toExternalForm()));
-            element.setHeight(imageView.getImage().getHeight());
-            element.setWidth(imageView.getImage().getWidth());
-            imageView.relocate(element.getX(), element.getY());
-            imageView.setRotate(element.getR());
-            images.add(imageView);
-            playFieldLayer.getChildren().add(imageView);
-        });
-    }
-
-    /**
-=======
->>>>>>> development
      * This method adds one spriteBase.
      * @param sprite the sprite that is being added.
      */

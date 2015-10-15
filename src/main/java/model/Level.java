@@ -97,23 +97,20 @@ public class Level {
         readMap();
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
+            	Coordinates coordinatesWalker = new Coordinates(col * SPRITE_SIZE - 32,
+                        row * SPRITE_SIZE - 32, 0, 0, 0, 0);
                 if (map[row][col] == 1) {
                 	Coordinates coordinatesWall = 
                 			new Coordinates(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0);
                     walls.add(new Wall(coordinatesWall));
                 } else if (map[row][col] == 2) {
-                	Coordinates coordinatesWalker1 = new Coordinates(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0);
-                    monsters.add(new Walker(coordinatesWalker1,
+                    monsters.add(new Walker(coordinatesWalker,
                             Settings.MONSTER_SPEED, true, levelController));
                 } else if (map[row][col] == 3) {
-                	Coordinates coordinatesWalker2 = new Coordinates(col * SPRITE_SIZE - 32,
-                            row * SPRITE_SIZE - 32, 0, 0, 0, 0);
-                    monsters.add(new Walker(coordinatesWalker2,
+                    monsters.add(new Walker(coordinatesWalker,
                             Settings.MONSTER_SPEED, false, levelController));
                 } else if (map[row][col] == 9) {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
-
                     if (players.size() < limitOfPlayers) {
                     	 Coordinates coordinatesPlayer = new Coordinates(col * SPRITE_SIZE - 32,
                                  row * SPRITE_SIZE - 32, 0, 0, 0, 0);
