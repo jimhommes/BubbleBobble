@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public class LevelController implements Observer {
 
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    private static final String pathMaps = "src/main/resources";
+    private static final String MAPS_PATH = "src/main/resources";
 
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> maps = new ArrayList<>();
@@ -133,7 +133,7 @@ public class LevelController implements Observer {
      * This function scans the resources folder for maps.
      */
     public void findMaps() {
-        File folder = new File(pathMaps);
+        File folder = new File(MAPS_PATH);
         File[] listOfFiles = folder.listFiles();
         assert listOfFiles != null;
         for (File file : listOfFiles) {

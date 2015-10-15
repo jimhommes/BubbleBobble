@@ -14,6 +14,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
+/**
+ * Tests the Level class.
+ */
 public class LevelTest {
     private Level level;
     

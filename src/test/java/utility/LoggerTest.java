@@ -37,6 +37,7 @@ public class LoggerTest {
      * folder must be private, but @Rule believes that it should be public.
      */
     @Rule
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     public TemporaryFolder folder = new TemporaryFolder();
 
     /**

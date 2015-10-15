@@ -14,6 +14,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
+/**
+ * Tests the bubbles.
+ */
 public class BubbleTest {
     private Bubble bubbleRight;
     private Bubble bubbleLeft;

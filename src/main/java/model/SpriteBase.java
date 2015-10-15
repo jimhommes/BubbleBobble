@@ -1,9 +1,8 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Observable;
-
 import controller.LevelController;
+
+import java.util.Observable;
 
 /**
  * The SpriteBase that will load the sprite (image).

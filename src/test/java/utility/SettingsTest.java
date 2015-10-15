@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * This tests the Settings class.
+ */
 public class SettingsTest {
 
     /**

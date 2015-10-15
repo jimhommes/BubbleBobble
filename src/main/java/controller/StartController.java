@@ -26,7 +26,7 @@ public class StartController implements Initializable {
     @FXML private Button exitButton;
     @FXML private Button helpButton;
 
-    static int limitOfPlayers;
+    private static int limitOfPlayers;
 
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
@@ -64,4 +64,11 @@ public class StartController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Get the limit of players.
+     * @return the limit
+     */
+    public static int getLimitOfPlayers() {
+        return StartController.limitOfPlayers;
+    }
 }
