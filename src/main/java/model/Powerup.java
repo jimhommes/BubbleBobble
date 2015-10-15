@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import javafx.animation.AnimationTimer;
 import utility.Logger;
 
 import java.util.Observable;
@@ -14,6 +15,7 @@ import java.util.Observable;
  */
 public class Powerup extends Observable {
 
+    private final LevelController levelController;
     private double destx;
     private double desty;
     private boolean ableToPickup;
@@ -28,6 +30,8 @@ public class Powerup extends Observable {
     public static final int POWERUP_MONSTER = 4;
     public static final int POWERUP_POINTS = 5;
     public static final int POWERUP_THRESHOLD = 10;
+
+    private AnimationTimer timer;
 
     /**
      * The constructor. It instantiates the class.
@@ -53,6 +57,7 @@ public class Powerup extends Observable {
         this.desty = desty;
         
         this.spriteBase = new SpriteBase("../banana.gif", x, y, r, dx, dy, dr);
+        this.levelController = levelController;
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -65,6 +70,22 @@ public class Powerup extends Observable {
 
         setCorrectImage(kindRounded);
 
+        this.timer = createTimer();
+        timer.start();
+
+    }
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(long now) {
+                if (!levelController.getGamePaused()) {
+                    levelController.getPlayers().forEach(Powerup.this::causesCollision);
+                    move();
+                }
+            }
+        };
     }
 
     private void setCorrectImage(int kindRounded) {
@@ -109,14 +130,13 @@ public class Powerup extends Observable {
     /**
      * This is the function that checks if there is a collision with a player.
      * @param player The player there might be a collision with.
-     * @param lvlController The levelController.
      */
-    public void causesCollision(Player player, LevelController lvlController) {
+    public void causesCollision(Player player) {
         if (player.getSpriteBase().causesCollision(spriteBase.getX(),
                 spriteBase.getX() + spriteBase.getWidth(),
                 spriteBase.getY(), spriteBase.getY()
                         + spriteBase.getHeight()) && ableToPickup) {
-            pickedUp(player, lvlController);
+            pickedUp(player);
         }
     }
 
@@ -124,7 +144,7 @@ public class Powerup extends Observable {
      * The function that is called when there is a collision with a player.
      * The powerup should disappear.
      */
-    private void pickedUp(Player player, LevelController lvlController) {
+    private void pickedUp(Player player) {
         if (!pickedUp) {
             setPickedUp(true);
 
@@ -141,7 +161,7 @@ public class Powerup extends Observable {
                     player.activateBubblePowerup();
                     break;
                 case POWERUP_MONSTER:
-                    lvlController.getCurrLvl().getMonsters()
+                    levelController.getCurrLvl().getMonsters()
                             .forEach(Monster::activateMonsterPowerup);
                     break;
                 case POWERUP_POINTS:

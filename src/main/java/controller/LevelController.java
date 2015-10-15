@@ -18,6 +18,7 @@ import utility.Settings;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -201,61 +202,22 @@ public class LevelController implements Observer {
             @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
-                if ((players.get(0)).isGameOver()) {
+                boolean stop = true;
+                for (Player p : players) {
+                    if (!p.isGameOver()) {
+                        stop = false;
+                    }
+                }
+
+                if (stop) {
                     stop();
                 } else {
-                    if (!isGamePaused()) {
-                        players.forEach(player -> {
-                            performPlayerCycle(player);
-                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
-                            updatePowerups();
-                        });
-                        currLvl.getMonsters().forEach(monster -> {
-                            players.forEach(player -> player.checkCollideMonster(monster));
-                            bubbles.forEach(monster::checkCollision);
-                            monster.move();
-                        });
-                    }
-
                     if (currLvl.update()) {
 						nextLevel();
                     }
                 }
             }
         };
-    }
-
-    /**
-     * This is the cycle that performs all powerups operations.
-     * @param powerup The powerup actions are performed on
-     * @param player The player there might be a collision with.
-     */
-    public void performPowerupsCycle(Powerup powerup, Player player) {
-        powerup.causesCollision(player, this);
-        powerup.move();
-    }
-
-    /**
-     * This is the cycle that performs all player operations.
-     * @param player The player the actions are performed on.
-     */
-    private void performPlayerCycle(Player player) {
-        player.processInput();
-        player.move();
-    }
-
-    /**
-     * This function updates the powerups, and removes
-     * the ones which have been picked up.
-     */
-    public void updatePowerups() {
-        ArrayList<Powerup> nPowerups = new ArrayList<>();
-        for (Powerup powerup : powerups) {
-            if (!powerup.isPickedUp()) {
-                nPowerups.add(powerup);
-            }
-        }
-        powerups = nPowerups;
     }
 
     /**
@@ -430,7 +392,7 @@ public class LevelController implements Observer {
      * @return The players.
      */
     @SuppressWarnings("rawtypes")
-	public ArrayList getPlayers() {
+	public ArrayList<Player> getPlayers() {
         return players;
     }
 
