@@ -226,7 +226,8 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-        Coordinates coordinates = new Coordinates(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
+        Coordinates coordinates = 
+        		new Coordinates(sprite.getX() + player.getSpeed(), sprite.getY(), 0, 0, 0, 0);
     	Wall wall = new Wall(coordinates);
     	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
@@ -294,7 +295,8 @@ public class PlayerTest {
         when(levelController.getScreenController()).thenReturn(screenController);
         Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT
                 , 0, 0, 0, 0);
-        Player player1 = new Player(levelController, coordinates, Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input);
+        Player player1 = new Player(levelController, coordinates, 
+        		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input);
         player1.processInput();
         SpriteBase sprite = player1.getSpriteBase();
         assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.0001);

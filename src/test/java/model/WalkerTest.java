@@ -123,7 +123,8 @@ public class WalkerTest {
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		Coordinates walkerCoordinates = new Coordinates(0, Settings.SCENE_HEIGHT
 				, 0, 0, 0, 0);
-		Walker walker1 = new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
+		Walker walker1 = 
+				new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
     	assertEquals(Level.SPRITE_SIZE, walker1.getSpriteBase().getY(), 0.0001);
 	}

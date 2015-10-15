@@ -1,7 +1,7 @@
 package model;
 
 /**
- * This class organizes the coordinates.
+ * This class is in charge of the coordinates.
  * @author Lili de Bree
  *
  */

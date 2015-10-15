@@ -277,6 +277,7 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -303,6 +304,7 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
+	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
    
