@@ -183,16 +183,19 @@ public class LevelController implements Observer {
     }
 
     private void refresh() {
+        bubbles.forEach(Bubble::destroy);
         bubbles.clear();
+        currLvl.getMonsters().forEach(Monster::destroy);
+        currLvl.getMonsters().clear();
+        powerups.forEach(Powerup::destroy);
+        powerups.clear();
         screenController.removeSprites();
-
     }
 
     /**
      * This function creates the current level of currLvl.
      */
     public final void createLvl() {
-        refresh();
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
 
         createPlayers();
@@ -260,7 +263,7 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        powerups = new ArrayList<>();
+        refresh();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {

@@ -217,5 +217,13 @@ public class Powerup extends Observable {
     public SpriteBase getSpriteBase() {
         return spriteBase;
     }
+
+    /**
+     * This function forces the player to die entirely.
+     */
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
+    }
     
 }

@@ -193,10 +193,11 @@ public class Bubble extends Observable {
     }
 
     /**
-     * This function sets whether the bubble is popped.
-     * @param isPopped True if popped.
+     * This function forces the player to die entirely.
      */
-    public void setIsPopped(boolean isPopped) {
-        this.isPopped = isPopped;
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
     }
+
 }
