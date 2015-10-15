@@ -1,6 +1,7 @@
 package model;
 
 import controller.LevelController;
+import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
 
@@ -52,6 +53,8 @@ public class Player extends GravityObject {
 
     private SpriteBase spriteBase;
 
+    private AnimationTimer timer;
+
     /**
      * The constructor of the Player class.
      *
@@ -97,13 +100,34 @@ public class Player extends GravityObject {
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
-
         xStartLocation = x;
         yStartLocation = y;
 
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", x, y, r, dx, dy, dr);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
+        this.timer = createTimer();
+    }
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(long now) {
+
+                    if (!levelController.getGamePaused()) {
+                        processInput();
+                        move();
+                        levelController.getCurrLvl().getMonsters().forEach(
+                                Player.this::checkCollideMonster
+                        );
+                    }
+
+                    setChanged();
+                    notifyObservers();
+                }
+
+        };
     }
 
     /**
@@ -196,8 +220,6 @@ public class Player extends GravityObject {
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -327,9 +349,6 @@ public class Player extends GravityObject {
                 }, 1000 * TIME_IMMORTAL);
             }
         }, 1000);
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -451,9 +470,6 @@ public class Player extends GravityObject {
                     isFacingRight, bubblePowerup, levelController);
             levelController.getBubbles().add(bubble);
 
-            this.setChanged();
-            this.notifyObservers();
-
             counter = 0;
         } else {
             counter++;
@@ -468,9 +484,6 @@ public class Player extends GravityObject {
      */
     public Player scorePoints(int points) {
         this.setScore(this.getScore() + points);
-
-        this.setChanged();
-        this.notifyObservers();
 
         return this;
     }
@@ -505,9 +518,6 @@ public class Player extends GravityObject {
      */
     public void setLives(int lives) {
         this.lives = lives;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -543,9 +553,6 @@ public class Player extends GravityObject {
      */
     public void setJumping(boolean jumping) {
         isJumping = jumping;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -564,9 +571,6 @@ public class Player extends GravityObject {
      */
     public void setInput(Input input) {
         this.input = input;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -585,9 +589,6 @@ public class Player extends GravityObject {
      */
     public void setSpeed(double speed) {
         this.speed = speed;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -597,9 +598,6 @@ public class Player extends GravityObject {
      */
     public void setFacingRight(boolean facingRight) {
         isFacingRight = facingRight;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -633,9 +631,6 @@ public class Player extends GravityObject {
      */
     public void setGameOver(boolean gameOver) {
         isGameOver = gameOver;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -654,9 +649,6 @@ public class Player extends GravityObject {
      */
     public void setLevelController(LevelController levelController) {
         this.levelController = levelController;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -666,9 +658,6 @@ public class Player extends GravityObject {
      */
     public void setAbleToJump(boolean ableToJump) {
         isAbleToJump = ableToJump;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -678,9 +667,6 @@ public class Player extends GravityObject {
      */
     public void setAbleToDoubleJump(boolean ableToDoubleJump) {
         isAbleToDoubleJump = ableToDoubleJump;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -690,9 +676,6 @@ public class Player extends GravityObject {
      */
     public void setDoubleSpeed(boolean doubleSpeed) {
         this.doubleSpeed = doubleSpeed;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -702,9 +685,6 @@ public class Player extends GravityObject {
      */
     public void setDoubleSpeedCounter(int doubleSpeedCounter) {
         this.doubleSpeedCounter = doubleSpeedCounter;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -714,9 +694,6 @@ public class Player extends GravityObject {
      */
     public void setBubblePowerup(boolean bubblePowerup) {
         this.bubblePowerup = bubblePowerup;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -726,9 +703,6 @@ public class Player extends GravityObject {
      */
     public void setBubblePowerupCounter(int bubblePowerupCounter) {
         this.bubblePowerupCounter = bubblePowerupCounter;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
@@ -747,9 +721,6 @@ public class Player extends GravityObject {
      */
     public void setScore(int score) {
         this.score = score;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**

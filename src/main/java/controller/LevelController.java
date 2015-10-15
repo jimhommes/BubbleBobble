@@ -57,6 +57,7 @@ public class LevelController implements Observer {
     private ArrayList<Powerup> powerups = new ArrayList<>();
 
     private ArrayList<Bubble>  bubbles = new ArrayList<>();
+
     /**
      * The current index of the level the user is playing.
      */
@@ -214,7 +215,6 @@ public class LevelController implements Observer {
                             bubbles.forEach(monster::checkCollision);
                             monster.move();
                         });
-                        bubbles.forEach(LevelController.this::performBubbleCycle);
                     }
 
                     if (currLvl.update()) {
@@ -223,10 +223,6 @@ public class LevelController implements Observer {
                 }
             }
         };
-    }
-
-    private void performBubbleCycle(Bubble bubble) {
-        bubble.move();
     }
 
     /**
@@ -609,6 +605,8 @@ public class LevelController implements Observer {
             Bubble b = (Bubble) o;
             if (b.getIsPopped()) {
                 bubbles.remove(b);
+            } else {
+                b.move();
             }
         }
     }
@@ -616,4 +614,5 @@ public class LevelController implements Observer {
     public ArrayList<Bubble> getBubbles() {
         return bubbles;
     }
+
 }
