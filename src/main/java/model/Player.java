@@ -1,12 +1,17 @@
 package model;
 
 import controller.LevelController;
+import model.powerups.DoubleSpeed;
+import model.powerups.PlayerEnhancement;
 import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * This is the player class, that creates are interacts with the player sprite.
@@ -37,10 +42,7 @@ public class Player extends GravityObject {
     private double playerMaxY;
 
     private boolean doubleSpeed;
-    private int doubleSpeedCounter;
-
     private boolean bubblePowerup;
-    private int bubblePowerupCounter;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -49,6 +51,8 @@ public class Player extends GravityObject {
     private int lives;
 
     private SpriteBase spriteBase;
+
+    private List<PlayerEnhancement> powerups;
 
     /**
      * The constructor of the Player class.
@@ -89,7 +93,9 @@ public class Player extends GravityObject {
 
         xStartLocation = coordinates.getX();
         yStartLocation = coordinates.getY();
-        
+
+        this.powerups = new ArrayList<>();
+
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -123,6 +129,14 @@ public class Player extends GravityObject {
         checkPowerups();
     }
 
+    interface PlayerEnhancementCreator {
+        PlayerEnhancement create(Player p);
+    }
+
+    public void addPowerup(PlayerEnhancementCreator p) {
+        this.powerups.add(p.create(this));
+    }
+
     /**
      * Check for collision combined with jumping.
      *
@@ -148,26 +162,9 @@ public class Player extends GravityObject {
     }
 
     private void checkPowerups() {
-        if (doubleSpeed) {
-            doubleSpeedCounter++;
-            if (doubleSpeedCounter >= Settings.PLAYER_DOUBLESPEED_DURATION) {
-                setDoubleSpeed(false);
-                setSpeed(Settings.PLAYER_SPEED);
-                setDoubleSpeedCounter(0);
-            }
-        } else {
-            setDoubleSpeedCounter(0);
-        }
-
-        if (bubblePowerup) {
-            bubblePowerupCounter++;
-            if (bubblePowerupCounter >= Settings.BUBBLE_POWERUP_DURATION) {
-                setBubblePowerup(false);
-                setBubblePowerupCounter(0);
-            }
-        } else {
-            setBubblePowerupCounter(0);
-        }
+        this.powerups = this.powerups.stream()
+                .filter(PlayerEnhancement::check)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -502,21 +499,8 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    /**
-     * This is called when the speed powerup is picked up.
-     * It doubles the speed for a while.
-     */
-    public void activateSpeedPowerup() {
-        doubleSpeed = true;
-        speed = 2 * Settings.PLAYER_SPEED;
-    }
-
-    /**
-     * This activates the bubble powerup.
-     * Bubbles fly horizontally longer.
-     */
-    public void activateBubblePowerup() {
-        setBubblePowerup(true);
+    public void factorSpeed(double factor) {
+        this.setSpeed(factor * this.getSpeed());
     }
 
     /**
@@ -697,30 +681,6 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function sets the double speed.
-     *
-     * @param doubleSpeed True if double speed.
-     */
-    public void setDoubleSpeed(boolean doubleSpeed) {
-        this.doubleSpeed = doubleSpeed;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    /**
-     * This function sets the double speed counter.
-     *
-     * @param doubleSpeedCounter The double speed counter.
-     */
-    public void setDoubleSpeedCounter(int doubleSpeedCounter) {
-        this.doubleSpeedCounter = doubleSpeedCounter;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    /**
      * This function sets the bubble powerup.
      *
      * @param bubblePowerup True if bubble powerup.
@@ -732,17 +692,6 @@ public class Player extends GravityObject {
         this.notifyObservers();
     }
 
-    /**
-     * This function sets the bubble powerup counter.
-     *
-     * @param bubblePowerupCounter The powerup counter.
-     */
-    public void setBubblePowerupCounter(int bubblePowerupCounter) {
-        this.bubblePowerupCounter = bubblePowerupCounter;
-
-        this.setChanged();
-        this.notifyObservers();
-    }
 
     /**
      * This function returns the score.

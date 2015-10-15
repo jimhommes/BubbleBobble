@@ -58,11 +58,6 @@ public class Monster extends GravityObject {
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
-        checkPowerups();
-        if (this.isReducedSpeed) {
-            setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
-        }
-
         this.setChanged();
         this.notifyObservers();
     }
@@ -123,6 +118,7 @@ public class Monster extends GravityObject {
     }
 
     /**
+<<<<<<< HEAD
      * Check if the powerups expired.
      * Is used in subclass.
      */
@@ -131,6 +127,8 @@ public class Monster extends GravityObject {
     }
 
     /**
+=======
+>>>>>>> Refactored Powerups.
      * Check for collision combined with jumping.
      * @param jumping The variable whether a GravityObject is jumping.
      * @param ableToJump The variable whether a GravityObject is able to jump.
@@ -257,4 +255,7 @@ public class Monster extends GravityObject {
         return spriteBase;
     }
 
+    public void factorSpeed(double factor) {
+        this.setSpeed(factor * this.getSpeed());
+    }
 }
