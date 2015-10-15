@@ -20,11 +20,6 @@ import java.util.ResourceBundle;
 
 /**
  * This is the Main Controller, that controls the other controllers.
- * Created by Jim on 9/22/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 9/22/2015
  */
 public class MainController implements Initializable {
 

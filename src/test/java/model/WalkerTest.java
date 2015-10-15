@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 /**
  * This class tests what happens to the walkers.
- * @author Lili
- *
  */
 public class WalkerTest {
 

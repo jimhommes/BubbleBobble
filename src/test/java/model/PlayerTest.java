@@ -19,11 +19,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Jim on 9/11/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/11/2015
+ * This tests the Player class.
  */
 public class PlayerTest {
 

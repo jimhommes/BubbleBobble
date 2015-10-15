@@ -1,7 +1,6 @@
 package model;
 
 import utility.Settings;
-
 import java.util.Observable;
 
 /**

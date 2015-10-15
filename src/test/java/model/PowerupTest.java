@@ -12,12 +12,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by Jim on 10/8/2015.
  * This class tests the Powerup class.
- *
- * @author Jim
- * @version 1.0
- * @since 10/8/2015
  */
 public class PowerupTest {
 

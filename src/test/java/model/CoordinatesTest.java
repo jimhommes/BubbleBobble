@@ -6,8 +6,6 @@ import org.junit.Test;
 
 /**
  * This class tests the Coordinate class. 
- * @author Lili
- *
  */
 public class CoordinatesTest {
 

@@ -16,9 +16,7 @@ import static org.mockito.Mockito.when;
 
 
 /**
- * 
- * @author jeffrey
- *
+ * This class tests the Monster class.
  */
 public class MonsterTest {
 

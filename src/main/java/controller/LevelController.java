@@ -25,10 +25,6 @@ import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
- * @author Jim
- * @version 0.1
- * @since 9/5/2015
- * Last Modified: Lili
  */
 public class LevelController implements Observer {
 

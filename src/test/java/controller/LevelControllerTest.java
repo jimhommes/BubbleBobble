@@ -38,8 +38,6 @@ import static org.mockito.Mockito.never;
 
 /**
  * Tests the creation of a LevelController.
- *
- * @author Lili
  */
 public class LevelControllerTest {
 

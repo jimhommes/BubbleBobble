@@ -2,7 +2,6 @@ package model;
 
 /**
  * This class is in charge of the coordinates.
- * @author Lili de Bree
  *
  */
 public class Coordinates {

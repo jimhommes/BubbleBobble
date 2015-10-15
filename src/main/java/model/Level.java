@@ -10,12 +10,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * @author Jim
- * @since 9/5/2015
- * @version 0.1
- */
-
-/**
  * This class creates the levels for the game. When created it can load a
  * level from a .txt file.
  */
