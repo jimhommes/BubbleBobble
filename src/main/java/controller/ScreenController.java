@@ -6,17 +6,12 @@ import javafx.scene.layout.Pane;
 import model.Bubble;
 import model.Monster;
 import model.Player;
+import model.Powerup;
 import model.SpriteBase;
 
 import java.util.ArrayList;
-
-/**
- * Created by Jim on 9/11/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/11/2015
- */
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * This is the Screen Controller, which handles all GUI interactions.
@@ -24,19 +19,8 @@ import java.util.ArrayList;
  */
 public class ScreenController implements Observer {
 
-    /**
-     * All the sprites that are drawn on the board.
-     */
     private ArrayList<SpriteBase> sprites;
-
-    /**
-     * All the images that are linked to the sprites.
-     */
     private ArrayList<ImageView> images;
-
-    /**
-     * The pane where everything is drawn in.
-     */
     private Pane playFieldLayer;
 
 	/**
@@ -50,31 +34,15 @@ public class ScreenController implements Observer {
     }
 
     /**
-     * This method adds a list of sprite bases.
-     * @param list the list of all the sprites.
-     */
-    public void addToSprites(final ArrayList<SpriteBase> list) {
-        sprites.addAll(list);
-        list.forEach(element -> {
-            ImageView imageView = new ImageView(
-            		new Image(getClass().getResource(element.getImagePath()).toExternalForm()));
-            element.setHeight(imageView.getImage().getHeight());
-            element.setWidth(imageView.getImage().getWidth());
-            imageView.relocate(element.getX(), element.getY());
-            imageView.setRotate(element.getR());
-            images.add(imageView);
-            playFieldLayer.getChildren().add(imageView);
-        });
-    }
-
-    /**
      * This method adds one spriteBase.
      * @param sprite the sprite that is being added.
      */
     public void addToSprites(final SpriteBase sprite) {
         sprites.add(sprite);
         ImageView imageView = new ImageView(
-        		new Image(getClass().getResource(sprite.getImagePath()).toExternalForm()));
+                new Image(getClass()
+                        .getClassLoader()
+                        .getResource(sprite.getImagePath()).toExternalForm()));
         sprite.setHeight(imageView.getImage().getHeight());
         sprite.setWidth(imageView.getImage().getWidth());
         imageView.relocate(sprite.getX(), sprite.getY());
@@ -94,14 +62,15 @@ public class ScreenController implements Observer {
      * This function updates all locations of the sprites.
      * @param sprite Sprite that the location is updated from.
      */
-    public void update(SpriteBase sprite) {
+    private void update(SpriteBase sprite) {
     	int place = sprites.indexOf(sprite);
     	if (place >= 0) {
     		ImageView image = images.get(sprites.indexOf(sprite));
             image.relocate(sprite.getX(), sprite.getY());
             if (sprite.getSpriteChanged()) {
-                image.setImage(new Image(
-                		getClass().getResource(sprite.getImagePath()).toExternalForm()));
+                image.setImage(new Image(getClass()
+                        .getClassLoader()
+                        .getResource(sprite.getImagePath()).toExternalForm()));
                 sprite.setSpriteChanged(false);
             }
             image.setRotate(sprite.getR());
@@ -127,7 +96,6 @@ public class ScreenController implements Observer {
      */
     public void removeSprites() {
         sprites.clear();
-
         images.clear();
         playFieldLayer.getChildren().clear();
     }
@@ -172,21 +140,41 @@ public class ScreenController implements Observer {
         this.images = images;
     }
 
-    /**
-     * The changes made are updated.
-     */
-	@Override
-	public void update(SpriteBase spriteBase, int state) {
-		if (state == 1 && (spriteBase instanceof Player)) {
-			spriteBase.setImage("/BubbleBobbleDeath.png");
-		} else if (state == 1) {
-			removeSprite(spriteBase);
-			if (spriteBase instanceof Monster) {
-				removeSprite(((Monster) spriteBase).getPrisonBubble());
-			}
-		} else if (state == 2 && (spriteBase instanceof Bubble)) {
-			addToSprites(spriteBase);
-		}
-	}
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Player) {
+            updatePlayer((Player) o);
+        } else if (o instanceof Bubble) {
+            updateBubble((Bubble) o);
+        } else if (o instanceof Monster) {
+            updateMonster((Monster) o);
+        } else if (o instanceof Powerup) {
+            updatePowerup((Powerup) o);
+        }
+    }
 
+    private void updatePowerup(Powerup p) {
+        if (p.getPickedUp()) {
+            removeSprite(p.getSpriteBase());
+        }
+        update(p.getSpriteBase());
+    }
+
+    private void updateMonster(Monster m) {
+        if (m.isDead()) {
+            removeSprite(m.getSpriteBase());
+        }
+        update(m.getSpriteBase());
+    }
+
+    private void updateBubble(Bubble b) {
+        if (b.getIsPopped()) {
+            removeSprite(b.getSpriteBase());
+        }
+        update(b.getSpriteBase());
+    }
+
+    private void updatePlayer(Player p) {
+        update(p.getSpriteBase());
+    }
 }

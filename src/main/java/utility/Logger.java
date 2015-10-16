@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Logger class for logging events.
+ * This class is used for logging events.
  *
  * Logs to file or stdout, or every possible @link{Stream}.
  */
@@ -84,9 +84,9 @@ public class Logger {
      * @param mode INFO for info messages, ERROR for error messages
      */
     public static void log(String msg, boolean mode) {
-        if (mode == ERROR && enabled) {
+        if (mode && enabled) {
             log(ERR, msg);
-        } else if (mode == INFO && enabled) {
+        } else if (!mode && enabled) {
             log(OUT, msg);
         }
     }

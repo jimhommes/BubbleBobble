@@ -19,64 +19,28 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by Jim on 9/22/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 9/22/2015
+ * This is the Main Controller, that controls the other controllers.
  */
 public class MainController implements Initializable {
 
-    /**
-     * The message that says "Click when ready".
-     */
-    @FXML
-    private Text startMessage;
-    /**
-     * The message that says "Game Paused".
-     */
-    @FXML
-    private Text pauseMessage;
-    /**
-     * The message that gives extra information when game is paused.
-     */
-    @FXML
-    private Text pauseMessageSub;
-    /**
-     * The VBox that contains pauseMessage and pauseMessageSub.
-     */
-    @FXML
-    private VBox pauseVBox;
-    /**
-     * The layer the player "moves" in.
-     */
-    @FXML
-    private Pane playFieldLayer;
-    /**
-     * The number of lives left text box.
-     */
-    @FXML
-    private Text livesText;
-    /**
-     * The score textbox.
-     */
-    @FXML
-    private Text scoreText;
+    @FXML private Text startMessage;
+    @FXML private Text pauseMessage;
+    @FXML private Text pauseMessageSub;
+    @FXML private VBox pauseVBox;
+    @FXML private Pane playFieldLayer;
+    @FXML private Text livesText;
+    @FXML private Text scoreText;
+    @FXML private Text livesTextPlayer1;
+    @FXML private Text livesTextPlayer2;
+    @FXML private Text scoreTextPlayer1;
+    @FXML private Text scoreTextPlayer2;
 
-    /**
-     * The screen controller that handles all GUI/sprite interaction.
-     */
     private ScreenController screenController;
 
-    /**
-     * The initialize function.
-     * @param location The URL.
-     * @param resources The resourceBundle.
-     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);
-        new LevelController(this);
+        new LevelController(this, StartController.getLimitOfPlayers());
     }
 
     /**
@@ -106,20 +70,43 @@ public class MainController implements Initializable {
      * Show lives in the top bar.
      *
      * @param lives The number of lives.
+     * @param playerNumber The number of the player (used for multiplayer).
      */
-    public void showLives(int lives) {
+    public void showLives(int lives, int playerNumber) {
+
         livesText.setVisible(true);
-        livesText.setText(String.format("Lives: %d", lives));
+
+        if (playerNumber == 1) {
+            livesTextPlayer1.setVisible(true);
+
+            if (StartController.getLimitOfPlayers() == 1) {
+                livesTextPlayer1.setText(String.format("%d", lives));
+            } else {
+                livesTextPlayer1.setText(String.format("P1: %d", lives));
+            }
+
+        } else if (playerNumber == 2) {
+            livesTextPlayer2.setVisible(true);
+            livesTextPlayer2.setText(String.format("P2: %d", lives));
+        }
     }
 
     /**
      * This function show the score of the player.
      *
      * @param score The score (number of points).
+     * @param playerNumber The number of the player (used for multiplayer).
      */
-    public void showScore(int score) {
+    public void showScore(int score, int playerNumber) {
         scoreText.setVisible(true);
-        scoreText.setText(String.format("Score: %d", score));
+
+        if (playerNumber == 1) {
+            scoreTextPlayer1.setVisible(true);
+            scoreTextPlayer1.setText(String.format("%d", score));
+        } else if (playerNumber == 2) {
+            scoreTextPlayer2.setVisible(true);
+            scoreTextPlayer2.setText(String.format("%d", score));
+        }
     }
 
     /**
@@ -128,7 +115,7 @@ public class MainController implements Initializable {
     public void showWinScreen() {
         Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("win.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -142,7 +129,7 @@ public class MainController implements Initializable {
     public void showGameOverScreen() {
         Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gameOver.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -179,9 +166,10 @@ public class MainController implements Initializable {
 
     /**
      * This creates an input for the controls.
+     * @param playerNumber The number of the player.
      * @return The Input
      */
-    public Input createInput() {
-        return new Input(playFieldLayer.getScene());
+    public Input createInput(int playerNumber) {
+        return new Input(playFieldLayer.getScene(), playerNumber);
     }
 }

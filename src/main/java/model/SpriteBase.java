@@ -1,103 +1,35 @@
 package model;
 
-import java.util.ArrayList;
-
 import controller.LevelController;
-import controller.Observer;
 
+import java.util.Observable;
 
 /**
- * The SpriteBase that will load the sprite (image).
+ * This class will load the sprites (image).
  */
-public abstract class SpriteBase implements Subject {
+public class SpriteBase extends Observable {
 
-    /**
-     * Image to be loaded.
-     */
     private String imagePath;
-
-    /**
-     * The x coordinate.
-     */
-    private double x;
-
-    /**
-     * The y coordinate.
-     */
-    private double y;
-
-    /**
-     * The r coordinate.
-     */
-    private double r;
-
-    /**
-     * The difference in x.
-     */
-    private double dx;
-
-    /**
-     * The difference in y.
-     */
-    private double dy;
-
-    /**
-     * The difference in r.
-     */
-    private double dr;
-
-    /**
-     * The width.
-     */
+    private Coordinates coordinates;
     private double w;
-
-    /**
-     * The height.
-     */
     private double h;
-
-    /**
-     * The boolean that resembles if the image should be able to move or not.
-     */
     private boolean canMove;
-
-    /**
-     * The boolean to check if the sprite has changed or not.
-     */
     private boolean spriteChanged;
     
-    /**
-     * The observers.
-     */
-    private ArrayList<Observer> observers;
-
     /**
      * The constructor. It needs all the parameters and creates the image where planned.
      *
      * @param imagePath The path to the image to load.
-     * @param x         The x coordinate.
-     * @param y         The y coordinate.
-     * @param r         The r coordinate.
-     * @param dx        The difference in x.
-     * @param dy        The difference in y.
-     * @param dr        The difference in r.
+     * @param  coordinates The coordinates of the Sprite.
      */
-    public SpriteBase(String imagePath, double x, double y, double r,
-                      double dx, double dy, double dr) {
+    public SpriteBase(String imagePath, Coordinates coordinates) {
 
         this.imagePath = imagePath;
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.dx = dx;
-        this.dy = dy;
-        this.dr = dr;
+        this.coordinates = coordinates;
         this.h = 0;
         this.w = 0;
         this.canMove = true;
         this.spriteChanged = false;
-        observers = new ArrayList<Observer>();
-        
     }
 
     /**
@@ -108,14 +40,8 @@ public abstract class SpriteBase implements Subject {
         if (!canMove) {
             return;
         }
-        
-        x += dx;
-        y += dy;
-        r += dr;
-        
-        observers.forEach(observer -> observer.update(this));
-        
-        
+
+        this.coordinates.apply();
     }
 
     /**
@@ -133,7 +59,7 @@ public abstract class SpriteBase implements Subject {
      * @return x coordinate
      */
     public double getX() {
-        return x;
+        return coordinates.getX();
     }
 
     /**
@@ -142,7 +68,7 @@ public abstract class SpriteBase implements Subject {
      * @return y coordinate.
      */
     public double getY() {
-        return y;
+        return coordinates.getY();
     }
 
     /**
@@ -151,7 +77,7 @@ public abstract class SpriteBase implements Subject {
      * @return The rotation degree.
      */
     public double getR() {
-        return r;
+        return coordinates.getR();
     }
 
     /**
@@ -223,9 +149,9 @@ public abstract class SpriteBase implements Subject {
      * @return True if there is a collision.
      */
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-        double minX2 = x;
+        double minX2 = coordinates.getX();
         double maxX2 = minX2 + getWidth();
-        double minY2 = y;
+        double minY2 = coordinates.getY();
         double maxY2 = minY2 + getHeight();
         return ((minX > minX2 && minX < maxX2)
                 || (maxX > minX2 && maxX < maxX2)
@@ -242,7 +168,7 @@ public abstract class SpriteBase implements Subject {
      * @param x The X coordinate.
      */
     public void setX(double x) {
-        this.x = x;
+        coordinates.setX(x);
     }
 
     /**
@@ -250,7 +176,7 @@ public abstract class SpriteBase implements Subject {
      * @param y The Y coordinate.
      */
     public void setY(double y) {
-        this.y = y;
+    	coordinates.setY(y);
     }
 
     /**
@@ -258,7 +184,7 @@ public abstract class SpriteBase implements Subject {
      * @param r The R coordinate.
      */
     public void setR(double r) {
-        this.r = r;
+    	coordinates.setR(r);
     }
 
     /**
@@ -266,7 +192,7 @@ public abstract class SpriteBase implements Subject {
      * @param dx The Dx.
      */
     public void setDx(double dx) {
-        this.dx = dx;
+        coordinates.setDX(dx);
     }
 
     /**
@@ -274,7 +200,7 @@ public abstract class SpriteBase implements Subject {
      * @param dy The Dy.
      */
     public void setDy(double dy) {
-        this.dy = dy;
+        coordinates.setDY(dy);
     }
 
     /**
@@ -282,7 +208,7 @@ public abstract class SpriteBase implements Subject {
      * @param dr The Dr.
      */
     public void setDr(double dr) {
-        this.dr = dr;
+       coordinates.setDR(dr);
     }
 
     /**
@@ -290,7 +216,7 @@ public abstract class SpriteBase implements Subject {
      * @return The Dx.
      */
     public double getDx() {
-        return dx;
+        return coordinates.getDX();
     }
 
     /**
@@ -298,7 +224,7 @@ public abstract class SpriteBase implements Subject {
      * @return The Dy.
      */
     public double getDy() {
-        return dy;
+        return coordinates.getDY();
     }
 
     /**
@@ -306,7 +232,7 @@ public abstract class SpriteBase implements Subject {
      * @return The Dr.
      */
     public double getDr() {
-        return dr;
+        return coordinates.getDR();
     }
     
     /**
@@ -348,26 +274,6 @@ public abstract class SpriteBase implements Subject {
         }
     }
     
-    
-    /**
-     * This method adds a observer.
-     * @param observer the added observer.
-     */
-    public void attach(Observer observer) {
-  	   observers.add(observer);
-  	}
-    
-    /**
-     * This method notifies all the observers that something changed.
-     * @param spriteBase the SpriteBase.
-     * @param state the state the SpriteBase is in.
-     */
-    public void notifyAllObservers(SpriteBase spriteBase, int state) {
- 	   for (Observer observer : observers) {
- 		   observer.update(spriteBase, state);
- 	   }
- 	}
-    
     /**
      * This method check if there is a collision between SpriteBase and Wall.
      * @param minX minimal x coordinate.
@@ -377,17 +283,40 @@ public abstract class SpriteBase implements Subject {
      * @param levelController the LevelController.
      * @return true if there is a collision.
      */
-    @SuppressWarnings("unchecked")
-	public boolean causesCollisionWall(double minX, double maxX, double minY, 
+    public boolean causesCollisionWall(double minX, double maxX, double minY, 
 			double maxY, LevelController levelController) {
 
-        for (Wall wall : (ArrayList<Wall>) levelController.getCurrLvl().getWalls()) {
-            if (wall.causesCollision(minX, maxX, minY, maxY)) {
+        for (Wall wall : levelController.getCurrLvl().getWalls()) {
+            if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;
             }
         }
 
         return false;
+    }
+    
+    /**
+     * This method gets the current location and speed from the SpirteBase.
+     * @return the location.
+     */
+    public double[] getLocation() {
+      double[] location = new double[4];
+      location[0] = getX();
+      location[1] = getDx();
+      location[2] = getY();
+      location[3] = getDy();
+      return location;
+    }
+
+    /**
+     * After movement sets this method the new location.
+     * @param location the new location.
+     */
+    public void setLocation(double[] location) {
+      setX(location[0]);
+      setDx(location[1]);
+      setY(location[2]);
+      setDy(location[3]);
     }
     
 

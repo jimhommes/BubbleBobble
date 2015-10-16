@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by toinehartman on 11/09/15.
+ * Tests the Input class.
  */
 public class InputTest {
     private BitSet keyboardBitSet;
@@ -27,7 +27,7 @@ public class InputTest {
      */
     @Before
     public void setUp() {
-        input = new Input(scene);
+        input = new Input(scene, 1);
         keyboardBitSet = mock(BitSet.class);
         input.setKeyboardBitSet(keyboardBitSet);
     }
