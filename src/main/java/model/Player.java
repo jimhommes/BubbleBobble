@@ -691,7 +691,7 @@ public class Player extends GravityObject {
      */
     public double[] getLocation() {
         location = spriteBase.getLocation();
-    	return location;
+        return spriteBase.getLocation();
     }
     
     /**

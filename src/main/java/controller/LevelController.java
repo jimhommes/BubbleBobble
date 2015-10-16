@@ -26,7 +26,6 @@ import java.util.Observer;
 public class LevelController implements Observer {
 
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    private static final String MAPS_PATH = "src/main/resources";
 
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> maps = new ArrayList<>();

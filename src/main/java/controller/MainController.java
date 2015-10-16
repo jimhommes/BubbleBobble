@@ -115,7 +115,7 @@ public class MainController implements Initializable {
     public void showWinScreen() {
         Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../win.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("win.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
@@ -129,7 +129,7 @@ public class MainController implements Initializable {
     public void showGameOverScreen() {
         Stage stage = (Stage) playFieldLayer.getScene().getWindow();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("../gameOver.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gameOver.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

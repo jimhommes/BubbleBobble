@@ -111,9 +111,11 @@ public class Level {
         map = new Integer[NUM_ROWS][NUM_COLS];
         BufferedReader reader = null;
 
-        try {
-            reader = new BufferedReader(
-                  new InputStreamReader(getClass().getResourceAsStream("../" + lvlTitle), "UTF-8"));
+        try (InputStreamReader isr = new InputStreamReader(getClass()
+                .getClassLoader()
+                .getResourceAsStream(lvlTitle), "UTF-8")) {
+            reader = new BufferedReader(isr);
+
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(" ");
@@ -124,16 +126,10 @@ public class Level {
                 }
                 row++;
             }
+            reader.close();
+            isr.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

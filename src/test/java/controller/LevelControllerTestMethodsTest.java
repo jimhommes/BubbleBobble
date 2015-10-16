@@ -36,14 +36,4 @@ public class LevelControllerTestMethodsTest {
         maps.forEach(map -> assertTrue(map.matches("map[0-9]*.txt")));
     }
     
-    /**
-     * The function that sets the path to the maps.
-     */
-    @Test
-    public void testSetPathMaps() {
-        String pathMaps = "path";
-        levelControllerMethods.setPathMaps(pathMaps);
-        assertEquals(levelControllerMethods.getPathMaps(), pathMaps);
-    }
-
 }
