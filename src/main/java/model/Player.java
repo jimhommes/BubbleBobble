@@ -25,10 +25,8 @@ public class Player extends GravityObject {
     private double speed;
     private boolean isFacingRight;
     private int counter;
-    private boolean isDead;
     private boolean isGameOver;
     private boolean isDelayed;
-    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -38,7 +36,6 @@ public class Player extends GravityObject {
     private double playerMinY;
     private double playerMaxY;
 
-    private boolean doubleSpeed;
     private boolean bubblePowerup;
     private boolean isImmortal;
 
@@ -84,11 +81,6 @@ public class Player extends GravityObject {
         this.powerups = new ArrayList<>();
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.setUp();
-
-        this.addObserver(levelController);
-        this.addObserver(levelController.getScreenController());
-        this.timer = createTimer();
-        this.timer.start();
     }
 
     private void setUp() {
@@ -97,7 +89,6 @@ public class Player extends GravityObject {
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
         this.isJumping = false;
-        this.isDead = false;
         this.isGameOver = false;
         this.isFacingRight = true;
 
@@ -105,11 +96,15 @@ public class Player extends GravityObject {
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
-        
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
+        this.timer = createTimer();
+        timer.start();
+
         width = Settings.SPRITE_SIZE;
         height = Settings.SPRITE_SIZE;
         location = spriteBase.getLocation();
-
     }
 
     private AnimationTimer createTimer() {
@@ -118,12 +113,15 @@ public class Player extends GravityObject {
             @Override
             public void handle(long now) {
 
-                    if (!levelController.getLevelControllerMethods().getGamePaused()) {
+                    if (!levelController.getLevelControllerMethods().getGamePaused() && !isDead()) {
                         processInput();
                         move();
                         levelController.getCurrLvl().getMonsters().forEach(
                                 Player.this::checkCollideMonster
                         );
+                    }
+                    if (isDead()) {
+                        spriteBase.setImage("/Bub" + playerNumber + "Death.png");
                     }
 
                     setChanged();
@@ -138,7 +136,7 @@ public class Player extends GravityObject {
      */
     public void processInput() {
     	getLocation();
-        if (!isDead && !isDelayed) {
+        if (!isDead() && !isDelayed) {
             if (isJumping && location[3] <= 0) {
                 location[3] = location[3] + 0.6;
             } else if (isJumping && location[3] > 0) {
@@ -318,19 +316,21 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-    	location[1] = 0;
+        this.loseLife();
+        this.scorePoints(Settings.POINTS_PLAYER_DIE);
+        location[1] = 0;
         location[3] = 0;
         setLocation(location);
-        if (this.getLives() <= 1 && !this.isDead) {
-            this.isDead = true;
+
+        if (this.getLives() == 0) {
             counter = 0;
             setLocation(location);
             spriteBase.setImage("/Bub" + playerNumber + "Death.png");
+            setChanged();
+            notifyObservers();
+            destroy();
         } else {
             isDelayed = true;
-            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
-            this.loseLife();
-            this.scorePoints(Settings.POINTS_PLAYER_DIE);
             delayRespawn();
         }
         
@@ -583,13 +583,7 @@ public class Player extends GravityObject {
      * @return True if dead.
      */
     public boolean isDead() {
-
-        if (isDead) {
-            this.deleteObservers();
-            timer.stop();
-        }
-
-        return isDead;
+        return getLives() == 0;
     }
 
     /**

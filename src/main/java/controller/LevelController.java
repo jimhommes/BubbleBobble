@@ -143,12 +143,13 @@ public class LevelController implements Observer {
             public void handle(long now) {
                 boolean stop = true;
                 for (Player p : players) {
-                    if (!p.isGameOver()) {
+                    if (!p.isDead()) {
                         stop = false;
                     }
                 }
                 if (stop) {
                     stop();
+                    gameOver();
                 } else {
                     if (currLvl.update()) {
                       nextLevel();
@@ -237,9 +238,9 @@ public class LevelController implements Observer {
         for (int i = 0; i < p.size(); i++) {
             Player newPlayer = p.get(i);
 
-            if (scores.length > i) {
+            if (i < scores.length) {
                 newPlayer.setScore(scores[i]);
-                newPlayer.setLives(lives[i]);
+                newPlayer.setLives(lives[i] + 1);
             } else {
                 newPlayer.setScore(0);
                 newPlayer.setLives(Settings.PLAYER_LIVES);
@@ -481,13 +482,9 @@ public class LevelController implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Player) {
             Player p = (Player) o;
-            if (p.isDead()) {
-                gameOver();
-            } else {
                 Logger.log(String.format("Score: %d", p.getScore()));
                 mainController.showScore(p.getScore(), p.getPlayerNumber());
                 mainController.showLives(p.getLives(), p.getPlayerNumber());
-            }
         } else if (o instanceof Bubble) {
             Bubble b = (Bubble) o;
             if (b.getIsPopped()) {
