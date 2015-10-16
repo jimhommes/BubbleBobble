@@ -246,7 +246,7 @@ public class LevelController implements Observer {
         for (int i = 0; i < p.size(); i++) {
             Player newPlayer = p.get(i);
 
-            if (scores.length > i) {
+            if (i < scores.length) {
                 newPlayer.setScore(scores[i]);
                 newPlayer.setLives(lives[i]);
             } else {

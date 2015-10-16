@@ -22,7 +22,6 @@ public class Player extends GravityObject {
     private double speed;
     private boolean isFacingRight;
     private int counter;
-    private boolean isDead;
     private boolean isGameOver;
     private boolean isImmortal;
     private boolean isDelayed;
@@ -75,7 +74,6 @@ public class Player extends GravityObject {
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
         this.isJumping = false;
-        this.isDead = false;
         this.isGameOver = false;
         this.isFacingRight = true;
         this.levelController = levelController;
@@ -89,8 +87,9 @@ public class Player extends GravityObject {
 
         xStartLocation = coordinates.getX();
         yStartLocation = coordinates.getY();
-        
+
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
+
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
         this.timer = createTimer();
@@ -103,12 +102,15 @@ public class Player extends GravityObject {
             @Override
             public void handle(long now) {
 
-                    if (!levelController.getGamePaused() && !isDead) {
+                    if (!levelController.getGamePaused() && !isDead()) {
                         processInput();
                         move();
                         levelController.getCurrLvl().getMonsters().forEach(
                                 Player.this::checkCollideMonster
                         );
+                    }
+                    if (isDead()) {
+                        spriteBase.setImage("/Bub" + playerNumber + "Death.png");
                     }
 
                     setChanged();
@@ -123,7 +125,7 @@ public class Player extends GravityObject {
      */
     public void processInput() {
 
-        if (!isDead && !isDelayed) {
+        if (!isDead() && !isDelayed) {
             if (isJumping && spriteBase.getDy() <= 0) {
                 spriteBase.setDy(spriteBase.getDy() + 0.6);
             } else if (isJumping && spriteBase.getDy() > 0) {
