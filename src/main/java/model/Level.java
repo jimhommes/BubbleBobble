@@ -10,35 +10,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * @author Jim
- * @since 9/5/2015
- * @version 0.1
- */
-
-/**
  * This class creates the levels for the game. When created it can load a
  * level from a .txt file.
  */
 public class Level {
 
-    /**
-     * The number of rows.
-     */
-    protected static final int NUM_ROWS = 26;
-
-    /**
-     * Number of columns.
-     */
-    protected static final int NUM_COLS = 26;
-
-    /**
-     * The size in pixels of a sprite.
-     */
+    private static final int NUM_ROWS = 26;
+    private static final int NUM_COLS = 26;
     public static final double SPRITE_SIZE = 32.0;
 
-    /**
-     * The controller of this class.
-     */
     private final LevelController levelController;
     private final int limitOfPlayers;
 
@@ -126,7 +106,7 @@ public class Level {
     /**
      * This function reads the file and translates it to a 2dim array.
      */
-    public final void readMap() {
+    private void readMap() {
         int row = 0;
         map = new Integer[NUM_ROWS][NUM_COLS];
         BufferedReader reader = null;

@@ -19,11 +19,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by Jim on 9/11/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/11/2015
+ * This tests the Player class.
  */
 public class PlayerTest {
 
@@ -31,7 +27,6 @@ public class PlayerTest {
     private Input input;
     private LevelController levelController;
     private ScreenController screenController;
-    private Level level;
     private ArrayList<Wall> walls;
 
     /**
@@ -44,7 +39,7 @@ public class PlayerTest {
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
-        level = mock(Level.class);
+        Level level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         Coordinates coordinates = new Coordinates(Level.SPRITE_SIZE, Level.SPRITE_SIZE, 0, 0, 0, 0);
         player = new Player(levelController, coordinates, Settings.PLAYER_SPEED, 1, input, 1);

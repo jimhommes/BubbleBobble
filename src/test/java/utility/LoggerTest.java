@@ -37,6 +37,7 @@ public class LoggerTest {
      * folder must be private, but @Rule believes that it should be public.
      */
     @Rule
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     public TemporaryFolder folder = new TemporaryFolder();
 
     /**
@@ -77,8 +78,7 @@ public class LoggerTest {
         Logger.setLogFile(testFile2.getAbsolutePath());
         Logger.logToFile("Test log");
         String text;
-        BufferedReader br = new BufferedReader(new FileReader(testFile2));
-        try {
+        try (BufferedReader br = new BufferedReader(new FileReader(testFile2))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -88,8 +88,6 @@ public class LoggerTest {
                 line = br.readLine();
             }
             text = sb.toString();
-        } finally {
-            br.close();
         }
 
         assertThat(text, containsString("Test log"));

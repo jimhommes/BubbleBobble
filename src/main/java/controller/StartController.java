@@ -15,55 +15,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by toinehartman on 01/09/15.
- */
-
-/**
  * This is the Start Screen Controller, it handles all GUI interactions.
  */
 public class StartController implements Initializable {
 
-    /**
-     * The help screen.
-     */
     @FXML private GridPane helpScreen;
-
-    /**
-     * The @FXML annotation links the view element to this object in the controller.
-     * The variable name of the object has to match the fx:id of the view element.
-     */
     @FXML private AnchorPane root;
-
-    /**
-     * The singleplayer button. If you press this the game will start for a single player.
-     */
     @FXML private Button singlePlayerButton;
-
-    /**
-     * The multiplayer button. If you press this the multiplayer game will start.
-     */
     @FXML private Button multiPlayerButton;
-
-    /**
-     * The exit button. If you press this the application will close.
-     */
     @FXML private Button exitButton;
-
-    /**
-     * The help button. If you press this you will be shown some text that should help you.
-     */
     @FXML private Button helpButton;
 
-    /**
-     * This causes a checkstyle error because findBugs says that it should be protected.
-     */
-    protected static int limitOfPlayers;
+    private static int limitOfPlayers;
 
-    /**
-     * Initializes the view.
-     *
-     * This is the place for setting onclick handlers, for example.
-     */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         singlePlayerButton.setOnAction(event -> {
@@ -100,4 +64,11 @@ public class StartController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Get the limit of players.
+     * @return the limit
+     */
+    public static int getLimitOfPlayers() {
+        return StartController.limitOfPlayers;
+    }
 }

@@ -7,11 +7,6 @@ import java.util.Observable;
 
 /**
  * This class creates the different types of power ups that are used in the game.
- * Created by Jim on 10/7/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 10/7/2015
  */
 public class Powerup extends Observable {
 
@@ -22,13 +17,13 @@ public class Powerup extends Observable {
     private int kindRounded;
     private SpriteBase spriteBase;
 
-    public static final int AMOUNT_OF_POWERUPS = 5;
-    public static final int POWERUP_SPEED = 1;
-    public static final int POWERUP_LIFE = 2;
-    public static final int POWERUP_BUBBLE = 3;
-    public static final int POWERUP_MONSTER = 4;
-    public static final int POWERUP_POINTS = 5;
-    public static final int POWERUP_THRESHOLD = 10;
+    private static final int AMOUNT_OF_POWERUPS = 5;
+    private static final int POWERUP_SPEED = 1;
+    private static final int POWERUP_LIFE = 2;
+    private static final int POWERUP_BUBBLE = 3;
+    private static final int POWERUP_MONSTER = 4;
+    private static final int POWERUP_POINTS = 5;
+    private static final int POWERUP_THRESHOLD = 10;
 
     /**
      * The constructor. It instantiates the class.

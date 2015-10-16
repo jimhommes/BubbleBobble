@@ -16,8 +16,6 @@ import java.util.ArrayList;
 
 /**
  * This class tests what happens to the walkers.
- * @author Lili
- *
  */
 public class WalkerTest {
 
@@ -34,9 +32,9 @@ public class WalkerTest {
 		ScreenController screenController = mock(ScreenController.class);
 		Level level = mock(Level.class);
 		when(levelController.getScreenController()).thenReturn(screenController);
+		walls = new ArrayList<>();
 		Coordinates coordinates = new Coordinates(0, 0, 0, 10, 0, 0);
 		walker = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
-		walls = new ArrayList<Wall>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
 		
@@ -91,7 +89,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveBubble() throws Exception {
-		ArrayList<Wall> wall = new ArrayList<Wall>();
+		ArrayList<Wall> wall = new ArrayList<>();
 		Coordinates coordinates = new Coordinates(32, 32, 32, 1, 1, 1);
 		wall.add(new Wall(coordinates));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
@@ -117,7 +115,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveDown() throws Exception {
-		ArrayList<Wall> wall = new ArrayList<Wall>();
+		ArrayList<Wall> wall = new ArrayList<>();
 		Coordinates wallCoordinates = new Coordinates(32, 32, 32, 1, 1, 1);
 		wall.add(new Wall(wallCoordinates));
 		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);

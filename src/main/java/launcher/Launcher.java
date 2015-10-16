@@ -8,7 +8,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utility.Logger;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -16,8 +15,6 @@ import java.io.IOException;
  * This class is responsible for the launch of the game.
  */
 public class Launcher extends Application {
-
-    private static MediaPlayer mediaPlayer;
 
     /**
      * The main method just launches the application.
@@ -31,15 +28,6 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    /**
-     * The start method sets up the application window.
-     * <p>
-     * The view is loaded from an FXML file. A title for the window is set.
-     * The loaded view is set as the current scene.
-     *
-     * @param primaryStage The primary stage (window).
-     * @throws IOException When the FXML file is not found.
-     */
     @Override
     public final void start(final Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
@@ -56,7 +44,7 @@ public class Launcher extends Application {
     private void startMusic() {
         String path = getClass().getResource("../themeSong.mp3").toString();
         Media media = new Media(path);
-        mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     }

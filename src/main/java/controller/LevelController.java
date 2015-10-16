@@ -19,73 +19,36 @@ import utility.Settings;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
- * @author Jim
- * @version 0.1
- * @since 9/5/2015
- * Last Modified: Lili
  */
 public class LevelController implements Observer {
 
-    /**
-     * KeyCode for pausing the game.
-     */
     private static final KeyCode PAUSE_KEY = KeyCode.P;
+    private static final String MAPS_PATH = "src/main/resources";
 
-    /**
-     * The list of players in the game.
-     */
     private ArrayList<Player> players = new ArrayList<>();
-    
-    /**
-     * The list of maps that the user is about to play.
-     */
     private ArrayList<String> maps = new ArrayList<>();
-
-    /**
-     * The list of powerups.
-     */
     private ArrayList<Powerup> powerups = new ArrayList<>();
-    /**
-     * The current index of the level the user is playing.
-     */
+
     private int indexCurrLvl;
-    /**
-     * The current level the user is playing.
-     */
     private Level currLvl;
-    /**
-     * A boolean to see if the game is going on or not.
-     */
+
     private boolean gameStarted = false;
-    /**
-     * The screenController that handles all GUI.
-     */
+
+    private boolean gamePaused = false;
+
     private ScreenController screenController;
-
-    /**
-     * The gameLoop timer. This timer is the main timer.
-     */
     private AnimationTimer gameLoop;
-
-    /**
-     * The Main Controller.
-     */
     private MainController mainController;
 
-    /**
-     * The input for the player.
-     */
-    private Input input;
-
-    /**
-     * The boolean preventing the pauseScreen from switching many times.
-     */
-    private boolean switchedPauseScreen = false;
     
     private LevelControllerMethods levelControllerMethods;
+
+
+    private boolean switchedPauseScreen = false;
 
     private int limitOfPlayers;
 
@@ -110,17 +73,14 @@ public class LevelController implements Observer {
     };
 
     /**
-     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     * "Key Released" handler for pausing the game: register in boolean gamePaused.
      */
-    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
-            if (event.getCode() == PAUSE_KEY) {
-                switchedPauseScreen = false;
-            }
-
+        if (event.getCode() == PAUSE_KEY) {
+            switchedPauseScreen = false;
         }
+
     };
 
     /**
@@ -165,8 +125,6 @@ public class LevelController implements Observer {
         gameLoop = createTimer();
         startLevel();
     }
-
-    
 
     /**
      * This function returns the gameLoop.
@@ -229,13 +187,9 @@ public class LevelController implements Observer {
      * the ones which have been picked up.
      */
     public void updatePowerups() {
-        ArrayList<Powerup> nPowerups = new ArrayList<>();
-        for (Powerup powerup : powerups) {
-            if (!powerup.isPickedUp()) {
-                nPowerups.add(powerup);
-            }
-        }
-        powerups = nPowerups;
+        powerups = powerups.stream()
+                .filter(powerup -> !powerup.isPickedUp())
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -313,7 +267,6 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        players = new ArrayList<>();
         powerups = new ArrayList<>();
         if (indexCurrLvl < maps.size()) {
             createLvl();
@@ -334,7 +287,7 @@ public class LevelController implements Observer {
     /**
      * This method calls the win screen when the game has been won.
      */
-    public void winGame() {
+    private void winGame() {
         Logger.log("Game won!");
         gameLoop.stop();
         mainController.showWinScreen();
@@ -394,11 +347,22 @@ public class LevelController implements Observer {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * This is the boolean to check if the game is paused or not.
+     *
+     * @return True if the gamePaused is true.
+     */
+    private boolean isGamePaused() {
+        return this.gamePaused;
+    }
+
+    /**
+>>>>>>> development
      * The function that gets the players.
      * @return The players.
      */
-    @SuppressWarnings("rawtypes")
-	public ArrayList getPlayers() {
+	public ArrayList<Player> getPlayers() {
         return players;
     }
 
@@ -438,8 +402,7 @@ public class LevelController implements Observer {
      * This function sets the players.
      * @param players The players.
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-	public void setPlayers(ArrayList players) {
+	public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -525,8 +488,7 @@ public class LevelController implements Observer {
      * @param maxY The maximum value of the Y value.
      * @return true is there is a collision.
      */
-    public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-
+	private boolean causesCollision(double minX, double maxX, double minY, double maxY) {
         for (Wall wall : getCurrLvl().getWalls()) {
             if (wall.getSpriteBase().causesCollision(minX, maxX, minY, maxY)) {
                 return true;

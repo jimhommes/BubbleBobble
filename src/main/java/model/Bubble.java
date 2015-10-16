@@ -3,16 +3,7 @@ package model;
 import controller.LevelController;
 import utility.Logger;
 import utility.Settings;
-
 import java.util.Observable;
-
-/**
- * Created by Jim on 9/8/2015.
- *
- * @author Jim
- * @version 0.1
- * @since 9/8/2015
- */
 
 /**
  * This class is where the bubbles are created.
@@ -58,7 +49,7 @@ public class Bubble extends Observable {
     /**
      * This method is used to check if a bubble is .
      */
-    public void checkPop() {
+    private void checkPop() {
         if (!isPopped) {
             isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
         }

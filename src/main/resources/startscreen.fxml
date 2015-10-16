@@ -7,204 +7,258 @@
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
 
-<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartController">
-
-   <children>
-       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-      <children>
-              <ImageView fx:id="imageView" fitHeight="360" fitWidth="640" layoutX="61.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
-                 <image>
-                     <Image url="BubbleBobbleLogo.png" />
-                 </image>
-              </ImageView>
-      
-              <Button fx:id="singlePlayerButton" styleClass="button" text="Start 1 Player" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-              <Button fx:id="multiPlayerButton" styleClass="button" text="Start 2 Players" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-              <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-              <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-      </children>
-       </VBox>
-   
-       <GridPane fx:id="helpScreen" layoutY="165.0" maxHeight="764.0" minWidth="764.0" prefHeight="764.0" prefWidth="764.0" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-      <children>
-              <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-            <Pane prefHeight="50.0" prefWidth="634.0" GridPane.rowIndex="2">
-               <children>
-                  <GridPane prefHeight="50.0" prefWidth="634.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="220.0" prefWidth="220.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                          <Text styleClass="helpText" text=" - Pause the game" GridPane.columnIndex="1" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="RIGHT">
-                           <image>
-                              <Image url="@buttons/buttonP.png" />
-                           </image>
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                        </ImageView>
-                     </children>
-                  </GridPane>
-               </children>
-            </Pane>
-     		  <Text styleClass="helpTextDescription" text="Power Ups:" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-              <Pane prefHeight="147.0" prefWidth="634.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-               <children>
-                  <GridPane layoutX="-4.0" layoutY="5.0" prefHeight="102.0" prefWidth="647.0">
-                     <children>
-                        <Text styleClass="helpText" text=" - Player speed increases" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-     		 			<Text styleClass="helpText" text=" - Bubbles shoots straight longer" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-				     	<Text styleClass="helpText" text=" - Increase player's score" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-				     	<Text styleClass="helpText" text=" - Decreases monsters speed" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Adds a life" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@banana.gif" />
-                           </image></ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@apple.gif" />
-                           </image></ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                            <image>
-                                <Image url="@coin.gif" />
-                            </image>
-                        </ImageView>
-                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-                             <image>
-                                 <Image url="@melon.png" />
-                             </image>
-                         </ImageView><ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@heart.gif" />
-                           </image></ImageView>     
-                     </children>
-                     <columnConstraints>
-                        <ColumnConstraints maxWidth="278.0" minWidth="220.0" prefWidth="278.0" />
-                        <ColumnConstraints maxWidth="427.0" minWidth="369.0" prefWidth="369.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
-                  </GridPane>
-               </children></Pane>
-     		  <Text styleClass="helpTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin></Text>
-            <Pane prefHeight="200.0" prefWidth="634.0" GridPane.rowIndex="1">
-               <children>
-                  <GridPane layoutX="25.0" layoutY="5.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="300.0">
-                     <children>
-                        <Text styleClass="helpText" text="   Player 1 (Singleplayer)" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Move Left" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Move Right" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Jump" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Shoot bubble" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonLeft.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonRight.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonUp.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonSpace.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <columnConstraints>
-                        <ColumnConstraints maxWidth="278.0" minWidth="100.0" prefWidth="100.0" />
-                        <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
-                  </GridPane>
-                  <GridPane layoutX="325.0" layoutY="5.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="300.0">
-                     <children>
-                        <Text styleClass="helpText" text="   Player 2" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Move Left" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Move Right" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Jump" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                        <Text styleClass="helpText" text=" - Shoot bubble" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/ButtonA.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonD.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonW.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="35.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
-                           <image>
-                              <Image url="@buttons/buttonShift.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <columnConstraints>
-                        <ColumnConstraints maxWidth="278.0" minWidth="100.0" prefWidth="100.0" />
-                        <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
-                  </GridPane>
-               </children>
-            </Pane>
-      </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints minHeight="50.0" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-       </GridPane>
-   </children>
+<AnchorPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.StartController">
 
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@stylesheet.css"/>
     </stylesheets>
+    <VBox alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <ImageView fx:id="imageView" fitHeight="360" fitWidth="640" layoutX="61.0"
+                   layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="BubbleBobbleLogo.png"/>
+        </ImageView>
+
+        <Button fx:id="singlePlayerButton" styleClass="button" text="Start 1 Player"
+                GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Button fx:id="multiPlayerButton" styleClass="button" text="Start 2 Players"
+                GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0"
+                GridPane.rowIndex="5"/>
+        <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0"
+                GridPane.rowIndex="6"/>
+    </VBox>
+
+    <GridPane fx:id="helpScreen" layoutY="165.0" maxHeight="764.0" minWidth="764.0"
+              prefHeight="764.0" prefWidth="764.0" visible="false" AnchorPane.bottomAnchor="50.0"
+              AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
+              AnchorPane.topAnchor="50.0">
+        <columnConstraints>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints minHeight="50.0"/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+        <Text styleClass="helpTitleText" text="Help Screen" GridPane.columnIndex="0"
+              GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0"
+              GridPane.vgrow="ALWAYS"/>
+        <Pane prefHeight="50.0" prefWidth="634.0" GridPane.rowIndex="2">
+            <GridPane prefHeight="50.0" prefWidth="634.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="278.0" minWidth="220.0"
+                                       prefWidth="220.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <Text styleClass="helpText" text=" - Pause the game"
+                      GridPane.columnIndex="1"/>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.halignment="RIGHT">
+                    <GridPane.margin>
+                        <Insets/>
+                    </GridPane.margin>
+                    <Image url="@buttons/buttonP.png"/>
+                </ImageView>
+            </GridPane>
+        </Pane>
+        <Text styleClass="helpTextDescription" text="Power Ups:" GridPane.columnIndex="0"
+              GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3"
+              GridPane.vgrow="ALWAYS"/>
+        <Pane prefHeight="147.0" prefWidth="634.0" GridPane.halignment="CENTER"
+              GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+            <GridPane layoutX="-4.0" layoutY="5.0" prefHeight="102.0" prefWidth="647.0">
+                <columnConstraints>
+                    <ColumnConstraints maxWidth="278.0" minWidth="220.0" prefWidth="278.0"/>
+                    <ColumnConstraints maxWidth="427.0" minWidth="369.0" prefWidth="369.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+                <Text styleClass="helpText" text=" - Player speed increases"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
+                      GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Bubbles shoots straight longer"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
+                      GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Increase player's score"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"
+                      GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Decreases monsters speed"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="3"
+                      GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Adds a life"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"
+                      GridPane.vgrow="ALWAYS"/>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+                    <Image url="@banana.gif"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                    <Image url="@apple.gif"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                    <Image url="@coin.gif"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                    <Image url="@melon.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                    <Image url="@heart.gif"/>
+                </ImageView>
+            </GridPane>
+        </Pane>
+        <Text styleClass="helpTextClick" text="Click to return to the menu."
+              GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="5" GridPane.vgrow="ALWAYS">
+            <GridPane.margin>
+                <Insets/>
+            </GridPane.margin>
+        </Text>
+        <Pane prefHeight="200.0" prefWidth="634.0" GridPane.rowIndex="1">
+            <GridPane layoutX="25.0" layoutY="5.0" maxWidth="-Infinity" minWidth="-Infinity"
+                      prefHeight="180.0" prefWidth="300.0">
+                <columnConstraints>
+                    <ColumnConstraints maxWidth="278.0" minWidth="100.0" prefWidth="100.0"/>
+                    <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+                <Text styleClass="helpText" text="   Player 1 (Singleplayer)"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"
+                      GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Move Left" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Move Right" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="2" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Jump" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="3" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Shoot bubble"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"
+                      GridPane.vgrow="ALWAYS"/>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonLeft.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonRight.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonUp.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="75.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonSpace.png"/>
+                </ImageView>
+            </GridPane>
+            <GridPane layoutX="325.0" layoutY="5.0" maxWidth="-Infinity" minWidth="-Infinity"
+                      prefHeight="180.0" prefWidth="300.0">
+                <columnConstraints>
+                    <ColumnConstraints maxWidth="278.0" minWidth="100.0" prefWidth="100.0"/>
+                    <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+                <Text styleClass="helpText" text="   Player 2" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="0" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Move Left" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="1" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Move Right" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="2" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Jump" GridPane.columnIndex="1"
+                      GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS"
+                      GridPane.rowIndex="3" GridPane.vgrow="ALWAYS"/>
+                <Text styleClass="helpText" text=" - Shoot bubble"
+                      GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                      GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"
+                      GridPane.vgrow="ALWAYS"/>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/ButtonA.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonD.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonW.png"/>
+                </ImageView>
+                <ImageView fitHeight="35.0" fitWidth="75.0" pickOnBounds="true"
+                           preserveRatio="true" GridPane.columnIndex="0"
+                           GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+                    <Image url="@buttons/buttonShift.png"/>
+                </ImageView>
+            </GridPane>
+        </Pane>
+    </GridPane>
 </AnchorPane>

@@ -27,7 +27,6 @@ public class Player extends GravityObject {
     private boolean isImmortal;
     private boolean isDelayed;
     private Timer immortalTimer;
-    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -39,11 +38,9 @@ public class Player extends GravityObject {
 
     private boolean doubleSpeed;
     private int doubleSpeedCounter;
-    private int durationDoubleSpeed = 200;
 
     private boolean bubblePowerup;
     private int bubblePowerupCounter;
-    private int durationBubblePowerup = 400;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -167,7 +164,7 @@ public class Player extends GravityObject {
     private void checkPowerups() {
         if (doubleSpeed) {
             doubleSpeedCounter++;
-            if (doubleSpeedCounter >= durationDoubleSpeed) {
+            if (doubleSpeedCounter >= Settings.PLAYER_DOUBLESPEED_DURATION) {
                 setDoubleSpeed(false);
                 setSpeed(Settings.PLAYER_SPEED);
                 setDoubleSpeedCounter(0);
@@ -178,7 +175,7 @@ public class Player extends GravityObject {
 
         if (bubblePowerup) {
             bubblePowerupCounter++;
-            if (bubblePowerupCounter >= durationBubblePowerup) {
+            if (bubblePowerupCounter >= Settings.BUBBLE_POWERUP_DURATION) {
                 setBubblePowerup(false);
                 setBubblePowerupCounter(0);
             }
@@ -252,7 +249,7 @@ public class Player extends GravityObject {
     private boolean causesBubbleCollision(double x, double x1, double y, double y2) {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         levelController.getPlayers().forEach(player -> {
-            Player p = (Player) player;
+            Player p = player;
             bubbles.addAll(p.getBubbles());
         });
 
@@ -319,7 +316,7 @@ public class Player extends GravityObject {
     }
 
     private void delayRespawn() {
-        delayTimer = new Timer();
+        Timer delayTimer = new Timer();
         delayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -479,15 +476,12 @@ public class Player extends GravityObject {
      * Add/subtract points to/from the player's score.
      *
      * @param points the amount of scored points.
-     * @return the Player instance for chaining.
      */
-    public Player scorePoints(int points) {
+    public void scorePoints(int points) {
         this.setScore(this.getScore() + points);
 
         this.setChanged();
         this.notifyObservers();
-
-        return this;
     }
 
     /**

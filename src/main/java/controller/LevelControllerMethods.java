@@ -6,13 +6,11 @@ import java.util.ArrayList;
 public class LevelControllerMethods {
 
 	private LevelController levelController;
-	
 	private String pathMaps = "src/main/resources";
-	
 	private boolean gamePaused;
 	
-	public LevelControllerMethods(LevelController levelController){
-		this.setLevelController(levelController);
+	public LevelControllerMethods(LevelController levelController) {
+	  this.setLevelController(levelController);
 		gamePaused = false;
 	}
 	
