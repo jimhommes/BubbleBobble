@@ -79,7 +79,7 @@ public class Player extends GravityObject {
         this.yStartLocation = 64;
 
         this.powerups = new ArrayList<>();
-        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
+        this.spriteBase = new SpriteBase("Bub" + playerNumber + "Left.png", coordinates);
         this.setUp();
     }
 
@@ -121,7 +121,7 @@ public class Player extends GravityObject {
                         );
                     }
                     if (isDead()) {
-                        spriteBase.setImage("/Bub" + playerNumber + "Death.png");
+                        spriteBase.setImage("Bub" + playerNumber + "Death.png");
                     }
 
                     setChanged();
@@ -321,11 +321,11 @@ public class Player extends GravityObject {
         location[1] = 0;
         location[3] = 0;
         setLocation(location);
+        spriteBase.setImage("Bub" + playerNumber + "Death.png");
 
         if (this.getLives() == 0) {
             counter = 0;
             setLocation(location);
-            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
             setChanged();
             notifyObservers();
             destroy();
@@ -750,15 +750,15 @@ public class Player extends GravityObject {
     private void setImage() {
       if (isFacingRight) {
         if (isImmortal) {
-            spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "RightRed.png");
         } else {
-            spriteBase.setImage("/Bub" + playerNumber + "Right.png");
+            spriteBase.setImage("Bub" + playerNumber + "Right.png");
         }
       } else {
         if (isImmortal) {
-            spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "LeftRed.png");
         } else {
-            spriteBase.setImage("/Bub" + playerNumber + "Left.png");
+            spriteBase.setImage("Bub" + playerNumber + "Left.png");
         }
       }
     }

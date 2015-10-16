@@ -49,7 +49,7 @@ public class Powerup extends Observable {
         this.desty = desty;
 
         this.levelController = levelController;
-        this.spriteBase = new SpriteBase("../banana.gif", coordinates);
+        this.spriteBase = new SpriteBase("banana.gif", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
@@ -86,19 +86,19 @@ public class Powerup extends Observable {
     private void setCorrectImage(int kindRounded) {
         switch (kindRounded) {
             case POWERUP_SPEED:
-                spriteBase.setImage("../banana.gif");
+                spriteBase.setImage("banana.gif");
                 break;
             case POWERUP_LIFE:
-                spriteBase.setImage("../heart.gif");
+                spriteBase.setImage("heart.gif");
                 break;
             case POWERUP_BUBBLE:
-                spriteBase.setImage("../apple.gif");
+                spriteBase.setImage("apple.gif");
                 break;
             case POWERUP_MONSTER:
-                spriteBase.setImage("../melon.png");
+                spriteBase.setImage("melon.png");
                 break;
             case POWERUP_POINTS:
-                spriteBase.setImage("../coin.gif");
+                spriteBase.setImage("coin.gif");
                 break;
             default:
                 Logger.log("No suitable image found!");

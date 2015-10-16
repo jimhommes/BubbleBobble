@@ -19,7 +19,7 @@ public class Wall  {
      * @param coordinates The coordinates of the wall.
      */
     public Wall(Coordinates coordinates) {
-        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", coordinates);
+        this.spriteBase = new SpriteBase("BubbleBobbleWall32b.png", coordinates);
     }
 
     /**

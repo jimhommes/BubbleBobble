@@ -40,7 +40,7 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.spriteBase = new SpriteBase("/ZenChanLeft.png", coordinates);
+        this.spriteBase = new SpriteBase("ZenChanLeft.png", coordinates);
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());

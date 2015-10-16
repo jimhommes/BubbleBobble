@@ -121,9 +121,9 @@ public class Walker extends Monster {
     public void switchDirection() {
         setFacingRight(!isFacingRight());
         if (isFacingRight()) {
-            getSpriteBase().setImage("../ZenChanRight.png");
+            getSpriteBase().setImage("ZenChanRight.png");
         } else {
-            getSpriteBase().setImage("../ZenChanLeft.png");
+            getSpriteBase().setImage("ZenChanLeft.png");
         }
 
     }
