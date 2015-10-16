@@ -21,7 +21,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
@@ -34,6 +33,12 @@ public class LevelController implements Observer {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> maps = new ArrayList<>();
     private ArrayList<Powerup> powerups = new ArrayList<>();
+
+    private ArrayList<Bubble>  bubbles = new ArrayList<>();
+
+    /**
+     * The current index of the level the user is playing.
+     */
 
     private int indexCurrLvl;
     private Level currLvl;
@@ -95,11 +100,12 @@ public class LevelController implements Observer {
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
 
                 if (players.size() > 0 && players.get(0) != null) {
-                    mainController.showLives(players.get(0).getLives());
-                    mainController.showScore(players.get(0).getScore());
+                    Player player = players.get(0);
+                    mainController.showLives(player.getLives(), player.getPlayerNumber());
+                    mainController.showScore(player.getScore(), player.getPlayerNumber());
                 } else {
-                    mainController.showLives(0);
-                    mainController.showScore(0);
+                    mainController.showLives(0, 0);
+                    mainController.showScore(0, 0);
                 }
                 gameLoop.start();
             }
@@ -144,61 +150,21 @@ public class LevelController implements Observer {
         return new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if ((players.get(0)).isGameOver()) {
+                boolean stop = true;
+                for (Player p : players) {
+                    if (!p.isGameOver()) {
+                        stop = false;
+                    }
+                }
+                if (stop) {
                     stop();
                 } else {
-                    if (!isGamePaused()) {
-                        players.forEach(player -> {
-                            performPlayerCycle(player);
-                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
-                            updatePowerups();
-                        });
-                        currLvl.getMonsters().forEach(monster -> {
-                            players.forEach(player -> {
-                                player.getBubbles().forEach(monster::checkCollision);
-                                player.checkCollideMonster(monster);
-                            });
-                            monster.move();
-                        });
-                    }
-
                     if (currLvl.update()) {
 						nextLevel();
                     }
                 }
             }
         };
-    }
-
-    /**
-     * This is the cycle that performs all powerups operations.
-     * @param powerup The powerup actions are performed on
-     * @param player The player there might be a collision with.
-     */
-    public void performPowerupsCycle(Powerup powerup, Player player) {
-        powerup.causesCollision(player, this);
-        powerup.move();
-    }
-
-    /**
-     * This is the cycle that performs all player operations.
-     * @param player The player the actions are performed on.
-     */
-    private void performPlayerCycle(Player player) {
-        player.processInput();
-        player.move();
-        player.getBubbles().forEach(Bubble::move);
-        player.checkBubbles();
-    }
-
-    /**
-     * This function updates the powerups, and removes
-     * the ones which have been picked up.
-     */
-    public void updatePowerups() {
-        powerups = powerups.stream()
-                .filter(powerup -> !powerup.isPickedUp())
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -217,12 +183,21 @@ public class LevelController implements Observer {
         }
     }
 
+    private void refresh() {
+        bubbles.forEach(Bubble::destroy);
+        bubbles.clear();
+        currLvl.getMonsters().forEach(Monster::destroy);
+        currLvl.getMonsters().clear();
+        powerups.forEach(Powerup::destroy);
+        powerups.clear();
+        screenController.removeSprites();
+    }
+
     /**
      * This function creates the current level of currLvl.
      */
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
-        screenController.removeSprites();
 
         createPlayers();
 
@@ -250,9 +225,24 @@ public class LevelController implements Observer {
             lives[i] = this.players.get(i).getLives();
         }
 
-        this.players.clear();
+        players.forEach(Player::destroy);
+        players.clear();
         ArrayList<Player> p = currLvl.getPlayers();
 
+        applyNewPlayers(p, scores, lives);
+
+        players.forEach(player ->
+                screenController.addToSprites(player.getSpriteBase()));
+
+    }
+
+    /**
+     * This function adds the new players and takes over the previous status.
+     * @param p List of players.
+     * @param scores The scores.
+     * @param lives The lives.
+     */
+    private void applyNewPlayers(ArrayList<Player> p, int[] scores, int[] lives) {
         for (int i = 0; i < p.size(); i++) {
             Player newPlayer = p.get(i);
 
@@ -265,10 +255,8 @@ public class LevelController implements Observer {
             }
 
             newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
-            this.players.add(newPlayer);
+            players.add(newPlayer);
         }
-
-        players.forEach(player -> screenController.addToSprites(player.getSpriteBase()));
     }
 
     /**
@@ -276,7 +264,7 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        powerups = new ArrayList<>();
+        refresh();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
@@ -471,14 +459,6 @@ public class LevelController implements Observer {
     }
 
     /**
-     * This function sets the powerups.
-     * @param powerups The powerups.
-     */
-    public void setPowerups(ArrayList<Powerup> powerups) {
-        this.powerups = powerups;
-    }
-
-    /**
      * This function returns the pausekey handler for releasing.
      * @return The pauseKeyEventHandlerRelease
      */
@@ -519,9 +499,31 @@ public class LevelController implements Observer {
                 gameOver();
             } else {
                 Logger.log(String.format("Score: %d", p.getScore()));
-                mainController.showScore(p.getScore());
-                mainController.showLives(p.getLives());
+                mainController.showScore(p.getScore(), p.getPlayerNumber());
+                mainController.showLives(p.getLives(), p.getPlayerNumber());
+            }
+        } else if (o instanceof Bubble) {
+            Bubble b = (Bubble) o;
+            if (b.getIsPopped()) {
+                bubbles.remove(b);
             }
         }
+    }
+
+    /**
+     * This function returns the bubbles.
+     * @return The bubbles.
+     */
+    public ArrayList<Bubble> getBubbles() {
+        return bubbles;
+    }
+
+    /**
+     * This function adds a bubble.
+     * @param bubble The bubble.
+     */
+    public void addBubble(Bubble bubble) {
+        bubbles.add(bubble);
+        screenController.addToSprites(bubble.getSpriteBase());
     }
 }
