@@ -57,7 +57,7 @@ public class Bubble extends Observable {
             @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
-                if (!levelController.getGamePaused()) {
+                if (!levelController.getLevelControllerMethods().getGamePaused()) {
                     move();
                 }
 

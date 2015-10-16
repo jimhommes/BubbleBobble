@@ -16,8 +16,6 @@ import model.Powerup;
 import model.Wall;
 import utility.Logger;
 import utility.Settings;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -44,13 +42,19 @@ public class LevelController implements Observer {
     private Level currLvl;
 
     private boolean gameStarted = false;
+
     private boolean gamePaused = false;
 
     private ScreenController screenController;
     private AnimationTimer gameLoop;
     private MainController mainController;
 
+    
+    private LevelControllerMethods levelControllerMethods;
+
+
     private boolean switchedPauseScreen = false;
+
     private int limitOfPlayers;
 
     /**
@@ -62,8 +66,8 @@ public class LevelController implements Observer {
 
             if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
                 switchedPauseScreen = true;
-                gamePaused = !gamePaused;
-                if (gamePaused) {
+                levelControllerMethods.setGamePaused(!levelControllerMethods.getGamePaused());
+                if (levelControllerMethods.getGamePaused()) {
                     mainController.showPauseScreen();
                 } else {
                     mainController.hidePauseScreen();
@@ -120,25 +124,12 @@ public class LevelController implements Observer {
     public LevelController(MainController mainController, int limitOfPlayers) {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
+        this.levelControllerMethods = new LevelControllerMethods(this);
         this.limitOfPlayers = limitOfPlayers;
-        findMaps();
+        maps = levelControllerMethods.findMaps();
 
         gameLoop = createTimer();
         startLevel();
-    }
-
-    /**
-     * This function scans the resources folder for maps.
-     */
-    public void findMaps() {
-        File folder = new File(MAPS_PATH);
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        for (File file : listOfFiles) {
-            if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
-                maps.add(file.getName());
-            }
-        }
     }
 
     /**
@@ -161,7 +152,7 @@ public class LevelController implements Observer {
                     gameOver();
                 } else {
                     if (currLvl.update()) {
-						nextLevel();
+                      nextLevel();
                     }
                 }
             }
@@ -345,6 +336,8 @@ public class LevelController implements Observer {
     }
 
     /**
+<<<<<<< HEAD
+=======
      * This is the boolean to check if the game is paused or not.
      *
      * @return True if the gamePaused is true.
@@ -354,6 +347,7 @@ public class LevelController implements Observer {
     }
 
     /**
+>>>>>>> development
      * The function that gets the players.
      * @return The players.
      */
@@ -415,14 +409,6 @@ public class LevelController implements Observer {
      */
     public EventHandler<KeyEvent> getPauseKeyEventHandler() {
         return pauseKeyEventHandler;
-    }
-
-    /**
-     * This function returns true if the game is paused.
-     * @return True if the game is paused.
-     */
-    public boolean getGamePaused() {
-        return gamePaused;
     }
 
     /**
@@ -505,6 +491,14 @@ public class LevelController implements Observer {
                 bubbles.remove(b);
             }
         }
+    }
+    
+    /**
+     * This method return the current LevelControlerMethods.
+     * @return the LevelControllerMethod.
+     */
+    public LevelControllerMethods getLevelControllerMethods() {
+    	return levelControllerMethods;
     }
 
     /**

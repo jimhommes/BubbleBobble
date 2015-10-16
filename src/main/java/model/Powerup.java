@@ -72,7 +72,7 @@ public class Powerup extends Observable {
             @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
-                if (!levelController.getGamePaused()) {
+                if (!levelController.getLevelControllerMethods().getGamePaused()) {
                     levelController.getPlayers().forEach(Powerup.this::causesCollision);
                     move();
                 }
