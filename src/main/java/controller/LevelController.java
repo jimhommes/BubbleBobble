@@ -151,7 +151,7 @@ public class LevelController implements Observer {
             public void handle(long now) {
                 boolean stop = true;
                 for (Player p : players) {
-                    if (!p.isGameOver()) {
+                    if (!p.isDead()) {
                         stop = false;
                     }
                 }

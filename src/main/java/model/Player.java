@@ -103,7 +103,7 @@ public class Player extends GravityObject {
             @Override
             public void handle(long now) {
 
-                    if (!levelController.getGamePaused()) {
+                    if (!levelController.getGamePaused() && !isDead) {
                         processInput();
                         move();
                         levelController.getCurrLvl().getMonsters().forEach(
@@ -295,17 +295,20 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-        if (this.getLives() <= 1 && !this.isDead) {
-            this.isDead = true;
-            spriteBase.setDx(0);
-            spriteBase.setDy(0);
+        this.loseLife();
+        this.scorePoints(Settings.POINTS_PLAYER_DIE);
+        spriteBase.setImage("/Bub" + playerNumber + "Death.png");
+        spriteBase.setDx(0);
+        spriteBase.setDy(0);
+
+        if (this.getLives() == 0) {
             counter = 0;
-            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
+
+            setChanged();
+            notifyObservers();
+            destroy();
         } else {
             isDelayed = true;
-            spriteBase.setImage("/Bub" + playerNumber + "Death.png");
-            this.loseLife();
-            this.scorePoints(Settings.POINTS_PLAYER_DIE);
             delayRespawn();
         }
     }
@@ -588,13 +591,7 @@ public class Player extends GravityObject {
      * @return True if dead.
      */
     public boolean isDead() {
-
-        if (isDead) {
-            this.deleteObservers();
-            timer.stop();
-        }
-
-        return isDead;
+        return getLives() == 0;
     }
 
     /**
