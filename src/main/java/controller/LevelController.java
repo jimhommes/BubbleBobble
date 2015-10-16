@@ -95,11 +95,12 @@ public class LevelController implements Observer {
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
 
                 if (players.size() > 0 && players.get(0) != null) {
-                    mainController.showLives(players.get(0).getLives());
-                    mainController.showScore(players.get(0).getScore());
+                    Player player = players.get(0);
+                    mainController.showLives(player.getLives(), player.getPlayerNumber());
+                    mainController.showScore(player.getScore(), player.getPlayerNumber());
                 } else {
-                    mainController.showLives(0);
-                    mainController.showScore(0);
+                    mainController.showLives(0, 0);
+                    mainController.showScore(0, 0);
                 }
                 gameLoop.start();
             }
@@ -519,8 +520,8 @@ public class LevelController implements Observer {
                 gameOver();
             } else {
                 Logger.log(String.format("Score: %d", p.getScore()));
-                mainController.showScore(p.getScore());
-                mainController.showLives(p.getLives());
+                mainController.showScore(p.getScore(), p.getPlayerNumber());
+                mainController.showLives(p.getLives(), p.getPlayerNumber());
             }
         }
     }
