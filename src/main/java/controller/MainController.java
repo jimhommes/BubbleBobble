@@ -82,13 +82,12 @@ public class MainController implements Initializable {
             if (StartController.getLimitOfPlayers() == 1) {
                 livesTextPlayer1.setText(String.format("%d", lives));
             } else {
-                livesTextPlayer1.setText(String.format("%d (Player 1)", lives));
+                livesTextPlayer1.setText(String.format("P1: %d", lives));
             }
-        }
 
-        if (playerNumber == 2) {
+        } else if (playerNumber == 2) {
             livesTextPlayer2.setVisible(true);
-            livesTextPlayer2.setText(String.format("%d (Player 2)", lives));
+            livesTextPlayer2.setText(String.format("P2: %d", lives));
         }
     }
 
@@ -104,9 +103,7 @@ public class MainController implements Initializable {
         if (playerNumber == 1) {
             scoreTextPlayer1.setVisible(true);
             scoreTextPlayer1.setText(String.format("%d", score));
-        }
-
-        if (playerNumber == 2) {
+        } else if (playerNumber == 2) {
             scoreTextPlayer2.setVisible(true);
             scoreTextPlayer2.setText(String.format("%d", score));
         }
