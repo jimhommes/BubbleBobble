@@ -1,6 +1,9 @@
 package model;
 
 import controller.LevelController;
+import model.powerups.DoubleSpeed;
+import model.powerups.SlowMonster;
+import model.powerups.SuperBubble;
 import javafx.animation.AnimationTimer;
 import utility.Logger;
 
@@ -147,17 +150,16 @@ public class Powerup extends Observable {
 
             switch (kindRounded) {
                 case POWERUP_SPEED:
-                    player.activateSpeedPowerup();
+                    player.addPowerup(DoubleSpeed::new);
                     break;
                 case POWERUP_LIFE:
                     player.addLife();
                     break;
                 case POWERUP_BUBBLE:
-                    player.activateBubblePowerup();
+                    player.addPowerup(SuperBubble::new);
                     break;
                 case POWERUP_MONSTER:
-                    levelController.getCurrLvl().getMonsters()
-                            .forEach(Monster::activateMonsterPowerup);
+                    player.addPowerup(SlowMonster::new);
                     break;
                 case POWERUP_POINTS:
                     player.scorePoints(50);
