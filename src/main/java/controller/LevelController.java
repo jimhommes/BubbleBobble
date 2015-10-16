@@ -248,7 +248,7 @@ public class LevelController implements Observer {
 
             if (i < scores.length) {
                 newPlayer.setScore(scores[i]);
-                newPlayer.setLives(lives[i]);
+                newPlayer.setLives(lives[i] + 1);
             } else {
                 newPlayer.setScore(0);
                 newPlayer.setLives(Settings.PLAYER_LIVES);
