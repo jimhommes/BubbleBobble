@@ -1,6 +1,10 @@
 package controller;
 
-import java.io.File;
+import utility.Settings;
+
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +13,6 @@ import java.util.ArrayList;
 public class LevelControllerMethods {
 
 	private LevelController levelController;
-	private String pathMaps = "src/main/resources";
 	private boolean gamePaused;
 
 	/**
@@ -26,34 +29,17 @@ public class LevelControllerMethods {
 	 * @return list of maps filenames.
      */
     public ArrayList<String> findMaps() {
-    	ArrayList<String> maps = new ArrayList<String>();
-        File folder = new File(pathMaps);
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        for (File file : listOfFiles) {
-            if (file.isFile() && file.getName().matches("map[1-9]*.txt")) {
-                maps.add(file.getName());
-            }
+        ArrayList<String> maps = new ArrayList<String>();
+        for (int i = 1; i <= Settings.AMOUNT_MAPS; i++) {
+            String s = String.format("map%d.txt", i);
+            URL u = this.getClass().getClassLoader().getResource(s);
+            String p = u.getPath();
+            Path tempPath = Paths.get(p);
+            maps.add(tempPath.getFileName().toString());
         }
         return maps;
     }
     
-    /**
-     * The function that sets the path to the maps.
-     * @param pathMaps The path to the maps.
-     */
-    public void setPathMaps(String pathMaps) {
-        this.pathMaps = pathMaps;
-    }
-    
-    /**
-     * This method gets the path of the maps.
-     * @return pathMaps, the path to the maps.
-     */
-    public String getPathMaps() {
-    	return pathMaps;
-    }
-
     /**
      * This is the boolean to check if the game is paused or not.
      * @return True if the gamePaused is true.
