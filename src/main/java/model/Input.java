@@ -5,17 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import utility.Logger;
-
 import java.util.BitSet;
 
 /**
- * The class that defines the input for the character.
+ * This class defines the input for the character.
  */
 public class Input {
 
-    /**
-     * The scene the player moves in.
-     */
+    private final int playerNumber;
     private Scene scene;
 
     // -------------------------------------------------
@@ -23,69 +20,48 @@ public class Input {
     // will vary when you let the user customize the key codes
     // or when you add support for a 2nd player
     // -------------------------------------------------
-    /**
-     * Bitset which registers if any {@link KeyCode}
-     * keeps being pressed or if it is released.
-     */
     private BitSet keyboardBitSet = new BitSet();
-    /**
-     * KeyCode for the up key.
-     */
     public static final KeyCode UP_KEY = KeyCode.UP;
-    /**
-     * KeyCode for the down key.
-     */
     public static final KeyCode DOWN_KEY = KeyCode.DOWN;
-    /**
-     * KeyCode for the left key.
-     */
     public static final KeyCode LEFT_KEY = KeyCode.LEFT;
-    /**
-     * KeyCode for the right key.
-     */
     public static final KeyCode RIGHT_KEY = KeyCode.RIGHT;
-    /**
-     * KeyCode for the space key. (fire primary weapon)
-     */
     public static final KeyCode PRIMARY_WEAPON_KEY = KeyCode.SPACE;
-    /**
-     * KeyCode for the control key. (fire secondary weapon)
-     */
     public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
+    public static final KeyCode W_KEY = KeyCode.W;
+    public static final KeyCode A_KEY = KeyCode.A;
+    public static final KeyCode D_KEY = KeyCode.D;
+    public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
+
     /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
      */
-    private EventHandler<KeyEvent> keyPressedEventHandler = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> keyPressedEventHandler = event -> {
 
-            // register key down
-            keyboardBitSet.set(event.getCode().ordinal(), true);
+        // register key down
+        keyboardBitSet.set(event.getCode().ordinal(), true);
 
-            Logger.log(String.format("Key %s was pressed", event.getCode().getName()));
+        Logger.log(String.format("Key %s was pressed", event.getCode().getName()));
 
-        }
     };
     /**
      * "Key Released" handler for all input events: unregister released key in the bitset.
      */
-    private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {
-        @Override
-        public void handle(KeyEvent event) {
+    private EventHandler<KeyEvent> keyReleasedEventHandler = event -> {
 
-            // register key up
-            keyboardBitSet.set(event.getCode().ordinal(), false);
+        // register key up
+        keyboardBitSet.set(event.getCode().ordinal(), false);
 
-        }
     };
 
     /**
      * The constructor. This only appoints the scene the player moves in.
      *
      * @param scene The scene the player moves in.
+     * @param playerNumber The number of the player.
      */
-    public Input(Scene scene) {
+    public Input(Scene scene, int playerNumber) {
         this.scene = scene;
+        this.playerNumber = playerNumber;
     }
 
     /**
@@ -121,7 +97,11 @@ public class Input {
      * @return True if the up key is pressed.
      */
     public boolean isMoveUp() {
-        return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+        }
     }
 
     /**
@@ -139,7 +119,12 @@ public class Input {
      * @return True if the left key is pressed.
      */
     public boolean isMoveLeft() {
-        return keyboardBitSet.get(LEFT_KEY.ordinal()) && !keyboardBitSet.get(RIGHT_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(LEFT_KEY.ordinal())
+                    && !keyboardBitSet.get(RIGHT_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(A_KEY.ordinal()) && !keyboardBitSet.get(D_KEY.ordinal());
+        }
     }
 
 
@@ -149,7 +134,12 @@ public class Input {
      * @return True if the right key is pressed.
      */
     public boolean isMoveRight() {
-        return keyboardBitSet.get(RIGHT_KEY.ordinal()) && !keyboardBitSet.get(LEFT_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(RIGHT_KEY.ordinal())
+                    && !keyboardBitSet.get(LEFT_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(D_KEY.ordinal()) && !keyboardBitSet.get(A_KEY.ordinal());
+        }
     }
 
     /**
@@ -158,7 +148,11 @@ public class Input {
      * @return True if the space key is pressed.
      */
     public boolean isFirePrimaryWeapon() {
-        return keyboardBitSet.get(PRIMARY_WEAPON_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(PRIMARY_WEAPON_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(SHIFT_KEY.ordinal());
+        }
     }
 
 

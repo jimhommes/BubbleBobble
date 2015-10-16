@@ -8,7 +8,7 @@ target/
 *.iml
 
 ## Directory-based project format:
-# .idea/
+.idea/
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
@@ -17,6 +17,7 @@ target/
 .idea/dictionaries
 .idea/compiler.xml
 .idea/codeStyleSettings.xml
+.idea/encodings.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids

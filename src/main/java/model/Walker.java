@@ -5,75 +5,33 @@ import utility.Settings;
 import java.util.Random;
 
 /**
- *  Walker class which is a kind of monster, which just moves around and kills
- *  the player when they touch. It can be captured by a bubble shot by the player.
+ *  This class represents a type of monster, which just moves around and kills
+ *  the player when they collide. It can be captured by a bubble shot by the player.
  */
 public class Walker extends Monster {
 
-    /**
-     * This is the levelController.
-     */
     private LevelController levelController;
-
-    /**
-     * This boolean indicates whether the monster is jumping.
-     */
     private boolean jumping;
-
-    /**
-     * This boolean indicates whether the player is ready for a jump.
-     */
     private boolean ableToJump;
-
-    /**
-     * This counter is used to check how long the player is in the air.
-     */
     private int jumpCounter;
-
-    /**
-     * This is the minimal X coordinate the walker can move around in.
-     */
     private double walkerMinX;
-
-    /**
-     * This is the maximal X coordinate the walker can move around in.
-     */
     private double walkerMaxX;
-
-    /**
-     * This is the minimal Y coordinate the walker can move around in.
-     */
     private double walkerMinY;
-
-    /**
-     * This is the maximal Y coordinate the walker can move around in.
-     */
     private double walkerMaxY;
-
     private static final int JUMP_THRESHOLD = 5;
 
     /**
      * A walking monster.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     * @param r The rotation of the walker.
-     * @param dx The dx of x.
-     * @param dy The dy of y.
-     * @param dr The dr of r.
+     * @param coordinates The coordinates of the walker monster.
      * @param speed The speed at which the walker is going.
      * @param facingRight If the monster is facing right or not.
      * @param levelController The controllers that controls the level.
      */
-    public Walker(double x,
-                  double y,
-                  double r,
-                  double dx,
-                  double dy,
-                  double dr,
+    public Walker(Coordinates coordinates,
                   double speed,
                   boolean facingRight,
                   LevelController levelController) {
-        super("../ZenChanRight.png", x, y, r, dx, dy, dr, speed, facingRight, levelController);
+        super(coordinates, speed, facingRight, levelController);
 
         this.levelController = levelController;
         this.jumpCounter = 20;
@@ -100,17 +58,18 @@ public class Walker extends Monster {
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
             } else if (jumpCounter == jumpMaxCounter) {
-                setDy(0);
+                getSpriteBase().setDy(0);
                 jumping = false;
             }
             moveHorizontal();
             moveVertical();
-            checkBounds(walkerMinX, walkerMaxX, walkerMinY, walkerMaxY, levelController);
+            getSpriteBase().checkBounds(walkerMinX, walkerMaxX,
+                    walkerMinY, walkerMaxY, levelController);
         } else {
-            setDx(0);
-            setDy(0);
-            setX(getPrisonBubble().getX());
-            setY(getPrisonBubble().getY());
+            getSpriteBase().setDx(0);
+            getSpriteBase().setDy(0);
+            getSpriteBase().setX(getPrisonBubble().getSpriteBase().getX());
+            getSpriteBase().setY(getPrisonBubble().getSpriteBase().getY());
         }
 
         
@@ -125,7 +84,7 @@ public class Walker extends Monster {
             if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
-                setDy(-Settings.JUMP_SPEED_WALKER);
+                getSpriteBase().setDy(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
             }
     }
@@ -134,17 +93,22 @@ public class Walker extends Monster {
      * This function handles the horizontal movement.
      */
     private void moveHorizontal() {
+        double x = getSpriteBase().getX();
+        double y = getSpriteBase().getY();
+
         if (isFacingRight()) {
-            if (!levelController.causesCollision(getX() + getSpeed(),
-                    getX() + getWidth() + getSpeed(), getY(), getY() + getHeight())) {
-                setDx(getSpeed());
+            if (!getSpriteBase().causesCollisionWall(x + getSpeed(),
+                    x + getSpriteBase().getWidth() + getSpeed(), y,
+                    y + getSpriteBase().getHeight(), levelController)) {
+                getSpriteBase().setDx(getSpeed());
             } else {
                 switchDirection();
             }
         } else {
-            if (!levelController.causesCollision(getX() - getSpeed(),
-                    getX() + getWidth() - getSpeed(), getY(), getY() + getHeight())) {
-                setDx(-getSpeed());
+            if (!getSpriteBase().causesCollisionWall(x - getSpeed(),
+                    x + getSpriteBase().getWidth() - getSpeed(), y,
+                    y + getSpriteBase().getHeight(), levelController)) {
+                getSpriteBase().setDx(-getSpeed());
             } else {
                 switchDirection();
             }
@@ -156,9 +120,18 @@ public class Walker extends Monster {
      */
     public void switchDirection() {
         setFacingRight(!isFacingRight());
-        setNewImage("../ZenChanRight.png", "../ZenChanLeft.png");
+        if (isFacingRight()) {
+            getSpriteBase().setImage("ZenChanRight.png");
+        } else {
+            getSpriteBase().setImage("ZenChanLeft.png");
+        }
+
     }
 
+    /**
+     * Generate a random int.
+     * @return a random int.
+     */
     private int randInt() {
         Random rand = new Random();
         int min = 1;

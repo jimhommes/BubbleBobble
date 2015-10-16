@@ -1,6 +1,8 @@
 package model;
 
 import controller.LevelController;
+import controller.ScreenController;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,23 +12,32 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 /**
  * This class tests what happens to the walkers.
- * @author Lili
- *
  */
 public class WalkerTest {
 
 	private static Walker walker;
-	private static LevelController levelcontroller;
+	private static LevelController levelController;
+	private static ArrayList<Wall> walls;
 	
 	 /**
      * This is run before all the tests to initialize them.
      */
 	@BeforeClass
 	public static void before() {
-		levelcontroller = mock(LevelController.class);
-		walker = new Walker(0, 0, 0, 10, 0, 0, Settings.MONSTER_SPEED, true, levelcontroller);
+		levelController = mock(LevelController.class);
+		ScreenController screenController = mock(ScreenController.class);
+		Level level = mock(Level.class);
+		when(levelController.getScreenController()).thenReturn(screenController);
+		walls = new ArrayList<>();
+		Coordinates coordinates = new Coordinates(0, 0, 0, 10, 0, 0);
+		walker = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
+    	when(levelController.getCurrLvl()).thenReturn(level);
+    	when(level.getWalls()).thenReturn(walls);
+		
 	}
 	
 	/**
@@ -59,11 +70,14 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
+//		ArrayList<Wall> wall = new ArrayList<Wall>();
+//		wall.add(new Wall(32, 32, 32, 1, 1, 1));
+//		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
-		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getX(), 0);
+		assertEquals(Level.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getSpriteBase().getX(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(Level.SPRITE_SIZE, walker.getX(), 0);
+		assertEquals(Level.SPRITE_SIZE, walker.getSpriteBase().getX(), 0);
 	}
 	
 	/**
@@ -75,17 +89,24 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveBubble() throws Exception {
+		ArrayList<Wall> wall = new ArrayList<>();
+		Coordinates coordinates = new Coordinates(32, 32, 32, 1, 1, 1);
+		wall.add(new Wall(coordinates));
+		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
+		//when(levelcon)
 		Bubble bubble = mock(Bubble.class);
-		when(bubble.getX()).thenReturn(30.0);
-        when(bubble.getY()).thenReturn(4.0);
-        when(bubble.getWidth()).thenReturn(32.0);
-        when(bubble.getHeight()).thenReturn(32.0);
-        when(bubble.getAbleToCatch()).thenReturn(true);
-        walker.setWidth(32.0);
-        walker.setHeight(32.0);
+		SpriteBase bubbleSprite = mock(SpriteBase.class);
+		when(bubble.getSpriteBase()).thenReturn(bubbleSprite);
+		when(bubbleSprite.getX()).thenReturn(30.0);
+        when(bubbleSprite.getY()).thenReturn(4.0);
+        when(bubbleSprite.getWidth()).thenReturn(32.0);
+        when(bubbleSprite.getHeight()).thenReturn(32.0);
+        when(bubble.isAbleToCatch()).thenReturn(true);
+        walker.getSpriteBase().setWidth(32.0);
+        walker.getSpriteBase().setHeight(32.0);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(bubble.getX(), walker.getX(), 0);
+        assertEquals(bubble.getSpriteBase().getX(), walker.getSpriteBase().getX(), 0);
 	}
 	
 	/**
@@ -94,10 +115,16 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveDown() throws Exception {
-		Walker walker1 = new Walker(0, Settings.SCENE_HEIGHT
-				, 0, 0, 0, 0, Settings.PLAYER_SPEED, true, levelcontroller);
+		ArrayList<Wall> wall = new ArrayList<>();
+		Coordinates wallCoordinates = new Coordinates(32, 32, 32, 1, 1, 1);
+		wall.add(new Wall(wallCoordinates));
+		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
+		Coordinates walkerCoordinates = new Coordinates(0, Settings.SCENE_HEIGHT
+				, 0, 0, 0, 0);
+		Walker walker1 = 
+				new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
-    	assertEquals(Level.SPRITE_SIZE, walker1.getY(), 0.0001);
+    	assertEquals(Level.SPRITE_SIZE, walker1.getSpriteBase().getY(), 0.0001);
 	}
 	
 	/**
@@ -106,12 +133,12 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testMoveCollision() throws Exception {
-		when(levelcontroller.causesCollision(walker.getX(), walker.getX() + walker.getWidth(), 
-				walker.getY() - walker.calculateGravity(), walker.getY() + walker.getHeight()
-								- walker.calculateGravity())
-				).thenReturn(true);
-		double locationY = walker.getY();
-		walker.move();
-		assertEquals(locationY, walker.getY(), 0.0001);
+		Coordinates coordinates = new Coordinates(32, 32, 32, 0, 0, 0);
+		Wall wall = new Wall(coordinates);
+		walls.add(wall);
+		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
+		double locationY = walker.getSpriteBase().getY();
+		
+		assertEquals(locationY, walker.getSpriteBase().getY(), 0.0001);
 	}
 }

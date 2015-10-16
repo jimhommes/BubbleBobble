@@ -14,32 +14,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author Lili de Bree
- * This controller controls what happens when the character is killed and there is a game over.
- *
+ * This is the Game Over Controller, which controls what happens when the 
+ * character is killed and there is a game over.
  */
 public class GameEndController implements Initializable {
 
-    /**
-     * The @FXML annotation links the view element to this object in the controller.
-     * The variable name of the object has to match the fx:id of the view element.
-     */
     @FXML private AnchorPane root;
-
-    /**
-     * The restart button. When pressed the game will restart.
-     */
     @FXML private Button restartButton;
-
-    /**
-     * The quit button. If pressed the application will close.
-     */
     @FXML private Button quitButton;
 
-    /**
-     * Initializes the view.
-     * This is the place for setting onclick handlers, for example.
-     */
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         restartButton.setOnAction(event -> {
@@ -59,7 +42,9 @@ public class GameEndController implements Initializable {
      */
     private void returnToMenu() throws IOException {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass()
+                .getClassLoader()
+                .getResource("startScreen.fxml"));
         stage.setScene(new Scene(newRoot));
         stage.show();
     }
