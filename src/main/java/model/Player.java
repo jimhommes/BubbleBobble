@@ -693,14 +693,16 @@ public class Player extends GravityObject {
     
     /**
      * This method gets the location from the SpriteBase.
+     * @return location
      */
     public double[] getLocation() {
-    	location = spriteBase.getLocation();
+        location = spriteBase.getLocation();
     	return location;
     }
     
     /**
      * This method sets the new location in the SpriteBase.
+     * @param newLocation the location
      */
     public void setLocation(double[] newLocation) {
     	spriteBase.setLocation(newLocation);

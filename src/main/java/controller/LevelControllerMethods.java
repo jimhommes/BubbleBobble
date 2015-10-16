@@ -3,12 +3,19 @@ package controller;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Methods for LevelController.
+ */
 public class LevelControllerMethods {
 
 	private LevelController levelController;
 	private String pathMaps = "src/main/resources";
 	private boolean gamePaused;
-	
+
+	/**
+	 * Constructor.
+	 * @param levelController the controller
+     */
 	public LevelControllerMethods(LevelController levelController) {
 	  this.setLevelController(levelController);
 		gamePaused = false;
@@ -16,6 +23,7 @@ public class LevelControllerMethods {
 	
 	/**
      * This function scans the resources folder for maps.
+	 * @return list of maps filenames.
      */
     public ArrayList<String> findMaps() {
     	ArrayList<String> maps = new ArrayList<String>();
@@ -55,8 +63,8 @@ public class LevelControllerMethods {
 	}
 
 	/**
-	 * 
-	 * @param gamePaused
+	 * Set the game paused.
+	 * @param gamePaused if paused
 	 */
 	public void setGamePaused(boolean gamePaused) {
 		this.gamePaused = gamePaused;

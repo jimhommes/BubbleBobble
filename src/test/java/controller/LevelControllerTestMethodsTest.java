@@ -8,12 +8,18 @@ import org.junit.Test;
 import utility.Settings;
 import static org.mockito.Mockito.mock;
 
+/**
+ * Test, yeah!
+ */
 public class LevelControllerTestMethodsTest {
 
 	private LevelControllerMethods levelControllerMethods;
-	
+
+    /**
+     * Set up.
+     */
 	@Before
-	public void setUp(){
+	public void setUp() {
 		LevelController levelController = mock(LevelController.class);
 		levelControllerMethods = new LevelControllerMethods(levelController);
 	}

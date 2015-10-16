@@ -261,8 +261,8 @@ public class PlayerTest {
      */
     @Test
     public void testSetLocation() {
-    	double[] location = {100.0,5.0,100.0,5.0};
-    	Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
+        double[] location = {100.0, 5.0, 100.0, 5.0};
+        Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
         Player player1 = new Player(levelController, coordinates, 
         		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
     	player1.setLocation(location);
