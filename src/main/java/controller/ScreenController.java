@@ -93,7 +93,6 @@ public class ScreenController implements Observer {
      */
     public void removeSprites() {
         sprites.clear();
-
         images.clear();
         playFieldLayer.getChildren().clear();
     }
@@ -152,10 +151,8 @@ public class ScreenController implements Observer {
     }
 
     private void updatePowerup(Powerup p) {
-        if (p.isPickedUp()) {
+        if (p.getPickedUp()) {
             removeSprite(p.getSpriteBase());
-        } else if (!getSprites().contains(p.getSpriteBase())) {
-            addToSprites(p.getSpriteBase());
         }
         update(p.getSpriteBase());
     }
@@ -163,7 +160,6 @@ public class ScreenController implements Observer {
     private void updateMonster(Monster m) {
         if (m.isDead()) {
             removeSprite(m.getSpriteBase());
-            removeSprite(m.getPrisonBubble().getSpriteBase());
         }
         update(m.getSpriteBase());
     }
@@ -171,16 +167,11 @@ public class ScreenController implements Observer {
     private void updateBubble(Bubble b) {
         if (b.getIsPopped()) {
             removeSprite(b.getSpriteBase());
-        } else if (!getSprites().contains(b.getSpriteBase())) {
-            addToSprites(b.getSpriteBase());
         }
         update(b.getSpriteBase());
     }
 
     private void updatePlayer(Player p) {
-        if (p.isDead()) {
-            p.getSpriteBase().setImage("/BubbleBobbleDeath.png");
-        }
         update(p.getSpriteBase());
     }
 }
