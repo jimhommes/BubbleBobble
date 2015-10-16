@@ -157,6 +157,7 @@ public class LevelController implements Observer {
                 }
                 if (stop) {
                     stop();
+                    gameOver();
                 } else {
                     if (currLvl.update()) {
 						nextLevel();
@@ -494,13 +495,9 @@ public class LevelController implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Player) {
             Player p = (Player) o;
-            if (p.isDead()) {
-                gameOver();
-            } else {
                 Logger.log(String.format("Score: %d", p.getScore()));
                 mainController.showScore(p.getScore());
                 mainController.showLives(p.getLives());
-            }
         } else if (o instanceof Bubble) {
             Bubble b = (Bubble) o;
             if (b.getIsPopped()) {
