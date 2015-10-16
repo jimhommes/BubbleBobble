@@ -32,6 +32,9 @@ public class Coordinates {
         this.dr = dr;
 	}
 
+    /**
+     * Add the derivative to the actual value.
+     */
 	public void apply() {
 		this.setX(x + dx);
 		this.setY(y + dy);
