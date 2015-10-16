@@ -696,9 +696,6 @@ public class Player extends GravityObject {
      */
     public void setImmortal(boolean immortal) {
         isImmortal = immortal;
-
-        this.setChanged();
-        this.notifyObservers(this);
     }
 
     /**

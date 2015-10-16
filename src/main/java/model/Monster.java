@@ -78,9 +78,6 @@ public class Monster extends GravityObject {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
