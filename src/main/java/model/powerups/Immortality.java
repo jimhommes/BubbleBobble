@@ -11,10 +11,14 @@ import model.Player;
  */
 public class Immortality extends PlayerEnhancement {
 
-    private static final double duration = 350;
+    private static final double DURATION = 350;
 
+    /**
+     * Initializes the Immortality.
+     * @param player the subject of the powerup.
+     */
     public Immortality(Player player) {
-        super(player, duration);
+        super(player, DURATION);
 
         player.setImmortal(true);
     }

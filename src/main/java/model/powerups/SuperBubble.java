@@ -11,10 +11,14 @@ import model.Player;
  */
 public class SuperBubble extends PlayerEnhancement {
 
-    private static final double duration = 400;
+    private static final double DURATION = 400;
 
+    /**
+     * Initializes the SuperBubble.
+     * @param player the subject of the powerup.
+     */
     public SuperBubble(Player player) {
-        super(player, duration);
+        super(player, DURATION);
 
         player.setBubblePowerup(true);
 

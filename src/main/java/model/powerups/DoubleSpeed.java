@@ -11,17 +11,21 @@ import model.Player;
  */
 public class DoubleSpeed extends PlayerEnhancement {
 
-    private static final double duration = 200;
-    private static final double factor = 2;
+    private static final double DURATION = 200;
+    private static final double FACTOR = 2;
 
+    /**
+     * Initializes the DoubleSpeed.
+     * @param player the subject of the powerup.
+     */
     public DoubleSpeed(Player player) {
-        super(player, duration);
+        super(player, DURATION);
 
-        player.factorSpeed(factor);
+        player.factorSpeed(FACTOR);
     }
 
     @Override
     protected void remove() {
-        player.factorSpeed(1.0 / factor);
+        player.factorSpeed(1.0 / FACTOR);
     }
 }

@@ -1,10 +1,9 @@
 package model;
 
 import controller.LevelController;
-import model.powerups.DoubleSpeed;
+import javafx.animation.AnimationTimer;
 import model.powerups.Immortality;
 import model.powerups.PlayerEnhancement;
-import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
 
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -64,15 +62,31 @@ public class Player extends GravityObject {
      * @param input The input.
      * @param playerNumber The number of the player.
      */
-    public Player(LevelController levelController,
-                 Coordinates coordinates,
-                  double speed,
-                  int lives,
-                  Input input,
-                  int playerNumber) {
+    public Player(LevelController levelController, Coordinates coordinates, double speed,
+                  int lives, Input input, int playerNumber) {
 
         this.speed = speed;
         this.input = input;
+
+        this.levelController = levelController;
+        this.lives = lives;
+        this.playerNumber = playerNumber;
+
+        this.xStartLocation = coordinates.getX();
+        this.yStartLocation = coordinates.getY();
+
+        this.powerups = new ArrayList<>();
+        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
+        this.setUp();
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
+        this.timer = createTimer();
+        this.timer.start();
+    }
+
+    private void setUp() {
+        this.score = 0;
         this.counter = 31;
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
@@ -80,25 +94,11 @@ public class Player extends GravityObject {
         this.isDead = false;
         this.isGameOver = false;
         this.isFacingRight = true;
-        this.levelController = levelController;
-        this.lives = lives;
-        this.score = 0;
-        this.playerNumber = playerNumber;
+
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
-
-        xStartLocation = coordinates.getX();
-        yStartLocation = coordinates.getY();
-
-        this.powerups = new ArrayList<>();
-
-        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
-        this.addObserver(levelController);
-        this.addObserver(levelController.getScreenController());
-        this.timer = createTimer();
-        timer.start();
     }
 
     private AnimationTimer createTimer() {
@@ -150,10 +150,22 @@ public class Player extends GravityObject {
         checkPowerups();
     }
 
+    /**
+     * Interface to create a PlayerEnhancement from a labda.
+     */
     interface PlayerEnhancementCreator {
+        /**
+         * Create the PlayerEnhancement.
+         * @param p the subject
+         * @return the PlayerEnhancement
+         */
         PlayerEnhancement create(Player p);
     }
 
+    /**
+     * Add an active powerup to the player.
+     * @param p PlayerEnhancementCreator interface
+     */
     public void addPowerup(PlayerEnhancementCreator p) {
         this.powerups.add(p.create(this));
     }
@@ -493,6 +505,10 @@ public class Player extends GravityObject {
         this.lives = lives;
     }
 
+    /**
+     * Multiply the speed of the player by a factor.
+     * @param factor the factor.
+     */
     public void factorSpeed(double factor) {
         this.setSpeed(factor * this.getSpeed());
     }
@@ -674,6 +690,10 @@ public class Player extends GravityObject {
         return playerNumber;
     }
 
+    /**
+     * Set the player immortal.
+     * @param immortal the immortality.
+     */
     public void setImmortal(boolean immortal) {
         isImmortal = immortal;
 

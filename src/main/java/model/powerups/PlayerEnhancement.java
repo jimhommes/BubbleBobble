@@ -2,8 +2,6 @@ package model.powerups;
 
 import model.Player;
 
-import java.util.Observable;
-
 /**
  * This class creates the different types of power ups that are used in the game.
  * Created by Jim on 10/7/2015.
@@ -16,14 +14,25 @@ public abstract class PlayerEnhancement {
 
     private double counter;
     private double duration;
+
+    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected Player player;
 
+    /**
+     * Initialises the PlayerEnhancement.
+     * @param player the subject
+     * @param duration the duration
+     */
     protected PlayerEnhancement(Player player, double duration) {
         this.duration = duration;
         this.player = player;
         this.counter = 0;
     }
 
+    /**
+     * Check if the powerup is active.
+     * @return true if active, false if expired
+     */
     public boolean check() {
         counter++;
 
@@ -35,5 +44,8 @@ public abstract class PlayerEnhancement {
         return true;
     }
 
+    /**
+     * Restore the subject to pre-powerup state.
+     */
     protected abstract void remove();
 }

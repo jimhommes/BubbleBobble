@@ -19,7 +19,6 @@ public class Walker extends Monster {
     private double walkerMinY;
     private double walkerMaxY;
     private static final int JUMP_THRESHOLD = 5;
-    private double reducedSpeedCounter;
 
     /**
      * A walking monster.

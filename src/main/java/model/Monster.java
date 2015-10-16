@@ -243,6 +243,10 @@ public class Monster extends GravityObject {
         return spriteBase;
     }
 
+    /**
+     * Multiply the speed by a factor.
+     * @param factor the factor.
+     */
     public void factorSpeed(double factor) {
         this.setSpeed(factor * this.getSpeed());
     }

@@ -16,8 +16,8 @@ import static org.mockito.Mockito.verify;
  */
 public class SuperBubbleTest {
 
-    PlayerEnhancement playerEnhancement;
-    Player p = mock(Player.class);
+    private PlayerEnhancement playerEnhancement;
+    private Player p = mock(Player.class);
 
     /**
      * This method is run before all the tests to initialize them.
@@ -27,6 +27,9 @@ public class SuperBubbleTest {
         playerEnhancement = spy(new SuperBubble(p));
     }
 
+    /**
+     * Test the check method.
+     */
     @Test
     public void checkTest() {
         boolean result = playerEnhancement.check();

@@ -22,8 +22,8 @@ import static org.mockito.Mockito.when;
  */
 public class SlowMonsterTest {
 
-    PlayerEnhancement playerEnhancement;
-    Player p = mock(Player.class);
+    private PlayerEnhancement playerEnhancement;
+    private Player p = mock(Player.class);
 
     /**
      * This method is run before all the tests to initialize them.
@@ -43,6 +43,9 @@ public class SlowMonsterTest {
         playerEnhancement = spy(new SlowMonster(p));
     }
 
+    /**
+     * Test the check method.
+     */
     @Test
     public void checkTest() {
         boolean result = playerEnhancement.check();
