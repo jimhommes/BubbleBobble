@@ -78,12 +78,6 @@ public class Monster extends GravityObject {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
-
-        checkPowerups();
-        if (this.isReducedSpeed) {
-            setSpeed(Settings.MONSTER_SLOWDOWN_FACTOR * Settings.MONSTER_SPEED);
-        }
-
     }
 
     /**
@@ -138,21 +132,6 @@ public class Monster extends GravityObject {
                 Logger.log("Monster died!");
             }
         }
-    }
-
-    /**
-     * Activate the reduced speed powerup.
-     */
-    public void activateMonsterPowerup() {
-        setReducedSpeed(true);
-    }
-
-    /**
-     * Check if the powerups expired.
-     * Is used in subclass.
-     */
-    void checkPowerups() {
-
     }
 
     /**
@@ -253,24 +232,6 @@ public class Monster extends GravityObject {
     }
 
     /**
-     * This function returns true if the monster has reduced speed.
-     *
-     * @return True if it has reduced speed.
-     */
-    public boolean isReducedSpeed() {
-        return isReducedSpeed;
-    }
-
-    /**
-     * This function sets whether the monster has reduced speed.
-     *
-     * @param reducedSpeed True if it has reduced speed.
-     */
-    public void setReducedSpeed(boolean reducedSpeed) {
-        this.isReducedSpeed = reducedSpeed;
-    }
-
-    /**
      * This function returns the sprite base of the monster.
      *
      * @return The sprite base.
@@ -280,11 +241,18 @@ public class Monster extends GravityObject {
     }
 
     /**
+     * Multiply the speed by a factor.
+     * @param factor the factor.
+     */
+    public void factorSpeed(double factor) {
+        this.setSpeed(factor * this.getSpeed());
+    }
+
+    /**
      * This function forces the player to die entirely.
      */
     public void destroy() {
         this.deleteObservers();
         timer.stop();
     }
-
 }

@@ -2,19 +2,22 @@ package model;
 
 import controller.LevelController;
 import javafx.animation.AnimationTimer;
+import model.powerups.Immortality;
+import model.powerups.PlayerEnhancement;
 import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Collectors;
 
 /**
  * This is the player class, that creates are interacts with the player sprite.
  */
 public class Player extends GravityObject {
 
-    private static final int TIME_IMMORTAL = 3;
     private final int playerNumber;
 
     private boolean isJumping;
@@ -24,9 +27,8 @@ public class Player extends GravityObject {
     private int counter;
     private boolean isDead;
     private boolean isGameOver;
-    private boolean isImmortal;
     private boolean isDelayed;
-    private Timer immortalTimer;
+    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -37,10 +39,8 @@ public class Player extends GravityObject {
     private double playerMaxY;
 
     private boolean doubleSpeed;
-    private int doubleSpeedCounter;
-
     private boolean bubblePowerup;
-    private int bubblePowerupCounter;
+    private boolean isImmortal;
 
     private double xStartLocation;
     private double yStartLocation;
@@ -54,6 +54,8 @@ public class Player extends GravityObject {
     private double height;
     private double[] location;
 
+    private List<PlayerEnhancement> powerups;
+
     private AnimationTimer timer;
 
     /**
@@ -66,15 +68,31 @@ public class Player extends GravityObject {
      * @param input The input.
      * @param playerNumber The number of the player.
      */
-    public Player(LevelController levelController,
-                 Coordinates coordinates,
-                  double speed,
-                  int lives,
-                  Input input,
-                  int playerNumber) {
+    public Player(LevelController levelController, Coordinates coordinates, double speed,
+                  int lives, Input input, int playerNumber) {
 
         this.speed = speed;
         this.input = input;
+
+        this.levelController = levelController;
+        this.lives = lives;
+        this.playerNumber = playerNumber;
+
+        this.xStartLocation = 64;
+        this.yStartLocation = 64;
+
+        this.powerups = new ArrayList<>();
+        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
+        this.setUp();
+
+        this.addObserver(levelController);
+        this.addObserver(levelController.getScreenController());
+        this.timer = createTimer();
+        this.timer.start();
+    }
+
+    private void setUp() {
+        this.score = 0;
         this.counter = 31;
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
@@ -82,28 +100,16 @@ public class Player extends GravityObject {
         this.isDead = false;
         this.isGameOver = false;
         this.isFacingRight = true;
-        this.levelController = levelController;
-        this.lives = lives;
-        this.score = 0;
-        this.playerNumber = playerNumber;
+
         playerMinX = Level.SPRITE_SIZE;
         playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
-
-        //xStartLocation = coordinates.getX();
-        //yStartLocation = coordinates.getY();
-        
-        this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
-        this.addObserver(levelController);
-        this.addObserver(levelController.getScreenController());
         
         width = Settings.SPRITE_SIZE;
         height = Settings.SPRITE_SIZE;
         location = spriteBase.getLocation();
-        
-        this.timer = createTimer();
-        timer.start();
+
     }
 
     private AnimationTimer createTimer() {
@@ -161,6 +167,26 @@ public class Player extends GravityObject {
     }
 
     /**
+     * Interface to create a PlayerEnhancement from a labda.
+     */
+    interface PlayerEnhancementCreator {
+        /**
+         * Create the PlayerEnhancement.
+         * @param p the subject
+         * @return the PlayerEnhancement
+         */
+        PlayerEnhancement create(Player p);
+    }
+
+    /**
+     * Add an active powerup to the player.
+     * @param p PlayerEnhancementCreator interface
+     */
+    public void addPowerup(PlayerEnhancementCreator p) {
+        this.powerups.add(p.create(this));
+    }
+
+    /**
      * Check for collision combined with jumping.
      *
      * @param jumping    The variable whether a GravityObject is jumping.
@@ -168,7 +194,7 @@ public class Player extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!spriteBase.causesCollisionWall(location[0],
+        if (!wallCollision(location[0],
                 location[0] + width,
                 location[2] - calculateGravity(),
                 location[2] + height - calculateGravity(), levelController)) {
@@ -185,26 +211,9 @@ public class Player extends GravityObject {
     }
 
     private void checkPowerups() {
-        if (doubleSpeed) {
-            doubleSpeedCounter++;
-            if (doubleSpeedCounter >= Settings.PLAYER_DOUBLESPEED_DURATION) {
-                setDoubleSpeed(false);
-                setSpeed(Settings.PLAYER_SPEED);
-                setDoubleSpeedCounter(0);
-            }
-        } else {
-            setDoubleSpeedCounter(0);
-        }
-
-        if (bubblePowerup) {
-            bubblePowerupCounter++;
-            if (bubblePowerupCounter >= Settings.BUBBLE_POWERUP_DURATION) {
-                setBubblePowerup(false);
-                setBubblePowerupCounter(0);
-            }
-        } else {
-            setBubblePowerupCounter(0);
-        }
+        this.powerups = this.powerups.stream()
+                .filter(PlayerEnhancement::check)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -230,10 +239,10 @@ public class Player extends GravityObject {
     private void applyGravity() {
         double x = location[0];
         double y = location[2];
-        if (!spriteBase.causesCollisionWall(x, x + width,
+        if (!wallCollision(x, x + width,
                 y - calculateGravity(), y + height - calculateGravity(),
                 levelController)
-                || spriteBase.causesCollisionWall(x, x + width,
+                || wallCollision(x, x + width,
                 y, y + height, levelController)) {
             if (!isJumping) {
                 if (isAbleToDoubleJump
@@ -264,9 +273,9 @@ public class Player extends GravityObject {
     private boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
         double x = location[0];
-        double x1 = x + spriteBase.getWidth();
+        double x1 = x + width;
         double y = location[2];
-        double y2 = y + spriteBase.getHeight();
+        double y2 = y + height;
 
         if (bubbles.size() == 0) {
             return false;
@@ -332,23 +341,22 @@ public class Player extends GravityObject {
         delayTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                isDelayed = false;
-                isImmortal = true;
 
-                location[1] = 0;
-                location[3] = 0;
-                //location[0] = xStartLocation;
-                //location[2] = yStartLocation;
-                immortalTimer = new Timer();
-                immortalTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        isImmortal = false;
-                        immortalTimer.cancel();
-                    }
-                }, 1000 * TIME_IMMORTAL);
+                respawn();
+
             }
         }, 1000);
+    }
+
+    private void respawn() {
+        isDelayed = false;
+        this.addPowerup(Immortality::new);
+
+        location[1] = 0;
+        location[3] = 0;
+        location[0] = xStartLocation;
+        location[2] = yStartLocation;
+        setLocation(location);
     }
 
     /**
@@ -358,19 +366,8 @@ public class Player extends GravityObject {
         if (input.isMoveUp() && isAbleToJump) {
             jump();
         }
-        if (isFacingRight) {
-            if (isImmortal) {
-                spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
-            } else {
-                spriteBase.setImage("/Bub" + playerNumber + "Right.png");
-            }
-        } else {
-            if (isImmortal) {
-                spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
-            } else {
-                spriteBase.setImage("/Bub" + playerNumber + "Left.png");
-            }
-        }
+        setImage();
+        
     }
 
     private void jump() {
@@ -400,11 +397,11 @@ public class Player extends GravityObject {
         double x = location[0];
         double y = location[2];
 
-        if (!spriteBase.causesCollisionWall(x + speed,
+        if (!wallCollision(x + speed,
                 x + width + speed,
                 y, y + height, levelController)) {
             location[1] = speed;
-        } else if (spriteBase.causesCollisionWall(x, x + width,
+        } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
             location[1] = speed;
         } else {
@@ -412,13 +409,8 @@ public class Player extends GravityObject {
                 location[1] = 0;
             }
         }
-
-        if (isImmortal) {
-            spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
-        } else {
-            spriteBase.setImage("/Bub" + playerNumber + "Right.png");
-        }
         isFacingRight = true;
+        setImage();
     }
 
     /**
@@ -428,12 +420,12 @@ public class Player extends GravityObject {
         double x = location[0];
         double y = location[2];
 
-        if (!spriteBase.causesCollisionWall(x - speed,
+        if (!wallCollision(x - speed,
                 x + width - speed,
                 y,
                 y + height, levelController)) {
             location[1] = -speed;
-        } else if (spriteBase.causesCollisionWall(x, x + width,
+        } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
             location[1] = -speed;
         } else {
@@ -441,13 +433,8 @@ public class Player extends GravityObject {
                 location[1] = 0;
             }
         }
-
-        if (isImmortal) {
-            spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
-        } else {
-            spriteBase.setImage("/Bub" + playerNumber + "Left.png");
-        }
         setFacingRight(false);
+        setImage();
     }
 
     /**
@@ -467,7 +454,7 @@ public class Player extends GravityObject {
     private void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
-        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+        			new Coordinates(location[0], location[2], 0, 0, 0, 0);
             Bubble bubble = new Bubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);
@@ -520,20 +507,11 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This is called when the speed powerup is picked up.
-     * It doubles the speed for a while.
+     * Multiply the speed of the player by a factor.
+     * @param factor the factor.
      */
-    public void activateSpeedPowerup() {
-        doubleSpeed = true;
-        speed = 2 * Settings.PLAYER_SPEED;
-    }
-
-    /**
-     * This activates the bubble powerup.
-     * Bubbles fly horizontally longer.
-     */
-    public void activateBubblePowerup() {
-        setBubblePowerup(true);
+    public void factorSpeed(double factor) {
+        this.setSpeed(factor * this.getSpeed());
     }
 
     /**
@@ -670,39 +648,12 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function sets the double speed.
-     *
-     * @param doubleSpeed True if double speed.
-     */
-    public void setDoubleSpeed(boolean doubleSpeed) {
-        this.doubleSpeed = doubleSpeed;
-    }
-
-    /**
-     * This function sets the double speed counter.
-     *
-     * @param doubleSpeedCounter The double speed counter.
-     */
-    public void setDoubleSpeedCounter(int doubleSpeedCounter) {
-        this.doubleSpeedCounter = doubleSpeedCounter;
-    }
-
-    /**
      * This function sets the bubble powerup.
      *
      * @param bubblePowerup True if bubble powerup.
      */
     public void setBubblePowerup(boolean bubblePowerup) {
         this.bubblePowerup = bubblePowerup;
-    }
-
-    /**
-     * This function sets the bubble powerup counter.
-     *
-     * @param bubblePowerupCounter The powerup counter.
-     */
-    public void setBubblePowerupCounter(int bubblePowerupCounter) {
-        this.bubblePowerupCounter = bubblePowerupCounter;
     }
 
     /**
@@ -768,7 +719,7 @@ public class Player extends GravityObject {
         }
 
         if (y < playerMinY) {
-        	if (!spriteBase.causesCollisionWall(x,
+        	if (!wallCollision(x,
                     x + width,
                     y,
                     y + height, levelController)) {
@@ -782,10 +733,51 @@ public class Player extends GravityObject {
     }
 
     /**
+     * Set the player immortal.
+     * @param immortal the immortality.
+     */
+    public void setImmortal(boolean immortal) {
+        isImmortal = immortal;
+    }
+
+    /**
      * This function forces the player to die entirely.
      */
     public void destroy() {
         this.deleteObservers();
         timer.stop();
+    }
+    
+    /**
+     * This method sets the image.
+     */
+    private void setImage() {
+      if (isFacingRight) {
+        if (isImmortal) {
+            spriteBase.setImage("/Bub" + playerNumber + "RightRed.png");
+        } else {
+            spriteBase.setImage("/Bub" + playerNumber + "Right.png");
+        }
+      } else {
+        if (isImmortal) {
+            spriteBase.setImage("/Bub" + playerNumber + "LeftRed.png");
+        } else {
+            spriteBase.setImage("/Bub" + playerNumber + "Left.png");
+        }
+      }
+    }
+    
+    /**
+     * This method check if there is a collision between SpriteBase and Wall.
+     * @param minX minimal x coordinate.
+     * @param maxX maximal x coordinate.
+     * @param minY minimal y coordinate.
+     * @param maxY maximal y coordinate.
+     * @param levelController the LevelController.
+     * @return true if there is a collision.
+     */
+    private boolean wallCollision(double minX, double maxX, double minY, 
+        double maxY, LevelController levelController) {
+      return spriteBase.causesCollisionWall(minX, maxX, minY, maxY, levelController);
     }
 }
