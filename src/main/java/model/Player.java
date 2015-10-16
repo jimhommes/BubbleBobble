@@ -91,8 +91,8 @@ public class Player extends GravityObject {
         playerMinY = Level.SPRITE_SIZE;
         playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
 
-        xStartLocation = coordinates.getX();
-        yStartLocation = coordinates.getY();
+        //xStartLocation = coordinates.getX();
+        //yStartLocation = coordinates.getY();
         
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.addObserver(levelController);
@@ -154,7 +154,6 @@ public class Player extends GravityObject {
         
         applyGravity();
         checkBounds();
-        //spriteBase.checkBounds(playerMinX, playerMaxX, playerMinY, playerMaxY, levelController);
         setLocation(location);
         checkPowerups();
         
@@ -264,9 +263,9 @@ public class Player extends GravityObject {
     @SuppressWarnings("unchecked")
     private boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
-        double x = spriteBase.getX();
+        double x = location[0];
         double x1 = x + spriteBase.getWidth();
-        double y = spriteBase.getY();
+        double y = location[2];
         double y2 = y + spriteBase.getHeight();
 
         if (bubbles.size() == 0) {
@@ -338,8 +337,8 @@ public class Player extends GravityObject {
 
                 location[1] = 0;
                 location[3] = 0;
-                location[0] = xStartLocation;
-                location[2] = yStartLocation;
+                //location[0] = xStartLocation;
+                //location[2] = yStartLocation;
                 immortalTimer = new Timer();
                 immortalTimer.schedule(new TimerTask() {
                     @Override
