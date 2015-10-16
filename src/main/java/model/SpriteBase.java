@@ -40,10 +40,8 @@ public class SpriteBase extends Observable {
         if (!canMove) {
             return;
         }
-        
-       coordinates.setX(coordinates.getX() + coordinates.getDX());
-       coordinates.setY(coordinates.getY() + coordinates.getDY());
-       coordinates.setR(coordinates.getR() + coordinates.getDR());
+
+        this.coordinates.apply();
     }
 
     /**
