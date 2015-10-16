@@ -310,6 +310,9 @@ public class Player extends GravityObject {
         if (this.getLives() == 0) {
             counter = 0;
 
+            spriteBase.setX(xStartLocation);
+            spriteBase.setY(yStartLocation);
+
             setChanged();
             notifyObservers();
             destroy();
