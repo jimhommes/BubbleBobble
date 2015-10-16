@@ -44,9 +44,6 @@ public class SpriteBase extends Observable {
        coordinates.setX(coordinates.getX() + coordinates.getDX());
        coordinates.setY(coordinates.getY() + coordinates.getDY());
        coordinates.setR(coordinates.getR() + coordinates.getDR());
-        
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
