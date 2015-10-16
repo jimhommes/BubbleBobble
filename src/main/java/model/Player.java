@@ -27,7 +27,6 @@ public class Player extends GravityObject {
     private int counter;
     private boolean isGameOver;
     private boolean isDelayed;
-    private Timer delayTimer;
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
@@ -37,7 +36,6 @@ public class Player extends GravityObject {
     private double playerMinY;
     private double playerMaxY;
 
-    private boolean doubleSpeed;
     private boolean bubblePowerup;
     private boolean isImmortal;
 
@@ -77,11 +75,6 @@ public class Player extends GravityObject {
         this.powerups = new ArrayList<>();
         this.spriteBase = new SpriteBase("/Bub" + playerNumber + "Left.png", coordinates);
         this.setUp();
-
-        this.addObserver(levelController);
-        this.addObserver(levelController.getScreenController());
-        this.timer = createTimer();
-        this.timer.start();
     }
 
     private void setUp() {
