@@ -16,6 +16,8 @@ import java.io.IOException;
  */
 public class Launcher extends Application {
 
+    private static MediaPlayer mediaPlayer;
+
     /**
      * The main method just launches the application.
      *
@@ -44,7 +46,7 @@ public class Launcher extends Application {
     private void startMusic() {
         String path = getClass().getResource("../themeSong.mp3").toString();
         Media media = new Media(path);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     }

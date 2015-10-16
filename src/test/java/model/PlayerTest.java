@@ -9,7 +9,6 @@ import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -118,47 +117,6 @@ public class PlayerTest {
         SpriteBase sprite = player.getSpriteBase();
         assertEquals(-Settings.PLAYER_SPEED + Level.SPRITE_SIZE, sprite.getX(), 0.001);
         assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), sprite.getY(), 0.001);
-    }
-
-
-    /**
-     * Tests the getBubbles method.
-     *
-     * @throws Exception .
-     */
-    @Test
-    public void testGetBubbles() throws Exception {
-        when(input.isFirePrimaryWeapon()).thenReturn(true);
-        when(levelController.getScreenController()).thenReturn(screenController);
-        assertSame(player.getBubbles().size(), 0);
-        player.processInput();
-        assertTrue(player.getBubbles().size() > 0);
-    }
-
-    /**
-     * Tests the if bubbles are removed from player.bubbles after they are popped.
-     *
-     * @throws Exception .
-     */
-    @Test
-    public void testPopBubbles() throws Exception {
-
-        when(input.isFirePrimaryWeapon()).thenReturn(true);
-        when(levelController.getScreenController()).thenReturn(screenController);
-        player.processInput();
-
-        assertTrue(player.getBubbles().size() > 0);
-
-        when(input.isFirePrimaryWeapon()).thenReturn(false);
-        for (int i = 0; i <= 500; i++) {
-            player.getBubbles().forEach(Bubble::move);
-            assertTrue(player.getBubbles().size() > 0);
-        }
-
-        player.getBubbles().forEach(Bubble::move);
-        player.checkBubbles();
-        assertEquals(player.getBubbles().size(), 0);
-
     }
 
     /**

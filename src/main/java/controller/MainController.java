@@ -30,6 +30,10 @@ public class MainController implements Initializable {
     @FXML private Pane playFieldLayer;
     @FXML private Text livesText;
     @FXML private Text scoreText;
+    @FXML private Text livesTextPlayer1;
+    @FXML private Text livesTextPlayer2;
+    @FXML private Text scoreTextPlayer1;
+    @FXML private Text scoreTextPlayer2;
 
     private ScreenController screenController;
 
@@ -66,20 +70,43 @@ public class MainController implements Initializable {
      * Show lives in the top bar.
      *
      * @param lives The number of lives.
+     * @param playerNumber The number of the player (used for multiplayer).
      */
-    public void showLives(int lives) {
+    public void showLives(int lives, int playerNumber) {
+
         livesText.setVisible(true);
-        livesText.setText(String.format("Lives: %d", lives));
+
+        if (playerNumber == 1) {
+            livesTextPlayer1.setVisible(true);
+
+            if (StartController.getLimitOfPlayers() == 1) {
+                livesTextPlayer1.setText(String.format("%d", lives));
+            } else {
+                livesTextPlayer1.setText(String.format("P1: %d", lives));
+            }
+
+        } else if (playerNumber == 2) {
+            livesTextPlayer2.setVisible(true);
+            livesTextPlayer2.setText(String.format("P2: %d", lives));
+        }
     }
 
     /**
      * This function show the score of the player.
      *
      * @param score The score (number of points).
+     * @param playerNumber The number of the player (used for multiplayer).
      */
-    public void showScore(int score) {
+    public void showScore(int score, int playerNumber) {
         scoreText.setVisible(true);
-        scoreText.setText(String.format("Score: %d", score));
+
+        if (playerNumber == 1) {
+            scoreTextPlayer1.setVisible(true);
+            scoreTextPlayer1.setText(String.format("%d", score));
+        } else if (playerNumber == 2) {
+            scoreTextPlayer2.setVisible(true);
+            scoreTextPlayer2.setText(String.format("%d", score));
+        }
     }
 
     /**

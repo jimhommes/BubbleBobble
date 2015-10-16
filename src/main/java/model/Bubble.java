@@ -1,8 +1,10 @@
 package model;
 
 import controller.LevelController;
+import javafx.animation.AnimationTimer;
 import utility.Logger;
 import utility.Settings;
+
 import java.util.Observable;
 
 /**
@@ -18,12 +20,14 @@ public class Bubble extends Observable {
     private boolean powerup;
     private SpriteBase spriteBase;
     private boolean isPopped;
+    private AnimationTimer timer;
 
     /**
      * The bubble that will be shot to catch the monsters.
-     * @param coordinates The coordinates of the bubbles.
-     * @param firedRight If the bubble was fired to the right.
-     * @param powerup if the bubble is shot during bubble powerup.
+     *
+     * @param coordinates     The coordinates of the bubbles.
+     * @param firedRight      If the bubble was fired to the right.
+     * @param powerup         if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
     public Bubble(Coordinates coordinates,
@@ -44,6 +48,23 @@ public class Bubble extends Observable {
         this.addObserver(levelController.getScreenController());
 
         this.powerup = powerup;
+        this.timer = createTimer();
+        timer.start();
+    }
+
+    private AnimationTimer createTimer() {
+        return new AnimationTimer() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void handle(long now) {
+                if (!levelController.getLevelControllerMethods().getGamePaused()) {
+                    move();
+                }
+
+                setChanged();
+                notifyObservers();
+            }
+        };
     }
 
     /**
@@ -51,7 +72,7 @@ public class Bubble extends Observable {
      */
     private void checkPop() {
         if (!isPopped) {
-            isPopped = counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble;
+            setIsPopped(counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble);
         }
     }
 
@@ -80,13 +101,11 @@ public class Bubble extends Observable {
         spriteBase.move();
 
         checkPop();
-        this.setChanged();
-        this.notifyObservers();
 
     }
 
     /**
-     * This function handles the vertical movement, 
+     * This function handles the vertical movement,
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
@@ -133,6 +152,7 @@ public class Bubble extends Observable {
 
     /**
      * This function returns if the bubble is able to catch a monster.
+     *
      * @return True if able to catch a monster.
      */
     public boolean isAbleToCatch() {
@@ -141,29 +161,26 @@ public class Bubble extends Observable {
 
     /**
      * This function sets if the bubble is able to catch a monster.
+     *
      * @param ableToCatch True if able to catch a monster.
      */
     public void setAbleToCatch(boolean ableToCatch) {
         this.isAbleToCatch = ableToCatch;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
      * This function sets if the bubble is a prisonbubble.
      * A prisonbubble is a bubble that captured a monster.
+     *
      * @param prisonBubble True if a prisonbubble.
      */
     public void setPrisonBubble(boolean prisonBubble) {
         isPrisonBubble = prisonBubble;
-
-        this.setChanged();
-        this.notifyObservers();
     }
 
     /**
      * This function returns the sprite of this bubble.
+     *
      * @return The sprite.
      */
     public SpriteBase getSpriteBase() {
@@ -172,20 +189,32 @@ public class Bubble extends Observable {
 
     /**
      * This function returns whether the bubble is popped.
+     *
      * @return True if popped.
      */
     public boolean getIsPopped() {
-        if (isPopped) {
-            this.deleteObservers();
-        }
         return isPopped;
     }
 
     /**
-     * This function sets whether the bubble is popped.
+     * This function sets if the bubble is popped or not.
+     *
      * @param isPopped True if popped.
      */
     public void setIsPopped(boolean isPopped) {
         this.isPopped = isPopped;
+        if (isPopped) {
+            setChanged();
+            notifyObservers();
+            destroy();
+        }
+    }
+
+    /**
+     * This function forces the player to die entirely.
+     */
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
     }
 }

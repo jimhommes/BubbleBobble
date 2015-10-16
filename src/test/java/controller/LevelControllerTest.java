@@ -179,6 +179,10 @@ public class LevelControllerTest {
     public void testNextLevel() {
         levelController.setScreenController(mock(ScreenController.class));
         int index = levelController.getIndexCurrLvl();
+        Level level = mock(Level.class);
+        ArrayList<Monster> list = new ArrayList<>();
+        when(level.getMonsters()).thenReturn(list);
+        levelController.setCurrLvl(level);
 
         levelController.nextLevel();
 
@@ -193,6 +197,10 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         levelController.setIndexCurrLvl(levelController.getMaps().size());
         int index = levelController.getIndexCurrLvl();
+        Level level = mock(Level.class);
+        ArrayList<Monster> list = new ArrayList<>();
+        when(level.getMonsters()).thenReturn(list);
+        levelController.setCurrLvl(level);
 
         levelController.nextLevel();
 
@@ -221,28 +229,16 @@ public class LevelControllerTest {
         Player player = mock(Player.class);
         players.add(player);
 
-        ArrayList<Monster> monsters = new ArrayList<>();
-        Monster monster = mock(Monster.class);
-        monsters.add(monster);
-
         levelController.setPlayers(players);
         Level level = mock(Level.class);
         levelController.setCurrLvl(level);
         levelController.setScreenController(mock(ScreenController.class));
-        when(level.getMonsters()).thenReturn(monsters);
         when(level.update()).thenReturn(true);
         int index = levelController.getIndexCurrLvl();
-        when(player.isGameOver()).thenReturn(false);
 
         gameLoop.handle(1);
 
-        verify(player, atLeastOnce()).processInput();
-        verify(player, atLeastOnce()).move();
-        verify(player, atLeastOnce()).getBubbles();
-        verify(player, atLeastOnce()).checkCollideMonster(monster);
-        verify(monster, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index + 1);
-        
          
     }
     
@@ -265,11 +261,6 @@ public class LevelControllerTest {
 
         gameLoopTest.handle(1);
 
-        verify(playerTest, atLeastOnce()).processInput();
-        verify(playerTest, atLeastOnce()).move();
-        verify(playerTest, atLeastOnce()).getBubbles();
-        verify(playerTest, atLeastOnce()).checkCollideMonster(monsterTest);
-        verify(monsterTest, atLeastOnce()).move();
         assertEquals(levelController.getIndexCurrLvl(), index);
     }
     
@@ -279,8 +270,8 @@ public class LevelControllerTest {
 	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
-   
-       
+
+
         levelController.setPlayers(playersTest);
         Level level = mock(Level.class);
         levelController.setCurrLvl(level);
@@ -296,7 +287,6 @@ public class LevelControllerTest {
 
         verify(playerTest, never()).processInput();
         verify(playerTest, never()).move();
-        verify(playerTest, never()).getBubbles();
     }
 
     
@@ -319,13 +309,12 @@ public class LevelControllerTest {
 
         verify(player, never()).processInput();
         verify(player, never()).move();
-        verify(player, never()).getBubbles();
     }
 
     /**
      * This tests the gameLoop when the game is over for player 1.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes"})
 	@Test
     public void testGameLoopNextLevel() {
         AnimationTimer gameLoop = levelController.createTimer();
@@ -389,38 +378,6 @@ public class LevelControllerTest {
         handler.handle(new KeyEvent(null, null,
                 null, "a", "a", KeyCode.A, false, false, false, false));
         assertFalse(levelController.getLevelControllerMethods().getGamePaused());
-    }
-
-    /**
-     * This tests if the performPowerupsCycle activates the right methods.
-     */
-    @Test
-    public void testPerformPowerupsCycle() {
-        Powerup powerup = mock(Powerup.class);
-        levelController.performPowerupsCycle(powerup, mock(Player.class));
-
-        verify(powerup, atLeastOnce()).causesCollision(any(Player.class),
-                any(LevelController.class));
-        verify(powerup, atLeastOnce()).move();
-    }
-
-    /**
-     * This tests the updatePowerups function.
-     */
-    @Test
-    public void testUpdatePowerups() {
-        Powerup powerup = mock(Powerup.class);
-        ArrayList<Powerup> list = new ArrayList<>();
-        list.add(powerup);
-        levelController.setPowerups(list);
-
-        when(powerup.isPickedUp()).thenReturn(false);
-        levelController.updatePowerups();
-        assertEquals(1, levelController.getPowerups().size());
-
-        when(powerup.isPickedUp()).thenReturn(true);
-        levelController.updatePowerups();
-        assertEquals(0, levelController.getPowerups().size());
     }
 
     /**
