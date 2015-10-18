@@ -109,7 +109,7 @@ public class Level {
     private void readMap() {
         int row = 0;
         map = new Integer[NUM_ROWS][NUM_COLS];
-        BufferedReader reader = null;
+        BufferedReader reader;
 
         try (InputStreamReader isr = new InputStreamReader(getClass()
                 .getClassLoader()

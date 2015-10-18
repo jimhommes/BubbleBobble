@@ -29,12 +29,12 @@ public class LevelControllerMethods {
 	 * @return list of maps filenames.
      */
     public ArrayList<String> findMaps() {
-        ArrayList<String> maps = new ArrayList<String>();
+        ArrayList<String> maps = new ArrayList<>();
         for (int i = 1; i <= Settings.AMOUNT_MAPS; i++) {
             String s = String.format("map%d.txt", i);
             URL u = this.getClass().getClassLoader().getResource(s);
             String p = u.getPath();
-            Path tempPath = Paths.get(p);
+            Path tempPath = Paths.get(p.replace(":", "%3A"));
             maps.add(tempPath.getFileName().toString());
         }
         return maps;
