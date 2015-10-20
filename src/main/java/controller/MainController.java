@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -39,6 +40,7 @@ public class MainController implements Initializable {
     
     @FXML private Button returnMenu;
     @FXML private AnchorPane gameRoot;
+    @FXML private GridPane returnMenuGridPane;
 
     private ScreenController screenController;
 
@@ -46,7 +48,6 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);
         new LevelController(this, StartController.getLimitOfPlayers());
-        returnMenu.setVisible(false);
     }
 
     /**
@@ -150,6 +151,7 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
+        returnMenuGridPane.setVisible(true);
         returnMenu.setVisible(true);
         
         returnMenu.setOnAction(event -> {
@@ -173,6 +175,7 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+        returnMenuGridPane.setVisible(true);
         returnMenu.setVisible(false);
     }
 
