@@ -52,6 +52,10 @@ public class Bubble extends Observable {
         timer.start();
     }
 
+    /**
+     * The timer of the Bubble.
+     * @return The timer.
+     */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
@@ -242,6 +246,10 @@ public class Bubble extends Observable {
         this.counter = counter;
     }
 
+    /**
+     * This function returns if the bubble is a prison bubble.
+     * @return True if prison bubble.
+     */
     public boolean getPrisonBubble() {
         return isPrisonBubble;
     }

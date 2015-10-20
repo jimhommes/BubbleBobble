@@ -48,6 +48,10 @@ public class Monster extends GravityObject {
         timer.start();
     }
 
+    /**
+     * This function returns the timer of the monster.
+     * @return Timer of the monster.
+     */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
