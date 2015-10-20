@@ -1,5 +1,7 @@
 package model;
 
+import controller.LevelController;
+import controller.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -13,7 +15,6 @@ import java.util.BitSet;
 public class Input {
 
     private final int playerNumber;
-    private Scene scene;
 
     // -------------------------------------------------
     // default key codes
@@ -54,14 +55,16 @@ public class Input {
 
     };
 
+    private MainController mainController;
+
     /**
      * The constructor. This only appoints the scene the player moves in.
      *
-     * @param scene The scene the player moves in.
+     * @param mainController The MainController the player moves in.
      * @param playerNumber The number of the player.
      */
-    public Input(Scene scene, int playerNumber) {
-        this.scene = scene;
+    public Input(MainController mainController, int playerNumber) {
+        this.mainController = mainController;
         this.playerNumber = playerNumber;
     }
 
@@ -70,8 +73,8 @@ public class Input {
      */
     public void addListeners() {
 
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
 
     }
 
@@ -165,14 +168,6 @@ public class Input {
      */
     public void setKeyboardBitSet(BitSet keyboardBitSet) {
         this.keyboardBitSet = keyboardBitSet;
-    }
-
-    /**
-     * This is for testing purposes only.
-     * @param scene The scene to be set.
-     */
-    public void setScene(Scene scene) {
-        this.scene = scene;
     }
 
     /**

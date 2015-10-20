@@ -48,7 +48,7 @@ public class Monster extends GravityObject {
         timer.start();
     }
 
-    private AnimationTimer createTimer() {
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -120,17 +120,20 @@ public class Monster extends GravityObject {
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
-                prisonBubble.setIsPopped(true);
-                levelController.spawnPowerup(this);
-
-                setChanged();
-                notifyObservers();
-                destroy();
-
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
             }
+
+            if (prisonBubble != null) {
+                prisonBubble.setIsPopped(true);
+            }
+
+            levelController.spawnPowerup(this);
+
+            setChanged();
+            notifyObservers();
+            destroy();
         }
     }
 
@@ -254,5 +257,13 @@ public class Monster extends GravityObject {
     public void destroy() {
         this.deleteObservers();
         timer.stop();
+    }
+
+    public void setPrisonBubble(Bubble prisonBubble) {
+        this.prisonBubble = prisonBubble;
+    }
+
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
     }
 }

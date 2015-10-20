@@ -1,10 +1,12 @@
 package model;
 
+import controller.MainController;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +23,7 @@ import static org.mockito.Mockito.*;
  */
 public class InputTest {
     private BitSet keyboardBitSet;
-    @Mock private Scene scene;
+    private MainController mainController;
     @InjectMocks private Input input;
 
     /**
@@ -29,7 +31,8 @@ public class InputTest {
      */
     @Before
     public void setUp() {
-        input = new Input(scene, 1);
+        mainController = mock(MainController.class);
+        input = new Input(mainController, 1);
         keyboardBitSet = mock(BitSet.class);
         input.setKeyboardBitSet(keyboardBitSet);
     }
@@ -67,7 +70,7 @@ public class InputTest {
      */
     @Test
     public void testIsMoveUpDownPlayerTwo() {
-        input = new Input(scene, 2);
+        input = new Input(mainController, 2);
         input.setKeyboardBitSet(keyboardBitSet);
 
         when(keyboardBitSet.get(Input.W_KEY.ordinal())).thenReturn(true);
@@ -106,7 +109,7 @@ public class InputTest {
      */
     @Test
     public void testIsMoveUpDownCounterPlayerTwo() {
-        input = new Input(scene, 2);
+        input = new Input(mainController, 2);
         input.setKeyboardBitSet(keyboardBitSet);
 
         when(keyboardBitSet.get(Input.W_KEY.ordinal())).thenReturn(true);
@@ -146,7 +149,7 @@ public class InputTest {
      */
     @Test
     public void testIsMoveLeftRightPlayerTwo() {
-        input = new Input(scene, 2);
+        input = new Input(mainController, 2);
         input.setKeyboardBitSet(keyboardBitSet);
 
         when(keyboardBitSet.get(Input.A_KEY.ordinal())).thenReturn(true);
@@ -185,7 +188,7 @@ public class InputTest {
      */
     @Test
     public void testIsMoveLeftRightCounterPlayerTwo() {
-        input = new Input(scene, 2);
+        input = new Input(mainController, 2);
         input.setKeyboardBitSet(keyboardBitSet);
 
         when(keyboardBitSet.get(Input.A_KEY.ordinal())).thenReturn(true);
@@ -218,7 +221,7 @@ public class InputTest {
      */
     @Test
     public void testIsFirePrimaryWeaponPlayerTwo() {
-        input = new Input(scene, 2);
+        input = new Input(mainController, 2);
         input.setKeyboardBitSet(keyboardBitSet);
 
         when(keyboardBitSet.get(Input.SHIFT_KEY.ordinal())).thenReturn(true);
@@ -246,11 +249,9 @@ public class InputTest {
      */
     @Test
     public void testAddListeners() {
-        Scene scene = mock(Scene.class);
-        input.setScene(scene);
         input.addListeners();
 
-        verify(scene, atLeastOnce()).addEventFilter(KeyEvent.KEY_PRESSED, input.getKeyPressedEventHandler());
+        verify(mainController, atLeastOnce()).addListeners(KeyEvent.KEY_PRESSED, input.getKeyPressedEventHandler());
     }
 
     /**
@@ -275,6 +276,11 @@ public class InputTest {
                 KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false, false, false, false));
         verify(keyboardBitSet, atLeastOnce()).set((new KeyEvent(null, null,
                 KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false, false, false, false)).getCode().ordinal(), false);
+    }
+
+    @After
+    public void validate() {
+        validateMockitoUsage();
     }
 
 }
