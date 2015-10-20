@@ -31,6 +31,8 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
+    public static final boolean PLAY_SOUND = true;
+
     /**
      * The private constructor that does nothing.
      * This is a utility class.
