@@ -165,6 +165,14 @@ public class Player extends GravityObject {
     }
 
     /**
+     * This function is only for testing purposes.
+     */
+    public void forceUpdate() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
      * Interface to create a PlayerEnhancement from a labda.
      */
     interface PlayerEnhancementCreator {

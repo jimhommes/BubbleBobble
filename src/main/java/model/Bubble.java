@@ -217,4 +217,12 @@ public class Bubble extends Observable {
         this.deleteObservers();
         timer.stop();
     }
+
+    /**
+     * This function is only for testing purposes.
+     */
+    public void forceUpdate() {
+        setChanged();
+        notifyObservers();
+    }
 }
