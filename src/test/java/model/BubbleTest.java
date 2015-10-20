@@ -11,7 +11,12 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyDouble;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -198,6 +203,9 @@ public class BubbleTest {
         verify(spriteBase, atLeastOnce()).setDx(0);
     }
 
+    /**
+     * This tests the setPrisonBubble.
+     */
     @Test
     public void testSetPrisonBubble() {
         assertFalse(bubbleRight.getPrisonBubble());

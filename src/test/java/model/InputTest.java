@@ -2,7 +2,6 @@ package model;
 
 import controller.MainController;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -10,13 +9,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import java.util.BitSet;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.validateMockitoUsage;
+
 
 /**
  * Tests the Input class.
@@ -251,7 +254,8 @@ public class InputTest {
     public void testAddListeners() {
         input.addListeners();
 
-        verify(mainController, atLeastOnce()).addListeners(KeyEvent.KEY_PRESSED, input.getKeyPressedEventHandler());
+        verify(mainController, atLeastOnce()).addListeners(
+                KeyEvent.KEY_PRESSED, input.getKeyPressedEventHandler());
     }
 
     /**
@@ -275,7 +279,8 @@ public class InputTest {
         handler.handle(new KeyEvent(null, null,
                 KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false, false, false, false));
         verify(keyboardBitSet, atLeastOnce()).set((new KeyEvent(null, null,
-                KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false, false, false, false)).getCode().ordinal(), false);
+                KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false,
+                false, false, false)).getCode().ordinal(), false);
     }
 
     /**
