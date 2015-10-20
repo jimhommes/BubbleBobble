@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root fx:id="entry" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="650.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints maxWidth="278.0" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+      <ColumnConstraints maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Text fx:id="entryNumber" styleClass="highscoreText" text="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+      <Text fx:id="entryName" styleClass="helpText" text="&lt;empty&gt;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+      <Text fx:id="entryScore" styleClass="helpText" text="0" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+   </children>
+</fx:root>
