@@ -52,7 +52,7 @@ public class Bubble extends Observable {
         timer.start();
     }
 
-    private AnimationTimer createTimer() {
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -70,7 +70,7 @@ public class Bubble extends Observable {
     /**
      * This method is used to check if a bubble is .
      */
-    private void checkPop() {
+    public void checkPop() {
         if (!isPopped) {
             setIsPopped(counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble);
         }
@@ -224,5 +224,25 @@ public class Bubble extends Observable {
     public void forceUpdate() {
         setChanged();
         notifyObservers();
+    }
+
+    /**
+     * This is for testing purposes only.
+     * @param spriteBase The spritebase to be set.
+     */
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+    }
+
+    /**
+     * This is for testing purposes only.
+     * @param counter The counter to be set.
+     */
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public boolean getPrisonBubble() {
+        return isPrisonBubble;
     }
 }
