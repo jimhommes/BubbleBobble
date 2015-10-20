@@ -29,6 +29,7 @@ public class Input {
     public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
     public static final KeyCode W_KEY = KeyCode.W;
     public static final KeyCode A_KEY = KeyCode.A;
+    public static final KeyCode S_KEY = KeyCode.S;
     public static final KeyCode D_KEY = KeyCode.D;
     public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
 
@@ -74,17 +75,6 @@ public class Input {
 
     }
 
-    /**
-     * This function removes the listeners for the keys.
-     */
-    public void removeListeners() {
-
-        scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
-
-    }
-
-
     // -------------------------------------------------
     // Evaluate bitset of pressed keys and return the player input.
     // If direction and its opposite direction are pressed simultaneously,
@@ -100,7 +90,7 @@ public class Input {
         if (playerNumber == 1) {
             return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
         } else {
-            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(S_KEY.ordinal());
         }
     }
 
@@ -110,7 +100,11 @@ public class Input {
      * @return True if the down key is pressed.
      */
     public boolean isMoveDown() {
-        return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(S_KEY.ordinal()) && !keyboardBitSet.get(W_KEY.ordinal());
+        }
     }
 
     /**
@@ -171,5 +165,29 @@ public class Input {
      */
     public void setKeyboardBitSet(BitSet keyboardBitSet) {
         this.keyboardBitSet = keyboardBitSet;
+    }
+
+    /**
+     * This is for testing purposes only.
+     * @param scene The scene to be set.
+     */
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    /**
+     * This returns the keyPressedEventHandler.
+     * @return The KeyPressedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyPressedEventHandler() {
+        return keyPressedEventHandler;
+    }
+
+    /**
+     * This returns the keyReleasedEventHandler.
+     * @return The KeyReleasedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyReleasedEventHandler() {
+        return keyReleasedEventHandler;
     }
 }
