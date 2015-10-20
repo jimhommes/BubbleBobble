@@ -750,13 +750,13 @@ public class Player extends GravityObject {
     private void setImage() {
       if (isFacingRight) {
         if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "RightRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
         } else {
             spriteBase.setImage("Bub" + playerNumber + "Right.png");
         }
       } else {
         if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "LeftRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
         } else {
             spriteBase.setImage("Bub" + playerNumber + "Left.png");
         }
