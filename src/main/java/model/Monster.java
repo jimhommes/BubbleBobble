@@ -259,10 +259,18 @@ public class Monster extends GravityObject {
         timer.stop();
     }
 
+    /**
+     * This sets the prison bubble (Should only be used for testing).
+     * @param prisonBubble The prison bubble.
+     */
     public void setPrisonBubble(Bubble prisonBubble) {
         this.prisonBubble = prisonBubble;
     }
 
+    /**
+     * This sets the spriteBase (Should only be used for testing).
+     * @param spriteBase The sprite Base.
+     */
     public void setSpriteBase(SpriteBase spriteBase) {
         this.spriteBase = spriteBase;
     }

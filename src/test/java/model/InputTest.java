@@ -278,6 +278,9 @@ public class InputTest {
                 KeyEvent.KEY_RELEASED, "a", "a", KeyCode.A, false, false, false, false)).getCode().ordinal(), false);
     }
 
+    /**
+     * This function validates if mockito is correctly used.
+     */
     @After
     public void validate() {
         validateMockitoUsage();

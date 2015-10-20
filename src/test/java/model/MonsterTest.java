@@ -155,6 +155,9 @@ public class MonsterTest {
     	assertEquals(1.0, monster.getSpriteBase().getX(), epsilon);
     }
 
+	/**
+	 * This tests the die function.
+	 */
 	@Test
 	public void testDie() {
 		assertFalse(monster.isDead());
@@ -169,6 +172,9 @@ public class MonsterTest {
 		verify(bubble, atLeastOnce()).setIsPopped(true);
 	}
 
+	/**
+	 * This tests the die when the player is null.
+	 */
 	@Test
 	public void testDieNull() {
 		assertFalse(monster.isDead());
@@ -181,6 +187,9 @@ public class MonsterTest {
 		verify(bubble, atLeastOnce()).setIsPopped(true);
 	}
 
+	/**
+	 * This tests the timer of Monster.
+	 */
 	@Test
 	public void testTimer() {
 		AnimationTimer timer = monster.createTimer();
@@ -196,6 +205,9 @@ public class MonsterTest {
 		verify(spriteBase, atLeastOnce()).move();
 	}
 
+	/**
+	 * This tests the setDead function.
+	 */
 	@Test
 	public void testSetDead() {
 		assertFalse(monster.isDead());
@@ -203,6 +215,9 @@ public class MonsterTest {
 		assertTrue(monster.isDead());
 	}
 
+	/**
+	 * This tests the factorSpeed function.
+	 */
 	@Test
 	public void testFactorSpeed() {
 		double speed = monster.getSpeed();
@@ -210,6 +225,9 @@ public class MonsterTest {
 		assertEquals(speed * 3, monster.getSpeed(), 0.1);
 	}
 
+	/**
+	 * This tests the destroy function.
+	 */
 	@Test
 	public void testDestroy() {
 		assertEquals(2, monster.countObservers());
@@ -217,6 +235,9 @@ public class MonsterTest {
 		assertEquals(0, monster.countObservers());
 	}
 
+	/**
+	 * This tests the setSpeed function.
+	 */
 	@Test
 	public void testSetSpeed() {
 		monster.setSpeed(3.0);
