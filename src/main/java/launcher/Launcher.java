@@ -8,6 +8,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utility.Logger;
+import utility.Settings;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -37,17 +39,27 @@ public class Launcher extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
-        startMusic();
+        initMusicPlayer();
+        playMusic(true);
     }
 
-    /**
-     * This method starts an infinite loop to play the official music of the Bubble Bobble Game.
-     */
-    private void startMusic() {
+    private void initMusicPlayer() {
         String path = getClass().getClassLoader().getResource("themesong.mp3").toString();
         Media media = new Media(path);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
     }
+
+    /**
+     * This method starts an infinite loop to play the official music of the Bubble Bobble Game.
+     * @param playSound Boolean for whether the theme song should be played.
+     */
+    public void playMusic(boolean playSound) {
+        if (playSound) {
+            mediaPlayer.play();
+        } else {
+            mediaPlayer.stop();
+        }
+    }
+
 }
