@@ -46,6 +46,7 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.screenController = new ScreenController(playFieldLayer);
         new LevelController(this, StartController.getLimitOfPlayers());
+        returnMenu.setVisible(false);
     }
 
     /**
@@ -149,6 +150,7 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
+        returnMenu.setVisible(true);
         
         returnMenu.setOnAction(event -> {
             try {
@@ -171,6 +173,7 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+        returnMenu.setVisible(false);
     }
 
     /**

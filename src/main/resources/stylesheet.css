@@ -20,20 +20,6 @@
     -fx-border-width: 0 3 0 3;
 }
 
-.returnToMenuButton {
-    -fx-min-width: 100;
-    -fx-text-alignment: center;
-    -fx-alignment: center;
-    -fx-background-color: black;
-    -fx-text-fill: white;
-    -fx-font-size: 15px;
-}
-
-.returnToMenuButton:hover {
-    -fx-border-color: white;
-    -fx-border-width: 0 3 0 3;
-}
-
 #helpScreen {
     -fx-background-color: #222222;
     -fx-opacity: 0.99;
