@@ -40,13 +40,8 @@ public class SpriteBase extends Observable {
         if (!canMove) {
             return;
         }
-        
-       coordinates.setX(coordinates.getX() + coordinates.getDX());
-       coordinates.setY(coordinates.getY() + coordinates.getDY());
-       coordinates.setR(coordinates.getR() + coordinates.getDR());
-        
-        this.setChanged();
-        this.notifyObservers();
+
+        this.coordinates.apply();
     }
 
     /**
@@ -298,6 +293,30 @@ public class SpriteBase extends Observable {
         }
 
         return false;
+    }
+    
+    /**
+     * This method gets the current location and speed from the SpirteBase.
+     * @return the location.
+     */
+    public double[] getLocation() {
+      double[] location = new double[4];
+      location[0] = getX();
+      location[1] = getDx();
+      location[2] = getY();
+      location[3] = getDy();
+      return location;
+    }
+
+    /**
+     * After movement sets this method the new location.
+     * @param location the new location.
+     */
+    public void setLocation(double[] location) {
+      setX(location[0]);
+      setDx(location[1]);
+      setY(location[2]);
+      setDy(location[3]);
     }
     
 

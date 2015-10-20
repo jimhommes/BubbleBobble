@@ -16,6 +16,8 @@ import java.io.IOException;
  */
 public class Launcher extends Application {
 
+    private static MediaPlayer mediaPlayer;
+
     /**
      * The main method just launches the application.
      *
@@ -30,7 +32,7 @@ public class Launcher extends Application {
 
     @Override
     public final void start(final Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("startscreen.fxml"));
         primaryStage.setTitle("Bubble Bobble");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
@@ -42,9 +44,9 @@ public class Launcher extends Application {
      * This method starts an infinite loop to play the official music of the Bubble Bobble Game.
      */
     private void startMusic() {
-        String path = getClass().getResource("../themeSong.mp3").toString();
+        String path = getClass().getClassLoader().getResource("themesong.mp3").toString();
         Media media = new Media(path);
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
     }

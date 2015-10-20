@@ -42,7 +42,9 @@ public class GameEndController implements Initializable {
      */
     private void returnToMenu() throws IOException {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass()
+                .getClassLoader()
+                .getResource("startScreen.fxml"));
         stage.setScene(new Scene(newRoot));
         stage.show();
     }

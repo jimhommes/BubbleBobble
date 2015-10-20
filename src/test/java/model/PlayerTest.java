@@ -9,7 +9,6 @@ import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
@@ -78,7 +77,7 @@ public class PlayerTest {
         assertEquals(-Settings.PLAYER_SPEED, sprite.getDx(), 0.001);
         assertEquals(0.0, sprite.getDy(), 0.001);
         assertEquals(Level.SPRITE_SIZE, sprite.getX(), 0.001);
-        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
+        assertEquals(Level.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getY(), 0.001);
     }
 
 
@@ -120,47 +119,6 @@ public class PlayerTest {
         assertEquals(Level.SPRITE_SIZE - player.calculateGravity(), sprite.getY(), 0.001);
     }
 
-
-    /**
-     * Tests the getBubbles method.
-     *
-     * @throws Exception .
-     */
-    @Test
-    public void testGetBubbles() throws Exception {
-        when(input.isFirePrimaryWeapon()).thenReturn(true);
-        when(levelController.getScreenController()).thenReturn(screenController);
-        assertSame(player.getBubbles().size(), 0);
-        player.processInput();
-        assertTrue(player.getBubbles().size() > 0);
-    }
-
-    /**
-     * Tests the if bubbles are removed from player.bubbles after they are popped.
-     *
-     * @throws Exception .
-     */
-    @Test
-    public void testPopBubbles() throws Exception {
-
-        when(input.isFirePrimaryWeapon()).thenReturn(true);
-        when(levelController.getScreenController()).thenReturn(screenController);
-        player.processInput();
-
-        assertTrue(player.getBubbles().size() > 0);
-
-        when(input.isFirePrimaryWeapon()).thenReturn(false);
-        for (int i = 0; i <= 500; i++) {
-            player.getBubbles().forEach(Bubble::move);
-            assertTrue(player.getBubbles().size() > 0);
-        }
-
-        player.getBubbles().forEach(Bubble::move);
-        player.checkBubbles();
-        assertEquals(player.getBubbles().size(), 0);
-
-    }
-
     /**
      * Tests if the player has collided with a monster.
      *
@@ -171,8 +129,8 @@ public class PlayerTest {
         Monster monster = mock(Monster.class);
         SpriteBase monsterSprite = mock(SpriteBase.class);
         when(monster.getSpriteBase()).thenReturn(monsterSprite);
-        player.getSpriteBase().setWidth(100);
-        player.getSpriteBase().setHeight(100);
+        player.getSpriteBase().setWidth(64);
+        player.getSpriteBase().setHeight(64);
         SpriteBase sprite = player.getSpriteBase();
         when(monsterSprite.causesCollision(sprite.getX(),
                 sprite.getX() + sprite.getWidth(),
@@ -258,7 +216,7 @@ public class PlayerTest {
         player.processInput();
         SpriteBase sprite = player.getSpriteBase();
 
-        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.001);
+        assertEquals(Level.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getY(), 0.001);
     }
 
     /**
@@ -285,15 +243,33 @@ public class PlayerTest {
      */
     @Test
     public void testMoveDown() throws Exception {
-        levelController = mock(LevelController.class);
+        Level level = mock(Level.class);
+    	levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
+        when(levelController.getCurrLvl()).thenReturn(level);
         Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
         Player player1 = new Player(levelController, coordinates, 
         		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
         player1.processInput();
         SpriteBase sprite = player1.getSpriteBase();
-        assertEquals(Level.SPRITE_SIZE, sprite.getY(), 0.0001);
+        assertEquals(level.SPRITE_SIZE, sprite.getY(), 0.0001);
+    }
+    
+    /**
+     * Test if the methods set- and getLocation work properly.
+     */
+    @Test
+    public void testSetLocation() {
+        double[] location = {100.0, 5.0, 100.0, 5.0};
+        Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
+        Player player1 = new Player(levelController, coordinates, 
+        		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
+    	player1.setLocation(location);
+    	assertEquals(location[0], player1.getLocation()[0], 0.0001);
+    	assertEquals(location[1], player1.getLocation()[1], 0.0001);
+    	assertEquals(location[2], player1.getLocation()[2], 0.0001);
+    	assertEquals(location[3], player1.getLocation()[3], 0.0001);
     }
 
 }

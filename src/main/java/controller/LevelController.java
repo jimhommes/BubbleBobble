@@ -16,12 +16,9 @@ import model.Powerup;
 import model.Wall;
 import utility.Logger;
 import utility.Settings;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.stream.Collectors;
 
 /**
  * This is the Level Controller, here all the interactions with the level happens.
@@ -29,23 +26,34 @@ import java.util.stream.Collectors;
 public class LevelController implements Observer {
 
     private static final KeyCode PAUSE_KEY = KeyCode.P;
-    private static final String MAPS_PATH = "src/main/resources";
 
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> maps = new ArrayList<>();
     private ArrayList<Powerup> powerups = new ArrayList<>();
 
+    private ArrayList<Bubble>  bubbles = new ArrayList<>();
+
+    /**
+     * The current index of the level the user is playing.
+     */
+
     private int indexCurrLvl;
     private Level currLvl;
 
     private boolean gameStarted = false;
+
     private boolean gamePaused = false;
 
     private ScreenController screenController;
     private AnimationTimer gameLoop;
     private MainController mainController;
 
+    
+    private LevelControllerMethods levelControllerMethods;
+
+
     private boolean switchedPauseScreen = false;
+
     private int limitOfPlayers;
 
     /**
@@ -57,8 +65,8 @@ public class LevelController implements Observer {
 
             if (event.getCode() == PAUSE_KEY && !switchedPauseScreen) {
                 switchedPauseScreen = true;
-                gamePaused = !gamePaused;
-                if (gamePaused) {
+                levelControllerMethods.setGamePaused(!levelControllerMethods.getGamePaused());
+                if (levelControllerMethods.getGamePaused()) {
                     mainController.showPauseScreen();
                 } else {
                     mainController.hidePauseScreen();
@@ -69,7 +77,7 @@ public class LevelController implements Observer {
     };
 
     /**
-     * "Key Pressed" handler for pausing the game: register in boolean gamePaused.
+     * "Key Released" handler for pausing the game: register in boolean gamePaused.
      */
     private EventHandler<KeyEvent> pauseKeyEventHandlerRelease = event -> {
 
@@ -95,11 +103,12 @@ public class LevelController implements Observer {
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
 
                 if (players.size() > 0 && players.get(0) != null) {
-                    mainController.showLives(players.get(0).getLives());
-                    mainController.showScore(players.get(0).getScore());
+                    Player player = players.get(0);
+                    mainController.showLives(player.getLives(), player.getPlayerNumber());
+                    mainController.showScore(player.getScore(), player.getPlayerNumber());
                 } else {
-                    mainController.showLives(0);
-                    mainController.showScore(0);
+                    mainController.showLives(0, 0);
+                    mainController.showScore(0, 0);
                 }
                 gameLoop.start();
             }
@@ -114,25 +123,12 @@ public class LevelController implements Observer {
     public LevelController(MainController mainController, int limitOfPlayers) {
         this.mainController = mainController;
         this.screenController = mainController.getScreenController();
+        this.levelControllerMethods = new LevelControllerMethods(this);
         this.limitOfPlayers = limitOfPlayers;
-        findMaps();
+        maps = levelControllerMethods.findMaps();
 
         gameLoop = createTimer();
         startLevel();
-    }
-
-    /**
-     * This function scans the resources folder for maps.
-     */
-    public void findMaps() {
-        File folder = new File(MAPS_PATH);
-        File[] listOfFiles = folder.listFiles();
-        assert listOfFiles != null;
-        for (File file : listOfFiles) {
-            if (file.isFile() && file.getName().matches("map[0-9]*.txt")) {
-                maps.add(file.getName());
-            }
-        }
     }
 
     /**
@@ -144,61 +140,22 @@ public class LevelController implements Observer {
         return new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if ((players.get(0)).isGameOver()) {
-                    stop();
-                } else {
-                    if (!isGamePaused()) {
-                        players.forEach(player -> {
-                            performPlayerCycle(player);
-                            powerups.forEach(powerup -> performPowerupsCycle(powerup, player));
-                            updatePowerups();
-                        });
-                        currLvl.getMonsters().forEach(monster -> {
-                            players.forEach(player -> {
-                                player.getBubbles().forEach(monster::checkCollision);
-                                player.checkCollideMonster(monster);
-                            });
-                            monster.move();
-                        });
+                boolean stop = true;
+                for (Player p : players) {
+                    if (!p.isDead()) {
+                        stop = false;
                     }
-
+                }
+                if (stop) {
+                    stop();
+                    gameOver();
+                } else {
                     if (currLvl.update()) {
-						nextLevel();
+                      nextLevel();
                     }
                 }
             }
         };
-    }
-
-    /**
-     * This is the cycle that performs all powerups operations.
-     * @param powerup The powerup actions are performed on
-     * @param player The player there might be a collision with.
-     */
-    public void performPowerupsCycle(Powerup powerup, Player player) {
-        powerup.causesCollision(player, this);
-        powerup.move();
-    }
-
-    /**
-     * This is the cycle that performs all player operations.
-     * @param player The player the actions are performed on.
-     */
-    private void performPlayerCycle(Player player) {
-        player.processInput();
-        player.move();
-        player.getBubbles().forEach(Bubble::move);
-        player.checkBubbles();
-    }
-
-    /**
-     * This function updates the powerups, and removes
-     * the ones which have been picked up.
-     */
-    public void updatePowerups() {
-        powerups = powerups.stream()
-                .filter(powerup -> !powerup.isPickedUp())
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -217,12 +174,21 @@ public class LevelController implements Observer {
         }
     }
 
+    private void refresh() {
+        bubbles.forEach(Bubble::destroy);
+        bubbles.clear();
+        currLvl.getMonsters().forEach(Monster::destroy);
+        currLvl.getMonsters().clear();
+        powerups.forEach(Powerup::destroy);
+        powerups.clear();
+        screenController.removeSprites();
+    }
+
     /**
      * This function creates the current level of currLvl.
      */
     public final void createLvl() {
         currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
-        screenController.removeSprites();
 
         createPlayers();
 
@@ -250,25 +216,38 @@ public class LevelController implements Observer {
             lives[i] = this.players.get(i).getLives();
         }
 
-        this.players.clear();
+        players.forEach(Player::destroy);
+        players.clear();
         ArrayList<Player> p = currLvl.getPlayers();
 
+        applyNewPlayers(p, scores, lives);
+
+        players.forEach(player ->
+                screenController.addToSprites(player.getSpriteBase()));
+
+    }
+
+    /**
+     * This function adds the new players and takes over the previous status.
+     * @param p List of players.
+     * @param scores The scores.
+     * @param lives The lives.
+     */
+    private void applyNewPlayers(ArrayList<Player> p, int[] scores, int[] lives) {
         for (int i = 0; i < p.size(); i++) {
             Player newPlayer = p.get(i);
 
-            if (scores.length > i) {
+            if (i < scores.length) {
                 newPlayer.setScore(scores[i]);
-                newPlayer.setLives(lives[i]);
+                newPlayer.setLives(lives[i] + 1);
             } else {
                 newPlayer.setScore(0);
                 newPlayer.setLives(Settings.PLAYER_LIVES);
             }
 
             newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
-            this.players.add(newPlayer);
+            players.add(newPlayer);
         }
-
-        players.forEach(player -> screenController.addToSprites(player.getSpriteBase()));
     }
 
     /**
@@ -276,8 +255,7 @@ public class LevelController implements Observer {
      */
     public final void nextLevel() {
         indexCurrLvl++;
-        players = new ArrayList<>();
-        powerups = new ArrayList<>();
+        refresh();
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
@@ -357,6 +335,8 @@ public class LevelController implements Observer {
     }
 
     /**
+<<<<<<< HEAD
+=======
      * This is the boolean to check if the game is paused or not.
      *
      * @return True if the gamePaused is true.
@@ -366,6 +346,7 @@ public class LevelController implements Observer {
     }
 
     /**
+>>>>>>> development
      * The function that gets the players.
      * @return The players.
      */
@@ -430,14 +411,6 @@ public class LevelController implements Observer {
     }
 
     /**
-     * This function returns true if the game is paused.
-     * @return True if the game is paused.
-     */
-    public boolean getGamePaused() {
-        return gamePaused;
-    }
-
-    /**
      * This function spawns a powerup when a monster dies.
      * @param monster The monster that died
      */
@@ -469,14 +442,6 @@ public class LevelController implements Observer {
      */
     public ArrayList<Powerup> getPowerups() {
         return powerups;
-    }
-
-    /**
-     * This function sets the powerups.
-     * @param powerups The powerups.
-     */
-    public void setPowerups(ArrayList<Powerup> powerups) {
-        this.powerups = powerups;
     }
 
     /**
@@ -516,13 +481,39 @@ public class LevelController implements Observer {
     public void update(Observable o, Object arg) {
         if (o instanceof Player) {
             Player p = (Player) o;
-            if (p.isDead()) {
-                gameOver();
-            } else {
                 Logger.log(String.format("Score: %d", p.getScore()));
-                mainController.showScore(p.getScore());
-                mainController.showLives(p.getLives());
+                mainController.showScore(p.getScore(), p.getPlayerNumber());
+                mainController.showLives(p.getLives(), p.getPlayerNumber());
+        } else if (o instanceof Bubble) {
+            Bubble b = (Bubble) o;
+            if (b.getIsPopped()) {
+                bubbles.remove(b);
             }
         }
+    }
+    
+    /**
+     * This method return the current LevelControlerMethods.
+     * @return the LevelControllerMethod.
+     */
+    public LevelControllerMethods getLevelControllerMethods() {
+    	return levelControllerMethods;
+    }
+
+    /**
+     * This function returns the bubbles.
+     * @return The bubbles.
+     */
+    public ArrayList<Bubble> getBubbles() {
+        return bubbles;
+    }
+
+    /**
+     * This function adds a bubble.
+     * @param bubble The bubble.
+     */
+    public void addBubble(Bubble bubble) {
+        bubbles.add(bubble);
+        screenController.addToSprites(bubble.getSpriteBase());
     }
 }

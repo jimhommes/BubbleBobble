@@ -8,10 +8,12 @@ import org.junit.rules.TemporaryFolder;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Test for the Logger class.
@@ -54,7 +57,11 @@ public class LoggerTest {
             e.printStackTrace();
         }
 
-        outStream = new PrintStream(outContent);
+        try {
+            outStream = new PrintStream(outContent, true, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            fail();
+        }
     }
 
 
@@ -78,7 +85,8 @@ public class LoggerTest {
         Logger.setLogFile(testFile2.getAbsolutePath());
         Logger.logToFile("Test log");
         String text;
-        try (BufferedReader br = new BufferedReader(new FileReader(testFile2))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                new FileInputStream(testFile2), "UTF-8"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -100,7 +108,11 @@ public class LoggerTest {
     @Test
     public void testLog() {
         Logger.log(outStream, "Test log to console");
-        assertThat(outContent.toString(), containsString("Test log to console"));
+        try {
+            assertThat(outContent.toString("UTF-8"), containsString("Test log to console"));
+        } catch (UnsupportedEncodingException e) {
+            fail();
+        }
     }
 
 
@@ -114,7 +126,8 @@ public class LoggerTest {
         Logger.setTimestamp("yyyy");
         Logger.logToFile("");
         String text;
-        try (BufferedReader br = new BufferedReader(new FileReader(testFile3))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                new FileInputStream(testFile3), "UTF-8"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 

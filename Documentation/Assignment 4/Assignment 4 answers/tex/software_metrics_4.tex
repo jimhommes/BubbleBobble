@@ -1,0 +1,8 @@
+\subsection{Third Fatal Flaw: Feature Envies}
+
+\subsubsection{Design choices}
+The third fatal flaw are Feature Envies. Feature Envy means that a method uses (almost) only data from another class. This does probably mean that the method should be moved to the other class. \\
+This was seen in the mehtod \texttt{SpriteBase.move}, which only used data from the \texttt{Coordinates} class. This was a result of a refactoring process, in which the co\"{o}rdinates of the \texttt{SpriteBase} were replaced by a dedicated class, but the method was not looked at.
+
+\subsubsection{The fix}
+This was fixed by adding an \texttt{apply()} method to \texttt{Coordinates}, which did exactly the same as the \texttt{move()} method in \texttt{SpriteBase}: added $dx$ to $x$, $dy$ to $y$ and $dr$ to $r$. \texttt{SpriteBase.move} does only call \texttt{Coordinates.apply}.

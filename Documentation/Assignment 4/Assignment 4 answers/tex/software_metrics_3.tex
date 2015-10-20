@@ -1,0 +1,10 @@
+\subsection{Second Fatal Flaw: Data Clumps}
+
+\subsubsection{Design choices}
+
+The second fatal flaw are Data Clumps. This means that there were too many large groups of parameters. SpriteBase, Wall, Walker, Player, Monster, Powerup and Bubble all had the x, y, r, dx, dy and dr coordinates in their constructors, which was unnecessary. The design choice that led to this was the idea that it was better for every class to have all the coordinate information, but taking a step back and looking at the project as a whole shows that this was not needed. A class that handled all these parameters in one go was a much better idea. Of course, it is never a good idea to have too many parameters, so that was an error that could have been avoided earlier on. 
+
+
+\subsubsection{The fix}
+
+This was fixed by adding a Coordinates class which handles all the coordinates for each of the other model classes. This in turn means that each model class only needs to call up the Coordinates class, and then using getters and setters can change the coordinates that need to be changed.

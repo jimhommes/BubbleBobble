@@ -1,7 +1,14 @@
 package model;
 
 /**
- * This class represents a wall in the game.
+ * @author Jim
+ * @since 9/5/2015
+ * @version 0.1
+ */
+
+
+/**
+ * The class that represents a wall in the game.
  */
 public class Wall  {
 
@@ -12,7 +19,7 @@ public class Wall  {
      * @param coordinates The coordinates of the wall.
      */
     public Wall(Coordinates coordinates) {
-        this.spriteBase = new SpriteBase("../BubbleBobbleWall32b.png", coordinates);
+        this.spriteBase = new SpriteBase("BubbleBobbleWall32b.png", coordinates);
     }
 
     /**

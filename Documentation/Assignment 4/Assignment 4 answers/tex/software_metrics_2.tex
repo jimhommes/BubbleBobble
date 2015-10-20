@@ -1,0 +1,10 @@
+\section{Question 2}
+\subsection{First Fatal Flaw: God Classes}
+
+\subsubsection{Design choices}
+
+The first fatal flaw we decided to solve was the god class, in our code there were two god classes (LevelController and Player). A god class is a class that uses many attributes from other classes. The design choice that led to this flaw was different for both classes. In the LevelController class we handled everything that happened in our program. For the Player class this was different, this class had a lot of attributes from one specific class, SpriteBase. This happened because the SpriteBase held the location of the player, so every method that needed the location of the player, the SpriteBase was called to get the current location.
+
+\subsubsection{The fix or the explanation}
+
+The LevelController class was fixed by restructuring a few methods and replacing other methods to a new class. The other god class, Player, was solved with making to new methods, 'getLocation' and 'setLocation'. These two methods called to the SpriteBase for the location of the sprite, now everywhere in the Player class were the player needed its location, the SpriteBase class did not need to be called anymore.
