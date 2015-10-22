@@ -20,6 +20,19 @@
     -fx-border-width: 0 3 0 3;
 }
 
+.returnMenuButton {
+    -fx-text-fill: purple;
+    -fx-font-size: 35px;
+    -fx-background-color: transparent;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.returnMenuButton:hover {
+    -fx-border-color: white;
+    -fx-border-width: 0 3 0 3;
+}
+
 #helpScreen {
     -fx-background-color: #222222;
     -fx-opacity: 0.99;

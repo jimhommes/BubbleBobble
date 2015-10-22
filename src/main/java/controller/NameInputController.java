@@ -57,6 +57,10 @@ public class NameInputController extends GridPane {
         nameInputField.setPromptText(this.playerName);
     }
 
+    /**
+     * Function to continue when the enter is pressed.
+     * @param event
+     */
     @FXML
     public void handleEnterPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
