@@ -8,6 +8,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utility.Logger;
+import utility.Settings;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,8 +27,10 @@ public class Launcher extends Application {
      * @throws FileNotFoundException when the log file is not found.
      */
     public static void main(final String[] args) throws FileNotFoundException {
-        Logger.setLogFile("gamelog.txt");
-        Logger.setTimestamp("[yyyy-MM-dd hh:mm:ss] - ");
+        Settings.initialize("game.properties");
+        Logger.setLogFile(Settings.get("LOGFILE", "gamelog.txt"));
+        Logger.setTimestamp(Settings.get("TIMESTAMP", "yyyy-MM-dd hh:mm:ss: "));
+
         launch(args);
     }
 
