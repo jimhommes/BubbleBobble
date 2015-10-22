@@ -23,7 +23,7 @@ public final class Settings {
     public static final double BUBBLE_POWERUP_FLY_TIME = 3 * BUBBLE_FLY_TIME;
 
     public static final double PLAYER_SPEED = 5.0;
-    public static final int PLAYER_LIVES = 1;
+    public static final int PLAYER_LIVES = 5;
 
     public static final int POINTS_PLAYER_DIE = -25;
     public static final int POINTS_KILL_MONSTER = 10;
@@ -35,8 +35,9 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
-    public static ArrayList<HighscoreEntry> HIGHSCORES = new ArrayList<HighscoreEntry>();
-
+    //TODO Add to properties
+    public static ArrayList<HighscoreEntry> highscores = new ArrayList<HighscoreEntry>();
+    //TODO Add to properties? Needs to be somewhere accessible and needs to be changeable.
     public static String[] names = new String[2];
 
     /**

@@ -17,19 +17,15 @@ public class HighscoreEntry extends GridPane implements Comparable<HighscoreEntr
     @FXML private Text entryName;
     @FXML private Text entryScore;
 
-//    private String number;
     private String name;
     private String score;
 
     /**
      * Constructor for a highscore entry.
-//     * @param number Number on the highscore list.
      * @param name Name of the player.
      * @param score Score of the player.
      */
     public HighscoreEntry(String name, String score) {
-
-//        this.number = number;
         this.name = name;
         this.score = score;
 
@@ -50,7 +46,6 @@ public class HighscoreEntry extends GridPane implements Comparable<HighscoreEntr
     }
 
     private void setEntry() {
-//        entryNumber.setText(number);
         entryName.setText(name);
         entryScore.setText(score);
     }
@@ -63,13 +58,26 @@ public class HighscoreEntry extends GridPane implements Comparable<HighscoreEntr
         entryNumber.setText(Integer.toString(number));
     }
 
+    /**
+     * Get the score.
+     * @return The score of the highscore entry.
+     */
     public String getScore() {
         return score;
     }
 
-
+    /**
+     * Compare to function for use of sort.
+     * @param o HighscoreEntry to be compared to.
+     * @return Output of the string compareTo.
+     */
     @Override
     public int compareTo(HighscoreEntry o) {
         return score.compareTo(o.getScore());
     }
+
+//    @Override
+//    public boolean equals(String o) {
+//
+//    }
 }

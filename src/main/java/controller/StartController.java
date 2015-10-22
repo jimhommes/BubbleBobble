@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.HighscoreEntry;
-import model.NameInput;
 import utility.Settings;
 
 import java.net.URL;
@@ -56,7 +55,7 @@ public class StartController implements Initializable {
     }
 
     private void initHighscoreScreen() {
-        ArrayList<HighscoreEntry> tempHighscores = Settings.HIGHSCORES;
+        ArrayList<HighscoreEntry> tempHighscores = Settings.highscores;
         int scoreIndex = 1;
         for (int i = 0; i < tempHighscores.size(); i++) {
             HighscoreEntry tempEntry = tempHighscores.get(i);
@@ -65,7 +64,7 @@ public class StartController implements Initializable {
             scoreIndex++;
         }
 
-        while(scoreIndex <= 10) {
+        while (scoreIndex <= 10) {
             HighscoreEntry emptyEntry = new HighscoreEntry("<empty>", "0");
             emptyEntry.setEntryNumber(scoreIndex);
             highscores.getChildren().add(emptyEntry);
@@ -73,10 +72,14 @@ public class StartController implements Initializable {
         }
     }
 
-    public void inputNamePlayer(int player) {
+    /**
+     * Create an input for the name of the player.
+     * @param playerNumber The number of the player.
+     */
+    public void inputNamePlayer(int playerNumber) {
         Stage stage = (Stage) root.getScene().getWindow();
-        NameInput nameInput = new NameInput(player);
-        stage.setScene(new Scene(nameInput));
+        NameInputController nameInputController = new NameInputController(playerNumber);
+        stage.setScene(new Scene(nameInputController));
         stage.show();
     }
 

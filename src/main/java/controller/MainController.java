@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Input;
-import model.NameInput;
 import utility.Settings;
 
 import java.io.IOException;
@@ -36,7 +35,6 @@ public class MainController implements Initializable {
     @FXML private Text livesTextPlayer2;
     @FXML private Text scoreTextPlayer1;
     @FXML private Text scoreTextPlayer2;
-    @FXML private Pane playerNamePane;
 
     private ScreenController screenController;
 

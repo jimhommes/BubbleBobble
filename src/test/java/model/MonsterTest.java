@@ -62,20 +62,20 @@ public class MonsterTest {
 	 * This tests that collisions occur.
 	 * @throws Exception .
 	 */
-//	@Test
-//	public void testCheckCollision2() throws Exception {
-//		Bubble bubble = mock(Bubble.class);
-//		SpriteBase sprite = mock(SpriteBase.class);
-//		when(bubble.getSpriteBase()).thenReturn(sprite);
-//		when(sprite.getX()).thenReturn(1.0);
-//        when(sprite.getY()).thenReturn(1.0);
-//        when(sprite.getWidth()).thenReturn(300.0);
-//        when(sprite.getHeight()).thenReturn(300.0);
-//        when(bubble.isAbleToCatch()).thenReturn(true);
-//        monster.checkCollision(bubble);
-//        monster.checkCollision(bubble);
-//        assertTrue(monster.isCaughtByBubble());
-//	}
+	@Test
+	public void testCheckCollision2() throws Exception {
+		Bubble bubble = mock(Bubble.class);
+		SpriteBase sprite = mock(SpriteBase.class);
+		when(bubble.getSpriteBase()).thenReturn(sprite);
+		when(sprite.getX()).thenReturn(1.0);
+        when(sprite.getY()).thenReturn(1.0);
+        when(sprite.getWidth()).thenReturn(300.0);
+        when(sprite.getHeight()).thenReturn(300.0);
+        when(bubble.isAbleToCatch()).thenReturn(true);
+        monster.checkCollision(bubble);
+        monster.checkCollision(bubble);
+        assertTrue(monster.isCaughtByBubble());
+	}
 	   
 	/**
 	 * This tests if the monster is facing right.

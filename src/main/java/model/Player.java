@@ -337,7 +337,7 @@ public class Player extends GravityObject {
     }
 
     private void addHighscore() {
-        ArrayList<HighscoreEntry> highscores = Settings.HIGHSCORES;
+        ArrayList<HighscoreEntry> highscores = Settings.highscores;
         highscores.add(new HighscoreEntry(Settings.names[playerNumber - 1],
                 Integer.toString(this.getScore())));
         Collections.sort(highscores);

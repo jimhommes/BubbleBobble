@@ -1,6 +1,5 @@
-package model;
+package controller;
 
-import controller.StartController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +17,7 @@ import java.net.URL;
 /**
  * Input for player name.
  */
-public class NameInput extends GridPane {
+public class NameInputController extends GridPane {
 
     @FXML private Text nameInputPrompt;
     @FXML private TextField nameInputField;
@@ -28,8 +27,11 @@ public class NameInput extends GridPane {
     private int number;
     private String playerName;
 
-
-    public NameInput(int playerNumber) {
+    /**
+     * A GridPane which asks for the name of the player.
+     * @param playerNumber Number of the current player.
+     */
+    public NameInputController(int playerNumber) {
         this.number = playerNumber;
         this.playerName = String.format("P%d", playerNumber);
         loadFxml();
@@ -53,6 +55,9 @@ public class NameInput extends GridPane {
         nameInputField.setPromptText(this.playerName);
     }
 
+    /**
+     * Function for what happens when the enter button is pressed.
+     */
     @FXML
     public void enterNameInput() {
         String input = nameInputField.getText();
@@ -61,7 +66,7 @@ public class NameInput extends GridPane {
             this.playerName = nameInputField.getText();
         }
         this.setVisible(false);
-        Settings.names[number -1] = this.playerName;
+        Settings.names[number - 1] = this.playerName;
         if (number == 1 && StartController.getLimitOfPlayers() == 2) {
             namePlayer2();
         } else {
@@ -76,18 +81,22 @@ public class NameInput extends GridPane {
 
     private void namePlayer2() {
         Stage stage = (Stage) this.getScene().getWindow();
-        NameInput nameInput = new NameInput(2);
-        stage.setScene(new Scene(nameInput));
+        NameInputController nameInputController = new NameInputController(2);
+        stage.setScene(new Scene(nameInputController));
         stage.show();
     }
 
+    /**
+     * Function for what happens when the cancel button is pressed.
+     * @throws IOException .
+     */
     @FXML
     public void cancelNameInput() throws IOException {
         switchScreen("startscreen.fxml");
     }
 
 
-    private void switchScreen(String fxml) throws IOException{
+    private void switchScreen(String fxml) throws IOException {
         Stage stage = (Stage) this.getScene().getWindow();
         Parent newRoot = FXMLLoader.load(getClass().getClassLoader().getResource(fxml));
         stage.setScene(new Scene(newRoot));
