@@ -1,8 +1,10 @@
 package model;
 
 import controller.LevelController;
+import controller.LevelControllerMethods;
 import controller.ScreenController;
 
+import javafx.animation.AnimationTimer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,9 +12,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyDouble;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * Tests the bubbles.
@@ -20,13 +27,14 @@ import java.util.ArrayList;
 public class BubbleTest {
     private Bubble bubbleRight;
     private Bubble bubbleLeft;
+    private LevelController levelController;
 
     /**
      * This method is run before all the tests to initialize them.
      */
     @Before
     public void setUp() {
-    	LevelController levelController = mock(LevelController.class);
+    	levelController = mock(LevelController.class);
     	ScreenController screenController = mock(ScreenController.class);
     	Level level = mock(Level.class);
     	when(levelController.getScreenController()).thenReturn(screenController);
@@ -101,5 +109,107 @@ public class BubbleTest {
         bubbleLeft.move();
 
         assertTrue(bubbleLeft.getIsPopped());
+    }
+
+    /**
+     * This tests the timer of the bubble.
+     */
+    @Test
+    public void testTimer() {
+        AnimationTimer timer = bubbleRight.createTimer();
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        bubbleRight.setSpriteBase(spriteBase);
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
+        timer.handle(1);
+
+        verify(spriteBase, atLeastOnce()).move();
+        verify(levelController, atLeastOnce()).update(any(Observable.class), any(Object.class));
+    }
+
+    /**
+     * This tests the checkPop function.
+     */
+    @Test
+    public void testCheckPopCounter() {
+        assertFalse(bubbleRight.getIsPopped());
+        bubbleRight.checkPop();
+        assertFalse(bubbleRight.getIsPopped());
+        bubbleRight.setCounter(350);
+        bubbleRight.checkPop();
+        assertTrue(bubbleRight.getIsPopped());
+    }
+
+    /**
+     * This tests the checkPop function.
+     */
+    @Test
+    public void testCheckPopPrisonBubble() {
+        assertFalse(bubbleRight.getIsPopped());
+        bubbleRight.setCounter(350);
+        bubbleRight.setPrisonBubble(true);
+        bubbleRight.checkPop();
+        assertFalse(bubbleRight.getIsPopped());
+    }
+
+    /**
+     * This tests the move function when there is a collision.
+     */
+    @Test
+    public void testMoveCollisionVertical() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        bubbleRight.setCounter(1000);
+        bubbleRight.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+        when(spriteBase.getY()).thenReturn(10.0);
+
+        bubbleRight.move();
+
+        verify(spriteBase, atLeastOnce()).setDy(0);
+    }
+
+    /**
+     * This tests the move function when there is a collision.
+     */
+    @Test
+    public void testMoveCollisionHorizontalRight() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        bubbleRight.setCounter(0);
+        bubbleRight.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+
+        bubbleRight.move();
+
+        verify(spriteBase, atLeastOnce()).setDx(0);
+    }
+
+    /**
+     * This tests the move function when there is a collision.
+     */
+    @Test
+    public void testMoveCollisionHorizontalLeft() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        bubbleRight.setCounter(0);
+        bubbleRight.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+
+        bubbleRight.move();
+
+        verify(spriteBase, atLeastOnce()).setDx(0);
+    }
+
+    /**
+     * This tests the setPrisonBubble.
+     */
+    @Test
+    public void testSetPrisonBubble() {
+        assertFalse(bubbleRight.getPrisonBubble());
+        bubbleRight.setPrisonBubble(true);
+        assertTrue(bubbleRight.getPrisonBubble());
     }
 }

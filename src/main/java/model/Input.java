@@ -1,7 +1,7 @@
 package model;
 
+import controller.MainController;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import utility.Logger;
@@ -13,7 +13,6 @@ import java.util.BitSet;
 public class Input {
 
     private final int playerNumber;
-    private Scene scene;
 
     // -------------------------------------------------
     // default key codes
@@ -29,6 +28,7 @@ public class Input {
     public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
     public static final KeyCode W_KEY = KeyCode.W;
     public static final KeyCode A_KEY = KeyCode.A;
+    public static final KeyCode S_KEY = KeyCode.S;
     public static final KeyCode D_KEY = KeyCode.D;
     public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
 
@@ -53,14 +53,16 @@ public class Input {
 
     };
 
+    private MainController mainController;
+
     /**
      * The constructor. This only appoints the scene the player moves in.
      *
-     * @param scene The scene the player moves in.
+     * @param mainController The MainController the player moves in.
      * @param playerNumber The number of the player.
      */
-    public Input(Scene scene, int playerNumber) {
-        this.scene = scene;
+    public Input(MainController mainController, int playerNumber) {
+        this.mainController = mainController;
         this.playerNumber = playerNumber;
     }
 
@@ -69,21 +71,10 @@ public class Input {
      */
     public void addListeners() {
 
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
 
     }
-
-    /**
-     * This function removes the listeners for the keys.
-     */
-    public void removeListeners() {
-
-        scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
-
-    }
-
 
     // -------------------------------------------------
     // Evaluate bitset of pressed keys and return the player input.
@@ -100,7 +91,7 @@ public class Input {
         if (playerNumber == 1) {
             return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
         } else {
-            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(S_KEY.ordinal());
         }
     }
 
@@ -110,7 +101,11 @@ public class Input {
      * @return True if the down key is pressed.
      */
     public boolean isMoveDown() {
-        return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(S_KEY.ordinal()) && !keyboardBitSet.get(W_KEY.ordinal());
+        }
     }
 
     /**
@@ -171,5 +166,21 @@ public class Input {
      */
     public void setKeyboardBitSet(BitSet keyboardBitSet) {
         this.keyboardBitSet = keyboardBitSet;
+    }
+
+    /**
+     * This returns the keyPressedEventHandler.
+     * @return The KeyPressedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyPressedEventHandler() {
+        return keyPressedEventHandler;
+    }
+
+    /**
+     * This returns the keyReleasedEventHandler.
+     * @return The KeyReleasedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyReleasedEventHandler() {
+        return keyReleasedEventHandler;
     }
 }

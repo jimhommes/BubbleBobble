@@ -1,7 +1,10 @@
 package model;
 
 import controller.LevelController;
+import controller.LevelControllerMethods;
 import controller.ScreenController;
+import javafx.animation.AnimationTimer;
+import model.powerups.Immortality;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,8 +14,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.anyDouble;
 
 import java.util.ArrayList;
 
@@ -266,10 +274,382 @@ public class PlayerTest {
         Player player1 = new Player(levelController, coordinates, 
         		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
     	player1.setLocation(location);
-    	assertEquals(location[0], player1.getLocation()[0], 0.0001);
-    	assertEquals(location[1], player1.getLocation()[1], 0.0001);
-    	assertEquals(location[2], player1.getLocation()[2], 0.0001);
-    	assertEquals(location[3], player1.getLocation()[3], 0.0001);
+    	assertEquals(location[0], player1.updateLocation()[0], 0.0001);
+    	assertEquals(location[1], player1.updateLocation()[1], 0.0001);
+    	assertEquals(location[2], player1.updateLocation()[2], 0.0001);
+    	assertEquals(location[3], player1.updateLocation()[3], 0.0001);
+    }
+
+    /**
+     * This function tests the timer.
+     */
+    @Test
+    public void testTimer() {
+        AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        double[] array = new double[5];
+        when(spriteBase.getLocation()).thenReturn(array);
+        player.setSpriteBase(spriteBase);
+
+        timer.handle(1);
+
+        assertEquals(0, array[3], 0.1);
+        verify(spriteBase, atLeastOnce()).move();
+    }
+
+    /**
+     * This function tests the timer when player is dead.
+     */
+    @Test
+    public void testTimerDead() {
+        AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        double[] array = new double[5];
+        when(spriteBase.getLocation()).thenReturn(array);
+        player.setSpriteBase(spriteBase);
+        player.die();
+
+        timer.handle(1);
+
+        assertEquals(0, array[3], 0.1);
+        verify(spriteBase, never()).move();
+        verify(spriteBase, atLeastOnce()).setImage(anyString());
+    }
+
+    /**
+     * This tests the function processInput.
+     */
+    @Test
+     public void testProcessInput1() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        double[] array = new double[5];
+        array[3] = -5;
+        when(spriteBase.getLocation()).thenReturn(array);
+        player.setSpriteBase(spriteBase);
+        player.setIsJumping(true);
+
+        player.processInput();
+
+        assertEquals(-5 + 0.6, player.getLocation()[3], 0.1);
+    }
+
+    /**
+     * This tests the second branch of processinput.
+     */
+    @Test
+    public void testProcessInput2() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        double[] array = new double[5];
+        array[3] = 5;
+        when(spriteBase.getLocation()).thenReturn(array);
+        player.setSpriteBase(spriteBase);
+        player.setIsJumping(true);
+
+        player.processInput();
+
+        assertEquals(5 + 0.6, player.getLocation()[3], 0.1);
+        assertFalse(player.getIsJumping());
+    }
+
+    /**
+     * This tests the function add powerup.
+     */
+    @Test
+    public void testAddPowerup() {
+        assertEquals(0, player.getPowerups().size());
+        player.addPowerup(Immortality::new);
+        assertEquals(1, player.getPowerups().size());
+    }
+
+    /**
+     * This tests the function movecollisionchecker.
+     */
+    @Test
+    public void testMoveCollisionChecker() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        player.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(false);
+
+        double[] array = new double[5];
+        array[3] = 5;
+        when(spriteBase.getLocation()).thenReturn(array);
+
+        player.setAbleToJump(true);
+        player.moveCollisionChecker(false, true);
+
+        assertEquals(array[3], player.getLocation()[3], 0.1);
+        assertFalse(player.getAbleToJump());
+    }
+
+    /**
+     * This tests the function movecollision checker when there is a collision.
+     */
+    @Test
+    public void testMoveCollisionCheckerCollision() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        player.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+
+        player.setAbleToJump(false);
+        player.moveCollisionChecker(false, true);
+
+        assertTrue(player.getAbleToJump());
+    }
+
+    /**
+     * This tests the function causesBubbleCollision.
+     */
+    @Test
+    public void testCausesBubbleCollision() {
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        Bubble bubble = mock(Bubble.class);
+        bubbles.add(bubble);
+        when(levelController.getBubbles()).thenReturn(bubbles);
+
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        when(bubble.getSpriteBase()).thenReturn(spriteBase);
+        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble())).thenReturn(true);
+        when(bubble.isAbleToCatch()).thenReturn(false);
+
+        assertTrue(player.causesBubbleCollision());
+    }
+
+    /**
+     * This tests the function causes bubbleCollision without bubbles.
+     */
+    @Test
+    public void testCausesBubbleCollisionNoBubbles() {
+        assertFalse(player.causesBubbleCollision());
+    }
+
+    /**
+     * This tests the function causesBubbleCollision without collision.
+     */
+    @Test
+    public void testCausesBubbleCollisionNoCollision() {
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        Bubble bubble = mock(Bubble.class);
+        bubbles.add(bubble);
+        when(levelController.getBubbles()).thenReturn(bubbles);
+
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        when(bubble.getSpriteBase()).thenReturn(spriteBase);
+        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble())).thenReturn(false);
+        when(bubble.isAbleToCatch()).thenReturn(false);
+
+        assertFalse(player.causesBubbleCollision());
+    }
+
+    /**
+     * This tests the function die.
+     */
+    @Test
+    public void testDieMoreThanOneLife() {
+        player = new Player(levelController, new Coordinates(0, 0, 0, 0, 0, 0),
+                Settings.PLAYER_SPEED, 5, input, 1);
+        player.die();
+        assertTrue(player.getIsDelayed());
+    }
+
+    /**
+     * This tests the function applygravity.
+     */
+    @Test
+    public void testApplyGravity() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        player.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+        player.setIsJumping(false);
+        player.setAbleToDoubleJump(true);
+        player.setAbleToJump(false);
+
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        Bubble bubble = mock(Bubble.class);
+        bubbles.add(bubble);
+        when(levelController.getBubbles()).thenReturn(bubbles);
+
+        when(bubble.getSpriteBase()).thenReturn(spriteBase);
+        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble())).thenReturn(true);
+        when(bubble.isAbleToCatch()).thenReturn(false);
+
+        player.applyGravity();
+
+        assertTrue(player.getAbleToJump());
+        assertFalse(player.getAbleToDoubleJump());
+    }
+
+    /**
+     * This tests the function applygravity second branch.
+     */
+    @Test
+    public void testApplyGravity2() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        player.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
+        player.setIsJumping(false);
+        player.setAbleToDoubleJump(true);
+        player.setAbleToJump(true);
+
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        Bubble bubble = mock(Bubble.class);
+        bubbles.add(bubble);
+        when(levelController.getBubbles()).thenReturn(bubbles);
+
+        when(bubble.getSpriteBase()).thenReturn(spriteBase);
+        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble())).thenReturn(false);
+        when(bubble.isAbleToCatch()).thenReturn(false);
+
+        player.applyGravity();
+
+        assertFalse(player.getAbleToJump());
+        assertTrue(player.getAbleToDoubleJump());
+    }
+
+    /**
+     * This tests the function applygravity with collision.
+     */
+    @Test
+    public void testApplyGravityCollision() {
+        SpriteBase spriteBase = mock(SpriteBase.class);
+        player.setSpriteBase(spriteBase);
+        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(false);
+        player.setIsJumping(false);
+        player.setAbleToDoubleJump(true);
+        player.setAbleToJump(true);
+
+        ArrayList<Bubble> bubbles = new ArrayList<>();
+        Bubble bubble = mock(Bubble.class);
+        bubbles.add(bubble);
+        when(levelController.getBubbles()).thenReturn(bubbles);
+
+        when(bubble.getSpriteBase()).thenReturn(spriteBase);
+        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
+                anyDouble(), anyDouble())).thenReturn(false);
+        when(bubble.isAbleToCatch()).thenReturn(false);
+
+        player.applyGravity();
+
+        assertFalse(player.getAbleToJump());
+        assertTrue(player.getAbleToDoubleJump());
+    }
+
+    /**
+     * This tests the function move vertical.
+     */
+    @Test
+    public void testMoveVertical() {
+        when(input.isMoveUp()).thenReturn(true);
+        player.setAbleToJump(true);
+
+        player.moveVertical();
+
+        assertFalse(player.getAbleToJump());
+        assertTrue(player.getIsJumping());
+        assertEquals(-Settings.JUMP_SPEED, player.getLocation()[3], 0.1);
+    }
+
+    /**
+     * This tests the function checkfireprimary.
+     */
+    @Test
+    public void testCheckFirePrimary() {
+        when(input.isFirePrimaryWeapon()).thenReturn(true);
+        player.setCounter(100);
+
+        player.checkFirePrimary();
+
+        verify(levelController, atLeastOnce()).addBubble(any(Bubble.class));
+        assertEquals(0, player.getCounter());
+    }
+
+    /**
+     * This tests the function addLife.
+     */
+    @Test
+    public void testAddLife() {
+        assertEquals(1, player.getLives());
+        player.addLife();
+        assertEquals(2, player.getLives());
+    }
+
+    /**
+     * This tests the function factorSpeed.
+     */
+    @Test
+    public void testFactorSpeed() {
+        double speed = player.getSpeed();
+        player.factorSpeed(3.0);
+        assertEquals(speed * 3.0, player.getSpeed(), 0.1);
+    }
+
+    /**
+     * This tests the function setSpeed.
+     */
+    @Test
+    public void testSetSpeed() {
+        player.setSpeed(10.0);
+        assertEquals(10.0, player.getSpeed(), 0.1);
+    }
+
+    /**
+     * This tests the function getLevelController.
+     */
+    @Test
+    public void testGetLevelController() {
+        assertEquals(levelController, player.getLevelController());
+    }
+
+    /**
+     * This tests the function setLevelController.
+     */
+    @Test
+    public void testSetLevelController() {
+        LevelController mock = mock(LevelController.class);
+        player.setLevelController(mock);
+        assertEquals(mock, player.getLevelController());
+    }
+
+    /**
+     * This tests the function setBubblepowerup.
+     */
+    @Test
+    public void testSetBubblePowerup() {
+        player.setBubblePowerup(true);
+        assertTrue(player.getBubblePowerup());
+    }
+
+    /**
+     * This tests the function setImageImmortal.
+     */
+    @Test
+    public void setImageImmortal() {
+        player.setFacingRight(true);
+        player.setImmortal(true);
+
+        player.setImage();
+        assertEquals("Bub1RightRed.png", player.getSpriteBase().getImagePath());
+
+        player.setFacingRight(false);
+
+        player.setImage();
+        assertEquals("Bub1LeftRed.png", player.getSpriteBase().getImagePath());
     }
 
 }

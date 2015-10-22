@@ -8,7 +8,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utility.Logger;
-import utility.Settings;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
