@@ -124,8 +124,11 @@ public class Player extends GravityObject {
                                 Player.this::checkCollideMonster
                         );
                     }
-                    if (isDead()) {
-                        spriteBase.setImage("Bub" + playerNumber + "Death.png");
+                    if (isDead() && isFacingRight) {
+                        spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+                    }
+                    else if (isDead() && !isFacingRight) {
+                    	spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
                     }
 
                     setChanged();
@@ -419,7 +422,12 @@ public class Player extends GravityObject {
     public void die() {
         this.loseLife();
         this.scorePoints(Settings.POINTS_PLAYER_DIE);
-        spriteBase.setImage("Bub" + playerNumber + "Death.png");
+        if (isFacingRight) {
+            spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+        }
+        else if (!isFacingRight) {
+        	spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+        }
         location[1] = 0;
         location[3] = 0;
         setLocation(location);
