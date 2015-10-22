@@ -67,7 +67,7 @@ public class Player extends GravityObject {
      */
     public Player(LevelController levelController, Coordinates coordinates, double speed,
                   int lives, Input input, int playerNumber) {
-
+        this.spriteBase = new SpriteBase("Bub" + playerNumber + "Left.png", coordinates);
         this.speed = speed;
         this.input = input;
 
@@ -75,11 +75,10 @@ public class Player extends GravityObject {
         this.lives = lives;
         this.playerNumber = playerNumber;
 
-        this.xStartLocation = 64;
-        this.yStartLocation = 64;
+        this.xStartLocation = Settings.SPRITE_SIZE;
+        this.yStartLocation = Settings.SPRITE_SIZE;
 
         this.powerups = new ArrayList<>();
-        this.spriteBase = new SpriteBase("Bub" + playerNumber + "Left.png", coordinates);
         this.setUp();
     }
 
@@ -92,10 +91,10 @@ public class Player extends GravityObject {
         this.isGameOver = false;
         this.isFacingRight = true;
 
-        playerMinX = Level.SPRITE_SIZE;
-        playerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
-        playerMinY = Level.SPRITE_SIZE;
-        playerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
+        playerMinX = Settings.SPRITE_SIZE / 2;
+        playerMaxX = Settings.SCENE_WIDTH - Settings.SPRITE_SIZE / 2;
+        playerMinY = Settings.SPRITE_SIZE / 2;
+        playerMaxY = Settings.SCENE_HEIGHT - Settings.SPRITE_SIZE / 2;
 
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
