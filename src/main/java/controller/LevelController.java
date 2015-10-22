@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import launcher.Launcher;
 import model.Bubble;
 import model.Coordinates;
 import model.Input;
@@ -53,6 +54,7 @@ public class LevelController implements Observer {
 
 
     private boolean switchedPauseScreen = false;
+    private boolean musicMuted = false;
 
     private int limitOfPlayers;
 
@@ -102,6 +104,8 @@ public class LevelController implements Observer {
                 mainController.addListeners(KeyEvent.KEY_PRESSED, pauseKeyEventHandler);
                 mainController.addListeners(KeyEvent.KEY_RELEASED, pauseKeyEventHandlerRelease);
 
+               addMuteListeners();
+
                 if (players.size() > 0 && players.get(0) != null) {
                     Player player = players.get(0);
                     mainController.showLives(player.getLives(), player.getPlayerNumber());
@@ -114,6 +118,27 @@ public class LevelController implements Observer {
             }
         }
     };
+
+    private void addMuteListeners() {
+        mainController.addListeners(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M) && !musicMuted) {
+                musicMuted = true;
+                if (Settings.getBoolean("PLAY_MUSIC")) {
+                    Launcher.playMusic(false);
+                    Settings.setBoolean("PLAY_MUSIC", false);
+                } else {
+                    Launcher.playMusic(true);
+                    Settings.setBoolean("PLAY_MUSIC", true);
+                }
+            }
+        });
+
+        mainController.addListeners(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
+                musicMuted = false;
+            }
+        });
+    }
 
     /**
      * The constructor of this class.

@@ -42,11 +42,11 @@ public class Launcher extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         initMusicPlayer();
-        playMusic(true);
+        playMusic(Settings.getBoolean("PLAY_MUSIC", true));
     }
 
-    private void initMusicPlayer() {
-        String path = getClass().getClassLoader().getResource("themesong.mp3").toString();
+    private static void initMusicPlayer() {
+        String path = Launcher.class.getClassLoader().getResource("themesong.mp3").toString();
         Media media = new Media(path);
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -56,12 +56,11 @@ public class Launcher extends Application {
      * This method starts an infinite loop to play the official music of the Bubble Bobble Game.
      * @param playSound Boolean for whether the theme song should be played.
      */
-    public void playMusic(boolean playSound) {
+    public static void playMusic(boolean playSound) {
         if (playSound) {
             mediaPlayer.play();
         } else {
             mediaPlayer.stop();
         }
     }
-
 }

@@ -138,6 +138,15 @@ public final class Settings {
     /**
      * Get a boolean property.
      * @param key the key of the property.
+     * @return the value of the property.
+     */
+    public static boolean getBoolean(String key) {
+        return Boolean.parseBoolean(get(key));
+    }
+
+    /**
+     * Get a boolean property.
+     * @param key the key of the property.
      * @param def the default value.
      * @return the default value if the property does not exist, the property value otherwise.
      */
