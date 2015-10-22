@@ -644,12 +644,12 @@ public class PlayerTest {
         player.setImmortal(true);
 
         player.setImage();
-        assertEquals("Bub1RightRed.png", player.getSpriteBase().getImagePath());
+        assertEquals("Bub1RightImmortal.png", player.getSpriteBase().getImagePath());
 
         player.setFacingRight(false);
 
         player.setImage();
-        assertEquals("Bub1LeftRed.png", player.getSpriteBase().getImagePath());
+        assertEquals("Bub1LeftImmortal.png", player.getSpriteBase().getImagePath());
     }
 
 }
