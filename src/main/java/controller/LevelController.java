@@ -54,7 +54,7 @@ public class LevelController implements Observer {
 
 
     private boolean switchedPauseScreen = false;
-    private boolean musicMuted = false;
+    private boolean muteKeyPressed = false;
 
     private int limitOfPlayers;
 
@@ -121,21 +121,16 @@ public class LevelController implements Observer {
 
     private void addMuteListeners() {
         mainController.addListeners(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M) && !musicMuted) {
-                musicMuted = true;
-                if (Settings.getBoolean("PLAY_MUSIC")) {
-                    Launcher.playMusic(false);
-                    Settings.setBoolean("PLAY_MUSIC", false);
-                } else {
-                    Launcher.playMusic(true);
-                    Settings.setBoolean("PLAY_MUSIC", true);
-                }
+            if (!muteKeyPressed && keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
+                muteKeyPressed = true;
+                Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", false));
+                Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
             }
         });
 
         mainController.addListeners(KeyEvent.KEY_RELEASED, keyEvent -> {
             if (keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
-                musicMuted = false;
+                muteKeyPressed = false;
             }
         });
     }

@@ -49,6 +49,7 @@ public class MainController implements Initializable {
         this.screenController = new ScreenController(playFieldLayer);
         new LevelController(this, StartController.getLimitOfPlayers());
     }
+
     /**
      * This function returns the playFieldLayer.
      * @return The playFieldLayer.
