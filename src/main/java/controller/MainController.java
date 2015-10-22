@@ -194,6 +194,6 @@ public class MainController implements Initializable {
      * @return The Input
      */
     public Input createInput(int playerNumber) {
-        return new Input(playFieldLayer.getScene(), playerNumber);
+        return new Input(this, playerNumber);
     }
 }
