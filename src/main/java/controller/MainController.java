@@ -7,7 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,6 +37,10 @@ public class MainController implements Initializable {
     @FXML private Text livesTextPlayer2;
     @FXML private Text scoreTextPlayer1;
     @FXML private Text scoreTextPlayer2;
+    
+    @FXML private Button returnMenu;
+    @FXML private AnchorPane gameRoot;
+    @FXML private GridPane returnMenuGridPane;
 
     private ScreenController screenController;
 
@@ -144,6 +151,21 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
+        returnMenuGridPane.setVisible(true);
+        returnMenu.setVisible(true);
+        
+        returnMenu.setOnAction(event -> {
+            try {
+            	Stage stage = (Stage) gameRoot.getScene().getWindow();
+                Parent newRoot = FXMLLoader.load(getClass()
+                        .getClassLoader()
+                        .getResource("startScreen.fxml"));
+                stage.setScene(new Scene(newRoot));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -153,6 +175,8 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+        returnMenuGridPane.setVisible(true);
+        returnMenu.setVisible(false);
     }
 
     /**
