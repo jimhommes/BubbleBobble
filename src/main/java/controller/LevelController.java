@@ -259,6 +259,9 @@ public class LevelController implements Observer {
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
+            for (Player player : players) {
+                player.addHighscore();
+            }
             winGame();
         }
     }

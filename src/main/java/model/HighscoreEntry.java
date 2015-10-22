@@ -11,7 +11,7 @@ import java.net.URL;
 /**
  * Entry for the highscore.
  */
-public class HighscoreEntry extends GridPane implements Comparable<HighscoreEntry> {
+public class HighscoreEntry extends GridPane {
 
     @FXML private Text entryNumber;
     @FXML private Text entryName;
@@ -62,22 +62,7 @@ public class HighscoreEntry extends GridPane implements Comparable<HighscoreEntr
      * Get the score.
      * @return The score of the highscore entry.
      */
-    public String getScore() {
-        return score;
+    public Integer getScore() {
+        return Integer.parseInt(score);
     }
-
-    /**
-     * Compare to function for use of sort.
-     * @param o HighscoreEntry to be compared to.
-     * @return Output of the string compareTo.
-     */
-    @Override
-    public int compareTo(HighscoreEntry o) {
-        return score.compareTo(o.getScore());
-    }
-
-//    @Override
-//    public boolean equals(String o) {
-//
-//    }
 }

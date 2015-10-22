@@ -59,7 +59,7 @@ public class NameInputController extends GridPane {
 
     /**
      * Function to continue when the enter is pressed.
-     * @param event
+     * @param event KeyEvent that is fired.
      */
     @FXML
     public void handleEnterPressed(KeyEvent event) {
