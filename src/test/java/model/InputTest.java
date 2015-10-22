@@ -2,23 +2,27 @@ package model;
 
 import controller.MainController;
 import javafx.event.EventHandler;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import utility.Settings;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.BitSet;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.validateMockitoUsage;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -34,10 +38,24 @@ public class InputTest {
      */
     @Before
     public void setUp() {
+        Settings.initialize("test.properties");
+
         mainController = mock(MainController.class);
         input = new Input(mainController, 1);
         keyboardBitSet = mock(BitSet.class);
         input.setKeyboardBitSet(keyboardBitSet);
+    }
+
+    /**
+     * Remove the properties file if it exists.
+     */
+    @After
+    public void breakDown() {
+        try {
+            Files.delete(Paths.get("test.properties"));
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**

@@ -4,16 +4,22 @@ import controller.LevelController;
 import controller.LevelControllerMethods;
 import controller.ScreenController;
 import javafx.animation.AnimationTimer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utility.Settings;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * This class tests the Powerup class.
@@ -30,11 +36,25 @@ public class PowerupTest {
      */
     @Before
     public void setUp() {
-    	levelController = mock(LevelController.class);
+        Settings.initialize("test.properties");
+
+        levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
         Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
         powerup = new Powerup(0, coordinates, destx, desty, levelController);
+    }
+
+    /**
+     * Remove the properties file if it exists.
+     */
+    @After
+    public void breakDown() {
+        try {
+            Files.delete(Paths.get("test.properties"));
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**
