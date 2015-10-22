@@ -48,7 +48,7 @@ public class LevelController implements Observer {
     private AnimationTimer gameLoop;
     private MainController mainController;
 
-    
+
     private LevelControllerMethods levelControllerMethods;
 
 

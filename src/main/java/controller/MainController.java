@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Input;
+import model.NameInput;
+import utility.Settings;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +36,7 @@ public class MainController implements Initializable {
     @FXML private Text livesTextPlayer2;
     @FXML private Text scoreTextPlayer1;
     @FXML private Text scoreTextPlayer2;
+    @FXML private Pane playerNamePane;
 
     private ScreenController screenController;
 
@@ -82,12 +85,12 @@ public class MainController implements Initializable {
             if (StartController.getLimitOfPlayers() == 1) {
                 livesTextPlayer1.setText(String.format("%d", lives));
             } else {
-                livesTextPlayer1.setText(String.format("P1: %d", lives));
+                livesTextPlayer1.setText(Settings.names[0] + String.format(": %d", lives));
             }
 
         } else if (playerNumber == 2) {
             livesTextPlayer2.setVisible(true);
-            livesTextPlayer2.setText(String.format("P2: %d", lives));
+            livesTextPlayer2.setText(Settings.names[1] + String.format(": %d", lives));
         }
     }
 
@@ -108,6 +111,8 @@ public class MainController implements Initializable {
             scoreTextPlayer2.setText(String.format("%d", score));
         }
     }
+
+
 
     /**
      * This function shows the win screen.
@@ -172,4 +177,5 @@ public class MainController implements Initializable {
     public Input createInput(int playerNumber) {
         return new Input(playFieldLayer.getScene(), playerNumber);
     }
+
 }

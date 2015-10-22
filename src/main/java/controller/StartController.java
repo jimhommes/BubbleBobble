@@ -1,9 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -11,9 +9,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.HighscoreEntry;
+import model.NameInput;
+import utility.Settings;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -37,20 +37,12 @@ public class StartController implements Initializable {
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         singlePlayerButton.setOnAction(event -> {
-             try {
                  limitOfPlayers = 1;
-                 startLevel();
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
+                 inputNamePlayer(1);
          });
         multiPlayerButton.setOnAction(event -> {
             limitOfPlayers = 2;
-            try {
-                startLevel();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                inputNamePlayer(1);
         });
         initHighscoreScreen();
         helpButton.setOnMousePressed((event ->
@@ -64,18 +56,27 @@ public class StartController implements Initializable {
     }
 
     private void initHighscoreScreen() {
-        highscores.getChildren().add(
-                new HighscoreEntry("1", "testplayer", "20"));
+        ArrayList<HighscoreEntry> tempHighscores = Settings.HIGHSCORES;
+        int scoreIndex = 1;
+        for (int i = 0; i < tempHighscores.size(); i++) {
+            HighscoreEntry tempEntry = tempHighscores.get(i);
+            tempEntry.setEntryNumber(scoreIndex);
+            highscores.getChildren().add(tempEntry);
+            scoreIndex++;
+        }
+
+        while(scoreIndex <= 10) {
+            HighscoreEntry emptyEntry = new HighscoreEntry("<empty>", "0");
+            emptyEntry.setEntryNumber(scoreIndex);
+            highscores.getChildren().add(emptyEntry);
+            scoreIndex++;
+        }
     }
 
-    /**
-     * The function bound to the start button.
-     * @throws IOException The exception thrown.
-     */
-    private void startLevel() throws IOException {
+    public void inputNamePlayer(int player) {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getClassLoader().getResource("level.fxml"));
-        stage.setScene(new Scene(newRoot));
+        NameInput nameInput = new NameInput(player);
+        stage.setScene(new Scene(nameInput));
         stage.show();
     }
 
@@ -86,4 +87,5 @@ public class StartController implements Initializable {
     public static int getLimitOfPlayers() {
         return StartController.limitOfPlayers;
     }
+
 }

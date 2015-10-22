@@ -8,6 +8,7 @@ import utility.Logger;
 import utility.Settings;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -329,11 +330,22 @@ public class Player extends GravityObject {
             setChanged();
             notifyObservers();
             destroy();
+            addHighscore();
         } else {
             isDelayed = true;
             delayRespawn();
         }
         
+    }
+
+    private void addHighscore() {
+        ArrayList<HighscoreEntry> highscores = Settings.HIGHSCORES;
+        highscores.add(new HighscoreEntry(Settings.names[playerNumber - 1],
+                Integer.toString(this.getScore())));
+        Collections.sort(highscores);
+        while (highscores.size() > 10) {
+            highscores.remove(10);
+        }
     }
 
     private void delayRespawn() {
