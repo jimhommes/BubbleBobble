@@ -6,14 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.Bubble;
-import model.Coordinates;
-import model.Input;
-import model.Level;
-import model.Player;
-import model.Monster;
-import model.Powerup;
-import model.Wall;
+import model.*;
 import utility.Logger;
 import utility.Settings;
 import java.util.ArrayList;
@@ -30,7 +23,6 @@ public class LevelController implements Observer {
     private ArrayList<Player> players = new ArrayList<>();
     private ArrayList<String> maps = new ArrayList<>();
     private ArrayList<Powerup> powerups = new ArrayList<>();
-
     private ArrayList<Bubble>  bubbles = new ArrayList<>();
 
     /**
@@ -42,11 +34,10 @@ public class LevelController implements Observer {
 
     private boolean gameStarted = false;
 
-    private boolean gamePaused = false;
-
     private ScreenController screenController;
     private AnimationTimer gameLoop;
     private MainController mainController;
+    private LevelFactory levelFactory;
 
     
     private LevelControllerMethods levelControllerMethods;
@@ -125,6 +116,7 @@ public class LevelController implements Observer {
         this.screenController = mainController.getScreenController();
         this.levelControllerMethods = new LevelControllerMethods(this);
         this.limitOfPlayers = limitOfPlayers;
+        this.levelFactory = new LevelFactory(this);
         maps = levelControllerMethods.findMaps();
 
         gameLoop = createTimer();
@@ -188,7 +180,7 @@ public class LevelController implements Observer {
      * This function creates the current level of currLvl.
      */
     public final void createLvl() {
-        currLvl = new Level(maps.get(indexCurrLvl), this, limitOfPlayers);
+        currLvl = levelFactory.makeLevel(maps.get(indexCurrLvl), limitOfPlayers);
 
         createPlayers();
 
@@ -198,7 +190,7 @@ public class LevelController implements Observer {
                 screenController.addToSprites(monster.getSpriteBase()));
     }
 
-    private Input createInput(int playerNumber) {
+    public Input createInput(int playerNumber) {
         Input input = mainController.createInput(playerNumber);
         input.addListeners();
         return input;
@@ -245,7 +237,6 @@ public class LevelController implements Observer {
                 newPlayer.setLives(Settings.PLAYER_LIVES);
             }
 
-            newPlayer.setInput(createInput(newPlayer.getPlayerNumber()));
             players.add(newPlayer);
         }
     }

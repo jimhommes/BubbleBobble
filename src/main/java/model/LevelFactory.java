@@ -19,7 +19,6 @@ public class LevelFactory {
 
     private static final int NUM_ROWS = 26;
     private static final int NUM_COLS = 26;
-    public static final double SPRITE_SIZE = 32.0;
 
     /**
      * The map in a 2 dim array.
@@ -33,7 +32,7 @@ public class LevelFactory {
     }
 
     public Level makeLevel(String levelTitle, int limitOfPlayers) {
-        Level level = new Level(levelController);
+        Level level = new Level();
         readMap(levelTitle);
         drawMap(level, limitOfPlayers);
         return level;
@@ -45,11 +44,11 @@ public class LevelFactory {
     public final void drawMap(Level level, int limitOfPlayers) {
         for (int row = 0; row < NUM_ROWS; row++) {
             for (int col = 0; col < NUM_COLS; col++) {
-                Coordinates coordinatesWalker = new Coordinates(col * SPRITE_SIZE - 32,
-                        row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                Coordinates coordinatesWalker = new Coordinates(col * Settings.SPRITE_SIZE - 32,
+                        row * Settings.SPRITE_SIZE - 32, 0, 0, 0, 0);
                 if (map[row][col] == 1) {
                     Coordinates coordinatesWall =
-                            new Coordinates(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0);
+                            new Coordinates(col * Settings.SPRITE_SIZE / 2, row * Settings.SPRITE_SIZE / 2, 0, 0, 0, 0);
                     level.addWall(new Wall(coordinatesWall));
                 } else if (map[row][col] == 2) {
                     level.addMonster(new Walker(coordinatesWalker,
@@ -61,10 +60,12 @@ public class LevelFactory {
                     Logger.log(String.format("Player found in %d, %d%n", row, col));
                     int playerCounter = level.getPlayers().size();
                     if (playerCounter < limitOfPlayers) {
-                        Coordinates coordinatesPlayer = new Coordinates(col * SPRITE_SIZE - 32,
-                                row * SPRITE_SIZE - 32, 0, 0, 0, 0);
+                        Coordinates coordinatesPlayer = new Coordinates(col * Settings.SPRITE_SIZE / 2
+                                - Settings.SPRITE_SIZE / 2,
+                                row * Settings.SPRITE_SIZE / 2 - Settings.SPRITE_SIZE / 2, 0, 0, 0, 0);
                         level.addPlayer(new Player(levelController, coordinatesPlayer,
-                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, playerCounter));
+                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES,
+                                levelController.createInput(playerCounter + 1), playerCounter + 1));
                     }
                 }
             }

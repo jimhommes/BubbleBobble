@@ -28,7 +28,8 @@ public class LevelTest {
     	LevelController levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        level = new Level("map1.txt", levelController, 1);
+        LevelFactory levelFactory = new LevelFactory(levelController);
+        level = levelFactory.makeLevel("map1.txt", 1);
     }
 
     /**
@@ -36,7 +37,6 @@ public class LevelTest {
      */
     @Test
     public void testDrawMap() {
-        level.drawMap();
         assertEquals(8, level.getMonsters().size());
         assertEquals(380, level.getWalls().size());
         assertEquals(1, level.getPlayers().size());

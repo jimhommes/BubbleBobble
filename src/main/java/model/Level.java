@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 public class Level {
 
-    private final LevelController levelController;
 
     /**
      * The list of walls that define the map.
@@ -36,13 +35,11 @@ public class Level {
 
     /**
      * When a level is created in the levelController, it is immediately drawn.
-     * @param levelController the controller that controls the level.
      */
-    public Level(final LevelController levelController) {
+    public Level() {
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.players = new ArrayList<>();
-        this.levelController = levelController;
     }
 
     /**
