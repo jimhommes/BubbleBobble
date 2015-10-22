@@ -161,8 +161,6 @@ public class Player extends GravityObject {
         checkBounds();
         setLocation(location);
         checkPowerups();
-        
-        
     }
 
     /**

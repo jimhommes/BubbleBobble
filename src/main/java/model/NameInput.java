@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.tools.javadoc.Start;
 import controller.StartController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +14,6 @@ import utility.Settings;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.StringCharacterIterator;
-import java.util.Set;
 
 /**
  * Input for player name.
@@ -56,10 +53,6 @@ public class NameInput extends GridPane {
         nameInputField.setPromptText(this.playerName);
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
     @FXML
     public void enterNameInput() {
         String input = nameInputField.getText();
@@ -74,7 +67,7 @@ public class NameInput extends GridPane {
         } else {
 
             try {
-                startLevel();
+                switchScreen("level.fxml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,17 +82,14 @@ public class NameInput extends GridPane {
     }
 
     @FXML
-    public void cancelNameInput() {
-
+    public void cancelNameInput() throws IOException {
+        switchScreen("startscreen.fxml");
     }
 
-    /**
-     * The function bound to the start button.
-     * @throws IOException The exception thrown.
-     */
-    public void startLevel() throws IOException {
+
+    private void switchScreen(String fxml) throws IOException{
         Stage stage = (Stage) this.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getClassLoader().getResource("level.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass().getClassLoader().getResource(fxml));
         stage.setScene(new Scene(newRoot));
         stage.show();
     }
