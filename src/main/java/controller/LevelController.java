@@ -6,7 +6,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.*;
+import model.Bubble;
+import model.Coordinates;
+import model.Input;
+import model.Level;
+import model.LevelFactory;
+import model.Monster;
+import model.Player;
+import model.Powerup;
+import model.Wall;
 import utility.Logger;
 import utility.Settings;
 import java.util.ArrayList;
@@ -190,6 +198,11 @@ public class LevelController implements Observer {
                 screenController.addToSprites(monster.getSpriteBase()));
     }
 
+    /**
+     * This function creates an Input for a playernumber.
+     * @param playerNumber The number of the player.
+     * @return The input for the player.
+     */
     public Input createInput(int playerNumber) {
         Input input = mainController.createInput(playerNumber);
         input.addListeners();

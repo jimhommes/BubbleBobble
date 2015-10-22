@@ -48,7 +48,8 @@ public class PlayerTest {
         screenController = mock(ScreenController.class);
         Level level = mock(Level.class);
         when(levelController.getScreenController()).thenReturn(screenController);
-        Coordinates coordinates = new Coordinates(Settings.SPRITE_SIZE, Settings.SPRITE_SIZE, 0, 0, 0, 0);
+        Coordinates coordinates = new Coordinates(
+                Settings.SPRITE_SIZE, Settings.SPRITE_SIZE, 0, 0, 0, 0);
         player = new Player(levelController, coordinates, Settings.PLAYER_SPEED, 1, input, 1);
     	walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
@@ -261,7 +262,7 @@ public class PlayerTest {
         		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
         player1.processInput();
         SpriteBase sprite = player1.getSpriteBase();
-        assertEquals(Settings.SPRITE_SIZE, sprite.getY(), 0.0001);
+        assertEquals(Settings.SPRITE_SIZE / 2, sprite.getY(), 0.0001);
     }
     
     /**

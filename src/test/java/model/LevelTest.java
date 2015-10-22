@@ -31,16 +31,6 @@ public class LevelTest {
         LevelFactory levelFactory = new LevelFactory(levelController);
         level = levelFactory.makeLevel("map1.txt", 1);
     }
-
-    /**
-     * This tests that the map is actually drawn.
-     */
-    @Test
-    public void testDrawMap() {
-        assertEquals(8, level.getMonsters().size());
-        assertEquals(380, level.getWalls().size());
-        assertEquals(1, level.getPlayers().size());
-    }
     
     /**
      * This tests the update method when all the monsters are still alive.

@@ -74,10 +74,11 @@ public class WalkerTest {
 //		wall.add(new Wall(32, 32, 32, 1, 1, 1));
 //		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
-		assertEquals(Settings.SPRITE_SIZE + Settings.MONSTER_SPEED , walker.getSpriteBase().getX(), 0);
+		assertEquals(Settings.SPRITE_SIZE / 2 + Settings.MONSTER_SPEED,
+				walker.getSpriteBase().getX(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(Settings.SPRITE_SIZE, walker.getSpriteBase().getX(), 0);
+		assertEquals(Settings.SPRITE_SIZE / 2, walker.getSpriteBase().getX(), 0);
 	}
 	
 	/**
@@ -124,7 +125,7 @@ public class WalkerTest {
 		Walker walker1 = 
 				new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
-    	assertEquals(Settings.SPRITE_SIZE, walker1.getSpriteBase().getY(), 0.0001);
+    	assertEquals(Settings.SPRITE_SIZE / 2, walker1.getSpriteBase().getY(), 0.0001);
 	}
 	
 	/**
