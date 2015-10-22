@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Text?>
 
 <fx:root fx:id="entry" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="650.0" type="GridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
    <columnConstraints>

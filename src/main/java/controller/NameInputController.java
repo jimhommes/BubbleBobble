@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -55,6 +57,13 @@ public class NameInputController extends GridPane {
         nameInputField.setPromptText(this.playerName);
     }
 
+    @FXML
+    public void handleEnterPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            enterNameInput();
+        }
+    }
+
     /**
      * Function for what happens when the enter button is pressed.
      */
@@ -94,7 +103,6 @@ public class NameInputController extends GridPane {
     public void cancelNameInput() throws IOException {
         switchScreen("startscreen.fxml");
     }
-
 
     private void switchScreen(String fxml) throws IOException {
         Stage stage = (Stage) this.getScene().getWindow();

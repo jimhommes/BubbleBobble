@@ -86,6 +86,13 @@
     -fx-fill: white;
 }
 
+/* NameInput */
+.nameInputPrompt {
+    -fx-underline: true;
+    -fx-font-size: 40px;
+    -fx-fill: white;
+}
+
 /* Level */
 #gridPane{
     -fx-background-color: black;
