@@ -335,18 +335,6 @@ public class LevelController implements Observer {
     }
 
     /**
-<<<<<<< HEAD
-=======
-     * This is the boolean to check if the game is paused or not.
-     *
-     * @return True if the gamePaused is true.
-     */
-    private boolean isGamePaused() {
-        return this.gamePaused;
-    }
-
-    /**
->>>>>>> development
      * The function that gets the players.
      * @return The players.
      */

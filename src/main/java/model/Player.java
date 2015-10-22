@@ -108,7 +108,11 @@ public class Player extends GravityObject {
         location = spriteBase.getLocation();
     }
 
-    private AnimationTimer createTimer() {
+    /**
+     * This function returns the timer of the player.
+     * @return Timer of the player.
+     */
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -136,7 +140,7 @@ public class Player extends GravityObject {
      * The function that processes the input.
      */
     public void processInput() {
-    	getLocation();
+    	updateLocation();
         if (!isDead() && !isDelayed) {
             if (isJumping && location[3] <= 0) {
                 location[3] = location[3] + 0.6;
@@ -161,6 +165,103 @@ public class Player extends GravityObject {
         checkBounds();
         setLocation(location);
         checkPowerups();
+    }
+
+    /**
+     * This function is only for testing purposes.
+     */
+    public void forceUpdate() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * This function sets the spritebase.
+     * @param spriteBase The spritebase.
+     */
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+    }
+
+    /**
+     * This function returns the location.
+     * @return The location.
+     */
+    public double[] getLocation() {
+        return location;
+    }
+
+    /**
+     * This function sets if the player is jumping.
+     * @param isJumping True if jumping.
+     */
+    public void setIsJumping(boolean isJumping) {
+        this.isJumping = isJumping;
+    }
+
+    /**
+     * This function returns whether the player is jumping.
+     * @return True if jumping.
+     */
+    public boolean getIsJumping() {
+        return isJumping;
+    }
+
+    /**
+     * This function returns the powerups.
+     * @return The powerups.
+     */
+    public List<PlayerEnhancement> getPowerups() {
+        return powerups;
+    }
+
+    /**
+     * This function returns the abletojump.
+     * @return True if able to jump.
+     */
+    public boolean getAbleToJump() {
+        return isAbleToJump;
+    }
+
+    /**
+     * This function returns true if the player has a delayed respawn.
+     * @return True if delayed respawn.
+     */
+    public boolean getIsDelayed() {
+        return isDelayed;
+    }
+
+    /**
+     * This function returns true if the player is able to double jump.
+     * @return True if able to double jump.
+     */
+    public boolean getAbleToDoubleJump() {
+        return isAbleToDoubleJump;
+    }
+
+    /**
+     * This function sets the counter.
+     * This should be used for testing purposes only.
+     * @param counter The counter.
+     */
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    /**
+     * This function returns the counter.
+     * @return The counter.
+     */
+    public int getCounter() {
+        return counter;
+    }
+
+    /**
+     * This function returns if it has the bubble powerup.
+     * @return True if bubblepowerup.
+     */
+    public boolean getBubblePowerup() {
+        return bubblePowerup;
     }
 
     /**
@@ -233,7 +334,7 @@ public class Player extends GravityObject {
     /**
      * This function applies gravity.
      */
-    private void applyGravity() {
+    public void applyGravity() {
         double x = location[0];
         double y = location[2];
         if (!wallCollision(x, x + width,
@@ -267,7 +368,7 @@ public class Player extends GravityObject {
      * @return True if collision.
      */
     @SuppressWarnings("unchecked")
-    private boolean causesBubbleCollision() {
+    public boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
         double x = location[0];
         double x1 = x + width;
@@ -372,7 +473,7 @@ public class Player extends GravityObject {
     /**
      * This function checks how to move vertically.
      */
-    private void moveVertical() {
+    public void moveVertical() {
         if (input.isMoveUp() && isAbleToJump) {
             jump();
         }
@@ -461,7 +562,7 @@ public class Player extends GravityObject {
     /**
      * This function checks if it should fire a bubble.
      */
-    private void checkFirePrimary() {
+    public void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
         			new Coordinates(location[0], location[2], 0, 0, 0, 0);
@@ -699,7 +800,7 @@ public class Player extends GravityObject {
      * This method gets the location from the SpriteBase.
      * @return location
      */
-    public double[] getLocation() {
+    public double[] updateLocation() {
         location = spriteBase.getLocation();
         return spriteBase.getLocation();
     }
@@ -757,7 +858,7 @@ public class Player extends GravityObject {
     /**
      * This method sets the image.
      */
-    private void setImage() {
+    public void setImage() {
       if (isFacingRight) {
         if (isImmortal) {
             spriteBase.setImage("Bub" + playerNumber + "RightRed.png");

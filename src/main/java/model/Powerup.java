@@ -15,11 +15,11 @@ import java.util.Observable;
 public class Powerup extends Observable {
 
     private static final int AMOUNT_OF_POWERUPS = 5;
-    private static final int POWERUP_SPEED = 1;
-    private static final int POWERUP_LIFE = 2;
-    private static final int POWERUP_BUBBLE = 3;
-    private static final int POWERUP_MONSTER = 4;
-    private static final int POWERUP_POINTS = 5;
+    public static final int POWERUP_SPEED = 1;
+    public static final int POWERUP_LIFE = 2;
+    public static final int POWERUP_BUBBLE = 3;
+    public static final int POWERUP_MONSTER = 4;
+    public static final int POWERUP_POINTS = 5;
     private static final int POWERUP_THRESHOLD = 10;
     private final LevelController levelController;
     private double destx;
@@ -67,7 +67,11 @@ public class Powerup extends Observable {
 
     }
 
-    private AnimationTimer createTimer() {
+    /**
+     * This function returns the timer for the powerup.
+     * @return The timer.
+     */
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -83,7 +87,11 @@ public class Powerup extends Observable {
         };
     }
 
-    private void setCorrectImage(int kindRounded) {
+    /**
+     * This function sets the correct image of the powerup.
+     * @param kindRounded The image to be set.
+     */
+    public void setCorrectImage(int kindRounded) {
         switch (kindRounded) {
             case POWERUP_SPEED:
                 spriteBase.setImage("banana.gif");
@@ -141,8 +149,9 @@ public class Powerup extends Observable {
     /**
      * The function that is called when there is a collision with a player.
      * The powerup should disappear.
+     * @param player The player that picks up the powerup.
      */
-    private void pickedUp(Player player) {
+    public void pickedUp(Player player) {
         if (!pickedUp) {
             setPickedUp(true);
 
@@ -231,4 +240,11 @@ public class Powerup extends Observable {
         timer.stop();
     }
 
+    /**
+     * This function sets the spritebase.
+     * @param spriteBase The spritebase.
+     */
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+    }
 }
