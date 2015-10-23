@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class SettingsTest {
 
     private static final String FILENAME = "test.properties";
+    private static final String FILENAME_SCORES = "testHighscores.properties";
 
     /**
      * Initiliaze the properties.
@@ -29,6 +30,7 @@ public class SettingsTest {
     @Before
     public void setUp() {
         Settings.initialize(FILENAME);
+        Settings.initializeHighscores(FILENAME_SCORES);
     }
 
     /**
@@ -37,7 +39,8 @@ public class SettingsTest {
     @After
     public void breakDown() {
         try {
-            Files.delete(Paths.get("test.properties"));
+            Files.delete(Paths.get(FILENAME));
+            Files.delete(Paths.get(FILENAME_SCORES));
         } catch (IOException e) {
             return;
         }
@@ -74,6 +77,36 @@ public class SettingsTest {
     }
 
     /**
+     * Test initialization without existing file.
+     */
+    @Test
+    public void testInitialize3() {
+        try {
+            Files.delete(Paths.get(FILENAME_SCORES));
+        } catch (IOException e) {
+            System.err.println("The highscores file did not exist.");
+        } finally {
+            boolean success = Settings.initializeHighscores(FILENAME_SCORES);
+            assertFalse(success);
+        }
+    }
+
+    /**
+     * Test initialization without existing file.
+     */
+    @Test
+    public void testInitialize4() {
+        try {
+            Files.createFile(Paths.get(FILENAME_SCORES));
+        } catch (IOException e) {
+            System.err.println("The highscores file did not exist.");
+        } finally {
+            boolean success = Settings.initializeHighscores(FILENAME_SCORES);
+            assertTrue(success);
+        }
+    }
+
+    /**
      * Test the listing of keys.
      */
     @Test
@@ -91,6 +124,21 @@ public class SettingsTest {
         keys.add("KEY_THREE");
 
         assertEquals(keys, Settings.keys());
+    }
+
+    /**
+     * Test the listing of keys.
+     */
+    @Test
+    public void testHighscoreKeys() {
+        Set<String> keys = new HashSet<>();
+
+        Settings.setHighscore("TEST_SCORE_KEY", "10");
+        Settings.setHighscore("TEST_SCORE_KEY_2", "20");
+        keys.add("TEST_SCORE_KEY");
+        keys.add("TEST_SCORE_KEY_2");
+
+        assertEquals(keys, Settings.highscoreKeys());
     }
 
     /**
@@ -156,6 +204,26 @@ public class SettingsTest {
     public void testSetBoolean() {
         Settings.setBoolean("TEST_BOOLEAN", false);
         assertFalse(Settings.getBoolean("TEST_BOOLEAN", true));
+    }
+
+    /**
+     * Test getting the highscore.
+     */
+    @Test
+    public void testGetHighscore() {
+        Settings.setHighscore("TEST_PLAYER", "100");
+        String string = Settings.getHighscore("TEST_PLAYER");
+        assertEquals("100", string);
+    }
+
+    /**
+     * Test getting highscore value.
+     */
+    @Test
+    public void testGetHighscoreValue() {
+        Settings.setHighscoreProperty("PLAYER_TEST", "50");
+        String string = Settings.getHighscoreValue("PLAYER_TEST");
+        assertEquals("50", string);
     }
 
     /**

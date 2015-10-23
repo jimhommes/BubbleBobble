@@ -49,7 +49,7 @@ public final class Settings {
     public static String[] names = new String[2];
 
     private static String propertyFileName;
-    private static final String HIGHSCORE_FILE_NAME = "highscores.properties";
+    private static String scoresFileName;
     private static Properties properties;
     private static Properties highscores;
 
@@ -72,21 +72,27 @@ public final class Settings {
 
         try (InputStream is = new FileInputStream(propertyFileName)) {
             properties.load(is);
+            return true;
         } catch (IOException | NullPointerException e) {
             Logger.log(Logger.ERR,
                     String.format("Properties cannot be loaded from %s", propertyFileName));
             return false;
         }
 
+    }
+
+    public static boolean initializeHighscores(String fileName) {
         highscores = new Properties();
-        try (InputStream is = new FileInputStream(HIGHSCORE_FILE_NAME)) {
-            highscores.load(is);
+        scoresFileName = fileName;
+
+        try (InputStream is2 = new FileInputStream(scoresFileName)) {
+            highscores.load(is2);
+            return true;
         } catch (IOException | NullPointerException e) {
             Logger.log(Logger.ERR,
-                    String.format("Highscores cannot be loaded from %s", HIGHSCORE_FILE_NAME));
+                    String.format("Highscores cannot be loaded from %s", scoresFileName));
+            return false;
         }
-
-        return true;
     }
 
     /**
@@ -158,7 +164,7 @@ public final class Settings {
     public static void setHighscoreProperty(String key, String value) {
         highscores.setProperty(key, value);
 
-        try (FileOutputStream fos = new FileOutputStream(HIGHSCORE_FILE_NAME)) {
+        try (FileOutputStream fos = new FileOutputStream(scoresFileName)) {
             SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",
                     Locale.getDefault());
             String comment = String.format("Highscore saved on %s", timestamp.format(new Date()));

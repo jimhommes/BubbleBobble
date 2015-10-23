@@ -10,10 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import utility.Settings;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -47,7 +49,8 @@ public class PlayerTest {
     @Before
     public void setUp() throws Exception {
         Settings.initialize("test.properties");
-
+        Settings.initializeHighscores("testHighscores.properties");
+        Settings.names[0] = "TEST_P1";
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
@@ -66,8 +69,10 @@ public class PlayerTest {
      */
     @After
     public void breakDown() {
+        Settings.names[0] = null;
         try {
             Files.delete(Paths.get("test.properties"));
+            Files.delete(Paths.get("testHighscores.properties"));
         } catch (IOException e) {
             return;
         }
