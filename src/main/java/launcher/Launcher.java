@@ -28,6 +28,7 @@ public class Launcher extends Application {
      */
     public static void main(final String[] args) throws FileNotFoundException {
         Settings.initialize("game.properties");
+        Settings.initializeHighscores("highscores.properties");
         Logger.setLogFile(Settings.get("LOGFILE", "gamelog.txt"));
         Logger.setTimestamp(Settings.get("TIMESTAMP", "yyyy-MM-dd hh:mm:ss: "));
 

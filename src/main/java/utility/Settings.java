@@ -1,5 +1,8 @@
 package utility;
 
+import controller.HighscoreEntryController;
+
+import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
 
 import java.io.FileInputStream;
@@ -43,6 +46,25 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
+    /**
+     * Get the name of the player.
+     * @param index Which player.
+     * @return The name.
+     */
+    public static String getName(int index) {
+        return names[index];
+    }
+
+    /**
+     * Set the name of the player.
+     * @param name The name to be set.
+     * @param index The index of the current player.
+     */
+    public static void setName(String name, int index) {
+        names[index] = name;
+    }
+
+    private static String[] names = new String[2];
     public static final String MUSIC_THEME_SONG = "music/themesong.mp3";
     public static final String MUSIC_BOSS_SONG = "music/boss.mp3";
     public static final String MUSIC_GAMEWON_SONG = "music/gamewon.mp3";
@@ -50,7 +72,9 @@ public final class Settings {
     public static final String MUSIC_MENU_SONG = "music/menu.mp3";
 
     private static String propertyFileName;
+    private static String scoresFileName;
     private static Properties properties;
+    private static Properties highscores;
 
     /**
      * The private constructor that does nothing.
@@ -77,6 +101,69 @@ public final class Settings {
                     String.format("Properties cannot be loaded from %s", propertyFileName));
             return false;
         }
+
+    }
+
+    /**
+     * Initialize the highscores.
+     * @param fileName the highscore file name.
+     * @return true is file existed, false if not.
+     */
+    public static boolean initializeHighscores(String fileName) {
+        highscores = new Properties();
+        scoresFileName = fileName;
+
+        try (InputStream is2 = new FileInputStream(scoresFileName)) {
+            highscores.load(is2);
+            return true;
+        } catch (IOException | NullPointerException e) {
+            Logger.log(Logger.ERR,
+                    String.format("Highscores cannot be loaded from %s", scoresFileName));
+            return false;
+        }
+    }
+
+    /**
+     * Set a highscore.
+     * @param name the name of the player of the highscore.
+     * @param score the score of the highscore.
+     */
+    public static void setHighscore(String name, String score) {
+        setHighscoreProperty(name, score);
+    }
+
+    /**
+     * Get a specific score.
+     * @param name the name of the player of the highscore.
+     * @return the score of the highscore.
+     */
+    public static String getHighscore(String name) {
+        return getHighscoreValue(name);
+    }
+
+    /**
+     * Get the ArrayList of the highscores entries.
+     * @return the ArrayList of entries.
+     */
+    public static ArrayList<HighscoreEntryController> getHighscores() {
+        ArrayList<HighscoreEntryController> tempHighscores =
+                new ArrayList<HighscoreEntryController>();
+        Set<String> keys = highscoreKeys();
+        keys.forEach(key ->
+                tempHighscores.add(
+                        new HighscoreEntryController(key, Settings.getHighscore(key))));
+        return tempHighscores;
+    }
+
+    /**
+     * Set the highscores property with the highscores.
+     * @param scoresList The ArrayList with the highscore entries.
+     */
+    public static void setHighscores(ArrayList<HighscoreEntryController> scoresList) {
+        highscores.clear();
+        for (HighscoreEntryController entry : scoresList) {
+            setHighscore(entry.getName(), entry.getScoreString());
+        }
     }
 
     /**
@@ -98,12 +185,39 @@ public final class Settings {
     }
 
     /**
+     * Set a property.
+     * @param key the key of the property.
+     * @param value the value of the property.
+     */
+    public static void setHighscoreProperty(String key, String value) {
+        highscores.setProperty(key, value);
+
+        try (FileOutputStream fos = new FileOutputStream(scoresFileName)) {
+            SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",
+                    Locale.getDefault());
+            String comment = String.format("Highscore saved on %s", timestamp.format(new Date()));
+            highscores.store(fos, comment);
+        } catch (IOException | NullPointerException e) {
+            Logger.log(Logger.ERR, "Highscore cannot be stored");
+        }
+    }
+
+    /**
      * Get a specific value.
      * @param key the key of the property.
      * @return the value of the property.
      */
     public static String get(String key) {
         return properties.getProperty(key);
+    }
+
+    /**
+     * Get a specific value of a highscore.
+     * @param key the key of the property.
+     * @return the value of the property.
+     */
+    public static String getHighscoreValue(String key) {
+        return highscores.getProperty(key);
     }
 
     /**
@@ -182,10 +296,18 @@ public final class Settings {
 
     /**
      * Get the Set of property keys.
-     * @return the Set of keys/
+     * @return the Set of keys.
      */
     public static Set<String> keys() {
         return properties.stringPropertyNames();
+    }
+
+    /**
+     * Get the Set of property keys for the highscore.
+     * @return the Set of keys.
+     */
+    public static Set<String> highscoreKeys() {
+        return highscores.stringPropertyNames();
     }
 
     /**

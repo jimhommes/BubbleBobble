@@ -47,7 +47,6 @@ public class LevelController implements Observer {
     private AnimationTimer gameLoop;
     private MainController mainController;
     private LevelFactory levelFactory;
-    
     private LevelControllerMethods levelControllerMethods;
 
     private boolean switchedPauseScreen = false;
@@ -294,6 +293,9 @@ public class LevelController implements Observer {
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
+            for (Player player : players) {
+                player.addHighscore();
+            }
             winGame();
         }
     }
