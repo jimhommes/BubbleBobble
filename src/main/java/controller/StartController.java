@@ -31,6 +31,7 @@ public class StartController implements Initializable {
     @FXML private Button helpButton;
     @FXML private Button preferencesButton;
     @FXML private CheckBox muteCheckBox;
+    @FXML private CheckBox powerupsCheckBox;
 
     private static int limitOfPlayers;
 
@@ -65,6 +66,8 @@ public class StartController implements Initializable {
             Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
             Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
         });
+        powerupsCheckBox.setSelected(Settings.getBoolean("USE_POWERUPS", true));
+        powerupsCheckBox.setOnMousePressed(event -> Settings.setBoolean("USE_POWERUPS", !Settings.getBoolean("USE_POWERUPS", false)));
         exitButton.setOnAction((event ->
                 System.exit(0)));
     }
