@@ -41,9 +41,7 @@ public class Bubble extends Observable {
         this.isPrisonBubble = false;
         this.levelController = levelController;
         this.isPopped = false;
-
-        this.spriteBase = new SpriteBase("bubble.png", coordinates);
-
+        
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
 
@@ -52,7 +50,11 @@ public class Bubble extends Observable {
         timer.start();
     }
 
-    private AnimationTimer createTimer() {
+    /**
+     * The timer of the Bubble.
+     * @return The timer.
+     */
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -70,7 +72,7 @@ public class Bubble extends Observable {
     /**
      * This method is used to check if a bubble is .
      */
-    private void checkPop() {
+    public void checkPop() {
         if (!isPopped) {
             setIsPopped(counter > Settings.BUBBLE_LIVE_TIME && !isPrisonBubble);
         }
@@ -216,5 +218,37 @@ public class Bubble extends Observable {
     public void destroy() {
         this.deleteObservers();
         timer.stop();
+    }
+
+    /**
+     * This function is only for testing purposes.
+     */
+    public void forceUpdate() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * This is for testing purposes only.
+     * @param spriteBase The spritebase to be set.
+     */
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
+    }
+
+    /**
+     * This is for testing purposes only.
+     * @param counter The counter to be set.
+     */
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    /**
+     * This function returns if the bubble is a prison bubble.
+     * @return True if prison bubble.
+     */
+    public boolean getPrisonBubble() {
+        return isPrisonBubble;
     }
 }

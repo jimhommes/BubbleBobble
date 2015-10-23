@@ -7,12 +7,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Input;
+import utility.Settings;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,11 +33,16 @@ public class MainController implements Initializable {
     @FXML private VBox pauseVBox;
     @FXML private Pane playFieldLayer;
     @FXML private Text livesText;
+    @FXML private Text livesTextEnemy;
     @FXML private Text scoreText;
     @FXML private Text livesTextPlayer1;
     @FXML private Text livesTextPlayer2;
     @FXML private Text scoreTextPlayer1;
     @FXML private Text scoreTextPlayer2;
+    
+    @FXML private Button returnMenu;
+    @FXML private AnchorPane gameRoot;
+    @FXML private GridPane returnMenuGridPane;
 
     private ScreenController screenController;
 
@@ -82,13 +91,22 @@ public class MainController implements Initializable {
             if (StartController.getLimitOfPlayers() == 1) {
                 livesTextPlayer1.setText(String.format("%d", lives));
             } else {
-                livesTextPlayer1.setText(String.format("P1: %d", lives));
-            }
+                livesTextPlayer1.setText(Settings.getName(0) + String.format(": %d", lives));
 
+            }
         } else if (playerNumber == 2) {
             livesTextPlayer2.setVisible(true);
-            livesTextPlayer2.setText(String.format("P2: %d", lives));
+            livesTextPlayer2.setText(Settings.getName(1) + String.format(": %d", lives));
         }
+    }
+    
+    /**
+     * Show lives of the enemy in the bottom left.
+     * @param lives number of lives.
+     */
+    public void showEnemyLives(int lives) {
+      livesTextEnemy.setVisible(true);
+      livesTextEnemy.setText(String.format("Enemy: %d", lives));
     }
 
     /**
@@ -108,6 +126,8 @@ public class MainController implements Initializable {
             scoreTextPlayer2.setText(String.format("%d", score));
         }
     }
+
+
 
     /**
      * This function shows the win screen.
@@ -144,6 +164,21 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(true);
         pauseMessageSub.setVisible(true);
+        returnMenuGridPane.setVisible(true);
+        returnMenu.setVisible(true);
+        
+        returnMenu.setOnAction(event -> {
+            try {
+            	Stage stage = (Stage) gameRoot.getScene().getWindow();
+                Parent newRoot = FXMLLoader.load(getClass()
+                        .getClassLoader()
+                        .getResource("startScreen.fxml"));
+                stage.setScene(new Scene(newRoot));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -153,6 +188,8 @@ public class MainController implements Initializable {
         pauseVBox.setVisible(true);
         pauseMessage.setVisible(false);
         pauseMessageSub.setVisible(false);
+        returnMenuGridPane.setVisible(true);
+        returnMenu.setVisible(false);
     }
 
     /**
@@ -170,6 +207,6 @@ public class MainController implements Initializable {
      * @return The Input
      */
     public Input createInput(int playerNumber) {
-        return new Input(playFieldLayer.getScene(), playerNumber);
+        return new Input(this, playerNumber);
     }
 }

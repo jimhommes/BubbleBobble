@@ -20,6 +20,37 @@
     -fx-border-width: 0 3 0 3;
 }
 
+.returnMenuButton {
+    -fx-text-fill: purple;
+    -fx-font-size: 35px;
+    -fx-background-color: transparent;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.returnMenuButton:hover {
+    -fx-border-color: white;
+    -fx-border-width: 0 3 0 3;
+}
+
+#preferencesScreen {
+    -fx-background-color: #222222;
+    -fx-opacity: 0.99;
+    -fx-min-width: 800;
+    -fx-min-height: 600;
+    -fx-max-width: 1200;
+    -fx-max-height: 700;
+    -fx-padding: 50;
+    -fx-border-color: white;
+    -fx-border-width: 15px;
+}
+
+#preferenceTitleText {
+    -fx-underline: true;
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
 #helpScreen {
     -fx-background-color: #222222;
     -fx-opacity: 0.99;
@@ -50,6 +81,46 @@
 
 .helpTextClick {
     -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
+#highscoreScreen {
+    -fx-background-color: #222222;
+    -fx-opacity: 0.99;
+    -fx-min-width: 800;
+    -fx-min-height: 600;
+    -fx-max-width: 1200;
+    -fx-max-height: 700;
+    -fx-padding: 50;
+    -fx-border-color: white;
+    -fx-border-width: 15px;
+}
+
+.highscoreTitleText {
+	-fx-underline: true;
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
+.highscoreTextDescription {
+    -fx-font-size: 20px;
+    -fx-fill: white;
+}
+
+.highscoreText {
+    -fx-font-size: 20px;
+    -fx-fill: #0099FF;
+}
+
+.highscoreTextClick {
+    -fx-font-size: 30px;
+    -fx-fill: white;
+}
+
+/* NameInput */
+.nameInputPrompt {
+    -fx-underline: true;
+    -fx-font-size: 40px;
     -fx-fill: white;
 }
 

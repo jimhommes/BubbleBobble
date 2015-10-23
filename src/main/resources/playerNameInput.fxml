@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="413.0" stylesheets="@stylesheet.css" type="GridPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="250.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Text fx:id="nameInputPrompt" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nameInputPrompt" text="Enter name player #:" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+      <TextField fx:id="nameInputField" maxHeight="50.0" maxWidth="500.0" onKeyPressed="#handleEnterPressed" promptText="Player #" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+         <GridPane.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </GridPane.margin>
+      </TextField>
+      <Button fx:id="enterButton" mnemonicParsing="false" onAction="#enterNameInput" text="Enter" GridPane.rowIndex="2" />
+      <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelNameInput" text="Cancel" GridPane.rowIndex="3" />
+   </children>
+</fx:root>
