@@ -53,23 +53,34 @@ public class StartController implements Initializable {
                 e.printStackTrace();
             }
         });
-        helpButton.setOnMousePressed((event ->
-                helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
-        preferencesButton.setOnMousePressed(event -> preferencesScreen
-                .visibleProperty().setValue(!preferencesScreen.isVisible()));
-        root.setOnMousePressed(event -> {
-            helpScreen.visibleProperty().setValue(false);
-            preferencesScreen.visibleProperty().setValue(false);
-        });
         muteCheckBox.setSelected(Settings.getBoolean("PLAY_MUSIC", true));
+        powerupsCheckBox.setSelected(Settings.getBoolean("USE_POWERUPS", true));
+
+        setEvents();
+
+    }
+
+    /**
+     * Set mouse events for the startscreen.
+     */
+    private void setEvents() {
+        powerupsCheckBox.setOnMousePressed(event -> {
+            Settings.setBoolean("USE_POWERUPS", !Settings.getBoolean("USE_POWERUPS", false));
+        });
+        exitButton.setOnAction((event ->
+                System.exit(0)));
         muteCheckBox.setOnMousePressed(event -> {
             Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
             Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
         });
-        powerupsCheckBox.setSelected(Settings.getBoolean("USE_POWERUPS", true));
-        powerupsCheckBox.setOnMousePressed(event -> Settings.setBoolean("USE_POWERUPS", !Settings.getBoolean("USE_POWERUPS", false)));
-        exitButton.setOnAction((event ->
-                System.exit(0)));
+        root.setOnMousePressed(event -> {
+            helpScreen.visibleProperty().setValue(false);
+            preferencesScreen.visibleProperty().setValue(false);
+        });
+        helpButton.setOnMousePressed((event ->
+                helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
+        preferencesButton.setOnMousePressed(event -> preferencesScreen
+                .visibleProperty().setValue(!preferencesScreen.isVisible()));
     }
 
     /**
