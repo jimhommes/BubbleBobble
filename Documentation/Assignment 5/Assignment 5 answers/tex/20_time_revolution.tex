@@ -33,5 +33,13 @@ The BubbleEmey's are shot by the FinalEnemy, these bubbles have the ability to m
 \textit{Collaborations:} \\
 BubbleEnemy collaborates with Observable to be able to send updates to Observer classes. It also collaborates with  the SpriteBase, to get the x and y, with the FinalEnemy to be shot by, and with the Player to kill.
 
+\subsubsection{Highscore}
+\textit{Responsibility:} \\
+The StartController asks the name(s) of the player(s) via the NameInputController. The highscores are build up of HighscoreEntryControllers, which gets and sets the scores in Settings. \\ \\
+\textit{Collaborations:} \\
+StartController collaborates with NameInput and HighscoreEntryController to manage custom player names for the highscores. HighscoreEntryController collaborates with Settings to save and retrieve the highscores so they are saved even after the game is stopped.
+
 \subsection{UML}
 \includegraphics[width=150mm]{FinalEnemyUml.png}
+
+\includegraphics[width=150mm]{HighscoreUML.png}
