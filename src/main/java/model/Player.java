@@ -194,7 +194,8 @@ public class Player extends GravityObject {
      * @return The location.
      */
     public double[] getLocation() {
-        return location;
+    	double[] newLocation = location;
+    	return newLocation;
     }
 
     /**
