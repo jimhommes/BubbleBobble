@@ -56,27 +56,35 @@ public class LevelFactory {
                         col * Settings.SPRITE_SIZE / 2 - Settings.SPRITE_SIZE / 2,
                         row * Settings.SPRITE_SIZE / 2 - Settings.SPRITE_SIZE / 2,
                         0, 0, 0, 0);
-                if (map[row][col] == 1) {
-                    Coordinates coordinatesWall =
-                            new Coordinates(col * Settings.SPRITE_SIZE / 2,
-                                    row * Settings.SPRITE_SIZE / 2, 0, 0, 0, 0);
-                    level.addWall(new Wall(coordinatesWall));
-                } else if (map[row][col] == 2) {
-                    level.addMonster(new Walker(coordinatesMoveable,
-                            Settings.MONSTER_SPEED, true, levelController));
-                } else if (map[row][col] == 3) {
-                    level.addMonster(new Walker(coordinatesMoveable,
-                            Settings.MONSTER_SPEED, false, levelController));
-                } else if (map[row][col] == 9) {
-                    Logger.log(String.format("Player found in %d, %d%n", row, col));
-                    int playerCounter = level.getPlayers().size();
-                    if (playerCounter < limitOfPlayers) {
-                        level.addPlayer(new Player(levelController, coordinatesMoveable,
-                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES,
-                                levelController.createInput(playerCounter + 1), playerCounter + 1));
-                    }
-                }
+                theIfofDrawMap(row, col, coordinatesMoveable, level, limitOfPlayers);
             }
+        }
+    }
+    
+    private void theIfofDrawMap(int row, int col, 
+    		Coordinates coordinatesMoveable, Level level, int limitOfPlayers) {
+    	 if (map[row][col] == 1) {
+             Coordinates coordinatesWall =
+                     new Coordinates(col * Settings.SPRITE_SIZE / 2,
+                             row * Settings.SPRITE_SIZE / 2, 0, 0, 0, 0);
+             level.addWall(new Wall(coordinatesWall));
+         } else if (map[row][col] == 2) {
+             level.addMonster(new Walker(coordinatesMoveable,
+                     Settings.MONSTER_SPEED, true, levelController));
+         } else if (map[row][col] == 3) {
+             level.addMonster(new Walker(coordinatesMoveable,
+                     Settings.MONSTER_SPEED, false, levelController));
+         } else if (map[row][col] == 9) {
+             Logger.log(String.format("Player found in %d, %d%n", row, col));
+             int playerCounter = level.getPlayers().size();
+             if (playerCounter < limitOfPlayers) {
+                 level.addPlayer(new Player(levelController, coordinatesMoveable,
+                         Settings.PLAYER_SPEED, Settings.PLAYER_LIVES,
+                         levelController.createInput(playerCounter + 1), playerCounter + 1));
+             }
+         } else if (map[row][col] == 4) {
+             level.addMonster(new FinalEnemy(coordinatesMoveable, 
+                 Settings.MONSTER_SPEED, false, levelController, true, 5));
         }
     }
 

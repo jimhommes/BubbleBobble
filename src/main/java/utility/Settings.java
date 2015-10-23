@@ -21,7 +21,7 @@ public final class Settings {
     public static final double SCENE_HEIGHT = 832;
     public static final double SPRITE_SIZE = 64;
 
-    public static final int AMOUNT_MAPS = 5;
+    public static final int AMOUNT_MAPS = 6;
     public static final float GRAVITY_CONSTANT = 5.f;
 
     public static final double BUBBLE_INIT_SPEED = 7;
