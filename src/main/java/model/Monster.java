@@ -40,8 +40,6 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.spriteBase = new SpriteBase("ZenChanLeft.png", coordinates);
-
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
         this.timer = createTimer();
@@ -261,6 +259,19 @@ public class Monster extends GravityObject {
     public void destroy() {
         this.deleteObservers();
         timer.stop();
+    }
+    
+    /**
+     * Switching the direction that the monster is facing.
+     * @param monster in the monster that is changing direction.
+     */
+    public void switchDirection(String monster) {
+      isFacingRight = !isFacingRight;
+        if (isFacingRight) {
+            spriteBase.setImage(monster + "Right.png");
+        } else {
+            spriteBase.setImage(monster + "Left.png");
+        }
     }
 
     /**
