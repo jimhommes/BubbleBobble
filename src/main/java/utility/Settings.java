@@ -43,6 +43,12 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
+    public static final String MUSIC_THEME_SONG = "music/themesong.mp3";
+    public static final String MUSIC_BOSS_SONG = "music/boss.mp3";
+    public static final String MUSIC_GAMEWON_SONG = "music/gamewon.mp3";
+    public static final String MUSIC_GAMEOVER_SONG = "music/gameover.mp3";
+    public static final String MUSIC_MENU_SONG = "music/menu.mp3";
+
     private static String propertyFileName;
     private static Properties properties;
 
