@@ -109,8 +109,6 @@ public class BubbleEnemy extends Bubble {
         return true;
       }
     } else if (!right) {
-      System.out.println(getSpriteBase().getX());
-      System.out.println(playerMaxX);
       if (getSpriteBase().getX() <= playerMaxX 
           && getSpriteBase().getX() + Settings.SPRITE_SIZE >= playerMinX 
           && playerMinY <= getSpriteBase().getY() + Settings.SPRITE_SIZE 
