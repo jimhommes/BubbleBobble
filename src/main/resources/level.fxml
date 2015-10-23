@@ -67,6 +67,12 @@
                         <Insets left="32.0" />
                     </GridPane.margin>
                 </Text>
+                <Text fx:id="livesTextEnemy" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Enemy: #"
+                      visible="false" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <GridPane.margin>
+                        <Insets left="32.0"/>
+                    </GridPane.margin>
+                </Text>
 
                 <Text fx:id="scoreText" fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="0">
                     <GridPane.margin>

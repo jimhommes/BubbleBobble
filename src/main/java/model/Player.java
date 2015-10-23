@@ -580,7 +580,7 @@ public class Player extends GravityObject {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
         			new Coordinates(location[0], location[2], 0, 0, 0, 0);
-            Bubble bubble = new Bubble(bubbleCoordinates,
+            BubblePlayer bubble = new BubblePlayer(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);
 
@@ -900,5 +900,13 @@ public class Player extends GravityObject {
     private boolean wallCollision(double minX, double maxX, double minY, 
         double maxY, LevelController levelController) {
       return spriteBase.causesCollisionWall(minX, maxX, minY, maxY, levelController);
+    }
+    
+    /**
+     * This functions tells if the player is delayed.
+     * @return delayed.
+     */
+    public boolean isDelayed() {
+      return isDelayed;
     }
 }

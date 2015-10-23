@@ -33,6 +33,7 @@ public class MainController implements Initializable {
     @FXML private VBox pauseVBox;
     @FXML private Pane playFieldLayer;
     @FXML private Text livesText;
+    @FXML private Text livesTextEnemy;
     @FXML private Text scoreText;
     @FXML private Text livesTextPlayer1;
     @FXML private Text livesTextPlayer2;
@@ -93,11 +94,19 @@ public class MainController implements Initializable {
                 livesTextPlayer1.setText(Settings.getName(0) + String.format(": %d", lives));
 
             }
-
         } else if (playerNumber == 2) {
             livesTextPlayer2.setVisible(true);
             livesTextPlayer2.setText(Settings.getName(1) + String.format(": %d", lives));
         }
+    }
+    
+    /**
+     * Show lives of the enemy in the bottom left.
+     * @param lives number of lives.
+     */
+    public void showEnemyLives(int lives) {
+      livesTextEnemy.setVisible(true);
+      livesTextEnemy.setText(String.format("Enemy: %d", lives));
     }
 
     /**
@@ -200,5 +209,4 @@ public class MainController implements Initializable {
     public Input createInput(int playerNumber) {
         return new Input(this, playerNumber);
     }
-
 }
