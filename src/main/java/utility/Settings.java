@@ -62,7 +62,7 @@ public final class Settings {
     }
 
     /**
-     * Initialize the properties and highscores.
+     * Initialize the properties.
      * @param fileName the property file name.
      * @return true is file existed, false if not.
      */
@@ -81,6 +81,11 @@ public final class Settings {
 
     }
 
+    /**
+     * Initialize the highscores.
+     * @param fileName the highscore file name.
+     * @return true is file existed, false if not.
+     */
     public static boolean initializeHighscores(String fileName) {
         highscores = new Properties();
         scoresFileName = fileName;
