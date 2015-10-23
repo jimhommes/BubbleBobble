@@ -41,8 +41,8 @@ public class BubbleTest {
 
     	Coordinates coordinatesBubble = new Coordinates(1, 1, 0, 0, 0, 0);
     	
-        bubbleRight = new Bubble(coordinatesBubble, true, false, levelController);
-        bubbleLeft = new Bubble(coordinatesBubble, false, false, levelController);
+        bubbleRight = new BubblePlayer(coordinatesBubble, true, false, levelController);
+        bubbleLeft = new BubblePlayer(coordinatesBubble, false, false, levelController);
         ArrayList<Wall> walls = new ArrayList<>();
     	when(levelController.getCurrLvl()).thenReturn(level);
     	when(level.getWalls()).thenReturn(walls);
@@ -109,6 +109,24 @@ public class BubbleTest {
         bubbleLeft.move();
 
         assertTrue(bubbleLeft.getIsPopped());
+    }
+    
+    /**
+     * This test test the get and set SpriteBase.
+     */
+    @Test
+    public void testGetSpriteBase() {
+      LevelController levelController = mock(LevelController.class);
+      Coordinates coordinatesBubble = new Coordinates(1, 1, 0, 0, 0, 0);
+      ScreenController screenController = mock(ScreenController.class);
+      when(levelController.getScreenController()).thenReturn(screenController);
+
+      BubblePlayer bubblePlayer = new BubblePlayer(coordinatesBubble, 
+                                            true, false, levelController);
+      
+      SpriteBase spriteBase = new SpriteBase("bubble.png", new Coordinates(1, 1, 0, 0, 0, 0));
+      bubblePlayer.setSpriteBase(spriteBase);
+      assertEquals(spriteBase, bubblePlayer.getSpriteBase());
     }
 
     /**

@@ -48,6 +48,7 @@ public final class Settings {
     public static final String MUSIC_GAMEWON_SONG = "music/gamewon.mp3";
     public static final String MUSIC_GAMEOVER_SONG = "music/gameover.mp3";
     public static final String MUSIC_MENU_SONG = "music/menu.mp3";
+    public static final double SPRITE_FINAL_ENEMY_SIZE = 256;
 
     private static String propertyFileName;
     private static Properties properties;

@@ -41,9 +41,7 @@ public class Bubble extends Observable {
         this.isPrisonBubble = false;
         this.levelController = levelController;
         this.isPopped = false;
-
-        this.spriteBase = new SpriteBase("bubble.png", coordinates);
-
+        
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
 
