@@ -22,7 +22,6 @@ public class BubbleEnemy extends Bubble {
    * @param firedRight If the bubble was fired to the right.
    * @param powerup if the bubble is shot during bubble powerup.
    * @param levelController that controller of the level where the bubble is in.
-   * @param right
    */
   public BubbleEnemy(Coordinates coordinates, boolean firedRight, boolean powerup,
       LevelController levelController) {

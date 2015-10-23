@@ -13,8 +13,6 @@ import utility.Settings;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-
 /**
  * This class tests what happens to the BubbleEnemy.
  * @author jeffr_000
