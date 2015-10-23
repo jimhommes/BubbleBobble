@@ -124,11 +124,13 @@ public class Player extends GravityObject {
                                 Player.this::checkCollideMonster
                         );
                     }
-                    if (isDead() && isFacingRight) {
-                        spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
-                    }
-                    else if (isDead() && !isFacingRight) {
-                    	spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+                    if (isDead()) {
+                    	if (isFacingRight) {
+                    		 spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+                    	}
+                    	else {
+                    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+                    	}		
                     }
 
                     setChanged();
@@ -425,7 +427,7 @@ public class Player extends GravityObject {
         if (isFacingRight) {
             spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
         }
-        else if (!isFacingRight) {
+        if (!isFacingRight) {
         	spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
         }
         location[1] = 0;

@@ -146,7 +146,8 @@ public class PlayerTest {
                 sprite.getY() + sprite.getHeight())).thenReturn(true);
         player.checkCollideMonster(monster);
         assertTrue(player.isDead());
-    }
+    } 
+    
 
     /**
      * Tests what happens when the player dies.
@@ -163,6 +164,7 @@ public class PlayerTest {
         assertEquals(x, sprite.getX(), 0.001);
         assertEquals(0, sprite.getDx(), 0.001);
     }
+    
 
     /**
      * Tests that that player moved to the right.
@@ -324,6 +326,7 @@ public class PlayerTest {
         verify(spriteBase, atLeastOnce()).setImage(anyString());
     }
 
+    
     /**
      * This tests the function processInput.
      */
@@ -650,6 +653,26 @@ public class PlayerTest {
 
         player.setImage();
         assertEquals("Bub1LeftImmortal.png", player.getSpriteBase().getImagePath());
+    }
+    
+    /**
+     * This tests that the right death image is set when the player is facing right and they die.
+     */
+    @Test
+    public void testDieImageRight() {
+    	player.setFacingRight(true);
+    	player.die();
+    	assertEquals("Bub1RightDeath.png", player.getSpriteBase().getImagePath());
+    }
+    
+    /**
+     * This tests that the left death image is set when the player is facing left and they die.
+     */
+    @Test
+    public void testDieImageLeft() {
+    	player.setFacingRight(false);
+    	player.die();
+    	assertEquals("Bub1LeftDeath.png", player.getSpriteBase().getImagePath());
     }
 
 }
