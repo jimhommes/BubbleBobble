@@ -118,8 +118,8 @@ public class LevelController implements Observer {
 
     private void addMuteListeners() {
         mainController.addListeners(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (!muteKeyPressed && keyEvent.getCode()
-                    == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
+            if (!muteKeyPressed
+            		&& keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
                 muteKeyPressed = true;
                 Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", false));
                 Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));

@@ -9,11 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by Jim on 10/22/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 10/22/2015
+ * This class is for the level factory.
  */
 public class LevelFactory {
 

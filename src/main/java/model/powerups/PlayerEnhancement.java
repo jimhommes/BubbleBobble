@@ -4,11 +4,6 @@ import model.Player;
 
 /**
  * This class creates the different types of power ups that are used in the game.
- * Created by Jim on 10/7/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 10/7/2015
  */
 public abstract class PlayerEnhancement {
 

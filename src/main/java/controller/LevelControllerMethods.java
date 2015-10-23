@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
- * Methods for LevelController.
+ * This is the class for the methods for LevelController.
  */
 public class LevelControllerMethods {
 
