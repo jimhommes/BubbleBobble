@@ -46,13 +46,10 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
-    //TODO Add to properties
-    public static ArrayList<HighscoreEntryController> highscoresList = new ArrayList<HighscoreEntryController>();
-    //TODO Add to properties? Needs to be somewhere accessible and needs to be changeable.
     public static String[] names = new String[2];
 
     private static String propertyFileName;
-    private static final String highscoreFileName = "highscores.properties";
+    private static final String HIGHSCORE_FILE_NAME = "highscores.properties";
     private static Properties properties;
     private static Properties highscores;
 
@@ -82,11 +79,11 @@ public final class Settings {
         }
 
         highscores = new Properties();
-        try (InputStream is = new FileInputStream(highscoreFileName)) {
+        try (InputStream is = new FileInputStream(HIGHSCORE_FILE_NAME)) {
             highscores.load(is);
         } catch (IOException | NullPointerException e) {
             Logger.log(Logger.ERR,
-                    String.format("Highscores cannot be loaded from %s", highscoreFileName));
+                    String.format("Highscores cannot be loaded from %s", HIGHSCORE_FILE_NAME));
             return false;
         }
 
@@ -116,10 +113,12 @@ public final class Settings {
      * @return the ArrayList of entries.
      */
     public static ArrayList<HighscoreEntryController> getHighscores() {
-        ArrayList<HighscoreEntryController> tempHighscores = new ArrayList<HighscoreEntryController>();
+        ArrayList<HighscoreEntryController> tempHighscores =
+                new ArrayList<HighscoreEntryController>();
         Set<String> keys = highscoreKeys();
         keys.forEach(key ->
-                tempHighscores.add(new HighscoreEntryController(key, Settings.getHighscore(key))));
+                tempHighscores.add(
+                        new HighscoreEntryController(key, Settings.getHighscore(key))));
         return tempHighscores;
     }
 
@@ -160,7 +159,7 @@ public final class Settings {
     public static void setHighscoreProperty(String key, String value) {
         highscores.setProperty(key, value);
 
-        try (FileOutputStream fos = new FileOutputStream(highscoreFileName)) {
+        try (FileOutputStream fos = new FileOutputStream(HIGHSCORE_FILE_NAME)) {
             SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",
                     Locale.getDefault());
             String comment = String.format("Highscore saved on %s", timestamp.format(new Date()));

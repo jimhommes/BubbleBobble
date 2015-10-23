@@ -10,7 +10,6 @@ import utility.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
@@ -444,7 +443,8 @@ public class Player extends GravityObject {
         ArrayList<HighscoreEntryController> highscores = Settings.getHighscores();
         highscores.add(new HighscoreEntryController(Settings.names[playerNumber - 1],
                 Integer.toString(this.getScore())));
-        highscores.sort((HighscoreEntryController o1, HighscoreEntryController o2)->o2.getScore() - o1.getScore());
+        highscores.sort((HighscoreEntryController o1,
+                         HighscoreEntryController o2)->o2.getScore() - o1.getScore());
         while (highscores.size() > 10) {
             highscores.remove(10);
         }

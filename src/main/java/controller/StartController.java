@@ -13,7 +13,6 @@ import utility.Settings;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * This is the Start Screen Controller, it handles all GUI interactions.
@@ -56,7 +55,8 @@ public class StartController implements Initializable {
 
     private void initHighscoreScreen() {
         ArrayList<HighscoreEntryController> tempHighscores = Settings.getHighscores();
-        tempHighscores.sort((HighscoreEntryController o1, HighscoreEntryController o2)->o2.getScore() - o1.getScore());
+        tempHighscores.sort((HighscoreEntryController o1,
+                             HighscoreEntryController o2)->o2.getScore() - o1.getScore());
         int scoreIndex = 1;
         for (int i = 0; i < tempHighscores.size(); i++) {
             HighscoreEntryController tempEntry = tempHighscores.get(i);
