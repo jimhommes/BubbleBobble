@@ -3,11 +3,7 @@ package model.powerups;
 import model.Player;
 
 /**
- * Created by toinehartman on 15/10/15.
- *
- * @author toinehartman
- * @version 1.0
- * @since 15/10/15
+ * This class creates the monster slow down power up.
  */
 public class SlowMonster extends PlayerEnhancement {
 

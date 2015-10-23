@@ -33,15 +33,17 @@ public class Walker extends Monster {
                   LevelController levelController) {
         super(coordinates, speed, facingRight, levelController);
 
+        setSpriteBase(new SpriteBase("ZenChanLeft.png", coordinates));
+        
         this.levelController = levelController;
         this.jumpCounter = 20;
         this.ableToJump = false;
         this.jumping = false;
 
-        walkerMinX = Level.SPRITE_SIZE;
-        walkerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
-        walkerMinY = Level.SPRITE_SIZE;
-        walkerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
+        walkerMinX = Settings.SPRITE_SIZE / 2;
+        walkerMaxX = Settings.SCENE_WIDTH - Settings.SPRITE_SIZE / 2;
+        walkerMinY = Settings.SPRITE_SIZE / 2;
+        walkerMaxY = Settings.SCENE_HEIGHT - Settings.SPRITE_SIZE / 2;
     }
 
     /**
@@ -102,7 +104,7 @@ public class Walker extends Monster {
                     y + getSpriteBase().getHeight(), levelController)) {
                 getSpriteBase().setDx(getSpeed());
             } else {
-                switchDirection();
+                switchDirection("ZenChan");
             }
         } else {
             if (!getSpriteBase().causesCollisionWall(x - getSpeed(),
@@ -110,22 +112,9 @@ public class Walker extends Monster {
                     y + getSpriteBase().getHeight(), levelController)) {
                 getSpriteBase().setDx(-getSpeed());
             } else {
-                switchDirection();
+                switchDirection("ZenChan");
             }
         }
-    }
-
-    /**
-     * Switching the direction that the monster is facing.
-     */
-    public void switchDirection() {
-        setFacingRight(!isFacingRight());
-        if (isFacingRight()) {
-            getSpriteBase().setImage("ZenChanRight.png");
-        } else {
-            getSpriteBase().setImage("ZenChanLeft.png");
-        }
-
     }
 
     /**

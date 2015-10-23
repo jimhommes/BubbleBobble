@@ -1,12 +1,5 @@
 package model;
 
-import controller.LevelController;
-import utility.Logger;
-import utility.Settings;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -15,22 +8,6 @@ import java.util.ArrayList;
  */
 public class Level {
 
-    private static final int NUM_ROWS = 26;
-    private static final int NUM_COLS = 26;
-    public static final double SPRITE_SIZE = 32.0;
-
-    private final LevelController levelController;
-    private final int limitOfPlayers;
-
-    /**
-     * The map in a 2 dim array.
-     */
-    private Integer[][] map;
-
-    /**
-     * The title of the file that is loaded.
-     */
-    private String lvlTitle;
 
     /**
      * The list of walls that define the map.
@@ -46,91 +23,16 @@ public class Level {
      * The list of the monsters that spawn.
      */
     private ArrayList<Player> players;
-    
-    private int counter;
 
-    private int playerCounter;
+    private int counter;
 
     /**
      * When a level is created in the levelController, it is immediately drawn.
-     * @param lvlTitle The title of the file.
-     * @param levelController the controller that controls the level.
-     * @param limitOfPlayers The limit of players allowed by the game.
      */
-    public Level(final String lvlTitle, 
-    		final LevelController levelController,
-                 final int limitOfPlayers) {
-        this.lvlTitle = lvlTitle;
+    public Level() {
         this.walls = new ArrayList<>();
         this.monsters = new ArrayList<>();
         this.players = new ArrayList<>();
-        this.levelController = levelController;
-        this.limitOfPlayers = limitOfPlayers;
-        this.playerCounter = 1;
-        drawMap();
-    }
-
-    /**
-     * The function that draws the map.
-     */
-    public final void drawMap() {
-        readMap();
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
-            	Coordinates coordinatesWalker = new Coordinates(col * SPRITE_SIZE - 32,
-                        row * SPRITE_SIZE - 32, 0, 0, 0, 0);
-                if (map[row][col] == 1) {
-                	Coordinates coordinatesWall = 
-                			new Coordinates(col * SPRITE_SIZE, row * SPRITE_SIZE, 0, 0, 0, 0);
-                    walls.add(new Wall(coordinatesWall));
-                } else if (map[row][col] == 2) {
-                    monsters.add(new Walker(coordinatesWalker,
-                            Settings.MONSTER_SPEED, true, levelController));
-                } else if (map[row][col] == 3) {
-                    monsters.add(new Walker(coordinatesWalker,
-                            Settings.MONSTER_SPEED, false, levelController));
-                } else if (map[row][col] == 9) {
-                    Logger.log(String.format("Player found in %d, %d%n", row, col));
-                    if (players.size() < limitOfPlayers) {
-                    	 Coordinates coordinatesPlayer = new Coordinates(col * SPRITE_SIZE - 32,
-                                 row * SPRITE_SIZE - 32, 0, 0, 0, 0);
-                        players.add(new Player(levelController, coordinatesPlayer,
-                                Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, null, playerCounter));
-                        playerCounter++;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * This function reads the file and translates it to a 2dim array.
-     */
-    private void readMap() {
-        int row = 0;
-        map = new Integer[NUM_ROWS][NUM_COLS];
-        BufferedReader reader = null;
-
-        try (InputStreamReader isr = new InputStreamReader(getClass()
-                .getClassLoader()
-                .getResourceAsStream(lvlTitle), "UTF-8")) {
-            reader = new BufferedReader(isr);
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] cols = line.split(" ");
-                if (cols.length == NUM_COLS) {
-                    for (int column = 0; column < cols.length; column++) {
-                        map[row][column] = Integer.parseInt(cols[column]);
-                    }
-                }
-                row++;
-            }
-            reader.close();
-            isr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -155,6 +57,30 @@ public class Level {
      */
     public ArrayList<Wall> getWalls() {
         return walls;
+    }
+
+    /**
+     * This function adds a player to the level.
+     * @param player The player to be added.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+
+    /**
+     * This function adds a monster to the level.
+     * @param monster The monster to be added.
+     */
+    public void addMonster(Monster monster) {
+        monsters.add(monster);
+    }
+
+    /**
+     * This function adds a wall to the level.
+     * @param wall The wall to be added.
+     */
+    public void addWall(Wall wall) {
+        walls.add(wall);
     }
 
     /**

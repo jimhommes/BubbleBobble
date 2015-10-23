@@ -40,15 +40,17 @@ public class Monster extends GravityObject {
         this.isDead = false;
         this.isReducedSpeed = false;
 
-        this.spriteBase = new SpriteBase("ZenChanLeft.png", coordinates);
-
         this.addObserver(levelController);
         this.addObserver(levelController.getScreenController());
         this.timer = createTimer();
         timer.start();
     }
 
-    private AnimationTimer createTimer() {
+    /**
+     * This function returns the timer of the monster.
+     * @return Timer of the monster.
+     */
+    public AnimationTimer createTimer() {
         return new AnimationTimer() {
             @SuppressWarnings("unchecked")
             @Override
@@ -120,17 +122,22 @@ public class Monster extends GravityObject {
 
             if (killer != null) {
                 killer.scorePoints(Settings.POINTS_KILL_MONSTER);
-                prisonBubble.setIsPopped(true);
-                levelController.spawnPowerup(this);
-
-                setChanged();
-                notifyObservers();
-                destroy();
-
                 Logger.log("Monster was killed!");
             } else {
                 Logger.log("Monster died!");
             }
+
+            if (prisonBubble != null) {
+                prisonBubble.setIsPopped(true);
+            }
+
+            if (Settings.getBoolean("USE_POWERUPS", true)) {
+                levelController.spawnPowerup(this);
+            }
+
+            setChanged();
+            notifyObservers();
+            destroy();
         }
     }
 
@@ -254,5 +261,34 @@ public class Monster extends GravityObject {
     public void destroy() {
         this.deleteObservers();
         timer.stop();
+    }
+    
+    /**
+     * Switching the direction that the monster is facing.
+     * @param monster in the monster that is changing direction.
+     */
+    public void switchDirection(String monster) {
+      isFacingRight = !isFacingRight;
+        if (isFacingRight) {
+            spriteBase.setImage(monster + "Right.png");
+        } else {
+            spriteBase.setImage(monster + "Left.png");
+        }
+    }
+
+    /**
+     * This sets the prison bubble (Should only be used for testing).
+     * @param prisonBubble The prison bubble.
+     */
+    public void setPrisonBubble(Bubble prisonBubble) {
+        this.prisonBubble = prisonBubble;
+    }
+
+    /**
+     * This sets the spriteBase (Should only be used for testing).
+     * @param spriteBase The sprite Base.
+     */
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
     }
 }

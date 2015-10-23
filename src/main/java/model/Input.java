@@ -1,10 +1,12 @@
 package model;
 
+import controller.MainController;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import utility.Logger;
+import utility.Settings;
+
 import java.util.BitSet;
 
 /**
@@ -13,7 +15,6 @@ import java.util.BitSet;
 public class Input {
 
     private final int playerNumber;
-    private Scene scene;
 
     // -------------------------------------------------
     // default key codes
@@ -21,16 +22,20 @@ public class Input {
     // or when you add support for a 2nd player
     // -------------------------------------------------
     private BitSet keyboardBitSet = new BitSet();
-    public static final KeyCode UP_KEY = KeyCode.UP;
-    public static final KeyCode DOWN_KEY = KeyCode.DOWN;
-    public static final KeyCode LEFT_KEY = KeyCode.LEFT;
-    public static final KeyCode RIGHT_KEY = KeyCode.RIGHT;
-    public static final KeyCode PRIMARY_WEAPON_KEY = KeyCode.SPACE;
-    public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
-    public static final KeyCode W_KEY = KeyCode.W;
-    public static final KeyCode A_KEY = KeyCode.A;
-    public static final KeyCode D_KEY = KeyCode.D;
-    public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
+
+    public static final KeyCode UP_KEY = Settings.getKeyCode("UP_KEY", KeyCode.UP);
+    public static final KeyCode DOWN_KEY = Settings.getKeyCode("DOWN_KEY", KeyCode.DOWN);
+    public static final KeyCode LEFT_KEY = Settings.getKeyCode("LEFT_KEY", KeyCode.LEFT);
+    public static final KeyCode RIGHT_KEY = Settings.getKeyCode("RIGHT_KEY", KeyCode.RIGHT);
+    public static final KeyCode PRIMARY_WEAPON_KEY = Settings
+            .getKeyCode("PRIMARY_WEAPON_KEY", KeyCode.SPACE);
+    public static final KeyCode SECONDARY_WEAPON_KEY = Settings
+            .getKeyCode("SECONDARY_WEAPON_KEY", KeyCode.CONTROL);
+    public static final KeyCode W_KEY = Settings.getKeyCode("W_KEY", KeyCode.W);
+    public static final KeyCode A_KEY = Settings.getKeyCode("A_KEY", KeyCode.A);
+    public static final KeyCode S_KEY = Settings.getKeyCode("S_KEY", KeyCode.S);
+    public static final KeyCode D_KEY = Settings.getKeyCode("D_KEY", KeyCode.D);
+    public static final KeyCode SHIFT_KEY = Settings.getKeyCode("SHIFT_KEY", KeyCode.SHIFT);
 
     /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
@@ -53,14 +58,16 @@ public class Input {
 
     };
 
+    private MainController mainController;
+
     /**
      * The constructor. This only appoints the scene the player moves in.
      *
-     * @param scene The scene the player moves in.
+     * @param mainController The MainController the player moves in.
      * @param playerNumber The number of the player.
      */
-    public Input(Scene scene, int playerNumber) {
-        this.scene = scene;
+    public Input(MainController mainController, int playerNumber) {
+        this.mainController = mainController;
         this.playerNumber = playerNumber;
     }
 
@@ -69,21 +76,10 @@ public class Input {
      */
     public void addListeners() {
 
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
+        mainController.addListeners(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
 
     }
-
-    /**
-     * This function removes the listeners for the keys.
-     */
-    public void removeListeners() {
-
-        scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
-        scene.removeEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
-
-    }
-
 
     // -------------------------------------------------
     // Evaluate bitset of pressed keys and return the player input.
@@ -100,7 +96,7 @@ public class Input {
         if (playerNumber == 1) {
             return keyboardBitSet.get(UP_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
         } else {
-            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(DOWN_KEY.ordinal());
+            return keyboardBitSet.get(W_KEY.ordinal()) && !keyboardBitSet.get(S_KEY.ordinal());
         }
     }
 
@@ -110,7 +106,11 @@ public class Input {
      * @return True if the down key is pressed.
      */
     public boolean isMoveDown() {
-        return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        if (playerNumber == 1) {
+            return keyboardBitSet.get(DOWN_KEY.ordinal()) && !keyboardBitSet.get(UP_KEY.ordinal());
+        } else {
+            return keyboardBitSet.get(S_KEY.ordinal()) && !keyboardBitSet.get(W_KEY.ordinal());
+        }
     }
 
     /**
@@ -171,5 +171,21 @@ public class Input {
      */
     public void setKeyboardBitSet(BitSet keyboardBitSet) {
         this.keyboardBitSet = keyboardBitSet;
+    }
+
+    /**
+     * This returns the keyPressedEventHandler.
+     * @return The KeyPressedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyPressedEventHandler() {
+        return keyPressedEventHandler;
+    }
+
+    /**
+     * This returns the keyReleasedEventHandler.
+     * @return The KeyReleasedEventHandler.
+     */
+    public EventHandler<KeyEvent> getKeyReleasedEventHandler() {
+        return keyReleasedEventHandler;
     }
 }

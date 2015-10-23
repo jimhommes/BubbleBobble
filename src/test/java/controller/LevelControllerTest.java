@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import model.Bubble;
 import model.Coordinates;
 import model.Input;
 import model.Level;
@@ -15,25 +16,28 @@ import model.Player;
 import model.Powerup;
 import model.SpriteBase;
 import model.Wall;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import utility.Settings;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -58,6 +62,8 @@ public class LevelControllerTest {
     @SuppressWarnings("unchecked")
 	@Before
     public void setUp() {
+        Settings.initialize("test.properties");
+
         mainController = mock(MainController.class);
         when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
         Pane pane = mock(Pane.class);
@@ -68,6 +74,18 @@ public class LevelControllerTest {
         gameLoopTest = levelController.createTimer();
         playersTest.add(playerTest);
         monstersTest.add(monsterTest);
+    }
+
+    /**
+     * Remove the properties file if it exists.
+     */
+    @After
+    public void breakDown() {
+        try {
+            Files.delete(Paths.get("test.properties"));
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**
@@ -171,6 +189,49 @@ public class LevelControllerTest {
         assertNotEquals(levelController.getPlayers().size(), 0);
         assertNotEquals(levelController.getCurrLvl(), null);
     }
+
+    /**
+     * This tests the mouse click event from the gameLoop, when the game has started.
+     */
+    @Test
+    public void testStartLevelMouseEventGameStarted() {
+        levelController.setGameStarted(true);
+        assertTrue(levelController.getGameStarted());
+        assertNull(levelController.getCurrLvl());
+
+        levelController.setScreenController(mock(ScreenController.class));
+
+        EventHandler<MouseEvent> handler = levelController.getStartMousePressEventHandler();
+        handler.handle(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
+                true, true, true, true, true, true, true, true, true, null));
+
+        assertEquals(levelController.getPlayers().size(), 0);
+        assertEquals(levelController.getCurrLvl(), null);
+    }
+
+    /**
+     * This tests the mouse click event from the gameLoop.
+     */
+    @Test
+    public void testStartLevelMouseEventNoPlayers() {
+        assertFalse(levelController.getGameStarted());
+        assertNull(levelController.getCurrLvl());
+        ArrayList<String> maps = new ArrayList<>();
+        maps.add("mapNoPlayers.txt");
+        levelController.setMaps(maps);
+
+        levelController.setScreenController(mock(ScreenController.class));
+
+        EventHandler<MouseEvent> handler = levelController.getStartMousePressEventHandler();
+        handler.handle(new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                0, 0, 0, 0, MouseButton.PRIMARY, 1, true,
+                true, true, true, true, true, true, true, true, true, null));
+
+        verify(mainController, atLeastOnce()).showLives(0, 0);
+        verify(mainController, atLeastOnce()).showScore(0, 0);
+    }
+
 
     /**
      * This tests the nextLevel() function.
@@ -303,12 +364,13 @@ public class LevelControllerTest {
         levelController.setPlayers(players);
         levelController.setCurrLvl(mock(Level.class));
 
-        when(player.isGameOver()).thenReturn(true);
+        when(player.isDead()).thenReturn(true);
 
         gameLoop.handle(1);
 
         verify(player, never()).processInput();
         verify(player, never()).move();
+        verify(mainController, atLeastOnce()).showGameOverScreen();
     }
 
     /**
@@ -342,6 +404,11 @@ public class LevelControllerTest {
     @Test
     public void testPauseKeyHandler() {
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
+        handler.handle(new KeyEvent(null, null,
+                null, "a", "a", KeyCode.A, false, false, false, false));
+        verify(mainController, never()).showPauseScreen();
+        assertFalse(levelController.getLevelControllerMethods().getGamePaused());
+
         handler.handle(new KeyEvent(null, null,
                 null, "p", "p", KeyCode.P, false, false, false, false));
         verify(mainController, atLeastOnce()).showPauseScreen();
@@ -417,4 +484,35 @@ public class LevelControllerTest {
         levelController.setGameStarted(true);
         assertEquals(levelController.getGameStarted(), true);
     }
+
+    /**
+     * This tests the player part of the update function.
+     */
+    @Test
+    public void testUpdatePlayer() {
+        Player player = new Player(levelController, new Coordinates(0, 0, 0, 0, 0, 0),
+                0, 0, mock(Input.class), 1);
+        player.forceUpdate();
+        verify(mainController, atLeastOnce()).showScore(any(Integer.class), any(Integer.class));
+        verify(mainController, atLeastOnce()).showLives(any(Integer.class), any(Integer.class));
+    }
+
+    /**
+     * This tests the bubble part of the update function.
+     */
+    @Test
+    public void testUpdateBubble() {
+        ScreenController sc = mock(ScreenController.class);
+        levelController.setScreenController(sc);
+        Bubble bubble = new Bubble(new Coordinates(0, 0, 0, 0, 0, 0),
+                true, false, levelController);
+
+        levelController.addBubble(bubble);
+        assertEquals(levelController.getBubbles().size(), 1);
+
+        bubble.setIsPopped(true);
+        bubble.forceUpdate();
+        assertEquals(levelController.getBubbles().size(), 0);
+    }
+
 }

@@ -1,8 +1,10 @@
 package model;
 
 import controller.LevelController;
+import controller.LevelControllerMethods;
 import controller.ScreenController;
 
+import javafx.animation.AnimationTimer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +16,11 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.atLeastOnce;
+
 
 /**
  * This class tests the Monster class.
@@ -21,7 +28,7 @@ import static org.mockito.Mockito.when;
 public class MonsterTest {
 
 	private Monster monster;
-	
+	private LevelController levelController;
 
 	private static double epsilon = 0.001;
 	
@@ -30,11 +37,17 @@ public class MonsterTest {
      */
 	@Before
 	public void setUp() {
-		LevelController levelController = mock(LevelController.class);
+		levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
+        Level level = mock(Level.class);
+        ArrayList<Wall> walls = new ArrayList<>();
+        
+        when(levelController.getCurrLvl()).thenReturn(level);
+        when(level.getWalls()).thenReturn(walls);
         when(levelController.getScreenController()).thenReturn(screenController);
-        Coordinates coordinates = new Coordinates(1, 1, 0, 1, 0, 0);
-        monster = new Monster(coordinates, Settings.MONSTER_SPEED, true, levelController);
+        
+        Coordinates coordinates = new Coordinates(35, 1, 0, 0, 0, 0);
+        monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
 	}
 	
 	/**
@@ -43,7 +56,9 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testCheckCollision1() throws Exception {
-		Bubble bubble = mock(Bubble.class);
+	  Coordinates coordinates = new Coordinates(1, 1, 0, 0, 0, 0);
+    monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
+	  Bubble bubble = mock(Bubble.class);
 		SpriteBase sprite = mock(SpriteBase.class);
 		when(bubble.getSpriteBase()).thenReturn(sprite);
 		when(sprite.getX()).thenReturn(1.0);
@@ -103,8 +118,10 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
-		monster.move();
-		assertEquals(monster.getSpriteBase().getX(), 2, 0);
+		double newX = monster.getSpriteBase().getX() + Settings.MONSTER_SPEED;
+	  monster.move();
+	  System.out.println(monster.getSpriteBase().getX());
+		assertEquals(monster.getSpriteBase().getX(), newX, 0);
 	}
 	
 	/**
@@ -148,7 +165,99 @@ public class MonsterTest {
 	@Test
     public void testCanMove() throws Exception {
     	monster.getSpriteBase().setCanMove(false);
+    	double newX = monster.getSpriteBase().getX();
     	monster.move();
-    	assertEquals(1.0, monster.getSpriteBase().getX(), epsilon);
+    	assertEquals(newX, monster.getSpriteBase().getX(), epsilon);
     }
+
+	/**
+	 * This tests the die function.
+	 */
+	@Test
+	public void testDie() {
+		assertFalse(monster.isDead());
+		Player player = mock(Player.class);
+		Bubble bubble = mock(Bubble.class);
+		monster.setPrisonBubble(bubble);
+		monster.die(player);
+
+		verify(player, atLeastOnce()).scorePoints(Settings.POINTS_KILL_MONSTER);
+		assertTrue(monster.isDead());
+		verify(levelController, atLeastOnce()).spawnPowerup(monster);
+		verify(bubble, atLeastOnce()).setIsPopped(true);
+	}
+
+	/**
+	 * This tests the die when the player is null.
+	 */
+	@Test
+	public void testDieNull() {
+		assertFalse(monster.isDead());
+		Bubble bubble = mock(Bubble.class);
+		monster.setPrisonBubble(bubble);
+		monster.die(null);
+
+		assertTrue(monster.isDead());
+		verify(levelController, atLeastOnce()).spawnPowerup(monster);
+		verify(bubble, atLeastOnce()).setIsPopped(true);
+	}
+
+	/**
+	 * This tests the timer of Monster.
+	 */
+	@Test
+	public void testTimer() {
+		AnimationTimer timer = monster.createTimer();
+		LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+		when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+		when(lcm.getGamePaused()).thenReturn(false);
+
+		SpriteBase spriteBase = mock(SpriteBase.class);
+		monster.setSpriteBase(spriteBase);
+
+		timer.handle(1);
+
+		verify(spriteBase, atLeastOnce()).move();
+	}
+
+	/**
+	 * This tests the setDead function.
+	 */
+	@Test
+	public void testSetDead() {
+		assertFalse(monster.isDead());
+		monster.setDead(true);
+		assertTrue(monster.isDead());
+	}
+
+	/**
+	 * This tests the factorSpeed function.
+	 */
+	@Test
+	public void testFactorSpeed() {
+		double speed = monster.getSpeed();
+		monster.factorSpeed(3.0);
+		assertEquals(speed * 3, monster.getSpeed(), 0.1);
+	}
+
+	/**
+	 * This tests the destroy function.
+	 */
+	@Test
+	public void testDestroy() {
+		assertEquals(2, monster.countObservers());
+		monster.destroy();
+		assertEquals(0, monster.countObservers());
+	}
+
+	/**
+	 * This tests the setSpeed function.
+	 */
+	@Test
+	public void testSetSpeed() {
+		monster.setSpeed(3.0);
+		assertEquals(3.0, monster.getSpeed(), 0.1);
+	}
+
+
 }

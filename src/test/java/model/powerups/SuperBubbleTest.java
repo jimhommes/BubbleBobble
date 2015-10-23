@@ -1,8 +1,14 @@
 package model.powerups;
 
 import model.Player;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import utility.Settings;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,7 +30,21 @@ public class SuperBubbleTest {
      */
     @Before
     public void setUp() {
+        Settings.initialize("test.properties");
+
         playerEnhancement = spy(new SuperBubble(p));
+    }
+
+    /**
+     * Remove the properties file if it exists.
+     */
+    @After
+    public void breakDown() {
+        try {
+            Files.delete(Paths.get("test.properties"));
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**
