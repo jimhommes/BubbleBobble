@@ -90,12 +90,13 @@ public class MainController implements Initializable {
             if (StartController.getLimitOfPlayers() == 1) {
                 livesTextPlayer1.setText(String.format("%d", lives));
             } else {
-                livesTextPlayer1.setText(Settings.names[0] + String.format(": %d", lives));
+                livesTextPlayer1.setText(Settings.getName(0) + String.format(": %d", lives));
+
             }
 
         } else if (playerNumber == 2) {
             livesTextPlayer2.setVisible(true);
-            livesTextPlayer2.setText(Settings.names[1] + String.format(": %d", lives));
+            livesTextPlayer2.setText(Settings.getName(1) + String.format(": %d", lives));
         }
     }
 

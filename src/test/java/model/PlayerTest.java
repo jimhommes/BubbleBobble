@@ -48,7 +48,7 @@ public class PlayerTest {
     public void setUp() throws Exception {
         Settings.initialize("test.properties");
         Settings.initializeHighscores("testHighscores.properties");
-        Settings.names[0] = "TEST_P1";
+        Settings.setName("TEST_P1", 0);
         input = mock(Input.class);
         levelController = mock(LevelController.class);
         screenController = mock(ScreenController.class);
@@ -67,7 +67,7 @@ public class PlayerTest {
      */
     @After
     public void breakDown() {
-        Settings.names[0] = null;
+        Settings.setName(null, 0);
         try {
             Files.delete(Paths.get("test.properties"));
             Files.delete(Paths.get("testHighscores.properties"));

@@ -79,7 +79,8 @@ public class NameInputController extends GridPane {
             this.playerName = nameInputField.getText();
         }
         this.setVisible(false);
-        Settings.names[number - 1] = this.playerName;
+        Settings.setName(this.playerName, number - 1);
+
         if (number == 1 && StartController.getLimitOfPlayers() == 2) {
             namePlayer2();
         } else {

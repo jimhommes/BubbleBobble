@@ -46,7 +46,25 @@ public final class Settings {
     public static final double JUMP_SPEED_WALKER = 3 * MONSTER_SPEED;
     public static final double JUMP_HEIGHT_WALKER = 200;
 
-    public static String[] names = new String[2];
+    /**
+     * Get the name of the player.
+     * @param index Which player.
+     * @return The name.
+     */
+    public static String getName(int index) {
+        return names[index];
+    }
+
+    /**
+     * Set the name of the player.
+     * @param name The name to be set.
+     * @param index The index of the current player.
+     */
+    public static void setName(String name, int index) {
+        names[index] = name;
+    }
+
+    private static String[] names = new String[2];
 
     private static String propertyFileName;
     private static String scoresFileName;

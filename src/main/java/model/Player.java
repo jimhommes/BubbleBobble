@@ -451,7 +451,7 @@ public class Player extends GravityObject {
      */
     public void addHighscore() {
         ArrayList<HighscoreEntryController> highscores = Settings.getHighscores();
-        highscores.add(new HighscoreEntryController(Settings.names[playerNumber - 1],
+        highscores.add(new HighscoreEntryController(Settings.getName(playerNumber - 1),
                 Integer.toString(this.getScore())));
         highscores.sort((HighscoreEntryController o1,
                          HighscoreEntryController o2)->o2.getScore() - o1.getScore());
