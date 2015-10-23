@@ -131,7 +131,9 @@ public class Monster extends GravityObject {
                 prisonBubble.setIsPopped(true);
             }
 
-            levelController.spawnPowerup(this);
+            if (Settings.getBoolean("USE_POWERUPS", true)) {
+                levelController.spawnPowerup(this);
+            }
 
             setChanged();
             notifyObservers();

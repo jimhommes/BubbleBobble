@@ -4,10 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import launcher.Launcher;
 import utility.Settings;
 
 import java.net.URL;
@@ -20,14 +22,17 @@ import java.util.ResourceBundle;
 public class StartController implements Initializable {
 
     @FXML private GridPane helpScreen;
+    @FXML private GridPane preferencesScreen;
     @FXML private GridPane highscoreScreen;
     @FXML private AnchorPane root;
     @FXML private Button singlePlayerButton;
     @FXML private Button multiPlayerButton;
     @FXML private Button exitButton;
     @FXML private Button helpButton;
+    @FXML private Button preferencesButton;
+    @FXML private CheckBox muteCheckBox;
+    @FXML private CheckBox powerupsCheckBox;
     @FXML private Button highscoreButton;
-
     @FXML private VBox highscores;
 
     private static int limitOfPlayers;
@@ -42,15 +47,35 @@ public class StartController implements Initializable {
             limitOfPlayers = 2;
                 inputNamePlayer(1);
         });
+
+        muteCheckBox.setSelected(Settings.getBoolean("PLAY_MUSIC", true));
+        powerupsCheckBox.setSelected(Settings.getBoolean("USE_POWERUPS", true));
+
+        setEvents();
         initHighscoreScreen();
+    }
+
+    private void setEvents() {
+        powerupsCheckBox.setOnMousePressed(event -> {
+            Settings.setBoolean("USE_POWERUPS", !Settings.getBoolean("USE_POWERUPS", false));
+        });
         helpButton.setOnMousePressed((event ->
                 helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
         highscoreButton.setOnMousePressed((event ->
                 highscoreScreen.visibleProperty().setValue(!highscoreScreen.isVisible())));
-        root.setOnMousePressed(event -> { helpScreen.visibleProperty().setValue(false);
-            highscoreScreen.visibleProperty().setValue(false); });
+        root.setOnMousePressed(event -> {
+            helpScreen.visibleProperty().setValue(false);
+            highscoreScreen.visibleProperty().setValue(false);
+            preferencesScreen.visibleProperty().setValue(false);
+        });
         exitButton.setOnAction((event ->
                 System.exit(0)));
+        muteCheckBox.setOnMousePressed(event -> {
+            Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
+            Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
+        });
+        preferencesButton.setOnMousePressed(event -> preferencesScreen
+                .visibleProperty().setValue(!preferencesScreen.isVisible()));
     }
 
     private void initHighscoreScreen() {
