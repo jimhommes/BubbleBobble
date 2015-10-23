@@ -155,35 +155,36 @@ public class PlayerTest {
      */
     @Test
     public void testCheckCollideMonster() throws Exception {
-        Monster monster = mock(Monster.class);
-        SpriteBase monsterSprite = mock(SpriteBase.class);
-        when(monster.getSpriteBase()).thenReturn(monsterSprite);
-        player.getSpriteBase().setWidth(64);
-        player.getSpriteBase().setHeight(64);
-        SpriteBase sprite = player.getSpriteBase();
-        when(monsterSprite.causesCollision(sprite.getX(),
-                sprite.getX() + sprite.getWidth(),
-                sprite.getY(),
-                sprite.getY() + sprite.getHeight())).thenReturn(true);
-        player.checkCollideMonster(monster);
-        assertTrue(player.isDead());
-    }
+    	Monster monster = mock(Monster.class);
+    	SpriteBase monsterSprite = mock(SpriteBase.class);
+    	when(monster.getSpriteBase()).thenReturn(monsterSprite);
+    	player.getSpriteBase().setWidth(64);
+    	player.getSpriteBase().setHeight(64);
+    	SpriteBase sprite = player.getSpriteBase();
+    	when(monsterSprite.causesCollision(sprite.getX(),
+    			sprite.getX() + sprite.getWidth(),
+    			sprite.getY(),
+    			sprite.getY() + sprite.getHeight())).thenReturn(true);
+    	player.checkCollideMonster(monster);
+    	assertTrue(player.isDead());
+    } 
+    
 
     /**
      * Tests what happens when the player dies.
-     *
      * @throws Exception .
      */
     @Test
     public void testDie() throws Exception {
-        assertFalse(player.isDead());
-        SpriteBase sprite = player.getSpriteBase();
-        double x = sprite.getX();
-        player.die();
-        assertTrue(player.isDead());
-        assertEquals(x, sprite.getX(), 0.001);
-        assertEquals(0, sprite.getDx(), 0.001);
+    	assertFalse(player.isDead());
+    	SpriteBase sprite = player.getSpriteBase();
+    	double x = sprite.getX();
+    	player.die();
+    	assertTrue(player.isDead());
+    	assertEquals(x, sprite.getX(), 0.001);
+    	assertEquals(0, sprite.getDx(), 0.001);
     }
+    
 
     /**
      * Tests that that player moved to the right.
@@ -327,24 +328,25 @@ public class PlayerTest {
      */
     @Test
     public void testTimerDead() {
-        AnimationTimer timer = player.createTimer();
-        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
-        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
-        when(lcm.getGamePaused()).thenReturn(false);
+    	AnimationTimer timer = player.createTimer();
+    	LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+    	when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+    	when(lcm.getGamePaused()).thenReturn(false);
 
-        SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        when(spriteBase.getLocation()).thenReturn(array);
-        player.setSpriteBase(spriteBase);
-        player.die();
+    	SpriteBase spriteBase = mock(SpriteBase.class);
+    	double[] array = new double[5];
+    	when(spriteBase.getLocation()).thenReturn(array);
+    	player.setSpriteBase(spriteBase);
+    	player.die();
 
-        timer.handle(1);
+    	timer.handle(1);
 
-        assertEquals(0, array[3], 0.1);
-        verify(spriteBase, never()).move();
-        verify(spriteBase, atLeastOnce()).setImage(anyString());
+    	assertEquals(0, array[3], 0.1);
+    	verify(spriteBase, never()).move();
+    	verify(spriteBase, atLeastOnce()).setImage(anyString());
     }
 
+    
     /**
      * This tests the function processInput.
      */
@@ -513,34 +515,6 @@ public class PlayerTest {
         assertFalse(player.getAbleToDoubleJump());
     }
 
-    /**
-     * This tests the function applygravity second branch.
-     */
-    @Test
-    public void testApplyGravity2() {
-        SpriteBase spriteBase = mock(SpriteBase.class);
-        player.setSpriteBase(spriteBase);
-        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
-                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
-        player.setIsJumping(false);
-        player.setAbleToDoubleJump(true);
-        player.setAbleToJump(true);
-
-        ArrayList<Bubble> bubbles = new ArrayList<>();
-        Bubble bubble = mock(Bubble.class);
-        bubbles.add(bubble);
-        when(levelController.getBubbles()).thenReturn(bubbles);
-
-        when(bubble.getSpriteBase()).thenReturn(spriteBase);
-        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
-                anyDouble(), anyDouble())).thenReturn(false);
-        when(bubble.isAbleToCatch()).thenReturn(false);
-
-        player.applyGravity();
-
-        assertFalse(player.getAbleToJump());
-        assertTrue(player.getAbleToDoubleJump());
-    }
 
     /**
      * This tests the function applygravity with collision.
@@ -665,12 +639,32 @@ public class PlayerTest {
         player.setImmortal(true);
 
         player.setImage();
-        assertEquals("Bub1RightRed.png", player.getSpriteBase().getImagePath());
+        assertEquals("Bub1RightImmortal.png", player.getSpriteBase().getImagePath());
 
         player.setFacingRight(false);
 
         player.setImage();
-        assertEquals("Bub1LeftRed.png", player.getSpriteBase().getImagePath());
+        assertEquals("Bub1LeftImmortal.png", player.getSpriteBase().getImagePath());
+    }
+    
+    /**
+     * This tests that the right death image is set when the player is facing right and they die.
+     */
+    @Test
+    public void testDieImageRight() {
+    	player.setFacingRight(true);
+    	player.die();
+    	assertEquals("Bub1RightDeath.png", player.getSpriteBase().getImagePath());
+    }
+    
+    /**
+     * This tests that the left death image is set when the player is facing left and they die.
+     */
+    @Test
+    public void testDieImageLeft() {
+    	player.setFacingRight(false);
+    	player.die();
+    	assertEquals("Bub1LeftDeath.png", player.getSpriteBase().getImagePath());
     }
 
 }

@@ -125,7 +125,12 @@ public class Player extends GravityObject {
                         );
                     }
                     if (isDead()) {
-                        spriteBase.setImage("Bub" + playerNumber + "Death.png");
+                    	if (isFacingRight) {
+                    		 spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+                    	}
+                    	else {
+                    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+                    	}		
                     }
 
                     setChanged();
@@ -187,7 +192,8 @@ public class Player extends GravityObject {
      * @return The location.
      */
     public double[] getLocation() {
-        return location;
+    	double[] newLocation = location;
+    	return newLocation;
     }
 
     /**
@@ -415,25 +421,29 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-        this.loseLife();
-        this.scorePoints(Settings.POINTS_PLAYER_DIE);
-        spriteBase.setImage("Bub" + playerNumber + "Death.png");
-        location[1] = 0;
-        location[3] = 0;
-        setLocation(location);
+    	this.loseLife();
+    	this.scorePoints(Settings.POINTS_PLAYER_DIE);
+    	if (isFacingRight) {
+    		spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+    	}
+    	if (!isFacingRight) {
+    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+    	}
+    	location[1] = 0;
+    	location[3] = 0;
+    	setLocation(location);
 
-        if (this.getLives() == 0) {
-            counter = 0;
-            setLocation(location);
-            setChanged();
-            notifyObservers();
-            destroy();
+    	if (this.getLives() == 0) {
+    		counter = 0;
+    		setLocation(location);
+    		setChanged();
+    		notifyObservers();
+    		destroy();
             addHighscore();
-        } else {
-            isDelayed = true;
-            delayRespawn();
-        }
-        
+    	} else {
+    		isDelayed = true;
+    		delayRespawn();
+    	}
     }
 
     /**
@@ -865,13 +875,13 @@ public class Player extends GravityObject {
     public void setImage() {
       if (isFacingRight) {
         if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "RightRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
         } else {
             spriteBase.setImage("Bub" + playerNumber + "Right.png");
         }
       } else {
         if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "LeftRed.png");
+            spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
         } else {
             spriteBase.setImage("Bub" + playerNumber + "Left.png");
         }
