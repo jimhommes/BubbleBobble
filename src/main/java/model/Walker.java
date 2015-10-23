@@ -38,10 +38,10 @@ public class Walker extends Monster {
         this.ableToJump = false;
         this.jumping = false;
 
-        walkerMinX = Level.SPRITE_SIZE;
-        walkerMaxX = Settings.SCENE_WIDTH - Level.SPRITE_SIZE;
-        walkerMinY = Level.SPRITE_SIZE;
-        walkerMaxY = Settings.SCENE_HEIGHT - Level.SPRITE_SIZE;
+        walkerMinX = Settings.SPRITE_SIZE / 2;
+        walkerMaxX = Settings.SCENE_WIDTH - Settings.SPRITE_SIZE / 2;
+        walkerMinY = Settings.SPRITE_SIZE / 2;
+        walkerMaxY = Settings.SCENE_HEIGHT - Settings.SPRITE_SIZE / 2;
     }
 
     /**

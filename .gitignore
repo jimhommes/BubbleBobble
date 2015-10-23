@@ -1,4 +1,5 @@
 log.txt
+*.properties
 
 ## Maven
 target/

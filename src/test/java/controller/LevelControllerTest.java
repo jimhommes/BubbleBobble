@@ -16,25 +16,28 @@ import model.Player;
 import model.Powerup;
 import model.SpriteBase;
 import model.Wall;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import utility.Settings;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -59,6 +62,8 @@ public class LevelControllerTest {
     @SuppressWarnings("unchecked")
 	@Before
     public void setUp() {
+        Settings.initialize("test.properties");
+
         mainController = mock(MainController.class);
         when(mainController.createInput(any(Integer.class))).thenReturn(mock(Input.class));
         Pane pane = mock(Pane.class);
@@ -69,6 +74,18 @@ public class LevelControllerTest {
         gameLoopTest = levelController.createTimer();
         playersTest.add(playerTest);
         monstersTest.add(monsterTest);
+    }
+
+    /**
+     * Remove the properties file if it exists.
+     */
+    @After
+    public void breakDown() {
+        try {
+            Files.delete(Paths.get("test.properties"));
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**

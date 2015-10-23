@@ -5,6 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import utility.Logger;
+import utility.Settings;
+
 import java.util.BitSet;
 
 /**
@@ -20,17 +22,20 @@ public class Input {
     // or when you add support for a 2nd player
     // -------------------------------------------------
     private BitSet keyboardBitSet = new BitSet();
-    public static final KeyCode UP_KEY = KeyCode.UP;
-    public static final KeyCode DOWN_KEY = KeyCode.DOWN;
-    public static final KeyCode LEFT_KEY = KeyCode.LEFT;
-    public static final KeyCode RIGHT_KEY = KeyCode.RIGHT;
-    public static final KeyCode PRIMARY_WEAPON_KEY = KeyCode.SPACE;
-    public static final KeyCode SECONDARY_WEAPON_KEY = KeyCode.CONTROL;
-    public static final KeyCode W_KEY = KeyCode.W;
-    public static final KeyCode A_KEY = KeyCode.A;
-    public static final KeyCode S_KEY = KeyCode.S;
-    public static final KeyCode D_KEY = KeyCode.D;
-    public static final KeyCode SHIFT_KEY = KeyCode.SHIFT;
+
+    public static final KeyCode UP_KEY = Settings.getKeyCode("UP_KEY", KeyCode.UP);
+    public static final KeyCode DOWN_KEY = Settings.getKeyCode("DOWN_KEY", KeyCode.DOWN);
+    public static final KeyCode LEFT_KEY = Settings.getKeyCode("LEFT_KEY", KeyCode.LEFT);
+    public static final KeyCode RIGHT_KEY = Settings.getKeyCode("RIGHT_KEY", KeyCode.RIGHT);
+    public static final KeyCode PRIMARY_WEAPON_KEY = Settings
+            .getKeyCode("PRIMARY_WEAPON_KEY", KeyCode.SPACE);
+    public static final KeyCode SECONDARY_WEAPON_KEY = Settings
+            .getKeyCode("SECONDARY_WEAPON_KEY", KeyCode.CONTROL);
+    public static final KeyCode W_KEY = Settings.getKeyCode("W_KEY", KeyCode.W);
+    public static final KeyCode A_KEY = Settings.getKeyCode("A_KEY", KeyCode.A);
+    public static final KeyCode S_KEY = Settings.getKeyCode("S_KEY", KeyCode.S);
+    public static final KeyCode D_KEY = Settings.getKeyCode("D_KEY", KeyCode.D);
+    public static final KeyCode SHIFT_KEY = Settings.getKeyCode("SHIFT_KEY", KeyCode.SHIFT);
 
     /**
      * "Key Pressed" handler for all input events: register pressed key in the bitset.
