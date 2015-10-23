@@ -6,9 +6,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import launcher.Launcher;
+import utility.Settings;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,11 +23,14 @@ import java.util.ResourceBundle;
 public class StartController implements Initializable {
 
     @FXML private GridPane helpScreen;
+    @FXML private GridPane preferencesScreen;
     @FXML private AnchorPane root;
     @FXML private Button singlePlayerButton;
     @FXML private Button multiPlayerButton;
     @FXML private Button exitButton;
     @FXML private Button helpButton;
+    @FXML private Button preferencesButton;
+    @FXML private CheckBox muteCheckBox;
 
     private static int limitOfPlayers;
 
@@ -48,7 +54,17 @@ public class StartController implements Initializable {
         });
         helpButton.setOnMousePressed((event ->
                 helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
-        root.setOnMousePressed(event -> helpScreen.visibleProperty().setValue(false));
+        preferencesButton.setOnMousePressed(event -> preferencesScreen
+                .visibleProperty().setValue(!preferencesScreen.isVisible()));
+        root.setOnMousePressed(event -> {
+            helpScreen.visibleProperty().setValue(false);
+            preferencesScreen.visibleProperty().setValue(false);
+        });
+        muteCheckBox.setSelected(Settings.getBoolean("PLAY_MUSIC", true));
+        muteCheckBox.setOnMousePressed(event -> {
+            Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
+            Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
+        });
         exitButton.setOnAction((event ->
                 System.exit(0)));
     }
