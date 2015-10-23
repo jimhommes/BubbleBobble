@@ -31,6 +31,13 @@ The StartController asks the name(s) of the player(s) via the NameInputControlle
 \textit{Collaborations:} \\
 StartController collaborates with NameInput and HighscoreEntryController to manage custom player names for the highscores. HighscoreEntryController collaborates with Settings to save and retrieve the highscores so they are saved even after the game is stopped.
 
+\subsubsection{Options}
+\textit{Responsibility:} \\
+The preferences screen request the preferences to update the UI. \\
+The different objects request properties with a certain key, Settings retrieves the property. All objects can also set properties via Settings. Settings communicates with the java Properties class, which relies on a HashMap, responsible for the key-value mapping. \\ \\
+\textit{Collaborations:} \\
+Settings collaborates with Properties to store and retrieve the values for given keys.
+
 \subsection{UML}
 
 \subsubsection{Highscore}
@@ -40,6 +47,9 @@ The followg UML is for the High Score feature.
 \includegraphics[width=100mm]{HighscoreUML.png}
 
 \subsubsection{Options}
+The followg UML is for the Options feature.
+\\\\
+\includegraphics[width=100mm]{Options_UML.png}
 
 \subsubsection{Final Boss}
 
