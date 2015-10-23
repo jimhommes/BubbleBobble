@@ -62,7 +62,7 @@ public final class Settings {
     }
 
     /**
-     * Initialize the properties.
+     * Initialize the properties and highscores.
      * @param fileName the property file name.
      * @return true is file existed, false if not.
      */
@@ -84,7 +84,6 @@ public final class Settings {
         } catch (IOException | NullPointerException e) {
             Logger.log(Logger.ERR,
                     String.format("Highscores cannot be loaded from %s", HIGHSCORE_FILE_NAME));
-            return false;
         }
 
         return true;
