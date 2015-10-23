@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Entry for the highscore.
+ * This class is for the entry for the highscore.
  */
 public class HighscoreEntryController extends GridPane {
 

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Input for player name.
+ * This class is for the input for player name.
  */
 public class NameInputController extends GridPane {
 

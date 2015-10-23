@@ -65,6 +65,11 @@ public final class Settings {
     }
 
     private static String[] names = new String[2];
+    public static final String MUSIC_THEME_SONG = "music/themesong.mp3";
+    public static final String MUSIC_BOSS_SONG = "music/boss.mp3";
+    public static final String MUSIC_GAMEWON_SONG = "music/gamewon.mp3";
+    public static final String MUSIC_GAMEOVER_SONG = "music/gameover.mp3";
+    public static final String MUSIC_MENU_SONG = "music/menu.mp3";
 
     private static String propertyFileName;
     private static String scoresFileName;
