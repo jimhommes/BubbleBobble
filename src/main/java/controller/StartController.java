@@ -8,12 +8,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.HighscoreEntry;
 import utility.Settings;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * This is the Start Screen Controller, it handles all GUI interactions.
@@ -55,17 +55,18 @@ public class StartController implements Initializable {
     }
 
     private void initHighscoreScreen() {
-        ArrayList<HighscoreEntry> tempHighscores = Settings.highscores;
+        ArrayList<HighscoreEntryController> tempHighscores = Settings.getHighscores();
+        tempHighscores.sort((HighscoreEntryController o1, HighscoreEntryController o2)->o2.getScore() - o1.getScore());
         int scoreIndex = 1;
         for (int i = 0; i < tempHighscores.size(); i++) {
-            HighscoreEntry tempEntry = tempHighscores.get(i);
+            HighscoreEntryController tempEntry = tempHighscores.get(i);
             tempEntry.setEntryNumber(scoreIndex);
             highscores.getChildren().add(tempEntry);
             scoreIndex++;
         }
 
         while (scoreIndex <= 10) {
-            HighscoreEntry emptyEntry = new HighscoreEntry("<empty>", "0");
+            HighscoreEntryController emptyEntry = new HighscoreEntryController("<empty>", "0");
             emptyEntry.setEntryNumber(scoreIndex);
             highscores.getChildren().add(emptyEntry);
             scoreIndex++;

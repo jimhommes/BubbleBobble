@@ -1,4 +1,4 @@
-package model;
+package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import java.net.URL;
 /**
  * Entry for the highscore.
  */
-public class HighscoreEntry extends GridPane {
+public class HighscoreEntryController extends GridPane {
 
     @FXML private Text entryNumber;
     @FXML private Text entryName;
@@ -25,7 +25,7 @@ public class HighscoreEntry extends GridPane {
      * @param name Name of the player.
      * @param score Score of the player.
      */
-    public HighscoreEntry(String name, String score) {
+    public HighscoreEntryController(String name, String score) {
         this.name = name;
         this.score = score;
 
@@ -56,6 +56,22 @@ public class HighscoreEntry extends GridPane {
      */
     public void setEntryNumber(int number) {
         entryNumber.setText(Integer.toString(number));
+    }
+
+    /**
+     * Get the name.
+     * @return The name of the highscore entry.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Get the score as a string.
+     * @return The score of the highscore entry.
+     */
+    public String getScoreString() {
+        return score;
     }
 
     /**
