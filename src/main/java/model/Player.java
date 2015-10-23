@@ -422,29 +422,29 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
-        this.loseLife();
-        this.scorePoints(Settings.POINTS_PLAYER_DIE);
-        if (isFacingRight) {
-            spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
-        }
-        if (!isFacingRight) {
-        	spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
-        }
-        location[1] = 0;
-        location[3] = 0;
-        setLocation(location);
+    	this.loseLife();
+    	this.scorePoints(Settings.POINTS_PLAYER_DIE);
+    	if (isFacingRight) {
+    		spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+    	}
+    	if (!isFacingRight) {
+    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+    	}
+    	location[1] = 0;
+    	location[3] = 0;
+    	setLocation(location);
 
-        if (this.getLives() == 0) {
-            counter = 0;
-            setLocation(location);
-            setChanged();
-            notifyObservers();
-            destroy();
-        } else {
-            isDelayed = true;
-            delayRespawn();
-        }
-        
+    	if (this.getLives() == 0) {
+    		counter = 0;
+    		setLocation(location);
+    		setChanged();
+    		notifyObservers();
+    		destroy();
+    	} else {
+    		isDelayed = true;
+    		delayRespawn();
+    	}
+
     }
 
     private void delayRespawn() {

@@ -152,35 +152,34 @@ public class PlayerTest {
      */
     @Test
     public void testCheckCollideMonster() throws Exception {
-        Monster monster = mock(Monster.class);
-        SpriteBase monsterSprite = mock(SpriteBase.class);
-        when(monster.getSpriteBase()).thenReturn(monsterSprite);
-        player.getSpriteBase().setWidth(64);
-        player.getSpriteBase().setHeight(64);
-        SpriteBase sprite = player.getSpriteBase();
-        when(monsterSprite.causesCollision(sprite.getX(),
-                sprite.getX() + sprite.getWidth(),
-                sprite.getY(),
-                sprite.getY() + sprite.getHeight())).thenReturn(true);
-        player.checkCollideMonster(monster);
-        assertTrue(player.isDead());
+    	Monster monster = mock(Monster.class);
+    	SpriteBase monsterSprite = mock(SpriteBase.class);
+    	when(monster.getSpriteBase()).thenReturn(monsterSprite);
+    	player.getSpriteBase().setWidth(64);
+    	player.getSpriteBase().setHeight(64);
+    	SpriteBase sprite = player.getSpriteBase();
+    	when(monsterSprite.causesCollision(sprite.getX(),
+    			sprite.getX() + sprite.getWidth(),
+    			sprite.getY(),
+    			sprite.getY() + sprite.getHeight())).thenReturn(true);
+    	player.checkCollideMonster(monster);
+    	assertTrue(player.isDead());
     } 
     
 
     /**
      * Tests what happens when the player dies.
-     *
      * @throws Exception .
      */
     @Test
     public void testDie() throws Exception {
-        assertFalse(player.isDead());
-        SpriteBase sprite = player.getSpriteBase();
-        double x = sprite.getX();
-        player.die();
-        assertTrue(player.isDead());
-        assertEquals(x, sprite.getX(), 0.001);
-        assertEquals(0, sprite.getDx(), 0.001);
+    	assertFalse(player.isDead());
+    	SpriteBase sprite = player.getSpriteBase();
+    	double x = sprite.getX();
+    	player.die();
+    	assertTrue(player.isDead());
+    	assertEquals(x, sprite.getX(), 0.001);
+    	assertEquals(0, sprite.getDx(), 0.001);
     }
     
 
@@ -326,22 +325,22 @@ public class PlayerTest {
      */
     @Test
     public void testTimerDead() {
-        AnimationTimer timer = player.createTimer();
-        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
-        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
-        when(lcm.getGamePaused()).thenReturn(false);
+    	AnimationTimer timer = player.createTimer();
+    	LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+    	when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+    	when(lcm.getGamePaused()).thenReturn(false);
 
-        SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        when(spriteBase.getLocation()).thenReturn(array);
-        player.setSpriteBase(spriteBase);
-        player.die();
+    	SpriteBase spriteBase = mock(SpriteBase.class);
+    	double[] array = new double[5];
+    	when(spriteBase.getLocation()).thenReturn(array);
+    	player.setSpriteBase(spriteBase);
+    	player.die();
 
-        timer.handle(1);
+    	timer.handle(1);
 
-        assertEquals(0, array[3], 0.1);
-        verify(spriteBase, never()).move();
-        verify(spriteBase, atLeastOnce()).setImage(anyString());
+    	assertEquals(0, array[3], 0.1);
+    	verify(spriteBase, never()).move();
+    	verify(spriteBase, atLeastOnce()).setImage(anyString());
     }
 
     
