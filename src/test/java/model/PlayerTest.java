@@ -495,34 +495,6 @@ public class PlayerTest {
         assertFalse(player.getAbleToDoubleJump());
     }
 
-    /**
-     * This tests the function applygravity second branch.
-     */
-    @Test
-    public void testApplyGravity2() {
-        SpriteBase spriteBase = mock(SpriteBase.class);
-        player.setSpriteBase(spriteBase);
-        when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
-                anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
-        player.setIsJumping(false);
-        player.setAbleToDoubleJump(true);
-        player.setAbleToJump(true);
-
-        ArrayList<Bubble> bubbles = new ArrayList<>();
-        Bubble bubble = mock(Bubble.class);
-        bubbles.add(bubble);
-        when(levelController.getBubbles()).thenReturn(bubbles);
-
-        when(bubble.getSpriteBase()).thenReturn(spriteBase);
-        when(spriteBase.causesCollision(anyDouble(), anyDouble(),
-                anyDouble(), anyDouble())).thenReturn(false);
-        when(bubble.isAbleToCatch()).thenReturn(false);
-
-        player.applyGravity();
-
-        assertFalse(player.getAbleToJump());
-        assertTrue(player.getAbleToDoubleJump());
-    }
 
     /**
      * This tests the function applygravity with collision.
