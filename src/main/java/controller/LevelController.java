@@ -47,10 +47,8 @@ public class LevelController implements Observer {
     private AnimationTimer gameLoop;
     private MainController mainController;
     private LevelFactory levelFactory;
-
     
     private LevelControllerMethods levelControllerMethods;
-
 
     private boolean switchedPauseScreen = false;
     private boolean muteKeyPressed = false;
@@ -120,7 +118,7 @@ public class LevelController implements Observer {
 
     private void addMuteListeners() {
         mainController.addListeners(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (!muteKeyPressed 
+            if (!muteKeyPressed
             		&& keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
                 muteKeyPressed = true;
                 Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", false));
@@ -211,6 +209,7 @@ public class LevelController implements Observer {
     public final void createLvl() {
         currLvl = levelFactory.makeLevel(maps.get(indexCurrLvl), limitOfPlayers);
 
+        setMusic();
         createPlayers();
 
         currLvl.getWalls().forEach(wall ->
@@ -228,6 +227,17 @@ public class LevelController implements Observer {
         Input input = mainController.createInput(playerNumber);
         input.addListeners();
         return input;
+    }
+
+    /**
+     * This function checks if the last level is reached and if so, plays the boss-song.
+     */
+    public void setMusic() {
+
+        if (indexCurrLvl == (maps.size() - 1)) {
+            Launcher.changeMusicSong(Settings.MUSIC_BOSS_SONG);
+        }
+
     }
 
     /**
@@ -293,6 +303,7 @@ public class LevelController implements Observer {
      */
     public void gameOver() {
         Logger.log("Game over!");
+        Launcher.changeMusicSong(Settings.MUSIC_GAMEOVER_SONG);
         gameLoop.stop();
         mainController.showGameOverScreen();
     }
@@ -302,6 +313,7 @@ public class LevelController implements Observer {
      */
     private void winGame() {
         Logger.log("Game won!");
+        Launcher.changeMusicSong(Settings.MUSIC_GAMEWON_SONG);
         gameLoop.stop();
         mainController.showWinScreen();
     }
