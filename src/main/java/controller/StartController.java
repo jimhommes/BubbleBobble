@@ -1,20 +1,19 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import launcher.Launcher;
 import utility.Settings;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -24,6 +23,7 @@ public class StartController implements Initializable {
 
     @FXML private GridPane helpScreen;
     @FXML private GridPane preferencesScreen;
+    @FXML private GridPane highscoreScreen;
     @FXML private AnchorPane root;
     @FXML private Button singlePlayerButton;
     @FXML private Button multiPlayerButton;
@@ -32,40 +32,41 @@ public class StartController implements Initializable {
     @FXML private Button preferencesButton;
     @FXML private CheckBox muteCheckBox;
     @FXML private CheckBox powerupsCheckBox;
+    @FXML private Button highscoreButton;
+    @FXML private VBox highscores;
 
     private static int limitOfPlayers;
 
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
         singlePlayerButton.setOnAction(event -> {
-             try {
                  limitOfPlayers = 1;
-                 startLevel();
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
+                 inputNamePlayer(1);
          });
         multiPlayerButton.setOnAction(event -> {
             limitOfPlayers = 2;
-            try {
-                startLevel();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                inputNamePlayer(1);
         });
+
         muteCheckBox.setSelected(Settings.getBoolean("PLAY_MUSIC", true));
         powerupsCheckBox.setSelected(Settings.getBoolean("USE_POWERUPS", true));
 
         setEvents();
-
+        initHighscoreScreen();
     }
 
-    /**
-     * Set mouse events for the startscreen.
-     */
     private void setEvents() {
         powerupsCheckBox.setOnMousePressed(event -> {
             Settings.setBoolean("USE_POWERUPS", !Settings.getBoolean("USE_POWERUPS", false));
+        });
+        helpButton.setOnMousePressed((event ->
+                helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
+        highscoreButton.setOnMousePressed((event ->
+                highscoreScreen.visibleProperty().setValue(!highscoreScreen.isVisible())));
+        root.setOnMousePressed(event -> {
+            helpScreen.visibleProperty().setValue(false);
+            highscoreScreen.visibleProperty().setValue(false);
+            preferencesScreen.visibleProperty().setValue(false);
         });
         exitButton.setOnAction((event ->
                 System.exit(0)));
@@ -73,24 +74,38 @@ public class StartController implements Initializable {
             Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
             Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
         });
-        root.setOnMousePressed(event -> {
-            helpScreen.visibleProperty().setValue(false);
-            preferencesScreen.visibleProperty().setValue(false);
-        });
-        helpButton.setOnMousePressed((event ->
-                helpScreen.visibleProperty().setValue(!helpScreen.isVisible())));
         preferencesButton.setOnMousePressed(event -> preferencesScreen
                 .visibleProperty().setValue(!preferencesScreen.isVisible()));
     }
 
+    private void initHighscoreScreen() {
+        ArrayList<HighscoreEntryController> tempHighscores = Settings.getHighscores();
+        tempHighscores.sort((HighscoreEntryController o1,
+                             HighscoreEntryController o2)->o2.getScore() - o1.getScore());
+        int scoreIndex = 1;
+        for (int i = 0; i < tempHighscores.size(); i++) {
+            HighscoreEntryController tempEntry = tempHighscores.get(i);
+            tempEntry.setEntryNumber(scoreIndex);
+            highscores.getChildren().add(tempEntry);
+            scoreIndex++;
+        }
+
+        while (scoreIndex <= 10) {
+            HighscoreEntryController emptyEntry = new HighscoreEntryController("<empty>", "0");
+            emptyEntry.setEntryNumber(scoreIndex);
+            highscores.getChildren().add(emptyEntry);
+            scoreIndex++;
+        }
+    }
+
     /**
-     * The function bound to the start button.
-     * @throws IOException The exception thrown.
+     * Create an input for the name of the player.
+     * @param playerNumber The number of the player.
      */
-    private void startLevel() throws IOException {
+    public void inputNamePlayer(int playerNumber) {
         Stage stage = (Stage) root.getScene().getWindow();
-        Parent newRoot = FXMLLoader.load(getClass().getClassLoader().getResource("level.fxml"));
-        stage.setScene(new Scene(newRoot));
+        NameInputController nameInputController = new NameInputController(playerNumber);
+        stage.setScene(new Scene(nameInputController));
         stage.show();
     }
 
@@ -101,4 +116,5 @@ public class StartController implements Initializable {
     public static int getLimitOfPlayers() {
         return StartController.limitOfPlayers;
     }
+
 }

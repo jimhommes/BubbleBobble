@@ -1,14 +1,7 @@
 package model;
 
 /**
- * @author Jim
- * @since 9/5/2015
- * @version 0.1
- */
-
-
-/**
- * The class that represents a wall in the game.
+ * This class represents a wall in the game.
  */
 public class Wall  {
 

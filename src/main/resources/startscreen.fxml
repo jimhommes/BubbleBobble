@@ -27,9 +27,10 @@
       
               <Button fx:id="singlePlayerButton" styleClass="button" text="Start 1 Player" GridPane.columnIndex="0" GridPane.rowIndex="3" />
               <Button fx:id="multiPlayerButton" styleClass="button" text="Start 2 Players" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <Button fx:id="preferencesButton" layoutX="310.0" layoutY="606.0" styleClass="button" text="Preferences" />
-              <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-              <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+              <Button fx:id="preferencesButton" styleClass="button" text="Preferences" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+              <Button fx:id="highscoreButton" styleClass="button" text="Highscore" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+              <Button fx:id="helpButton" styleClass="button" text="Help" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+              <Button fx:id="exitButton" styleClass="button" text="Exit" GridPane.columnIndex="0" GridPane.rowIndex="8" />
           </children>
        </VBox>
    
@@ -261,5 +262,47 @@
             </Text>
          </children>
       </GridPane>
+       <GridPane fx:id="highscoreScreen" layoutY="165.0" maxHeight="764.0" minWidth="764.0" prefHeight="764.0" prefWidth="764.0" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+           <columnConstraints>
+               <ColumnConstraints />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+           </rowConstraints>
+           <children>
+               <Text styleClass="highscoreTitleText" text="Highscore Screen" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+               <Pane prefHeight="350.0" prefWidth="670.0" GridPane.rowIndex="1">
+                   <children>
+                       <VBox fx:id="highscores" layoutX="35.0" prefHeight="350.0" prefWidth="600.0">
+                           <children>
+                               <GridPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="600.0">
+                                   <columnConstraints>
+                                       <ColumnConstraints maxWidth="200.0" minWidth="100.0" prefWidth="200.0" />
+                                       <ColumnConstraints maxWidth="200.0" minWidth="100.0" prefWidth="200.0" />
+                                       <ColumnConstraints maxWidth="200.0" minWidth="100.0" prefWidth="200.0" />
+                                   </columnConstraints>
+                                   <rowConstraints>
+                                       <RowConstraints maxHeight="171.0" minHeight="18.0" prefHeight="24.0" />
+                                       <RowConstraints />
+                                   </rowConstraints>
+                                   <children>
+                                       <Text styleClass="highscoreTextDescription" text="#" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                                       <Text styleClass="highscoreTextDescription" text="Name" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
+                                       <Text layoutX="110.0" layoutY="32.0" styleClass="highscoreTextDescription" text="Score" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                   </children>
+                               </GridPane>
+                           </children>
+                       </VBox>
+                   </children>
+               </Pane>
+               <Text styleClass="highscoreTextClick" text="Click to return to the menu." GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                   <GridPane.margin>
+                       <Insets />
+                   </GridPane.margin>
+               </Text>
+           </children>
+       </GridPane>
    </children>
 </AnchorPane>

@@ -45,7 +45,7 @@ public class WalkerTest {
 	 */
 	@Test
 	public void testSwitchingDirectionFalse() {
-		walker.switchDirection();
+		walker.switchDirection("testing");
 		assertEquals(false, walker.isFacingRight());
 	}
 	
@@ -55,7 +55,7 @@ public class WalkerTest {
 	@Test
 	public void testSwitchingDirectionTrue() {
 		walker.setFacingRight(false);
-		walker.switchDirection();
+		walker.switchDirection("testing");
 		assertEquals(true, walker.isFacingRight());
 	}
 

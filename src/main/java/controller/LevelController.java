@@ -16,6 +16,7 @@ import model.Monster;
 import model.Player;
 import model.Powerup;
 import model.Wall;
+import model.FinalEnemy;
 import utility.Logger;
 import utility.Settings;
 import java.util.ArrayList;
@@ -47,7 +48,6 @@ public class LevelController implements Observer {
     private AnimationTimer gameLoop;
     private MainController mainController;
     private LevelFactory levelFactory;
-    
     private LevelControllerMethods levelControllerMethods;
 
     private boolean switchedPauseScreen = false;
@@ -110,6 +110,12 @@ public class LevelController implements Observer {
                 } else {
                     mainController.showLives(0, 0);
                     mainController.showScore(0, 0);
+                }
+                for (Monster monster : currLvl.getMonsters()) {
+                  if (monster instanceof FinalEnemy) {
+                    mainController.showEnemyLives(((FinalEnemy) monster).showLives());
+                  }
+                  
                 }
                 gameLoop.start();
             }
@@ -294,6 +300,9 @@ public class LevelController implements Observer {
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
+            for (Player player : players) {
+                player.addHighscore();
+            }
             winGame();
         }
     }
@@ -514,6 +523,8 @@ public class LevelController implements Observer {
             if (b.getIsPopped()) {
                 bubbles.remove(b);
             }
+        } else if (o instanceof FinalEnemy) {
+          mainController.showEnemyLives(((FinalEnemy) o).showLives());
         }
     }
     

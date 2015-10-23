@@ -15,6 +15,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.atLeastOnce;
 
@@ -36,9 +39,15 @@ public class MonsterTest {
 	public void setUp() {
 		levelController = mock(LevelController.class);
         ScreenController screenController = mock(ScreenController.class);
+        Level level = mock(Level.class);
+        ArrayList<Wall> walls = new ArrayList<>();
+        
+        when(levelController.getCurrLvl()).thenReturn(level);
+        when(level.getWalls()).thenReturn(walls);
         when(levelController.getScreenController()).thenReturn(screenController);
-        Coordinates coordinates = new Coordinates(1, 1, 0, 1, 0, 0);
-        monster = new Monster(coordinates, Settings.MONSTER_SPEED, true, levelController);
+        
+        Coordinates coordinates = new Coordinates(35, 1, 0, 0, 0, 0);
+        monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
 	}
 	
 	/**
@@ -47,7 +56,9 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testCheckCollision1() throws Exception {
-		Bubble bubble = mock(Bubble.class);
+	  Coordinates coordinates = new Coordinates(1, 1, 0, 0, 0, 0);
+    monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
+	  Bubble bubble = mock(Bubble.class);
 		SpriteBase sprite = mock(SpriteBase.class);
 		when(bubble.getSpriteBase()).thenReturn(sprite);
 		when(sprite.getX()).thenReturn(1.0);
@@ -107,8 +118,10 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
-		monster.move();
-		assertEquals(monster.getSpriteBase().getX(), 2, 0);
+		double newX = monster.getSpriteBase().getX() + Settings.MONSTER_SPEED;
+	  monster.move();
+	  System.out.println(monster.getSpriteBase().getX());
+		assertEquals(monster.getSpriteBase().getX(), newX, 0);
 	}
 	
 	/**
@@ -152,8 +165,9 @@ public class MonsterTest {
 	@Test
     public void testCanMove() throws Exception {
     	monster.getSpriteBase().setCanMove(false);
+    	double newX = monster.getSpriteBase().getX();
     	monster.move();
-    	assertEquals(1.0, monster.getSpriteBase().getX(), epsilon);
+    	assertEquals(newX, monster.getSpriteBase().getX(), epsilon);
     }
 
 	/**
