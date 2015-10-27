@@ -83,7 +83,7 @@ public class Launcher extends Application {
      * @param themeName String with the relative path to the song.
      */
     public static void changeMusicSong(String themeName) {
-        if (mediaPlayer != null) {
+        if (Settings.getBoolean("PLAY_MUSIC", true) && mediaPlayer != null) {
             mediaPlayer.stop();
             setMusicSong(themeName);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
