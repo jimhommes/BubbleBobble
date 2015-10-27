@@ -63,11 +63,13 @@ public class BubbleEnemyTest {
    */
   @Test
   public void testPlayerCollisionRight() {
-    Input input = mock(Input.class);
-    Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    Player player = mock(Player.class);
+    //Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    
     ArrayList<Player> players = new ArrayList<>();
     players.add(player);
     when(levelController.getPlayers()).thenReturn(players);
+    when(player.getSpriteBase()).thenReturn(bubbleEnemy.getSpriteBase());
     bubbleEnemy.move();
     assertTrue(bubbleEnemy.getIsPopped());
   }
@@ -77,14 +79,15 @@ public class BubbleEnemyTest {
    */
   @Test
   public void testPlayerCollisionLeft() {
-    Input input = mock(Input.class);
-    coordinates = new Coordinates(bubbleEnemy.getSpriteBase().getX(), 
-                                  0, 0, 0, 0, 0);
-    Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    Player player = mock(Player.class);
     ArrayList<Player> players = new ArrayList<>();
     players.add(player);
-    when(levelController.getPlayers()).thenReturn(players);
+    coordinates = new Coordinates(bubbleEnemy.getSpriteBase().getX(), 
+                                  0, 0, 0, 0, 0);
+
     bubbleEnemy = new BubbleEnemy(coordinates, false, false, levelController);
+    when(levelController.getPlayers()).thenReturn(players);
+    when(player.getSpriteBase()).thenReturn(bubbleEnemy.getSpriteBase());
     bubbleEnemy.move();
     assertTrue(bubbleEnemy.getIsPopped());
   }

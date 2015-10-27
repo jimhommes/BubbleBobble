@@ -77,15 +77,28 @@ public class FinalEnemyTest {
    */
   @Test
   public void testFire() {
-    Input input = mock(Input.class);
-    Coordinates coordinates = new Coordinates(0, finalEnemy.getSpriteBase().getY() + 1, 
-                                              0, 0, 0, 0);
-    Player player = new Player(levelController, coordinates, 0, 1, input, 0);
-    ArrayList<Player> players = new ArrayList();
+    Coordinates forPlayer = new Coordinates(0, finalEnemy.getSpriteBase().getY(), 0, 0, 0, 0);
+    SpriteBase spriteBasePlayer = new SpriteBase("testing", forPlayer);
+    spriteBasePlayer.setY(spriteBasePlayer.getY() + 1);
+    Player player = mock(Player.class);
+    ArrayList<Player> players = new ArrayList<>();
     players.add(player);
     when(levelController.getPlayers()).thenReturn(players);
+    when(player.getSpriteBase()).thenReturn(spriteBasePlayer);
     finalEnemy.move();
     assertEquals(1, finalEnemy.getCounter());
   }
 
+  /**
+   * This test tests if the correct amount of lives is shown.
+   */
+  @Test
+  public void testShowLives() {
+    int numberOfLives = 2;
+    Coordinates coordinates = new Coordinates(0, 100, 0, 0, 0, 0);
+
+    FinalEnemy finalEnemy2 = new FinalEnemy(coordinates, Settings.MONSTER_SPEED, 
+                                false, levelController, true, numberOfLives);
+    assertEquals(numberOfLives, finalEnemy2.showLives());
+  }
 }
