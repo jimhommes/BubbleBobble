@@ -2,7 +2,6 @@ package model.gameobject.bubble;
 
 import controller.LevelController;
 import javafx.animation.AnimationTimer;
-import model.support.Coordinates;
 import model.support.SpriteBase;
 import utility.Logger;
 import utility.Settings;

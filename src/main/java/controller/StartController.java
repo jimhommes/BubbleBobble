@@ -9,7 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import launcher.Launcher;
 import utility.Settings;
 
 import java.net.URL;

@@ -6,7 +6,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import launcher.Launcher;
 import model.gameobject.bubble.Bubble;
 import model.support.Coordinates;
 import model.support.Input;

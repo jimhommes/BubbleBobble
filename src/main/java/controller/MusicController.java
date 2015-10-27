@@ -11,7 +11,7 @@ import utility.Settings;
  * @version 1.0
  * @since 10/27/2015
  */
-public class MusicController {
+public final class MusicController {
 
     private static MediaPlayer mediaPlayer;
     private static boolean initialised = false;

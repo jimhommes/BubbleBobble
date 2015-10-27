@@ -122,7 +122,8 @@ public class Player extends GravityObject {
             @Override
             public void handle(long now) {
 
-                    if (!levelController.getLevelControllerMethods().getGamePaused() && !noLivesLeft()) {
+                    if (!levelController.getLevelControllerMethods().getGamePaused()
+                            && !noLivesLeft()) {
                         processInput();
                         move();
                         levelController.getCurrLvl().getMonsters().forEach(
