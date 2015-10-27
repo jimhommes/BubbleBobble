@@ -178,7 +178,18 @@ public final class Settings {
      * @param score Score of the player.
      */
     public static void setHighscores(int number, String score) {
-            setHighscore(getName(number - 1), score);
+        String name = getName(number - 1);
+
+        String oldScoreString = getHighscore(name);
+        if (oldScoreString != null) {
+            int oldScore = Integer.parseInt(getHighscore(name));
+
+            if (Integer.parseInt(score) > oldScore) {
+                setHighscore(name, score);
+            }
+        } else {
+            setHighscore(name, score);
+        }
     }
 
     /**
