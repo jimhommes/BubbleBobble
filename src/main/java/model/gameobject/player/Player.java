@@ -33,7 +33,6 @@ public class Player extends GravityObject {
     private double speed;
     private boolean isFacingRight;
     private int counter;
-    private boolean isGameOver;
     private boolean isDelayed;
     private LevelController levelController;
     private boolean isAbleToJump;
@@ -97,7 +96,6 @@ public class Player extends GravityObject {
         this.isAbleToJump = false;
         this.isAbleToDoubleJump = false;
         this.isJumping = false;
-        this.isGameOver = false;
         this.isFacingRight = true;
 
         playerMinX = Settings.SPRITE_SIZE / 2;
@@ -141,6 +139,33 @@ public class Player extends GravityObject {
     }
 
     /**
+     * This method sets the image.
+     */
+    public void setImage() {
+        if (!isDead) {
+            if (isFacingRight) {
+                if (isImmortal) {
+                    spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
+                } else {
+                    spriteBase.setImage("Bub" + playerNumber + "Right.png");
+                }
+            } else {
+                if (isImmortal) {
+                    spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
+                } else {
+                    spriteBase.setImage("Bub" + playerNumber + "Left.png");
+                }
+            }
+        } else {
+            if (isFacingRight) {
+                spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+            } else {
+                spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+            }
+        }
+    }
+
+    /**
      * The function that processes the input.
      */
     public void processInput() {
@@ -158,10 +183,6 @@ public class Player extends GravityObject {
             moveHorizontal();
             checkFirePrimary();
             
-        } else {
-            if (!isDelayed) {
-                checkIfGameOver();
-            }
         }
         
         applyGravity();
@@ -178,84 +199,51 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function sets the spritebase.
-     * @param spriteBase The spritebase.
+     * This function forces the player to die entirely.
      */
-    public void setSpriteBase(SpriteBase spriteBase) {
-        this.spriteBase = spriteBase;
+    public void destroy() {
+        this.deleteObservers();
+        timer.stop();
     }
 
     /**
-     * This function sets if the player is jumping.
-     * @param isJumping True if jumping.
+     * This method check if there is a collision between SpriteBase and Wall.
+     * @param minX minimal x coordinate.
+     * @param maxX maximal x coordinate.
+     * @param minY minimal y coordinate.
+     * @param maxY maximal y coordinate.
+     * @param levelController the LevelController.
+     * @return true if there is a collision.
      */
-    public void setIsJumping(boolean isJumping) {
-        this.isJumping = isJumping;
+    private boolean wallCollision(double minX, double maxX, double minY,
+                                  double maxY, LevelController levelController) {
+        return spriteBase.causesCollisionWall(minX, maxX, minY, maxY, levelController);
     }
 
     /**
-     * This function returns whether the player is jumping.
-     * @return True if jumping.
+     * This function returns the player if it is out of bounds.
      */
-    public boolean getIsJumping() {
-        return isJumping;
-    }
+    public void checkBounds() {
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
+        if (x < playerMinX) {
+            spriteBase.setX(playerMinX);
+        } else if (x + width > playerMaxX) {
+            spriteBase.setX(playerMaxX - width);
+        }
 
-    /**
-     * This function returns the powerups.
-     * @return The powerups.
-     */
-    public List<PlayerEnhancement> getPowerups() {
-        return powerups;
-    }
-
-    /**
-     * This function returns the abletojump.
-     * @return True if able to jump.
-     */
-    public boolean getAbleToJump() {
-        return isAbleToJump;
-    }
-
-    /**
-     * This function returns true if the player has a delayed respawn.
-     * @return True if delayed respawn.
-     */
-    public boolean getIsDelayed() {
-        return isDelayed;
-    }
-
-    /**
-     * This function returns true if the player is able to double jump.
-     * @return True if able to double jump.
-     */
-    public boolean getAbleToDoubleJump() {
-        return isAbleToDoubleJump;
-    }
-
-    /**
-     * This function sets the counter.
-     * This should be used for testing purposes only.
-     * @param counter The counter.
-     */
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
-    /**
-     * This function returns the counter.
-     * @return The counter.
-     */
-    public int getCounter() {
-        return counter;
-    }
-
-    /**
-     * This function returns if it has the bubble powerup.
-     * @return True if bubblepowerup.
-     */
-    public boolean getBubblePowerup() {
-        return bubblePowerup;
+        if (y < playerMinY) {
+            if (!wallCollision(x,
+                    x + width,
+                    y,
+                    y + height, levelController)) {
+                spriteBase.setY(playerMaxY - height);
+            } else {
+                spriteBase.setY(playerMinY);
+            }
+        } else if (y + height > playerMaxY) {
+            spriteBase.setY(playerMinY);
+        }
     }
 
     /**
@@ -473,8 +461,6 @@ public class Player extends GravityObject {
         if (input.isMoveUp() && isAbleToJump) {
             jump();
         }
-        setImage();
-        
     }
 
     private void jump() {
@@ -517,7 +503,6 @@ public class Player extends GravityObject {
             }
         }
         isFacingRight = true;
-        setImage();
     }
 
     /**
@@ -541,18 +526,6 @@ public class Player extends GravityObject {
             }
         }
         setFacingRight(false);
-        setImage();
-    }
-
-    /**
-     * This function checks if the game is over. And if so, loads the game over screen.
-     */
-    private void checkIfGameOver() {
-        if (counter > 50) {
-            setGameOver(true);
-        } else {
-            counter++;
-        }
     }
 
     /**
@@ -694,25 +667,6 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function returns whether the player is game over.
-     * AKA no lives left.
-     *
-     * @return True if game over.
-     */
-    public boolean isGameOver() {
-        return isGameOver;
-    }
-
-    /**
-     * This function sets whether the player is game over.
-     *
-     * @param gameOver True if gameover.
-     */
-    public void setGameOver(boolean gameOver) {
-        isGameOver = gameOver;
-    }
-
-    /**
      * This function returns the levelcontroller.
      *
      * @return The levelcontroller.
@@ -791,32 +745,6 @@ public class Player extends GravityObject {
     public int getPlayerNumber() {
         return playerNumber;
     }
-    
-    /**
-     * This function returns the player if it is out of bounds.
-     */
-    public void checkBounds() {
-    	double x = spriteBase.getX();
-    	double y = spriteBase.getY();
-        if (x < playerMinX) {
-            spriteBase.setX(playerMinX);
-        } else if (x + width > playerMaxX) {
-            spriteBase.setX(playerMaxX - width);
-        }
-
-        if (y < playerMinY) {
-        	if (!wallCollision(x,
-                    x + width,
-                    y,
-                    y + height, levelController)) {
-        		spriteBase.setY(playerMaxY - height);
-        	} else {
-        		spriteBase.setY(playerMinY);
-        	}	
-        } else if (y + height > playerMaxY) {
-            spriteBase.setY(playerMinY);
-        }
-    }
 
     /**
      * Set the player immortal.
@@ -827,59 +755,84 @@ public class Player extends GravityObject {
     }
 
     /**
-     * This function forces the player to die entirely.
+     * This function sets the spritebase.
+     * @param spriteBase The spritebase.
      */
-    public void destroy() {
-        this.deleteObservers();
-        timer.stop();
+    public void setSpriteBase(SpriteBase spriteBase) {
+        this.spriteBase = spriteBase;
     }
-    
+
     /**
-     * This method sets the image.
+     * This function sets if the player is jumping.
+     * @param isJumping True if jumping.
      */
-    public void setImage() {
-        if (!isDead) {
-            if (isFacingRight) {
-                if (isImmortal) {
-                    spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
-                } else {
-                    spriteBase.setImage("Bub" + playerNumber + "Right.png");
-                }
-            } else {
-                if (isImmortal) {
-                    spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
-                } else {
-                    spriteBase.setImage("Bub" + playerNumber + "Left.png");
-                }
-            }
-        } else {
-            if (isFacingRight) {
-                spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
-            } else {
-                spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
-            }
-        }
+    public void setIsJumping(boolean isJumping) {
+        this.isJumping = isJumping;
     }
-    
+
     /**
-     * This method check if there is a collision between SpriteBase and Wall.
-     * @param minX minimal x coordinate.
-     * @param maxX maximal x coordinate.
-     * @param minY minimal y coordinate.
-     * @param maxY maximal y coordinate.
-     * @param levelController the LevelController.
-     * @return true if there is a collision.
+     * This function returns whether the player is jumping.
+     * @return True if jumping.
      */
-    private boolean wallCollision(double minX, double maxX, double minY, 
-        double maxY, LevelController levelController) {
-      return spriteBase.causesCollisionWall(minX, maxX, minY, maxY, levelController);
+    public boolean getIsJumping() {
+        return isJumping;
     }
-    
+
     /**
-     * This functions tells if the player is delayed.
-     * @return delayed.
+     * This function returns the powerups.
+     * @return The powerups.
      */
-    public boolean isDelayed() {
-      return isDelayed;
+    public List<PlayerEnhancement> getPowerups() {
+        return powerups;
     }
+
+    /**
+     * This function returns the abletojump.
+     * @return True if able to jump.
+     */
+    public boolean getAbleToJump() {
+        return isAbleToJump;
+    }
+
+    /**
+     * This function returns true if the player has a delayed respawn.
+     * @return True if delayed respawn.
+     */
+    public boolean getIsDelayed() {
+        return isDelayed;
+    }
+
+    /**
+     * This function returns true if the player is able to double jump.
+     * @return True if able to double jump.
+     */
+    public boolean getAbleToDoubleJump() {
+        return isAbleToDoubleJump;
+    }
+
+    /**
+     * This function sets the counter.
+     * This should be used for testing purposes only.
+     * @param counter The counter.
+     */
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    /**
+     * This function returns the counter.
+     * @return The counter.
+     */
+    public int getCounter() {
+        return counter;
+    }
+
+    /**
+     * This function returns if it has the bubble powerup.
+     * @return True if bubblepowerup.
+     */
+    public boolean getBubblePowerup() {
+        return bubblePowerup;
+    }
+
 }

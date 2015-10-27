@@ -318,7 +318,7 @@ public class LevelControllerTest {
         when(level.update()).thenReturn(false);
         int index = levelController.getIndexCurrLvl();
 
-        when(playerTest.isGameOver()).thenReturn(false);
+//        when(playerTest.isGameOver()).thenReturn(false);
 
         gameLoopTest.handle(1);
 
@@ -339,7 +339,6 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
-        when(playerTest.isGameOver()).thenReturn(false);
 
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
@@ -389,7 +388,6 @@ public class LevelControllerTest {
 
         int index = levelController.getIndexCurrLvl();
 
-        when(player.isGameOver()).thenReturn(true);
         when(level.update()).thenReturn(false);
 
         gameLoop.handle(1);
