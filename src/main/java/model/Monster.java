@@ -17,7 +17,8 @@ public class Monster extends GravityObject {
     private Bubble prisonBubble;
     private boolean isCaughtByBubble;
     private boolean isDead;
-    private boolean isReducedSpeed;
+    @SuppressWarnings("unused")
+	private boolean isReducedSpeed;
     private SpriteBase spriteBase;
     private AnimationTimer timer;
 
@@ -52,7 +53,6 @@ public class Monster extends GravityObject {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if (!levelController.getLevelControllerMethods().getGamePaused()) {

@@ -56,7 +56,6 @@ public class Bubble extends Observable {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if (!levelController.getLevelControllerMethods().getGamePaused()) {

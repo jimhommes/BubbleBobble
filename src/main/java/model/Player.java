@@ -113,7 +113,6 @@ public class Player extends GravityObject {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
 
@@ -372,7 +371,6 @@ public class Player extends GravityObject {
      *
      * @return True if collision.
      */
-    @SuppressWarnings("unchecked")
     public boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
         double x = location[0];

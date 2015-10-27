@@ -9,8 +9,6 @@ public abstract class PlayerEnhancement {
 
     private double counter;
     private double duration;
-
-    @SuppressWarnings("checkstyle:visibilitymodifier")
     protected Player player;
 
     /**

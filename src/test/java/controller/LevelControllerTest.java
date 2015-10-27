@@ -49,18 +49,15 @@ public class LevelControllerTest {
     private MainController mainController;
 
     private AnimationTimer gameLoopTest; 
-    @SuppressWarnings("rawtypes")
-	private ArrayList<Player> playersTest = new ArrayList<>();
+    private ArrayList<Player> playersTest = new ArrayList<>();
     private Player playerTest = mock(Player.class);
-    @SuppressWarnings("rawtypes")
-	private ArrayList<Monster> monstersTest = new ArrayList<>();
+    private ArrayList<Monster> monstersTest = new ArrayList<>();
     private Monster monsterTest = mock(Monster.class);
 
     /**
      * The setup before every test.
      */
-    @SuppressWarnings("unchecked")
-	@Before
+    @Before
     public void setUp() {
         Settings.initialize("test.properties");
 
@@ -282,7 +279,6 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
@@ -306,7 +302,6 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
-	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -328,7 +323,6 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
-	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
 

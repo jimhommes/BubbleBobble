@@ -25,8 +25,10 @@ public class Logger {
     public static final PrintStream OUT = System.out;
     public static final PrintStream ERR = System.err;
 
-    private static final boolean INFO = false;
-    private static final boolean ERROR = true;
+    @SuppressWarnings("unused")
+	private static final boolean INFO = false;
+    @SuppressWarnings("unused")
+	private static final boolean ERROR = true;
 
     /**
      * Class should be used in a static manner.
