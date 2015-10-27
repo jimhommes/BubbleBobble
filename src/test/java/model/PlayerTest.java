@@ -77,6 +77,17 @@ public class PlayerTest {
     }
 
     /**
+     * Test addHighscore method.
+     */
+    @Test
+    public void testAddHighscore() {
+        player.setScore(100);
+        player.addHighscore();
+
+        assertEquals("100", Settings.getHighscore("TEST_P1"));
+    }
+
+    /**
      * Tests the process when the player is not dead,
      * and checks that correct dx and dy are returned. .
      *

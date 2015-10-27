@@ -217,6 +217,26 @@ public class SettingsTest {
     }
 
     /**
+     * Test SetHighscores method.
+     */
+    @Test
+    public void testSetHighscores() {
+        Settings.setName("TEST_PLAYER", 0);
+
+        Settings.setHighscores(1, "100");
+        String string = Settings.getHighscore("TEST_PLAYER");
+        assertEquals("100", string);
+
+        Settings.setHighscores(1, "50");
+        String string2 = Settings.getHighscore("TEST_PLAYER");
+        assertEquals("100", string2);
+
+        Settings.setHighscores(1, "200");
+        String string3 = Settings.getHighscore("TEST_PLAYER");
+        assertEquals("200", string3);
+    }
+
+    /**
      * Test getting highscore value.
      */
     @Test
