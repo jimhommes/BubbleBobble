@@ -3,11 +3,11 @@ package controller;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import model.Bubble;
-import model.Monster;
-import model.Player;
-import model.Powerup;
-import model.SpriteBase;
+import model.gameobject.bubble.Bubble;
+import model.gameobject.enemy.Monster;
+import model.gameobject.player.Player;
+import model.gameobject.player.Powerup;
+import model.support.SpriteBase;
 
 import java.util.ArrayList;
 import java.util.Observable;
