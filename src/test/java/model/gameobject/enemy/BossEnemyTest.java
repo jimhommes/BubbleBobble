@@ -15,16 +15,14 @@ import static org.mockito.Mockito.when;
 
 /**
  * This class tests what happens to the FinalEnemy.
- * @author jeffr_000
- *
  */
-public class FinalEnemyTest {
+public class BossEnemyTest {
 
-  private FinalEnemy finalEnemy;
+  private BossEnemy bossEnemy;
   private LevelController levelController;
   
   /**
-   * This method is runned before every test.
+   * This method is run before every test.
    */
   @Before
   public void before() {
@@ -33,7 +31,7 @@ public class FinalEnemyTest {
     when(levelController.getScreenController()).thenReturn(screenController);
     Coordinates coordinates = new Coordinates(0, 100, 0, 0, 0, 0);
 
-    finalEnemy = new FinalEnemy(coordinates, Settings.MONSTER_SPEED, 
+    bossEnemy = new BossEnemy(coordinates, Settings.MONSTER_SPEED, 
                                 false, levelController, true, 1);
   }
   
@@ -42,9 +40,9 @@ public class FinalEnemyTest {
    */
   @Test
   public void testMoveUp() {
-    double newY = finalEnemy.getSpriteBase().getYCoordinate() - finalEnemy.getSpeed();
-    finalEnemy.move();
-    assertEquals(newY, finalEnemy.getSpriteBase().getYCoordinate(), 0.001);
+    double newY = bossEnemy.getSpriteBase().getYCoordinate() - bossEnemy.getSpeed();
+    bossEnemy.move();
+    assertEquals(newY, bossEnemy.getSpriteBase().getYCoordinate(), 0.001);
   }
   
   /**
@@ -52,10 +50,10 @@ public class FinalEnemyTest {
    */
   @Test
   public void testMoveDown() {
-    finalEnemy.getSpriteBase().setYCoordinate(Settings.SPRITE_SIZE);
-    double newY = finalEnemy.getSpriteBase().getYCoordinate() + finalEnemy.getSpeed();
-    finalEnemy.move();
-    assertEquals(newY, finalEnemy.getSpriteBase().getYCoordinate(), 0.001);
+	bossEnemy.getSpriteBase().setYCoordinate(Settings.SPRITE_SIZE);
+    double newY = bossEnemy.getSpriteBase().getYCoordinate() + bossEnemy.getSpeed();
+    bossEnemy.move();
+    assertEquals(newY, bossEnemy.getSpriteBase().getYCoordinate(), 0.001);
   }
   
   /**
@@ -63,12 +61,12 @@ public class FinalEnemyTest {
    */
   @Test
   public void testDie() {
-    Coordinates coordinates = new Coordinates(finalEnemy.getSpriteBase().getXCoordinate(), 
-                                              finalEnemy.getSpriteBase().getYCoordinate(),
+    Coordinates coordinates = new Coordinates(bossEnemy.getSpriteBase().getXCoordinate(), 
+    		bossEnemy.getSpriteBase().getYCoordinate(),
                                               0, 0, 0, 0);
     PlayerBubble bubble = new PlayerBubble(coordinates, true, false, levelController);
-    finalEnemy.checkCollision(bubble);
-    assertTrue(finalEnemy.isDead());
+    bossEnemy.checkCollision(bubble);
+    assertTrue(bossEnemy.isDead());
   }
 
 }
