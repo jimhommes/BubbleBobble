@@ -7,8 +7,11 @@ import org.junit.Test;
 import utility.Settings;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
 
 /**
  * This class tests what happens to the BubbleEnemy.
@@ -54,4 +57,35 @@ public class BubbleEnemyTest {
     bubbleEnemy.move();
     assertEquals(newX, bubbleEnemy.getSpriteBase().getX(), 0.001);
   }  
+  
+  /**
+   * This test tests what happens when the enemyBubble collides with a player.
+   */
+  @Test
+  public void testPlayerCollisionRight() {
+    Input input = mock(Input.class);
+    Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    ArrayList<Player> players = new ArrayList<>();
+    players.add(player);
+    when(levelController.getPlayers()).thenReturn(players);
+    bubbleEnemy.move();
+    assertTrue(bubbleEnemy.getIsPopped());
+  }
+  
+  /**
+   * This test tests what happens when the enemyBubble collides with a player.
+   */
+  @Test
+  public void testPlayerCollisionLeft() {
+    Input input = mock(Input.class);
+    coordinates = new Coordinates(bubbleEnemy.getSpriteBase().getX(), 
+                                  0, 0, 0, 0, 0);
+    Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    ArrayList<Player> players = new ArrayList<>();
+    players.add(player);
+    when(levelController.getPlayers()).thenReturn(players);
+    bubbleEnemy = new BubbleEnemy(coordinates, false, false, levelController);
+    bubbleEnemy.move();
+    assertTrue(bubbleEnemy.getIsPopped());
+  }
 }

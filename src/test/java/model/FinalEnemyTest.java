@@ -8,6 +8,8 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
 import controller.LevelController;
 import controller.ScreenController;
 import utility.Settings;
@@ -68,6 +70,22 @@ public class FinalEnemyTest {
     BubblePlayer bubble = new BubblePlayer(coordinates, true, false, levelController);
     finalEnemy.checkCollision(bubble);
     assertTrue(finalEnemy.isDead());
+  }
+  
+  /**
+   * This test tests if the FinalEnemy can fire.
+   */
+  @Test
+  public void testFire() {
+    Input input = mock(Input.class);
+    Coordinates coordinates = new Coordinates(0, finalEnemy.getSpriteBase().getY() + 1, 
+                                              0, 0, 0, 0);
+    Player player = new Player(levelController, coordinates, 0, 1, input, 0);
+    ArrayList<Player> players = new ArrayList();
+    players.add(player);
+    when(levelController.getPlayers()).thenReturn(players);
+    finalEnemy.move();
+    assertEquals(1, finalEnemy.getCounter());
   }
 
 }
