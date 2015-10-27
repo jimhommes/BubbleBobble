@@ -128,7 +128,7 @@ public class LevelController implements Observer {
             		&& keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
                 muteKeyPressed = true;
                 Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", false));
-                Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
+                MusicController.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
             }
         });
 
@@ -241,7 +241,7 @@ public class LevelController implements Observer {
     public void setMusic() {
 
         if (indexCurrLvl == (maps.size() - 1)) {
-            Launcher.changeMusicSong(Settings.MUSIC_BOSS_SONG);
+            MusicController.changeMusicSong(Settings.MUSIC_BOSS_SONG);
         }
 
     }
@@ -312,7 +312,7 @@ public class LevelController implements Observer {
      */
     public void gameOver() {
         Logger.log("Game over!");
-        Launcher.changeMusicSong(Settings.MUSIC_GAMEOVER_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_GAMEOVER_SONG);
         gameLoop.stop();
         mainController.showGameOverScreen();
     }
@@ -322,7 +322,7 @@ public class LevelController implements Observer {
      */
     private void winGame() {
         Logger.log("Game won!");
-        Launcher.changeMusicSong(Settings.MUSIC_GAMEWON_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_GAMEWON_SONG);
         gameLoop.stop();
         mainController.showWinScreen();
     }

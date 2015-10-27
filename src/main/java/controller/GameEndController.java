@@ -50,7 +50,7 @@ public class GameEndController implements Initializable {
         stage.setScene(new Scene(newRoot));
         stage.show();
 
-        Launcher.changeMusicSong(Settings.MUSIC_THEME_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_THEME_SONG);
     }
 
 }

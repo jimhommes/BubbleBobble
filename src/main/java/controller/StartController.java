@@ -53,6 +53,8 @@ public class StartController implements Initializable {
 
         setEvents();
         initHighscoreScreen();
+        MusicController.initMusicPlayer();
+        MusicController.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
     }
 
     private void setEvents() {
@@ -72,7 +74,7 @@ public class StartController implements Initializable {
                 System.exit(0)));
         muteCheckBox.setOnMousePressed(event -> {
             Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", true));
-            Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
+            MusicController.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
         });
         preferencesButton.setOnMousePressed(event -> preferencesScreen
                 .visibleProperty().setValue(!preferencesScreen.isVisible()));
