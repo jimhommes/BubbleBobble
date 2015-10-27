@@ -76,13 +76,13 @@ public class SpriteBase extends Observable {
      *
      * @return The rotation degree.
      */
-    public double getR() {
-        return coordinates.getR();
+    public double getRotation() {
+        return coordinates.getRotation();
     }
 
     /**
      * This function returns the height of the SpriteBase.
-     * @return The height of the SpriteBase.
+     * @return The height of the SpriteBase.i
      */
     public double getHeight() {
         return h;
@@ -184,7 +184,7 @@ public class SpriteBase extends Observable {
      * @param r The R coordinate.
      */
     public void setR(double r) {
-    	coordinates.setR(r);
+    	coordinates.setRotation(r);
     }
 
     /**
@@ -207,8 +207,8 @@ public class SpriteBase extends Observable {
      * Sets the Dr.
      * @param dr The Dr.
      */
-    public void setDr(double dr) {
-       coordinates.setDR(dr);
+    public void setDRotation(double dr) {
+       coordinates.setDRotation(dr);
     }
 
     /**
@@ -231,8 +231,8 @@ public class SpriteBase extends Observable {
      * Gets the Dr.
      * @return The Dr.
      */
-    public double getDr() {
-        return coordinates.getDR();
+    public double getDRotation() {
+        return coordinates.getDRotation();
     }
     
     /**

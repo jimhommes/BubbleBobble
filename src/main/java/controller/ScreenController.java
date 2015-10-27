@@ -46,7 +46,7 @@ public class ScreenController implements Observer {
         sprite.setHeight(imageView.getImage().getHeight());
         sprite.setWidth(imageView.getImage().getWidth());
         imageView.relocate(sprite.getX(), sprite.getY());
-        imageView.setRotate(sprite.getR());
+        imageView.setRotate(sprite.getRotation());
         images.add(imageView);
         playFieldLayer.getChildren().add(imageView);
     }
@@ -73,7 +73,7 @@ public class ScreenController implements Observer {
                         .getResource(sprite.getImagePath()).toExternalForm()));
                 sprite.setSpriteChanged(false);
             }
-            image.setRotate(sprite.getR());
+            image.setRotate(sprite.getRotation());
     	}
     	
     }

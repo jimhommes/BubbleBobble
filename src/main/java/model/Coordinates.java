@@ -38,7 +38,7 @@ public class Coordinates {
 	public void apply() {
 		this.setX(x + dx);
 		this.setY(y + dy);
-		this.setR(r + dr);
+		this.setRotation(r + dr);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class Coordinates {
 	 * This method gets the r of the coordinates. 
 	 * @return r the r coordinate.
 	 */
-	public double getR() {
+	public double getRotation() {
 		return r;
 	}
 	
@@ -85,7 +85,7 @@ public class Coordinates {
 	 * This method sets the r of the coordinates. 
 	 * @param r the r coordinate.
 	 */
-	public void setR(double r) {
+	public void setRotation(double r) {
 		this.r = r;
 	}
 	
@@ -125,7 +125,7 @@ public class Coordinates {
 	 * This method gets the dr of the coordinates. 
 	 * @return dr the dr coordinate.
 	 */
-	public double getDR() {
+	public double getDRotation() {
 		return dr;
 	}
 	
@@ -133,7 +133,7 @@ public class Coordinates {
 	 * This method sets the dr of the coordinates. 
 	 * @param dr the dr.
 	 */
-	public void setDR(double dr) {
+	public void setDRotation(double dr) {
 		this.dr = dr;
 	}
 	

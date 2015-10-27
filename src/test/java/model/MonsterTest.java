@@ -73,24 +73,6 @@ public class MonsterTest {
         assertEquals(monster.getPrisonBubble(), bubble);
 	}
 	
-	/**
-	 * This tests that collisions occur.
-	 * @throws Exception .
-	 */
-//	@Test
-//	public void testCheckCollision2() throws Exception {
-//		Bubble bubble = mock(Bubble.class);
-//		SpriteBase sprite = mock(SpriteBase.class);
-//		when(bubble.getSpriteBase()).thenReturn(sprite);
-//		when(sprite.getX()).thenReturn(1.0);
-//        when(sprite.getY()).thenReturn(1.0);
-//        when(sprite.getWidth()).thenReturn(300.0);
-//        when(sprite.getHeight()).thenReturn(300.0);
-//        when(bubble.isAbleToCatch()).thenReturn(true);
-//        monster.checkCollision(bubble);
-//        monster.checkCollision(bubble);
-//        assertTrue(monster.isCaughtByBubble());
-//	}
 	   
 	/**
 	 * This tests if the monster is facing right.
@@ -129,11 +111,11 @@ public class MonsterTest {
 	 * @throws Exception .
 	 */
 	@Test
-	public void testR() throws Exception {
+	public void testRotation() throws Exception {
     	monster.getSpriteBase().setR(10);
-    	assertEquals(10.0, monster.getSpriteBase().getR(), epsilon);
-    	monster.getSpriteBase().setDr(10);
-    	assertEquals(10.0, monster.getSpriteBase().getDr(), epsilon);
+    	assertEquals(10.0, monster.getSpriteBase().getRotation(), epsilon);
+    	monster.getSpriteBase().setDRotation(10);
+    	assertEquals(10.0, monster.getSpriteBase().getDRotation(), epsilon);
     }
 
 	/**
