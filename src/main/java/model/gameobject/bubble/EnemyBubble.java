@@ -28,7 +28,7 @@ public class EnemyBubble extends Bubble {
    */
   public EnemyBubble(Coordinates coordinates, boolean firedRight, boolean powerup,
                      LevelController levelController) {
-    super(coordinates, firedRight, powerup, levelController);
+    super(firedRight, powerup, levelController);
     
     this.right = firedRight;
     
@@ -111,7 +111,7 @@ public class EnemyBubble extends Bubble {
         this.setIsPopped(true);
         return true;
       }
-    } else if (!right) {
+    } else {
       if (getSpriteBase().getX() <= playerMaxX 
           && getSpriteBase().getX() + Settings.SPRITE_SIZE >= playerMinX 
           && playerMinY <= getSpriteBase().getY() + Settings.SPRITE_SIZE 

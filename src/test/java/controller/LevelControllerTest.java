@@ -502,8 +502,7 @@ public class LevelControllerTest {
     public void testUpdateBubble() {
         ScreenController sc = mock(ScreenController.class);
         levelController.setScreenController(sc);
-        Bubble bubble = new Bubble(new Coordinates(0, 0, 0, 0, 0, 0),
-                true, false, levelController);
+        Bubble bubble = new Bubble(true, false, levelController);
 
         levelController.addBubble(bubble);
         assertEquals(levelController.getBubbles().size(), 1);

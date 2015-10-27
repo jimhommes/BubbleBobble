@@ -21,7 +21,7 @@ public class PlayerBubble extends Bubble {
    */
   public PlayerBubble(Coordinates coordinates, boolean firedRight, boolean powerup,
                       LevelController levelController) {
-    super(coordinates, firedRight, powerup, levelController);
+    super(firedRight, powerup, levelController);
     
     setSpriteBase(new SpriteBase("bubble.png", coordinates));
   }
