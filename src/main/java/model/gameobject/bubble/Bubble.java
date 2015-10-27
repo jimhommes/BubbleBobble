@@ -92,6 +92,12 @@ public class Bubble extends Observable {
             moveVertically();
         }
 
+        logMove();
+        spriteBase.move();
+        checkPop();
+    }
+
+    private void logMove() {
         Double newX = spriteBase.getX() + spriteBase.getDx();
         Double newY = spriteBase.getY() + spriteBase.getDy();
 
@@ -99,11 +105,6 @@ public class Bubble extends Observable {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
                     spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
-
-        spriteBase.move();
-
-        checkPop();
-
     }
 
     /**
