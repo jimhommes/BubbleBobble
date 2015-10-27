@@ -1,6 +1,5 @@
 package model;
 
-import controller.HighscoreEntryController;
 import controller.LevelController;
 import javafx.animation.AnimationTimer;
 import model.powerups.Immortality;
@@ -439,7 +438,6 @@ public class Player extends GravityObject {
     		setChanged();
     		notifyObservers();
     		destroy();
-            addHighscore();
     	} else {
     		isDelayed = true;
     		delayRespawn();
@@ -450,15 +448,7 @@ public class Player extends GravityObject {
      * Add the final score to the highscoresList.
      */
     public void addHighscore() {
-        ArrayList<HighscoreEntryController> highscores = Settings.getHighscores();
-        highscores.add(new HighscoreEntryController(Settings.getName(playerNumber - 1),
-                Integer.toString(this.getScore())));
-        highscores.sort((HighscoreEntryController o1,
-                         HighscoreEntryController o2)->o2.getScore() - o1.getScore());
-        while (highscores.size() > 10) {
-            highscores.remove(10);
-        }
-        Settings.setHighscores(highscores);
+        Settings.setHighscores(playerNumber, Integer.toString(this.getScore()));
     }
 
     private void delayRespawn() {
