@@ -78,10 +78,10 @@ public class WalkerTest {
 //		when(levelController.getCurrLvl().getWalls()).thenReturn(wall);
 		walker.move();
 		assertEquals(Settings.SPRITE_SIZE / 2 + Settings.MONSTER_SPEED,
-				walker.getSpriteBase().getX(), 0);
+				walker.getSpriteBase().getXCoordinate(), 0);
 		walker.setFacingRight(false);
 		walker.move();
-		assertEquals(Settings.SPRITE_SIZE / 2, walker.getSpriteBase().getX(), 0);
+		assertEquals(Settings.SPRITE_SIZE / 2, walker.getSpriteBase().getXCoordinate(), 0);
 	}
 	
 	/**
@@ -101,8 +101,8 @@ public class WalkerTest {
 		Bubble bubble = mock(Bubble.class);
 		SpriteBase bubbleSprite = mock(SpriteBase.class);
 		when(bubble.getSpriteBase()).thenReturn(bubbleSprite);
-		when(bubbleSprite.getX()).thenReturn(30.0);
-        when(bubbleSprite.getY()).thenReturn(4.0);
+		when(bubbleSprite.getXCoordinate()).thenReturn(30.0);
+        when(bubbleSprite.getYCoordinate()).thenReturn(4.0);
         when(bubbleSprite.getWidth()).thenReturn(32.0);
         when(bubbleSprite.getHeight()).thenReturn(32.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
@@ -110,7 +110,7 @@ public class WalkerTest {
         walker.getSpriteBase().setHeight(32.0);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(bubble.getSpriteBase().getX(), walker.getSpriteBase().getX(), 0);
+        assertEquals(bubble.getSpriteBase().getXCoordinate(), walker.getSpriteBase().getXCoordinate(), 0);
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class WalkerTest {
 		Walker walker1 = 
 				new Walker(walkerCoordinates, Settings.PLAYER_SPEED, true, levelController);
 		walker1.move();
-    	assertEquals(Settings.SPRITE_SIZE / 2, walker1.getSpriteBase().getY(), 0.0001);
+    	assertEquals(Settings.SPRITE_SIZE / 2, walker1.getSpriteBase().getYCoordinate(), 0.0001);
 	}
 	
 	/**
@@ -141,8 +141,8 @@ public class WalkerTest {
 		Wall wall = new Wall(coordinates);
 		walls.add(wall);
 		when(levelController.getCurrLvl().getWalls()).thenReturn(walls);
-		double locationY = walker.getSpriteBase().getY();
+		double locationY = walker.getSpriteBase().getYCoordinate();
 		
-		assertEquals(locationY, walker.getSpriteBase().getY(), 0.0001);
+		assertEquals(locationY, walker.getSpriteBase().getYCoordinate(), 0.0001);
 	}
 }

@@ -40,9 +40,9 @@ public class EnemyBubbleTest {
    */
   @Test
   public void testMoveRight() {
-    double newX = enemyBubble.getSpriteBase().getX() + Settings.BUBBLE_INIT_SPEED;
+    double newX = enemyBubble.getSpriteBase().getXCoordinate() + Settings.BUBBLE_INIT_SPEED;
     enemyBubble.move();
-    assertEquals(newX, enemyBubble.getSpriteBase().getX(), 0.001);
+    assertEquals(newX, enemyBubble.getSpriteBase().getXCoordinate(), 0.001);
   }
   
   /**
@@ -51,8 +51,8 @@ public class EnemyBubbleTest {
   @Test
   public void testMoveLeft() {
     enemyBubble = new EnemyBubble(coordinates, false, false, levelController);
-    double newX = enemyBubble.getSpriteBase().getX() - Settings.BUBBLE_INIT_SPEED;
+    double newX = enemyBubble.getSpriteBase().getXCoordinate() - Settings.BUBBLE_INIT_SPEED;
     enemyBubble.move();
-    assertEquals(newX, enemyBubble.getSpriteBase().getX(), 0.001);
+    assertEquals(newX, enemyBubble.getSpriteBase().getXCoordinate(), 0.001);
   }  
 }

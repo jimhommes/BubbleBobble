@@ -42,9 +42,9 @@ public class FinalEnemyTest {
    */
   @Test
   public void testMoveUp() {
-    double newY = finalEnemy.getSpriteBase().getY() - finalEnemy.getSpeed();
+    double newY = finalEnemy.getSpriteBase().getYCoordinate() - finalEnemy.getSpeed();
     finalEnemy.move();
-    assertEquals(newY, finalEnemy.getSpriteBase().getY(), 0.001);
+    assertEquals(newY, finalEnemy.getSpriteBase().getYCoordinate(), 0.001);
   }
   
   /**
@@ -52,10 +52,10 @@ public class FinalEnemyTest {
    */
   @Test
   public void testMoveDown() {
-    finalEnemy.getSpriteBase().setY(Settings.SPRITE_SIZE);
-    double newY = finalEnemy.getSpriteBase().getY() + finalEnemy.getSpeed();
+    finalEnemy.getSpriteBase().setYCoordinate(Settings.SPRITE_SIZE);
+    double newY = finalEnemy.getSpriteBase().getYCoordinate() + finalEnemy.getSpeed();
     finalEnemy.move();
-    assertEquals(newY, finalEnemy.getSpriteBase().getY(), 0.001);
+    assertEquals(newY, finalEnemy.getSpriteBase().getYCoordinate(), 0.001);
   }
   
   /**
@@ -63,8 +63,8 @@ public class FinalEnemyTest {
    */
   @Test
   public void testDie() {
-    Coordinates coordinates = new Coordinates(finalEnemy.getSpriteBase().getX(), 
-                                              finalEnemy.getSpriteBase().getY(),
+    Coordinates coordinates = new Coordinates(finalEnemy.getSpriteBase().getXCoordinate(), 
+                                              finalEnemy.getSpriteBase().getYCoordinate(),
                                               0, 0, 0, 0);
     PlayerBubble bubble = new PlayerBubble(coordinates, true, false, levelController);
     finalEnemy.checkCollision(bubble);

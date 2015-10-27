@@ -64,8 +64,8 @@ public class MonsterTest {
 	  Bubble bubble = mock(Bubble.class);
 		SpriteBase sprite = mock(SpriteBase.class);
 		when(bubble.getSpriteBase()).thenReturn(sprite);
-		when(sprite.getX()).thenReturn(1.0);
-		when(sprite.getY()).thenReturn(1.0);
+		when(sprite.getXCoordinate()).thenReturn(1.0);
+		when(sprite.getYCoordinate()).thenReturn(1.0);
 		when(sprite.getWidth()).thenReturn(300.0);
 		when(sprite.getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
@@ -103,10 +103,10 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testMove() throws Exception {
-		double newX = monster.getSpriteBase().getX() + Settings.MONSTER_SPEED;
+		double newX = monster.getSpriteBase().getXCoordinate() + Settings.MONSTER_SPEED;
 	  monster.move();
-	  System.out.println(monster.getSpriteBase().getX());
-		assertEquals(monster.getSpriteBase().getX(), newX, 0);
+	  System.out.println(monster.getSpriteBase().getXCoordinate());
+		assertEquals(monster.getSpriteBase().getXCoordinate(), newX, 0);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class MonsterTest {
 	 */
 	@Test
 	public void testRotation() throws Exception {
-    	monster.getSpriteBase().setR(10);
+    	monster.getSpriteBase().setRotation(10);
     	assertEquals(10.0, monster.getSpriteBase().getRotation(), epsilon);
     	monster.getSpriteBase().setDRotation(10);
     	assertEquals(10.0, monster.getSpriteBase().getDRotation(), epsilon);
@@ -150,9 +150,9 @@ public class MonsterTest {
 	@Test
     public void testCanMove() throws Exception {
     	monster.getSpriteBase().setCanMove(false);
-    	double newX = monster.getSpriteBase().getX();
+    	double newX = monster.getSpriteBase().getXCoordinate();
     	monster.move();
-    	assertEquals(newX, monster.getSpriteBase().getX(), epsilon);
+    	assertEquals(newX, monster.getSpriteBase().getXCoordinate(), epsilon);
     }
 
 	/**

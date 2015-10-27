@@ -120,8 +120,8 @@ public class LevelControllerTest {
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
-		assertEquals(200, players.get(0).getSpriteBase().getX(), 0.001);
-		assertEquals(200, players.get(0).getSpriteBase().getY(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getXCoordinate(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getYCoordinate(), 0.001);
 		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
 	}
 
@@ -450,8 +450,8 @@ public class LevelControllerTest {
         Monster monster = mock(Monster.class);
         SpriteBase sprite = mock(SpriteBase.class);
         when(monster.getSpriteBase()).thenReturn(sprite);
-        when(sprite.getX()).thenReturn(15.0);
-        when(sprite.getY()).thenReturn(30.0);
+        when(sprite.getXCoordinate()).thenReturn(15.0);
+        when(sprite.getYCoordinate()).thenReturn(30.0);
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
@@ -466,8 +466,8 @@ public class LevelControllerTest {
 
         assertEquals(1, levelController.getPowerups().size());
         Powerup powerup = levelController.getPowerups().get(0);
-        assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
-        assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
+        assertEquals(15.0, powerup.getSpriteBase().getXCoordinate(), 0.1);
+        assertEquals(30.0, powerup.getSpriteBase().getYCoordinate(), 0.1);
     }
 
     /**

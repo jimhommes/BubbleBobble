@@ -61,8 +61,8 @@ public class BubbleTest {
         for (int i = 1; i < 30; i++) {
             bubbleRight.move();
 
-            assertEquals((double) 1.f + i * 7, bubbleRight.getSpriteBase().getX(), 0.001);
-            assertEquals((double) 1.f, bubbleRight.getSpriteBase().getY(), 0.001);
+            assertEquals((double) 1.f + i * 7, bubbleRight.getSpriteBase().getXCoordinate(), 0.001);
+            assertEquals((double) 1.f, bubbleRight.getSpriteBase().getYCoordinate(), 0.001);
         }
 
         assertTrue(bubbleRight.isAbleToCatch());
@@ -80,8 +80,8 @@ public class BubbleTest {
         for (int i = 1; i < 30; i++) {
             bubbleLeft.move();
 
-            assertEquals((double) 1.f + i * -7, bubbleLeft.getSpriteBase().getX(), 0.001);
-            assertEquals((double) 1.f, bubbleLeft.getSpriteBase().getY(), 0.001);
+            assertEquals((double) 1.f + i * -7, bubbleLeft.getSpriteBase().getXCoordinate(), 0.001);
+            assertEquals((double) 1.f, bubbleLeft.getSpriteBase().getYCoordinate(), 0.001);
         }
 
         assertTrue(bubbleLeft.isAbleToCatch());
@@ -185,11 +185,11 @@ public class BubbleTest {
         bubbleRight.setSpriteBase(spriteBase);
         when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
                 anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(true);
-        when(spriteBase.getY()).thenReturn(10.0);
+        when(spriteBase.getYCoordinate()).thenReturn(10.0);
 
         bubbleRight.move();
 
-        verify(spriteBase, atLeastOnce()).setDy(0);
+        verify(spriteBase, atLeastOnce()).setDyCoordinate(0);
     }
 
     /**
@@ -205,7 +205,7 @@ public class BubbleTest {
 
         bubbleRight.move();
 
-        verify(spriteBase, atLeastOnce()).setDx(0);
+        verify(spriteBase, atLeastOnce()).setDxCoordinate(0);
     }
 
     /**
@@ -221,7 +221,7 @@ public class BubbleTest {
 
         bubbleRight.move();
 
-        verify(spriteBase, atLeastOnce()).setDx(0);
+        verify(spriteBase, atLeastOnce()).setDxCoordinate(0);
     }
 
     /**

@@ -59,8 +59,8 @@ public class SpriteBase extends Observable {
      *
      * @return x coordinate
      */
-    public double getX() {
-        return coordinates.getX();
+    public double getXCoordinate() {
+        return coordinates.getXCoordinate();
     }
 
     /**
@@ -68,8 +68,8 @@ public class SpriteBase extends Observable {
      *
      * @return y coordinate.
      */
-    public double getY() {
-        return coordinates.getY();
+    public double getYCoordinate() {
+        return coordinates.getYCoordinate();
     }
 
     /**
@@ -150,9 +150,9 @@ public class SpriteBase extends Observable {
      * @return True if there is a collision.
      */
     public boolean causesCollision(double minX, double maxX, double minY, double maxY) {
-        double minX2 = coordinates.getX();
+        double minX2 = coordinates.getXCoordinate();
         double maxX2 = minX2 + getWidth();
-        double minY2 = coordinates.getY();
+        double minY2 = coordinates.getYCoordinate();
         double maxY2 = minY2 + getHeight();
         return ((minX > minX2 && minX < maxX2)
                 || (maxX > minX2 && maxX < maxX2)
@@ -168,23 +168,23 @@ public class SpriteBase extends Observable {
      * Sets the X coordinate.
      * @param x The X coordinate.
      */
-    public void setX(double x) {
-        coordinates.setX(x);
+    public void setXCoordinate(double x) {
+        coordinates.setXCoordinate(x);
     }
 
     /**
      * Sets the Y coordinate.
      * @param y The Y coordinate.
      */
-    public void setY(double y) {
-    	coordinates.setY(y);
+    public void setYCoordinate(double y) {
+    	coordinates.setYCoordinate(y);
     }
 
     /**
      * Sets the R coordinate.
      * @param r The R coordinate.
      */
-    public void setR(double r) {
+    public void setRotation(double r) {
     	coordinates.setRotation(r);
     }
 
@@ -192,16 +192,16 @@ public class SpriteBase extends Observable {
      * Sets the Dx.
      * @param dx The Dx.
      */
-    public void setDx(double dx) {
-        coordinates.setDX(dx);
+    public void setDxCoordinate(double dx) {
+        coordinates.setDXCoordinate(dx);
     }
 
     /**
      * Sets the Dy.
      * @param dy The Dy.
      */
-    public void setDy(double dy) {
-        coordinates.setDY(dy);
+    public void setDyCoordinate(double dy) {
+        coordinates.setDYCoordinate(dy);
     }
 
     /**
@@ -216,16 +216,16 @@ public class SpriteBase extends Observable {
      * Gets the Dx.
      * @return The Dx.
      */
-    public double getDx() {
-        return coordinates.getDX();
+    public double getDxCoordinate() {
+        return coordinates.getDXCoordinate();
     }
 
     /**
      * Gets the Dy.
      * @return The Dy.
      */
-    public double getDy() {
-        return coordinates.getDY();
+    public double getDyCoordinate() {
+        return coordinates.getDYCoordinate();
     }
 
     /**
@@ -255,23 +255,23 @@ public class SpriteBase extends Observable {
     public void checkBounds(double spriteMinX, double spriteMaxX,
                             double spriteMinY, double spriteMaxY,
                             LevelController levelController) {
-        if (getX() < spriteMinX) {
-            setX(spriteMinX);
-        } else if (getX() + getWidth() > spriteMaxX) {
-            setX(spriteMaxX - getWidth());
+        if (getXCoordinate() < spriteMinX) {
+            setXCoordinate(spriteMinX);
+        } else if (getXCoordinate() + getWidth() > spriteMaxX) {
+            setXCoordinate(spriteMaxX - getWidth());
         }
 
-        if (getY() < spriteMinY) {
-        	if (!causesCollisionWall(getX(),
-                    getX() + getWidth(),
-                    getY(),
-                    getY() + getHeight(), levelController)) {
-        		setY(spriteMaxY - getHeight());
+        if (getYCoordinate() < spriteMinY) {
+        	if (!causesCollisionWall(getXCoordinate(),
+                    getXCoordinate() + getWidth(),
+                    getYCoordinate(),
+                    getYCoordinate() + getHeight(), levelController)) {
+        		setYCoordinate(spriteMaxY - getHeight());
         	} else {
-        		setY(spriteMinY);
+        		setYCoordinate(spriteMinY);
         	}	
-        } else if (getY() + getHeight() > spriteMaxY) {
-            setY(spriteMinY);
+        } else if (getYCoordinate() + getHeight() > spriteMaxY) {
+            setYCoordinate(spriteMinY);
         }
     }
     
@@ -302,10 +302,10 @@ public class SpriteBase extends Observable {
      */
     public double[] getLocation() {
       double[] location = new double[4];
-      location[0] = getX();
-      location[1] = getDx();
-      location[2] = getY();
-      location[3] = getDy();
+      location[0] = getXCoordinate();
+      location[1] = getDxCoordinate();
+      location[2] = getYCoordinate();
+      location[3] = getDyCoordinate();
       return location;
     }
 
@@ -314,10 +314,10 @@ public class SpriteBase extends Observable {
      * @param location the new location.
      */
     public void setLocation(double[] location) {
-      setX(location[0]);
-      setDx(location[1]);
-      setY(location[2]);
-      setDy(location[3]);
+      setXCoordinate(location[0]);
+      setDxCoordinate(location[1]);
+      setYCoordinate(location[2]);
+      setDyCoordinate(location[3]);
     }
     
 
