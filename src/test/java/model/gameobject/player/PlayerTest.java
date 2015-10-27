@@ -173,7 +173,7 @@ public class PlayerTest {
     			sprite.getY(),
     			sprite.getY() + sprite.getHeight())).thenReturn(true);
     	player.checkCollideMonster(monster);
-    	assertTrue(player.isDead());
+    	assertTrue(player.noLivesLeft());
     } 
     
 
@@ -183,11 +183,11 @@ public class PlayerTest {
      */
     @Test
     public void testDie() throws Exception {
-    	assertFalse(player.isDead());
+    	assertFalse(player.noLivesLeft());
     	SpriteBase sprite = player.getSpriteBase();
     	double x = sprite.getX();
     	player.die();
-    	assertTrue(player.isDead());
+    	assertTrue(player.noLivesLeft());
     	assertEquals(x, sprite.getX(), 0.001);
     	assertEquals(0, sprite.getDx(), 0.001);
     }
@@ -292,22 +292,6 @@ public class PlayerTest {
         SpriteBase sprite = player1.getSpriteBase();
         assertEquals(Settings.SPRITE_SIZE / 2, sprite.getY(), 0.0001);
     }
-    
-    /**
-     * Test if the methods set- and getLocation work properly.
-     */
-    @Test
-    public void testSetLocation() {
-        double[] location = {100.0, 5.0, 100.0, 5.0};
-        Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
-        Player player1 = new Player(levelController, coordinates, 
-        		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
-    	player1.setLocation(location);
-    	assertEquals(location[0], player1.updateLocation()[0], 0.0001);
-    	assertEquals(location[1], player1.updateLocation()[1], 0.0001);
-    	assertEquals(location[2], player1.updateLocation()[2], 0.0001);
-    	assertEquals(location[3], player1.updateLocation()[3], 0.0001);
-    }
 
     /**
      * This function tests the timer.
@@ -368,7 +352,7 @@ public class PlayerTest {
 
         player.processInput();
 
-        assertEquals(-5 + 0.6, player.getLocation()[3], 0.1);
+        assertEquals(-5 + 0.6, player.getSpriteBase().getDy(), 0.1);
     }
 
     /**
@@ -385,7 +369,7 @@ public class PlayerTest {
 
         player.processInput();
 
-        assertEquals(5 + 0.6, player.getLocation()[3], 0.1);
+        assertEquals(5 + 0.6, player.getSpriteBase().getDy(), 0.1);
         assertFalse(player.getIsJumping());
     }
 
@@ -416,7 +400,7 @@ public class PlayerTest {
         player.setAbleToJump(true);
         player.moveCollisionChecker(false, true);
 
-        assertEquals(array[3], player.getLocation()[3], 0.1);
+        assertEquals(array[3], player.getSpriteBase().getDy(), 0.1);
         assertFalse(player.getAbleToJump());
     }
 
@@ -564,7 +548,7 @@ public class PlayerTest {
 
         assertFalse(player.getAbleToJump());
         assertTrue(player.getIsJumping());
-        assertEquals(-Settings.JUMP_SPEED, player.getLocation()[3], 0.1);
+        assertEquals(-Settings.JUMP_SPEED, player.getSpriteBase().getDy(), 0.1);
     }
 
     /**

@@ -57,7 +57,6 @@ public class Player extends GravityObject {
     
     private double width;
     private double height;
-    private double[] location;
 
     private List<PlayerEnhancement> powerups;
 
@@ -111,7 +110,6 @@ public class Player extends GravityObject {
 
         width = Settings.SPRITE_SIZE;
         height = Settings.SPRITE_SIZE;
-        location = spriteBase.getLocation();
     }
 
     /**
@@ -124,14 +122,14 @@ public class Player extends GravityObject {
             @Override
             public void handle(long now) {
 
-                    if (!levelController.getLevelControllerMethods().getGamePaused() && !isDead()) {
+                    if (!levelController.getLevelControllerMethods().getGamePaused() && !noLivesLeft()) {
                         processInput();
                         move();
                         levelController.getCurrLvl().getMonsters().forEach(
                                 Player.this::checkCollideMonster
                         );
                     }
-                    if (isDead()) {
+                    if (noLivesLeft()) {
                     	if (isFacingRight) {
                     		 spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
                     	}
@@ -151,15 +149,14 @@ public class Player extends GravityObject {
      * The function that processes the input.
      */
     public void processInput() {
-    	updateLocation();
-        if (!isDead() && !isDelayed) {
-            if (isJumping && location[3] <= 0) {
-                location[3] = location[3] + 0.6;
-            } else if (isJumping && location[3] > 0) {
-                location[3] = location[3] + 0.6;
+        if (!noLivesLeft() && !isDelayed) {
+            if (isJumping && spriteBase.getDy() <= 0) {
+                spriteBase.setDy(spriteBase.getDy() + 0.6);
+            } else if (isJumping && spriteBase.getDy() > 0) {
+                spriteBase.setDy(spriteBase.getDy() + 0.6);
                 setJumping(false);
             } else {
-                location[3] = 0;
+                spriteBase.setDy(0);
             }
 
             moveVertical();
@@ -174,7 +171,6 @@ public class Player extends GravityObject {
         
         applyGravity();
         checkBounds();
-        setLocation(location);
         checkPowerups();
     }
 
@@ -192,15 +188,6 @@ public class Player extends GravityObject {
      */
     public void setSpriteBase(SpriteBase spriteBase) {
         this.spriteBase = spriteBase;
-    }
-
-    /**
-     * This function returns the location.
-     * @return The location.
-     */
-    public double[] getLocation() {
-    	double[] newLocation = location;
-    	return newLocation;
     }
 
     /**
@@ -304,12 +291,12 @@ public class Player extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!wallCollision(location[0],
-                location[0] + width,
-                location[2] - calculateGravity(),
-                location[2] + height - calculateGravity(), levelController)) {
+        if (!wallCollision(spriteBase.getX(),
+                spriteBase.getX() + width,
+                spriteBase.getY() - calculateGravity(),
+                spriteBase.getY() + height - calculateGravity(), levelController)) {
             if (!jumping) {
-                location[3] = location[3] - calculateGravity();
+                spriteBase.setDy(spriteBase.getDy() - calculateGravity());
             }
             setAbleToJump(false);
         } else {
@@ -333,12 +320,12 @@ public class Player extends GravityObject {
         applyGravity();
         spriteBase.move();
 
-        Double newX = location[0] + location[1];
-        Double newY = location[2] + location[3];
+        Double newX = spriteBase.getX() + spriteBase.getDx();
+        Double newY = spriteBase.getY() + spriteBase.getDy();
 
-        if (!newX.equals(location[0]) || !newY.equals(location[2])) {
+        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
             Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
-                    location[0], location[2], newX, newY));
+                    spriteBase.getX(), spriteBase.getY(), newX, newY));
         }
 
     }
@@ -347,8 +334,8 @@ public class Player extends GravityObject {
      * This function applies gravity.
      */
     public void applyGravity() {
-        double x = location[0];
-        double y = location[2];
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
         if (!wallCollision(x, x + width,
                 y - calculateGravity(), y + height - calculateGravity(),
                 levelController)
@@ -362,7 +349,7 @@ public class Player extends GravityObject {
                 } else if (isAbleToDoubleJump) {
                     setAbleToJump(false);
                 }
-                location[2] = y - calculateGravity();
+                spriteBase.setDy(-calculateGravity());
             } else {
                 setAbleToJump(false);
             }
@@ -382,9 +369,9 @@ public class Player extends GravityObject {
     @SuppressWarnings("unchecked")
     public boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
-        double x = location[0];
+        double x = spriteBase.getX();
         double x1 = x + width;
-        double y = location[2];
+        double y = spriteBase.getY();
         double y2 = y + height;
 
         if (bubbles.size() == 0) {
@@ -407,8 +394,8 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double x = location[0];
-        double y = location[2];
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
         
         if (monster.getSpriteBase().causesCollision(x, x + width,
                 y, y + height)
@@ -436,13 +423,11 @@ public class Player extends GravityObject {
     	if (!isFacingRight) {
     		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
     	}
-    	location[1] = 0;
-    	location[3] = 0;
-    	setLocation(location);
+    	spriteBase.setDx(0);
+    	spriteBase.setDy(0);
 
     	if (this.getLives() == 0) {
     		counter = 0;
-    		setLocation(location);
     		setChanged();
     		notifyObservers();
     		destroy();
@@ -484,11 +469,10 @@ public class Player extends GravityObject {
         isDelayed = false;
         this.addPowerup(Immortality::new);
 
-        location[1] = 0;
-        location[3] = 0;
-        location[0] = xStartLocation;
-        location[2] = yStartLocation;
-        setLocation(location);
+        spriteBase.setDx(0);
+        spriteBase.setDy(0);
+        spriteBase.setX(xStartLocation);
+        spriteBase.setY(yStartLocation);
     }
 
     /**
@@ -505,7 +489,7 @@ public class Player extends GravityObject {
     private void jump() {
         setAbleToJump(false);
         setJumping(true);
-        location[3] = -Settings.JUMP_SPEED;
+        spriteBase.setDy(-Settings.JUMP_SPEED);
     }
 
 
@@ -518,7 +502,7 @@ public class Player extends GravityObject {
         } else if (input.isMoveRight()) {
             moveRight();
         } else {
-            location[1] = 0d;
+            spriteBase.setDx(0d);
         }
     }
 
@@ -526,19 +510,19 @@ public class Player extends GravityObject {
      * This function handles moving to the right.
      */
     private void moveRight() {
-        double x = location[0];
-        double y = location[2];
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
 
         if (!wallCollision(x + speed,
                 x + width + speed,
                 y, y + height, levelController)) {
-            location[1] = speed;
+            spriteBase.setDx(speed);
         } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
-            location[1] = speed;
+            spriteBase.setDx(speed);
         } else {
             if (!isJumping) {
-                location[1] = 0;
+                spriteBase.setDx(0);
             }
         }
         isFacingRight = true;
@@ -549,20 +533,20 @@ public class Player extends GravityObject {
      * This function handles moving to the left.
      */
     private void moveLeft() {
-        double x = location[0];
-        double y = location[2];
+        double x = spriteBase.getX();
+        double y = spriteBase.getY();
 
         if (!wallCollision(x - speed,
                 x + width - speed,
                 y,
                 y + height, levelController)) {
-            location[1] = -speed;
+            spriteBase.setDx(-speed);
         } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
-            location[1] = -speed;
+            spriteBase.setDx(-speed);
         } else {
             if (!isJumping) {
-                location[1] = 0;
+                spriteBase.setDx(0);
             }
         }
         setFacingRight(false);
@@ -586,7 +570,7 @@ public class Player extends GravityObject {
     public void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
-        			new Coordinates(location[0], location[2], 0, 0, 0, 0);
+        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
             PlayerBubble bubble = new PlayerBubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);
@@ -714,7 +698,7 @@ public class Player extends GravityObject {
      *
      * @return True if dead.
      */
-    public boolean isDead() {
+    public boolean noLivesLeft() {
         return getLives() == 0;
     }
 
@@ -818,32 +802,15 @@ public class Player extends GravityObject {
     }
     
     /**
-     * This method gets the location from the SpriteBase.
-     * @return location
-     */
-    public double[] updateLocation() {
-        location = spriteBase.getLocation();
-        return spriteBase.getLocation();
-    }
-    
-    /**
-     * This method sets the new location in the SpriteBase.
-     * @param newLocation the location
-     */
-    public void setLocation(double[] newLocation) {
-    	spriteBase.setLocation(newLocation);
-    }
-    
-    /**
      * This function returns the player if it is out of bounds.
      */
     public void checkBounds() {
-    	double x = location[0];
-    	double y = location[2];
+    	double x = spriteBase.getX();
+    	double y = spriteBase.getY();
         if (x < playerMinX) {
-            location[0] = playerMinX;
+            spriteBase.setX(playerMinX);
         } else if (x + width > playerMaxX) {
-            location[0] = playerMaxX - width;
+            spriteBase.setX(playerMaxX - width);
         }
 
         if (y < playerMinY) {
@@ -851,12 +818,12 @@ public class Player extends GravityObject {
                     x + width,
                     y,
                     y + height, levelController)) {
-        		location[2] = playerMaxY - height;
+        		spriteBase.setY(playerMaxY - height);
         	} else {
-        		location[2] = playerMinY;
+        		spriteBase.setY(playerMinY);
         	}	
         } else if (y + height > playerMaxY) {
-            location[2] = playerMinY;
+            spriteBase.setY(playerMinY);
         }
     }
 

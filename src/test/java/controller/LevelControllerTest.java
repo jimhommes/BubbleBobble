@@ -364,7 +364,7 @@ public class LevelControllerTest {
         levelController.setPlayers(players);
         levelController.setCurrLvl(mock(Level.class));
 
-        when(player.isDead()).thenReturn(true);
+        when(player.noLivesLeft()).thenReturn(true);
 
         gameLoop.handle(1);
 
