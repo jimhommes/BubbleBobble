@@ -38,6 +38,7 @@ public class Player extends GravityObject {
     private LevelController levelController;
     private boolean isAbleToJump;
     private boolean isAbleToDoubleJump;
+    private boolean isDead;
 
     private double playerMinX;
     private double playerMaxX;
@@ -86,6 +87,7 @@ public class Player extends GravityObject {
         this.yStartLocation = Settings.SPRITE_SIZE;
 
         this.powerups = new ArrayList<>();
+        this.isDead = false;
         this.setUp();
     }
 
@@ -129,15 +131,8 @@ public class Player extends GravityObject {
                                 Player.this::checkCollideMonster
                         );
                     }
-                    if (noLivesLeft()) {
-                    	if (isFacingRight) {
-                    		 spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
-                    	}
-                    	else {
-                    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
-                    	}		
-                    }
 
+                    setImage();
                     setChanged();
                     notifyObservers();
                 }
@@ -415,14 +410,9 @@ public class Player extends GravityObject {
      * This method is used when the character is killed.
      */
     public void die() {
+        isDead = true;
     	this.loseLife();
     	this.scorePoints(Settings.POINTS_PLAYER_DIE);
-    	if (isFacingRight) {
-    		spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
-    	}
-    	if (!isFacingRight) {
-    		spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
-    	}
     	spriteBase.setDx(0);
     	spriteBase.setDy(0);
 
@@ -473,6 +463,7 @@ public class Player extends GravityObject {
         spriteBase.setDy(0);
         spriteBase.setX(xStartLocation);
         spriteBase.setY(yStartLocation);
+        isDead = false;
     }
 
     /**
@@ -847,19 +838,27 @@ public class Player extends GravityObject {
      * This method sets the image.
      */
     public void setImage() {
-      if (isFacingRight) {
-        if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
+        if (!isDead) {
+            if (isFacingRight) {
+                if (isImmortal) {
+                    spriteBase.setImage("Bub" + playerNumber + "RightImmortal.png");
+                } else {
+                    spriteBase.setImage("Bub" + playerNumber + "Right.png");
+                }
+            } else {
+                if (isImmortal) {
+                    spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
+                } else {
+                    spriteBase.setImage("Bub" + playerNumber + "Left.png");
+                }
+            }
         } else {
-            spriteBase.setImage("Bub" + playerNumber + "Right.png");
+            if (isFacingRight) {
+                spriteBase.setImage("Bub" + playerNumber + "RightDeath.png");
+            } else {
+                spriteBase.setImage("Bub" + playerNumber + "LeftDeath.png");
+            }
         }
-      } else {
-        if (isImmortal) {
-            spriteBase.setImage("Bub" + playerNumber + "LeftImmortal.png");
-        } else {
-            spriteBase.setImage("Bub" + playerNumber + "Left.png");
-        }
-      }
     }
     
     /**
