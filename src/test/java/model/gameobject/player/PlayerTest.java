@@ -108,12 +108,13 @@ public class PlayerTest {
     public void testProcessInputNotDeadGetXY() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
-        player.processInput();
         SpriteBase sprite = player.getSpriteBase();
+
+        player.processInput();
         assertEquals(-Settings.PLAYER_SPEED, sprite.getDx(), 0.001);
-        assertEquals(0.0, sprite.getDy(), 0.001);
+        assertEquals(Settings.GRAVITY_CONSTANT, sprite.getDy(), 0.001);
         assertEquals(Settings.SPRITE_SIZE, sprite.getX(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getY(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE, sprite.getY(), 0.001);
     }
 
 
@@ -248,11 +249,12 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        
-        player.processInput();
-        SpriteBase sprite = player.getSpriteBase();
 
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getY(), 0.001);
+        SpriteBase sprite = player.getSpriteBase();
+        double y = sprite.getY();
+        player.processInput();
+
+        assertEquals(y, sprite.getY(), 0.001);
     }
 
     /**
@@ -303,13 +305,12 @@ public class PlayerTest {
         when(lcm.getGamePaused()).thenReturn(false);
 
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDy()).thenReturn(0.0);
         player.setSpriteBase(spriteBase);
 
         timer.handle(1);
 
-        assertEquals(0, array[3], 0.1);
+        assertEquals(0, player.getSpriteBase().getDy(), 0.1);
         verify(spriteBase, atLeastOnce()).move();
     }
 
@@ -324,14 +325,13 @@ public class PlayerTest {
     	when(lcm.getGamePaused()).thenReturn(false);
 
     	SpriteBase spriteBase = mock(SpriteBase.class);
-    	double[] array = new double[5];
-    	when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDy()).thenReturn(0.0);
     	player.setSpriteBase(spriteBase);
     	player.die();
 
     	timer.handle(1);
 
-    	assertEquals(0, array[3], 0.1);
+        assertEquals(0, player.getSpriteBase().getDy(), 0.1);
     	verify(spriteBase, never()).move();
     	verify(spriteBase, atLeastOnce()).setImage(anyString());
     }
@@ -343,15 +343,13 @@ public class PlayerTest {
     @Test
      public void testProcessInput1() {
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        array[3] = -5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDy()).thenReturn(-5.0);
         player.setSpriteBase(spriteBase);
         player.setIsJumping(true);
 
         player.processInput();
 
-        assertEquals(-5 + 0.6, player.getSpriteBase().getDy(), 0.1);
+        verify(spriteBase, atLeastOnce()).setDy(-5.0 + 0.6);
     }
 
     /**
@@ -360,15 +358,13 @@ public class PlayerTest {
     @Test
     public void testProcessInput2() {
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        array[3] = 5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDy()).thenReturn(5.0);
         player.setSpriteBase(spriteBase);
         player.setIsJumping(true);
 
         player.processInput();
 
-        assertEquals(5 + 0.6, player.getSpriteBase().getDy(), 0.1);
+        verify(spriteBase, atLeastOnce()).setDy(5.0 + 0.6);
         assertFalse(player.getIsJumping());
     }
 
@@ -392,14 +388,12 @@ public class PlayerTest {
         when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
                 anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(false);
 
-        double[] array = new double[5];
-        array[3] = 5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDy()).thenReturn(5.0);
 
         player.setAbleToJump(true);
         player.moveCollisionChecker(false, true);
 
-        assertEquals(array[3], player.getSpriteBase().getDy(), 0.1);
+        assertEquals(5.0, player.getSpriteBase().getDy(), 0.1);
         assertFalse(player.getAbleToJump());
     }
 
