@@ -60,7 +60,7 @@ public class MonsterTest {
 	@Test
 	public void testCheckCollision1() throws Exception {
 	  Coordinates coordinates = new Coordinates(1, 1, 0, 0, 0, 0);
-    monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
+	  monster = new Walker(coordinates, Settings.MONSTER_SPEED, true, levelController);
 	  Bubble bubble = mock(Bubble.class);
 		SpriteBase sprite = mock(SpriteBase.class);
 		when(bubble.getSpriteBase()).thenReturn(sprite);
