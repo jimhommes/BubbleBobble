@@ -1,6 +1,7 @@
 package model.gameobject.bubble;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -48,6 +49,7 @@ public class EnemyBubbleTest {
     double newX = enemyBubble.getSpriteBase().getX() + Settings.BUBBLE_INIT_SPEED;
     enemyBubble.move();
     assertEquals(newX, enemyBubble.getSpriteBase().getX(), 0.001);
+    enemyBubble.move();
   }
   
   /**
@@ -93,5 +95,25 @@ public class EnemyBubbleTest {
     when(player.getSpriteBase()).thenReturn(enemyBubble.getSpriteBase());
     enemyBubble.move();
     assertTrue(enemyBubble.getIsPopped());
+  }
+  
+  /**
+   * This test tests what happens when the enemyBubble collides with a player.
+   */
+  @Test
+  public void testPlayerNoCollision() {
+    Player player = mock(Player.class);
+    //Player player = new Player(levelController, coordinates, 0, 5, input, 1);
+    
+    ArrayList<Player> players = new ArrayList<>();
+    players.add(player);
+    when(levelController.getPlayers()).thenReturn(players);
+    when(player.getSpriteBase()).thenReturn(enemyBubble.getSpriteBase());
+    coordinates = new Coordinates(enemyBubble.getSpriteBase().getX(), 
+        0, 0, 0, 0, 0);
+
+    enemyBubble = new EnemyBubble(coordinates, false, false, levelController);
+    enemyBubble.move();
+    assertFalse(enemyBubble.getIsPopped());
   }
 }
