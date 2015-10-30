@@ -305,7 +305,8 @@ public class Player extends GravityObject {
         Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
         Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getXCoordinate()) || !newY.equals(spriteBase.getYCoordinate())) {
+        if (!newX.equals(spriteBase.getXCoordinate())
+                || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
                     spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
@@ -523,7 +524,8 @@ public class Player extends GravityObject {
     public void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
-        			new Coordinates(spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), 0, 0, 0, 0);
+        			new Coordinates(spriteBase.getXCoordinate(),
+                            spriteBase.getYCoordinate(), 0, 0, 0, 0);
             PlayerBubble bubble = new PlayerBubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);

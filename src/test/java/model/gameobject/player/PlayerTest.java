@@ -121,12 +121,13 @@ public class PlayerTest {
         when(input.isMoveLeft()).thenReturn(true);
         SpriteBase sprite = player.getSpriteBase();
 
-        assertEquals(-Settings.PLAYER_SPEED, sprite.getDxCoordinate(), 0.001);
-        assertEquals(0.0, sprite.getDyCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, 
-        		sprite.getYCoordinate(), 0.001);
+        player.processInput();
 
+        assertEquals(-Settings.PLAYER_SPEED, sprite.getDxCoordinate(), 0.001);
+        assertEquals(Settings.PLAYER_SPEED, sprite.getDyCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE,
+        		sprite.getYCoordinate(), 0.001);
     }
 
 
@@ -164,8 +165,8 @@ public class PlayerTest {
         player.move();
         SpriteBase sprite = player.getSpriteBase();
         assertEquals(-Settings.PLAYER_SPEED + Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(), 
-        		sprite.getYCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(),
+                sprite.getYCoordinate(), 0.001);
     }
 
     /**
@@ -270,7 +271,7 @@ public class PlayerTest {
 
         assertEquals(y, sprite.getYCoordinate(), 0.001);
         player.processInput();
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT,
+        assertEquals(Settings.SPRITE_SIZE,
         		sprite.getYCoordinate(), 0.001);
     }
 
@@ -653,8 +654,16 @@ public class PlayerTest {
      */
     @Test
     public void testDieImageRight() {
-    	player.setFacingRight(true);
+    	AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
+        player.setFacingRight(true);
     	player.die();
+
+        timer.handle(1);
+
     	assertEquals("Bub1RightDeath.png", player.getSpriteBase().getImagePath());
     }
     
@@ -663,8 +672,16 @@ public class PlayerTest {
      */
     @Test
     public void testDieImageLeft() {
+        AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
     	player.setFacingRight(false);
     	player.die();
+
+        timer.handle(1);
+
     	assertEquals("Bub1LeftDeath.png", player.getSpriteBase().getImagePath());
     }
 
