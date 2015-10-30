@@ -130,7 +130,7 @@ public final class Settings {
      * @param name the name of the player of the highscore.
      * @param score the score of the highscore.
      */
-    public static void setHighscore(String name, String score) {
+    public static void setHighscore(String name, int score) {
         setHighscoreProperty(name, score);
     }
 
@@ -153,7 +153,8 @@ public final class Settings {
         Set<String> keys = highscoreKeys();
         keys.forEach(key ->
                 tempHighscores.add(
-                        new HighscoreEntryController(key, Settings.getHighscore(key))));
+                        new HighscoreEntryController(key,
+                                Integer.parseInt(Settings.getHighscore(key)))));
         tempHighscores.sort((HighscoreEntryController o1,
                          HighscoreEntryController o2)->o2.getScore() - o1.getScore());
         while (tempHighscores.size() > 10) {
@@ -177,14 +178,14 @@ public final class Settings {
      * @param number Index of the player.
      * @param score Score of the player.
      */
-    public static void setHighscores(int number, String score) {
+    public static void setHighscores(int number, int score) {
         String name = getName(number - 1);
 
         String oldScoreString = getHighscore(name);
         if (oldScoreString != null) {
             int oldScore = Integer.parseInt(getHighscore(name));
 
-            if (Integer.parseInt(score) > oldScore) {
+            if (score > oldScore) {
                 setHighscore(name, score);
             }
         } else {
@@ -215,8 +216,8 @@ public final class Settings {
      * @param key the key of the property.
      * @param value the value of the property.
      */
-    public static void setHighscoreProperty(String key, String value) {
-        highscores.setProperty(key, value);
+    public static void setHighscoreProperty(String key, int value) {
+        highscores.setProperty(key, Integer.toString(value));
 
         try (FileOutputStream fos = new FileOutputStream(scoresFileName)) {
             SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",

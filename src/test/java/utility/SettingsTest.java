@@ -133,8 +133,8 @@ public class SettingsTest {
     public void testHighscoreKeys() {
         Set<String> keys = new HashSet<>();
 
-        Settings.setHighscore("TEST_SCORE_KEY", "10");
-        Settings.setHighscore("TEST_SCORE_KEY_2", "20");
+        Settings.setHighscore("TEST_SCORE_KEY", 10);
+        Settings.setHighscore("TEST_SCORE_KEY_2", 20);
         keys.add("TEST_SCORE_KEY");
         keys.add("TEST_SCORE_KEY_2");
 
@@ -211,7 +211,7 @@ public class SettingsTest {
      */
     @Test
     public void testGetHighscore() {
-        Settings.setHighscore("TEST_PLAYER", "100");
+        Settings.setHighscore("TEST_PLAYER", 100);
         String string = Settings.getHighscore("TEST_PLAYER");
         assertEquals("100", string);
     }
@@ -223,15 +223,15 @@ public class SettingsTest {
     public void testSetHighscores() {
         Settings.setName("TEST_PLAYER", 0);
 
-        Settings.setHighscores(1, "100");
+        Settings.setHighscores(1, 100);
         String string = Settings.getHighscore("TEST_PLAYER");
         assertEquals("100", string);
 
-        Settings.setHighscores(1, "50");
+        Settings.setHighscores(1, 50);
         String string2 = Settings.getHighscore("TEST_PLAYER");
         assertEquals("100", string2);
 
-        Settings.setHighscores(1, "200");
+        Settings.setHighscores(1, 200);
         String string3 = Settings.getHighscore("TEST_PLAYER");
         assertEquals("200", string3);
     }
@@ -241,7 +241,7 @@ public class SettingsTest {
      */
     @Test
     public void testGetHighscoreValue() {
-        Settings.setHighscoreProperty("PLAYER_TEST", "50");
+        Settings.setHighscoreProperty("PLAYER_TEST", 50);
         String string = Settings.getHighscoreValue("PLAYER_TEST");
         assertEquals("50", string);
     }

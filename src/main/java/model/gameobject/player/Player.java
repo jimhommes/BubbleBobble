@@ -455,7 +455,7 @@ public class Player extends GravityObject {
      * Add the final score to the highscoresList.
      */
     public void addHighscore() {
-        Settings.setHighscores(playerNumber, Integer.toString(this.getScore()));
+        Settings.setHighscores(playerNumber, this.getScore());
     }
 
     private void delayRespawn() {
