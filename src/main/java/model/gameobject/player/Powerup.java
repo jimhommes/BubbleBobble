@@ -75,7 +75,6 @@ public class Powerup extends Observable {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if (!levelController.getLevelControllerMethods().getGamePaused()) {
@@ -120,15 +119,15 @@ public class Powerup extends Observable {
      */
     public void move() {
 
-        double diffX = destx - spriteBase.getX();
-        double diffY = desty - spriteBase.getY();
+        double diffX = destx - spriteBase.getXCoordinate();
+        double diffY = desty - spriteBase.getYCoordinate();
         if (diffX < POWERUP_THRESHOLD && diffY < POWERUP_THRESHOLD) {
-            spriteBase.setDx(0);
-            spriteBase.setDy(0);
+            spriteBase.setDxCoordinate(0);
+            spriteBase.setDyCoordinate(0);
             ableToPickup = true;
         } else {
-            spriteBase.setDx(diffX / 20.0);
-            spriteBase.setDy(diffY / 20.0);
+            spriteBase.setDxCoordinate(diffX / 20.0);
+            spriteBase.setDyCoordinate(diffY / 20.0);
         }
 
         spriteBase.move();
@@ -140,9 +139,9 @@ public class Powerup extends Observable {
      * @param player The player there might be a collision with.
      */
     public void causesCollision(Player player) {
-        if (player.getSpriteBase().causesCollision(spriteBase.getX(),
-                spriteBase.getX() + spriteBase.getWidth(),
-                spriteBase.getY(), spriteBase.getY()
+        if (player.getSpriteBase().causesCollision(spriteBase.getXCoordinate(),
+                spriteBase.getXCoordinate() + spriteBase.getWidth(),
+                spriteBase.getYCoordinate(), spriteBase.getYCoordinate()
                         + spriteBase.getHeight()) && ableToPickup) {
             pickedUp(player);
         }

@@ -36,16 +36,16 @@ public class Coordinates {
      * Add the derivative to the actual value.
      */
 	public void apply() {
-		this.setX(x + dx);
-		this.setY(y + dy);
-		this.setR(r + dr);
+		this.setXCoordinate(x + dx);
+		this.setYCoordinate(y + dy);
+		this.setRotation(r + dr);
 	}
 	
 	/**
 	 * This method gets the x of the coordinates. 
 	 * @return x the x coordinate.
 	 */
-	public double getX() {
+	public double getXCoordinate() {
 		return x;
 	}
 	
@@ -53,7 +53,7 @@ public class Coordinates {
 	 * This method sets the x of the coordinates. 
 	 * @param x the x coordinate.
 	 */
-	public void setX(double x) {
+	public void setXCoordinate(double x) {
 		this.x = x;
 	}
 	
@@ -61,7 +61,7 @@ public class Coordinates {
 	 * This method gets the y of the coordinates. 
 	 * @return y the y coordinate.
 	 */
-	public double getY() {
+	public double getYCoordinate() {
 		return y;
 	}
 	
@@ -69,7 +69,7 @@ public class Coordinates {
 	 * This method sets the y of the coordinates. 
 	 * @param y the y coordinate.
 	 */
-	public void setY(double y) {
+	public void setYCoordinate(double y) {
 		this.y = y;
 	}
 	
@@ -77,7 +77,7 @@ public class Coordinates {
 	 * This method gets the r of the coordinates. 
 	 * @return r the r coordinate.
 	 */
-	public double getR() {
+	public double getRotation() {
 		return r;
 	}
 	
@@ -85,7 +85,7 @@ public class Coordinates {
 	 * This method sets the r of the coordinates. 
 	 * @param r the r coordinate.
 	 */
-	public void setR(double r) {
+	public void setRotation(double r) {
 		this.r = r;
 	}
 	
@@ -93,7 +93,7 @@ public class Coordinates {
 	 * This method gets the dx of the coordinates. 
 	 * @return dx the dx coordinate.
 	 */
-	public double getDX() {
+	public double getDXCoordinate() {
 		return dx;
 	}
 	
@@ -101,7 +101,7 @@ public class Coordinates {
 	 * This method sets the dx of the coordinates. 
 	 * @param dx the dx coordinate.
 	 */
-	public void setDX(double dx) {
+	public void setDXCoordinate(double dx) {
 		this.dx = dx;
 	}
 	
@@ -109,7 +109,7 @@ public class Coordinates {
 	 * This method gets the dy of the coordinates. 
 	 * @return dy the dy coordinate.
 	 */
-	public double getDY() {
+	public double getDYCoordinate() {
 		return dy;
 	}
 	
@@ -117,7 +117,7 @@ public class Coordinates {
 	 * This method sets the dy of the coordinates. 
 	 * @param dy the dy coordinate.
 	 */
-	public void setDY(double dy) {
+	public void setDYCoordinate(double dy) {
 		this.dy = dy;
 	}
 	
@@ -125,7 +125,7 @@ public class Coordinates {
 	 * This method gets the dr of the coordinates. 
 	 * @return dr the dr coordinate.
 	 */
-	public double getDR() {
+	public double getDRotation() {
 		return dr;
 	}
 	
@@ -133,9 +133,7 @@ public class Coordinates {
 	 * This method sets the dr of the coordinates. 
 	 * @param dr the dr.
 	 */
-	public void setDR(double dr) {
+	public void setDRotation(double dr) {
 		this.dr = dr;
 	}
-	
-	
 }

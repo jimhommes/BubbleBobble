@@ -25,7 +25,7 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testGetX() {
-		assertEquals(1, coordinate.getX(), 0);
+		assertEquals(1, coordinate.getXCoordinate(), 0);
 	}
 
 	/**
@@ -33,15 +33,15 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testGetY() {
-		assertEquals(2, coordinate.getY(), 0);
+		assertEquals(2, coordinate.getYCoordinate(), 0);
 	}
 	
 	/**
-	 * This tests the getR().
+	 * This tests the getRotation().
 	 */
 	@Test
-	public void testGetR() {
-		assertEquals(3, coordinate.getR(), 0);
+	public void testGetRotation() {
+		assertEquals(3, coordinate.getRotation(), 0);
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testGetDX() {
-		assertEquals(4, coordinate.getDX(), 0);
+		assertEquals(4, coordinate.getDXCoordinate(), 0);
 	}
 	
 	/**
@@ -57,15 +57,15 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testGetDY() {
-		assertEquals(5, coordinate.getDY(), 0);
+		assertEquals(5, coordinate.getDYCoordinate(), 0);
 	}
 	
 	/**
-	 * This tests the getDR().
+	 * This tests the getDRotation().
 	 */
 	@Test
-	public void testGetDR() {
-		assertEquals(6, coordinate.getDR(), 0);
+	public void testGetDRotation() {
+		assertEquals(6, coordinate.getDRotation(), 0);
 	}
 	
 	
@@ -76,8 +76,8 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testSetX() {
-		coordinate.setX(7);
-		assertEquals(7, coordinate.getX(), 0);
+		coordinate.setXCoordinate(7);
+		assertEquals(7, coordinate.getXCoordinate(), 0);
 	}
 
 	/**
@@ -85,17 +85,17 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testSetY() {
-		coordinate.setY(8);
-		assertEquals(8, coordinate.getY(), 0);
+		coordinate.setYCoordinate(8);
+		assertEquals(8, coordinate.getYCoordinate(), 0);
 	}
 	
 	/**
-	 * This tests the setR().
+	 * This tests the setRotation().
 	 */
 	@Test
-	public void testSetR() {
-		coordinate.setR(9);
-		assertEquals(9, coordinate.getR(), 0);
+	public void testSetRotation() {
+		coordinate.setRotation(9);
+		assertEquals(9, coordinate.getRotation(), 0);
 	}
 	
 	/**
@@ -103,8 +103,8 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testSetDX() {
-		coordinate.setDX(10);
-		assertEquals(10, coordinate.getDX(), 0);
+		coordinate.setDXCoordinate(10);
+		assertEquals(10, coordinate.getDXCoordinate(), 0);
 	}
 	
 	/**
@@ -112,17 +112,17 @@ public class CoordinatesTest {
 	 */
 	@Test
 	public void testSetDY() {
-		coordinate.setDY(11);
-		assertEquals(11, coordinate.getDY(), 0);
+		coordinate.setDYCoordinate(11);
+		assertEquals(11, coordinate.getDYCoordinate(), 0);
 	}
 	
 	/**
-	 * This tests the setDR().
+	 * This tests the setDRotation().
 	 */
 	@Test
-	public void testSetDR() {
-		coordinate.setDR(12);
-		assertEquals(12, coordinate.getDR(), 0);
+	public void testSetDRotation() {
+		coordinate.setDRotation(12);
+		assertEquals(12, coordinate.getDRotation(), 0);
 	}
 	
 }

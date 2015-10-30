@@ -62,7 +62,7 @@ public class Walker extends Monster {
             if (jumpCounter < jumpMaxCounter) {
                 jumpCounter++;
             } else if (jumpCounter == jumpMaxCounter) {
-                getSpriteBase().setDy(0);
+                getSpriteBase().setDyCoordinate(0);
                 jumping = false;
             }
             moveHorizontal();
@@ -70,10 +70,10 @@ public class Walker extends Monster {
             getSpriteBase().checkBounds(walkerMinX, walkerMaxX,
                     walkerMinY, walkerMaxY, levelController);
         } else {
-            getSpriteBase().setDx(0);
-            getSpriteBase().setDy(0);
-            getSpriteBase().setX(getPrisonBubble().getSpriteBase().getX());
-            getSpriteBase().setY(getPrisonBubble().getSpriteBase().getY());
+            getSpriteBase().setDxCoordinate(0);
+            getSpriteBase().setDyCoordinate(0);
+            getSpriteBase().setXCoordinate(getPrisonBubble().getSpriteBase().getXCoordinate());
+            getSpriteBase().setYCoordinate(getPrisonBubble().getSpriteBase().getYCoordinate());
         }
 
         
@@ -88,7 +88,7 @@ public class Walker extends Monster {
             if (ableToJump && randInt() < JUMP_THRESHOLD) {
                 ableToJump = false;
                 jumping = true;
-                getSpriteBase().setDy(-Settings.JUMP_SPEED_WALKER);
+                getSpriteBase().setDyCoordinate(-Settings.JUMP_SPEED_WALKER);
                 jumpCounter = 0;
             }
     }
@@ -97,14 +97,14 @@ public class Walker extends Monster {
      * This function handles the horizontal movement.
      */
     private void moveHorizontal() {
-        double x = getSpriteBase().getX();
-        double y = getSpriteBase().getY();
+        double x = getSpriteBase().getXCoordinate();
+        double y = getSpriteBase().getYCoordinate();
 
         if (isFacingRight()) {
             if (!getSpriteBase().causesCollisionWall(x + getSpeed(),
                     x + getSpriteBase().getWidth() + getSpeed(), y,
                     y + getSpriteBase().getHeight(), levelController)) {
-                getSpriteBase().setDx(getSpeed());
+                getSpriteBase().setDxCoordinate(getSpeed());
             } else {
                 switchDirection("ZenChan");
             }
@@ -112,7 +112,7 @@ public class Walker extends Monster {
             if (!getSpriteBase().causesCollisionWall(x - getSpeed(),
                     x + getSpriteBase().getWidth() - getSpeed(), y,
                     y + getSpriteBase().getHeight(), levelController)) {
-                getSpriteBase().setDx(-getSpeed());
+                getSpriteBase().setDxCoordinate(-getSpeed());
             } else {
                 switchDirection("ZenChan");
             }

@@ -2,7 +2,7 @@ package model.gameobject.level;
 
 import controller.LevelController;
 import model.gameobject.player.Player;
-import model.gameobject.enemy.FinalEnemy;
+import model.gameobject.enemy.BossEnemy;
 import model.gameobject.enemy.Walker;
 import model.support.Coordinates;
 import utility.Logger;
@@ -87,7 +87,7 @@ public class LevelFactory {
                          levelController.createInput(playerCounter + 1), playerCounter + 1));
              }
          } else if (map[row][col] == 4) {
-             level.addMonster(new FinalEnemy(coordinatesMoveable,
+             level.addMonster(new BossEnemy(coordinatesMoveable,
                  Settings.MONSTER_SPEED, false, levelController, true, 5));
         }
     }
