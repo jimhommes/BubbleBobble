@@ -11,7 +11,6 @@ import utility.Settings;
 
 /**
  * The class were the enemy bubbles are created.
- * @author jeffr_000
  *
  */
 public class EnemyBubble extends Bubble {
@@ -28,7 +27,7 @@ public class EnemyBubble extends Bubble {
    */
   public EnemyBubble(Coordinates coordinates, boolean firedRight, boolean powerup,
                      LevelController levelController) {
-    super(coordinates, firedRight, powerup, levelController);
+    super(firedRight, powerup, levelController);
     
     this.right = firedRight;
     
@@ -113,7 +112,7 @@ public class EnemyBubble extends Bubble {
         this.setIsPopped(true);
         return true;
       }
-    } else if (!right) {
+    } else {
       if (getSpriteBase().getXCoordinate() <= playerMaxX 
           && getSpriteBase().getXCoordinate() + Settings.SPRITE_SIZE >= playerMinX 
           && playerMinY <= getSpriteBase().getYCoordinate() + Settings.SPRITE_SIZE 

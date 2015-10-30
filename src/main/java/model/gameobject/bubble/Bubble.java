@@ -2,7 +2,6 @@ package model.gameobject.bubble;
 
 import controller.LevelController;
 import javafx.animation.AnimationTimer;
-import model.support.Coordinates;
 import model.support.SpriteBase;
 import utility.Logger;
 import utility.Settings;
@@ -27,13 +26,11 @@ public class Bubble extends Observable {
     /**
      * The bubble that will be shot to catch the monsters.
      *
-     * @param coordinates     The coordinates of the bubbles.
      * @param firedRight      If the bubble was fired to the right.
      * @param powerup         if the bubble is shot during bubble powerup.
      * @param levelController that controller of the level where the bubble is in.
      */
-    public Bubble(Coordinates coordinates,
-                  boolean firedRight,
+    public Bubble(boolean firedRight,
                   boolean powerup,
                   LevelController levelController) {
 
@@ -93,6 +90,12 @@ public class Bubble extends Observable {
             moveVertically();
         }
 
+        logMove();
+        spriteBase.move();
+        checkPop();
+    }
+
+    private void logMove() {
         Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
         Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
@@ -101,11 +104,6 @@ public class Bubble extends Observable {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
                     spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
-
-        spriteBase.move();
-
-        checkPop();
-
     }
 
     /**

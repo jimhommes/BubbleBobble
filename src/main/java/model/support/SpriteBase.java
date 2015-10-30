@@ -295,30 +295,5 @@ public class SpriteBase extends Observable {
 
         return false;
     }
-    
-    /**
-     * This method gets the current location and speed from the SpirteBase.
-     * @return the location.
-     */
-    public double[] getLocation() {
-      double[] location = new double[4];
-      location[0] = getXCoordinate();
-      location[1] = getDxCoordinate();
-      location[2] = getYCoordinate();
-      location[3] = getDyCoordinate();
-      return location;
-    }
-
-    /**
-     * After movement sets this method the new location.
-     * @param location the new location.
-     */
-    public void setLocation(double[] location) {
-      setXCoordinate(location[0]);
-      setDxCoordinate(location[1]);
-      setYCoordinate(location[2]);
-      setDyCoordinate(location[3]);
-    }
-    
 
 }

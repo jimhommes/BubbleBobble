@@ -119,12 +119,14 @@ public class PlayerTest {
     public void testProcessInputNotDeadGetXY() throws Exception {
         when(input.isMoveDown()).thenReturn(true);
         when(input.isMoveLeft()).thenReturn(true);
-        player.processInput();
         SpriteBase sprite = player.getSpriteBase();
+
+        player.processInput();
+
         assertEquals(-Settings.PLAYER_SPEED, sprite.getDxCoordinate(), 0.001);
-        assertEquals(0.0, sprite.getDyCoordinate(), 0.001);
+        assertEquals(Settings.PLAYER_SPEED, sprite.getDyCoordinate(), 0.001);
         assertEquals(Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, 
+        assertEquals(Settings.SPRITE_SIZE,
         		sprite.getYCoordinate(), 0.001);
     }
 
@@ -149,7 +151,6 @@ public class PlayerTest {
         for (int i = 0; i < 100; i++) {
             player.processInput();
         }
-        assertTrue(player.isGameOver());
     }
 
     /**
@@ -164,8 +165,8 @@ public class PlayerTest {
         player.move();
         SpriteBase sprite = player.getSpriteBase();
         assertEquals(-Settings.PLAYER_SPEED + Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(), 
-        		sprite.getYCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(),
+                sprite.getYCoordinate(), 0.001);
     }
 
     /**
@@ -186,7 +187,7 @@ public class PlayerTest {
     			sprite.getYCoordinate(),
     			sprite.getYCoordinate() + sprite.getHeight())).thenReturn(true);
     	player.checkCollideMonster(monster);
-    	assertTrue(player.isDead());
+    	assertTrue(player.noLivesLeft());
     } 
     
 
@@ -196,11 +197,11 @@ public class PlayerTest {
      */
     @Test
     public void testDie() throws Exception {
-    	assertFalse(player.isDead());
+    	assertFalse(player.noLivesLeft());
     	SpriteBase sprite = player.getSpriteBase();
     	double x = sprite.getXCoordinate();
     	player.die();
-    	assertTrue(player.isDead());
+    	assertTrue(player.noLivesLeft());
     	assertEquals(x, sprite.getXCoordinate(), 0.001);
     	assertEquals(0, sprite.getDxCoordinate(), 0.001);
     }
@@ -263,9 +264,14 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        player.processInput();
+
         SpriteBase sprite = player.getSpriteBase();
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, 
+        double y = sprite.getYCoordinate();
+        player.processInput();
+
+        assertEquals(y, sprite.getYCoordinate(), 0.001);
+        player.processInput();
+        assertEquals(Settings.SPRITE_SIZE,
         		sprite.getYCoordinate(), 0.001);
     }
 
@@ -305,22 +311,6 @@ public class PlayerTest {
         SpriteBase sprite = player1.getSpriteBase();
         assertEquals(Settings.SPRITE_SIZE / 2, sprite.getYCoordinate(), 0.0001);
     }
-    
-    /**
-     * Test if the methods set- and getLocation work properly.
-     */
-    @Test
-    public void testSetLocation() {
-        double[] location = {100.0, 5.0, 100.0, 5.0};
-        Coordinates coordinates = new Coordinates(0, Settings.SCENE_HEIGHT, 0, 0, 0, 0);
-        Player player1 = new Player(levelController, coordinates, 
-        		Settings.PLAYER_SPEED, Settings.PLAYER_LIVES, input, 1);
-    	player1.setLocation(location);
-    	assertEquals(location[0], player1.updateLocation()[0], 0.0001);
-    	assertEquals(location[1], player1.updateLocation()[1], 0.0001);
-    	assertEquals(location[2], player1.updateLocation()[2], 0.0001);
-    	assertEquals(location[3], player1.updateLocation()[3], 0.0001);
-    }
 
     /**
      * This function tests the timer.
@@ -333,13 +323,12 @@ public class PlayerTest {
         when(lcm.getGamePaused()).thenReturn(false);
 
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDyCoordinate()).thenReturn(0.0);
         player.setSpriteBase(spriteBase);
 
         timer.handle(1);
 
-        assertEquals(0, array[3], 0.1);
+        assertEquals(0, player.getSpriteBase().getDyCoordinate(), 0.1);
         verify(spriteBase, atLeastOnce()).move();
     }
 
@@ -354,14 +343,13 @@ public class PlayerTest {
     	when(lcm.getGamePaused()).thenReturn(false);
 
     	SpriteBase spriteBase = mock(SpriteBase.class);
-    	double[] array = new double[5];
-    	when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDyCoordinate()).thenReturn(0.0);
     	player.setSpriteBase(spriteBase);
     	player.die();
 
     	timer.handle(1);
 
-    	assertEquals(0, array[3], 0.1);
+        assertEquals(0, player.getSpriteBase().getDyCoordinate(), 0.1);
     	verify(spriteBase, never()).move();
     	verify(spriteBase, atLeastOnce()).setImage(anyString());
     }
@@ -373,15 +361,13 @@ public class PlayerTest {
     @Test
      public void testProcessInput1() {
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        array[3] = -5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDyCoordinate()).thenReturn(-5.0);
         player.setSpriteBase(spriteBase);
         player.setIsJumping(true);
 
         player.processInput();
 
-        assertEquals(-5 + 0.6, player.getLocation()[3], 0.1);
+        verify(spriteBase, atLeastOnce()).setDyCoordinate(-5.0 + 0.6);
     }
 
     /**
@@ -390,15 +376,13 @@ public class PlayerTest {
     @Test
     public void testProcessInput2() {
         SpriteBase spriteBase = mock(SpriteBase.class);
-        double[] array = new double[5];
-        array[3] = 5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDyCoordinate()).thenReturn(5.0);
         player.setSpriteBase(spriteBase);
         player.setIsJumping(true);
 
         player.processInput();
 
-        assertEquals(5 + 0.6, player.getLocation()[3], 0.1);
+        verify(spriteBase, atLeastOnce()).setDyCoordinate(5.0 + 0.6);
         assertFalse(player.getIsJumping());
     }
 
@@ -422,14 +406,12 @@ public class PlayerTest {
         when(spriteBase.causesCollisionWall(anyDouble(), anyDouble(),
                 anyDouble(), anyDouble(), any(LevelController.class))).thenReturn(false);
 
-        double[] array = new double[5];
-        array[3] = 5;
-        when(spriteBase.getLocation()).thenReturn(array);
+        when(spriteBase.getDyCoordinate()).thenReturn(5.0);
 
         player.setAbleToJump(true);
         player.moveCollisionChecker(false, true);
 
-        assertEquals(array[3], player.getLocation()[3], 0.1);
+        assertEquals(5.0, player.getSpriteBase().getDyCoordinate(), 0.1);
         assertFalse(player.getAbleToJump());
     }
 
@@ -577,7 +559,7 @@ public class PlayerTest {
 
         assertFalse(player.getAbleToJump());
         assertTrue(player.getIsJumping());
-        assertEquals(-Settings.JUMP_SPEED, player.getLocation()[3], 0.1);
+        assertEquals(-Settings.JUMP_SPEED, player.getSpriteBase().getDyCoordinate(), 0.1);
     }
 
     /**
@@ -672,8 +654,16 @@ public class PlayerTest {
      */
     @Test
     public void testDieImageRight() {
-    	player.setFacingRight(true);
+    	AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
+        player.setFacingRight(true);
     	player.die();
+
+        timer.handle(1);
+
     	assertEquals("Bub1RightDeath.png", player.getSpriteBase().getImagePath());
     }
     
@@ -682,8 +672,16 @@ public class PlayerTest {
      */
     @Test
     public void testDieImageLeft() {
+        AnimationTimer timer = player.createTimer();
+        LevelControllerMethods lcm = mock(LevelControllerMethods.class);
+        when(levelController.getLevelControllerMethods()).thenReturn(lcm);
+        when(lcm.getGamePaused()).thenReturn(false);
+
     	player.setFacingRight(false);
     	player.die();
+
+        timer.handle(1);
+
     	assertEquals("Bub1LeftDeath.png", player.getSpriteBase().getImagePath());
     }
 
