@@ -142,8 +142,8 @@ public class BossEnemyTest {
     Bubble bubble = mock(Bubble.class);
     SpriteBase sprite = mock(SpriteBase.class);
     when(bubble.getSpriteBase()).thenReturn(sprite);
-    when(sprite.getXCoordinate()).thenReturn(1.0);
-    when(sprite.getYCoordinate()).thenReturn(1.0);
+    when(sprite.getXCoordinate()).thenReturn(2.0);
+    when(sprite.getYCoordinate()).thenReturn(2.0);
     when(sprite.getWidth()).thenReturn(300.0);
     when(sprite.getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
