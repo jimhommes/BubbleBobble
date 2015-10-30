@@ -11,7 +11,6 @@ import utility.Settings;
 
 /**
  * The class were the enemy bubbles are created.
- * @author jeffr_000
  *
  */
 public class EnemyBubble extends Bubble {

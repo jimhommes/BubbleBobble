@@ -5,8 +5,7 @@ import model.support.Coordinates;
 import model.support.SpriteBase;
 
 /**
- * This class creates a bubbe shot by the players.
- * @author jeffr_000
+ * This class creates a bubble shot by the players.
  *
  */
 public class PlayerBubble extends Bubble {

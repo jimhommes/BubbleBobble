@@ -19,7 +19,6 @@ import utility.Settings;
 
 /**
  * This class tests what happens to the EnemyBubble.
- * @author jeffr_000
  *
  */
 public class EnemyBubbleTest {
