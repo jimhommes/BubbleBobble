@@ -96,7 +96,8 @@ public class BossEnemy extends Monster {
   private void checkBounds() {
     if (getSpriteBase().getYCoordinate() <= bossEnemyMinY) {
       movingUp = false;
-    } else if (getSpriteBase().getYCoordinate() >= bossEnemyMaxY - Settings.SPRITE_FINAL_ENEMY_SIZE) {
+    } else if (getSpriteBase().getYCoordinate()
+            >= bossEnemyMaxY - Settings.SPRITE_FINAL_ENEMY_SIZE) {
       movingUp = true;
     }
   }

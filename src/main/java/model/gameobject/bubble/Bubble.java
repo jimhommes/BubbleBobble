@@ -96,7 +96,8 @@ public class Bubble extends Observable {
         Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
         Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getXCoordinate()) || !newY.equals(spriteBase.getYCoordinate())) {
+        if (!newX.equals(spriteBase.getXCoordinate())
+                || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
                     spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
@@ -133,17 +134,22 @@ public class Bubble extends Observable {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate() + Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getXCoordinate() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
+            if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate()
+                            + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getXCoordinate()
+                            + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
                     spriteBase.getYCoordinate(),
-                    spriteBase.getYCoordinate() + spriteBase.getHeight(), levelController)) {
+                    spriteBase.getYCoordinate()
+                            + spriteBase.getHeight(), levelController)) {
                 spriteBase.setDxCoordinate(Settings.BUBBLE_INIT_SPEED);
             } else {
                 spriteBase.setDxCoordinate(0);
             }
         } else {
-            if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate() - Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getXCoordinate() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
+            if (!spriteBase.causesCollisionWall(
+                    spriteBase.getXCoordinate() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getXCoordinate()
+                            + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
                     spriteBase.getYCoordinate(),
                     spriteBase.getYCoordinate() + spriteBase.getHeight(), levelController)) {
                 spriteBase.setDxCoordinate(-Settings.BUBBLE_INIT_SPEED);

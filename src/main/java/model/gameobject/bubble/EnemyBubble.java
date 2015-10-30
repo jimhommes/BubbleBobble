@@ -33,7 +33,8 @@ public class EnemyBubble extends Bubble {
     this.right = firedRight;
     
     if (right) {
-      coordinates.setXCoordinate(coordinates.getXCoordinate() + Settings.SPRITE_FINAL_ENEMY_SIZE + 1);
+      coordinates.setXCoordinate(
+              coordinates.getXCoordinate() + Settings.SPRITE_FINAL_ENEMY_SIZE + 1);
       setSpriteBase(new SpriteBase("FireRight.png", coordinates));
     } else {
       coordinates.setXCoordinate(coordinates.getXCoordinate() - Settings.SPRITE_SIZE - 1);
@@ -48,7 +49,8 @@ public class EnemyBubble extends Bubble {
     Double newX = getSpriteBase().getXCoordinate() + getSpriteBase().getDxCoordinate();
     Double newY = getSpriteBase().getYCoordinate() + getSpriteBase().getDyCoordinate();
     
-    if (!newX.equals(getSpriteBase().getXCoordinate()) || !newY.equals(getSpriteBase().getYCoordinate())) {
+    if (!newX.equals(getSpriteBase().getXCoordinate())
+            || !newY.equals(getSpriteBase().getYCoordinate())) {
       Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
           getSpriteBase().getXCoordinate(), getSpriteBase().getYCoordinate(), newX, newY));
     }

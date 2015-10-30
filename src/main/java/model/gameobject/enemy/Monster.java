@@ -81,7 +81,8 @@ public class Monster extends GravityObject {
         Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
         Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getXCoordinate()) || !newY.equals(spriteBase.getYCoordinate())) {
+        if (!newX.equals(spriteBase.getXCoordinate())
+                || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
                     spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
@@ -157,7 +158,8 @@ public class Monster extends GravityObject {
         if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate(),
                 spriteBase.getXCoordinate() + spriteBase.getWidth(),
                 spriteBase.getYCoordinate() - calculateGravity(),
-                spriteBase.getYCoordinate() + spriteBase.getHeight() - calculateGravity(), levelController)) {
+                spriteBase.getYCoordinate()
+                        + spriteBase.getHeight() - calculateGravity(), levelController)) {
             if (!jumping) {
                 spriteBase.setYCoordinate(spriteBase.getYCoordinate() - calculateGravity());
             }
