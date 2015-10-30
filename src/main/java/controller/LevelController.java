@@ -173,6 +173,7 @@ public class LevelController implements Observer {
                 }
                 if (stop) {
                     stop();
+                    players.forEach(Player::addHighscore);
                     gameOver();
                 } else {
                     if (currLvl.update()) {
@@ -300,9 +301,7 @@ public class LevelController implements Observer {
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
-            for (Player player : players) {
-                player.addHighscore();
-            }
+            players.forEach(Player::addHighscore);
             winGame();
         }
     }
