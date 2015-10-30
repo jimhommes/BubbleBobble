@@ -172,7 +172,7 @@ public class MainController implements Initializable {
             	Stage stage = (Stage) gameRoot.getScene().getWindow();
                 Parent newRoot = FXMLLoader.load(getClass()
                         .getClassLoader()
-                        .getResource("startScreen.fxml"));
+                        .getResource("startscreen.fxml"));
                 stage.setScene(new Scene(newRoot));
                 stage.show();
             } catch (IOException e) {

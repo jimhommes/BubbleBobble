@@ -45,7 +45,7 @@ public class GameEndController implements Initializable {
         Stage stage = (Stage) root.getScene().getWindow();
         Parent newRoot = FXMLLoader.load(getClass()
                 .getClassLoader()
-                .getResource("startScreen.fxml"));
+                .getResource("startscreen.fxml"));
         stage.setScene(new Scene(newRoot));
         stage.show();
 
