@@ -91,7 +91,7 @@ public class StartController implements Initializable {
         }
 
         while (scoreIndex <= 10) {
-            HighscoreEntryController emptyEntry = new HighscoreEntryController("<empty>", "0");
+            HighscoreEntryController emptyEntry = new HighscoreEntryController("<empty>", 0);
             emptyEntry.setEntryNumber(scoreIndex);
             highscores.getChildren().add(emptyEntry);
             scoreIndex++;
