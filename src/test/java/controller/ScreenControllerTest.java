@@ -2,17 +2,17 @@ package controller;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import model.SpriteBase;
+import model.support.SpriteBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.any;
 
 
 /**
@@ -56,8 +56,8 @@ public class ScreenControllerTest {
         screenController.setSprites(sprites);
         screenController.setImages(images);
         screenController.updateUI();
-        verify(sprite, atLeastOnce()).getY();
-        verify(sprite, atLeastOnce()).getX();
+        verify(sprite, atLeastOnce()).getYCoordinate();
+        verify(sprite, atLeastOnce()).getXCoordinate();
         verify(sprite, atLeastOnce()).getSpriteChanged();
         verify(image, atLeastOnce()).relocate(any(double.class), any(double.class));
     }

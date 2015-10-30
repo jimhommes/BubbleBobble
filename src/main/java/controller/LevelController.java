@@ -6,17 +6,16 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import launcher.Launcher;
-import model.Bubble;
-import model.Coordinates;
-import model.Input;
-import model.Level;
-import model.LevelFactory;
-import model.Monster;
-import model.Player;
-import model.Powerup;
-import model.Wall;
-import model.FinalEnemy;
+import model.gameobject.bubble.Bubble;
+import model.support.Coordinates;
+import model.support.Input;
+import model.gameobject.level.Level;
+import model.gameobject.level.LevelFactory;
+import model.gameobject.enemy.Monster;
+import model.gameobject.player.Player;
+import model.gameobject.player.Powerup;
+import model.gameobject.level.Wall;
+import model.gameobject.enemy.BossEnemy;
 import utility.Logger;
 import utility.Settings;
 import java.util.ArrayList;
@@ -112,8 +111,8 @@ public class LevelController implements Observer {
                     mainController.showScore(0, 0);
                 }
                 for (Monster monster : currLvl.getMonsters()) {
-                  if (monster instanceof FinalEnemy) {
-                    mainController.showEnemyLives(((FinalEnemy) monster).showLives());
+                  if (monster instanceof BossEnemy) {
+                    mainController.showEnemyLives(((BossEnemy) monster).showLives());
                   }
                   
                 }
@@ -128,7 +127,7 @@ public class LevelController implements Observer {
             		&& keyEvent.getCode() == Settings.getKeyCode("MUTE_KEY", KeyCode.M)) {
                 muteKeyPressed = true;
                 Settings.setBoolean("PLAY_MUSIC", !Settings.getBoolean("PLAY_MUSIC", false));
-                Launcher.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
+                MusicController.playMusic(Settings.getBoolean("PLAY_MUSIC", true));
             }
         });
 
@@ -167,12 +166,13 @@ public class LevelController implements Observer {
             public void handle(long now) {
                 boolean stop = true;
                 for (Player p : players) {
-                    if (!p.isDead()) {
+                    if (!p.noLivesLeft()) {
                         stop = false;
                     }
                 }
                 if (stop) {
                     stop();
+                    players.forEach(Player::addHighscore);
                     gameOver();
                 } else {
                     if (currLvl.update()) {
@@ -241,7 +241,7 @@ public class LevelController implements Observer {
     public void setMusic() {
 
         if (indexCurrLvl == (maps.size() - 1)) {
-            Launcher.changeMusicSong(Settings.MUSIC_BOSS_SONG);
+            MusicController.changeMusicSong(Settings.MUSIC_BOSS_SONG);
         }
 
     }
@@ -300,9 +300,7 @@ public class LevelController implements Observer {
         if (indexCurrLvl < maps.size()) {
             createLvl();
         } else {
-            for (Player player : players) {
-                player.addHighscore();
-            }
+            players.forEach(Player::addHighscore);
             winGame();
         }
     }
@@ -312,7 +310,7 @@ public class LevelController implements Observer {
      */
     public void gameOver() {
         Logger.log("Game over!");
-        Launcher.changeMusicSong(Settings.MUSIC_GAMEOVER_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_GAMEOVER_SONG);
         gameLoop.stop();
         mainController.showGameOverScreen();
     }
@@ -322,7 +320,7 @@ public class LevelController implements Observer {
      */
     private void winGame() {
         Logger.log("Game won!");
-        Launcher.changeMusicSong(Settings.MUSIC_GAMEWON_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_GAMEWON_SONG);
         gameLoop.stop();
         mainController.showWinScreen();
     }
@@ -458,15 +456,15 @@ public class LevelController implements Observer {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Coordinates powerUpCoordinates = new Coordinates(monster.getSpriteBase().getX(),
-                monster.getSpriteBase().getY(), 2, 0, 0, 0);
+        Coordinates powerUpCoordinates = new Coordinates(monster.getSpriteBase().getXCoordinate(),
+                monster.getSpriteBase().getYCoordinate(), 2, 0, 0, 0);
         
         Powerup powerup = new Powerup(Math.random(), powerUpCoordinates,  randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 
-        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", "
-                + powerup.getSpriteBase().getY() + ")");
+        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getXCoordinate() + ", "
+                + powerup.getSpriteBase().getYCoordinate() + ")");
         Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 
@@ -523,8 +521,8 @@ public class LevelController implements Observer {
             if (b.getIsPopped()) {
                 bubbles.remove(b);
             }
-        } else if (o instanceof FinalEnemy) {
-          mainController.showEnemyLives(((FinalEnemy) o).showLives());
+        } else if (o instanceof BossEnemy) {
+          mainController.showEnemyLives(((BossEnemy) o).showLives());
         }
     }
     

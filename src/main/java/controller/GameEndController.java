@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import launcher.Launcher;
 import utility.Settings;
 
 import java.io.IOException;
@@ -46,11 +45,11 @@ public class GameEndController implements Initializable {
         Stage stage = (Stage) root.getScene().getWindow();
         Parent newRoot = FXMLLoader.load(getClass()
                 .getClassLoader()
-                .getResource("startScreen.fxml"));
+                .getResource("startscreen.fxml"));
         stage.setScene(new Scene(newRoot));
         stage.show();
 
-        Launcher.changeMusicSong(Settings.MUSIC_THEME_SONG);
+        MusicController.changeMusicSong(Settings.MUSIC_THEME_SONG);
     }
 
 }

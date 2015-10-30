@@ -7,15 +7,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import model.Bubble;
-import model.Coordinates;
-import model.Input;
-import model.Level;
-import model.Monster;
-import model.Player;
-import model.Powerup;
-import model.SpriteBase;
-import model.Wall;
+import model.gameobject.bubble.Bubble;
+import model.gameobject.enemy.Monster;
+import model.gameobject.level.Level;
+import model.gameobject.level.Wall;
+import model.gameobject.player.Player;
+import model.gameobject.player.Powerup;
+import model.support.Coordinates;
+import model.support.Input;
+import model.support.SpriteBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,18 +49,15 @@ public class LevelControllerTest {
     private MainController mainController;
 
     private AnimationTimer gameLoopTest; 
-    @SuppressWarnings("rawtypes")
-	private ArrayList<Player> playersTest = new ArrayList<>();
+    private ArrayList<Player> playersTest = new ArrayList<>();
     private Player playerTest = mock(Player.class);
-    @SuppressWarnings("rawtypes")
-	private ArrayList<Monster> monstersTest = new ArrayList<>();
+    private ArrayList<Monster> monstersTest = new ArrayList<>();
     private Monster monsterTest = mock(Monster.class);
 
     /**
      * The setup before every test.
      */
-    @SuppressWarnings("unchecked")
-	@Before
+    @Before
     public void setUp() {
         Settings.initialize("test.properties");
 
@@ -123,8 +120,8 @@ public class LevelControllerTest {
         ArrayList<Player> players = levelController.getPlayers();
 
 		assertTrue(!players.isEmpty());
-		assertEquals(200, players.get(0).getSpriteBase().getX(), 0.001);
-		assertEquals(200, players.get(0).getSpriteBase().getY(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getXCoordinate(), 0.001);
+		assertEquals(200, players.get(0).getSpriteBase().getYCoordinate(), 0.001);
 		assertEquals(Settings.PLAYER_SPEED, players.get(0).getSpeed(), 0.001);
 	}
 
@@ -282,7 +279,6 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
     public void testGameLoop() {
         AnimationTimer gameLoop = levelController.createTimer();
@@ -306,7 +302,6 @@ public class LevelControllerTest {
     /**
      * This tests the gameLoop.
      */
-	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopWhenNotUpdated() {
   
@@ -318,7 +313,7 @@ public class LevelControllerTest {
         when(level.update()).thenReturn(false);
         int index = levelController.getIndexCurrLvl();
 
-        when(playerTest.isGameOver()).thenReturn(false);
+//        when(playerTest.isGameOver()).thenReturn(false);
 
         gameLoopTest.handle(1);
 
@@ -328,7 +323,6 @@ public class LevelControllerTest {
     /**
      * This tests the game loop when the game is paused.
      */
-	@SuppressWarnings("unchecked")
 	@Test
     public void testGameLoopPaused() {
 
@@ -339,7 +333,6 @@ public class LevelControllerTest {
         levelController.setScreenController(mock(ScreenController.class));
         when(level.getMonsters()).thenReturn(monstersTest);
         when(level.update()).thenReturn(true);
-        when(playerTest.isGameOver()).thenReturn(false);
 
         EventHandler<KeyEvent> handler = levelController.getPauseKeyEventHandler();
         handler.handle(new KeyEvent(null, null,
@@ -364,7 +357,7 @@ public class LevelControllerTest {
         levelController.setPlayers(players);
         levelController.setCurrLvl(mock(Level.class));
 
-        when(player.isDead()).thenReturn(true);
+        when(player.noLivesLeft()).thenReturn(true);
 
         gameLoop.handle(1);
 
@@ -389,7 +382,6 @@ public class LevelControllerTest {
 
         int index = levelController.getIndexCurrLvl();
 
-        when(player.isGameOver()).thenReturn(true);
         when(level.update()).thenReturn(false);
 
         gameLoop.handle(1);
@@ -456,8 +448,8 @@ public class LevelControllerTest {
         Monster monster = mock(Monster.class);
         SpriteBase sprite = mock(SpriteBase.class);
         when(monster.getSpriteBase()).thenReturn(sprite);
-        when(sprite.getX()).thenReturn(15.0);
-        when(sprite.getY()).thenReturn(30.0);
+        when(sprite.getXCoordinate()).thenReturn(15.0);
+        when(sprite.getYCoordinate()).thenReturn(30.0);
 
         Level level = mock(Level.class);
         ArrayList<Wall> list = new ArrayList<>();
@@ -472,8 +464,8 @@ public class LevelControllerTest {
 
         assertEquals(1, levelController.getPowerups().size());
         Powerup powerup = levelController.getPowerups().get(0);
-        assertEquals(15.0, powerup.getSpriteBase().getX(), 0.1);
-        assertEquals(30.0, powerup.getSpriteBase().getY(), 0.1);
+        assertEquals(15.0, powerup.getSpriteBase().getXCoordinate(), 0.1);
+        assertEquals(30.0, powerup.getSpriteBase().getYCoordinate(), 0.1);
     }
 
     /**
@@ -504,8 +496,7 @@ public class LevelControllerTest {
     public void testUpdateBubble() {
         ScreenController sc = mock(ScreenController.class);
         levelController.setScreenController(sc);
-        Bubble bubble = new Bubble(new Coordinates(0, 0, 0, 0, 0, 0),
-                true, false, levelController);
+        Bubble bubble = new Bubble(true, false, levelController);
 
         levelController.addBubble(bubble);
         assertEquals(levelController.getBubbles().size(), 1);

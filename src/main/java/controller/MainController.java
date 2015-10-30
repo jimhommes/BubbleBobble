@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Input;
+import model.support.Input;
 import utility.Settings;
 
 import java.io.IOException;
@@ -172,7 +172,7 @@ public class MainController implements Initializable {
             	Stage stage = (Stage) gameRoot.getScene().getWindow();
                 Parent newRoot = FXMLLoader.load(getClass()
                         .getClassLoader()
-                        .getResource("startScreen.fxml"));
+                        .getResource("startscreen.fxml"));
                 stage.setScene(new Scene(newRoot));
                 stage.show();
             } catch (IOException e) {
