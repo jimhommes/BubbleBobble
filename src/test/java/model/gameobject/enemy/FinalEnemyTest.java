@@ -143,8 +143,8 @@ public class FinalEnemyTest {
     Bubble bubble = mock(Bubble.class);
     SpriteBase sprite = mock(SpriteBase.class);
     when(bubble.getSpriteBase()).thenReturn(sprite);
-    when(sprite.getX()).thenReturn(1.0);
-    when(sprite.getY()).thenReturn(1.0);
+    when(sprite.getX()).thenReturn(2.0);
+    when(sprite.getY()).thenReturn(2.0);
     when(sprite.getWidth()).thenReturn(300.0);
     when(sprite.getHeight()).thenReturn(300.0);
         when(bubble.isAbleToCatch()).thenReturn(true);
