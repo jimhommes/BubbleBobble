@@ -16,7 +16,7 @@ import model.gameobject.enemy.Monster;
 import model.gameobject.player.Player;
 import model.gameobject.player.Powerup;
 import model.gameobject.level.Wall;
-import model.gameobject.enemy.FinalEnemy;
+import model.gameobject.enemy.BossEnemy;
 import utility.Logger;
 import utility.Settings;
 import java.util.ArrayList;
@@ -112,8 +112,8 @@ public class LevelController implements Observer {
                     mainController.showScore(0, 0);
                 }
                 for (Monster monster : currLvl.getMonsters()) {
-                  if (monster instanceof FinalEnemy) {
-                    mainController.showEnemyLives(((FinalEnemy) monster).showLives());
+                  if (monster instanceof BossEnemy) {
+                    mainController.showEnemyLives(((BossEnemy) monster).showLives());
                   }
                   
                 }
@@ -457,15 +457,15 @@ public class LevelController implements Observer {
             randLocY = Math.random() * Settings.SCENE_HEIGHT;
         }
 
-        Coordinates powerUpCoordinates = new Coordinates(monster.getSpriteBase().getX(),
-                monster.getSpriteBase().getY(), 2, 0, 0, 0);
+        Coordinates powerUpCoordinates = new Coordinates(monster.getSpriteBase().getXCoordinate(),
+                monster.getSpriteBase().getYCoordinate(), 2, 0, 0, 0);
         
         Powerup powerup = new Powerup(Math.random(), powerUpCoordinates,  randLocX, randLocY, this);
         powerups.add(powerup);
         screenController.addToSprites(powerup.getSpriteBase());
 
-        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getX() + ", "
-                + powerup.getSpriteBase().getY() + ")");
+        Logger.log("Powerup spawned at (" + powerup.getSpriteBase().getXCoordinate() + ", "
+                + powerup.getSpriteBase().getYCoordinate() + ")");
         Logger.log("Powerup going to (" + randLocX + ", " + randLocY + ")");
     }
 
@@ -522,8 +522,8 @@ public class LevelController implements Observer {
             if (b.getIsPopped()) {
                 bubbles.remove(b);
             }
-        } else if (o instanceof FinalEnemy) {
-          mainController.showEnemyLives(((FinalEnemy) o).showLives());
+        } else if (o instanceof BossEnemy) {
+          mainController.showEnemyLives(((BossEnemy) o).showLives());
         }
     }
     

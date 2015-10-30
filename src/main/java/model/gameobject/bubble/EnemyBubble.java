@@ -33,10 +33,11 @@ public class EnemyBubble extends Bubble {
     this.right = firedRight;
     
     if (right) {
-      coordinates.setX(coordinates.getX() + Settings.SPRITE_FINAL_ENEMY_SIZE + 1);
+      coordinates.setXCoordinate(
+              coordinates.getXCoordinate() + Settings.SPRITE_FINAL_ENEMY_SIZE + 1);
       setSpriteBase(new SpriteBase("FireRight.png", coordinates));
     } else {
-      coordinates.setX(coordinates.getX() - Settings.SPRITE_SIZE - 1);
+      coordinates.setXCoordinate(coordinates.getXCoordinate() - Settings.SPRITE_SIZE - 1);
       setSpriteBase(new SpriteBase("FireLeft.png", coordinates));
     }
     
@@ -45,12 +46,13 @@ public class EnemyBubble extends Bubble {
   
   @Override
   public void move() {
-    Double newX = getSpriteBase().getX() + getSpriteBase().getDx();
-    Double newY = getSpriteBase().getY() + getSpriteBase().getDy();
+    Double newX = getSpriteBase().getXCoordinate() + getSpriteBase().getDxCoordinate();
+    Double newY = getSpriteBase().getYCoordinate() + getSpriteBase().getDyCoordinate();
     
-    if (!newX.equals(getSpriteBase().getX()) || !newY.equals(getSpriteBase().getY())) {
+    if (!newX.equals(getSpriteBase().getXCoordinate())
+            || !newY.equals(getSpriteBase().getYCoordinate())) {
       Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
-          getSpriteBase().getX(), getSpriteBase().getY(), newX, newY));
+          getSpriteBase().getXCoordinate(), getSpriteBase().getYCoordinate(), newX, newY));
     }
     
     moveHorizontally();
@@ -63,9 +65,9 @@ public class EnemyBubble extends Bubble {
   private void moveHorizontally() {
     if (!causeCollisionPlayer()) {
       if (right) {
-        getSpriteBase().setDx(Settings.BUBBLE_INIT_SPEED);
+        getSpriteBase().setDxCoordinate(Settings.BUBBLE_INIT_SPEED);
       } else {
-        getSpriteBase().setDx(-Settings.BUBBLE_INIT_SPEED);
+        getSpriteBase().setDxCoordinate(-Settings.BUBBLE_INIT_SPEED);
       }
     }  
   }
@@ -79,9 +81,9 @@ public class EnemyBubble extends Bubble {
     ArrayList<Player> players = levelController.getPlayers();
     
     for (Player player : players) {
-      double minX = player.getSpriteBase().getX();
+      double minX = player.getSpriteBase().getXCoordinate();
       double maxX = minX + Settings.SPRITE_SIZE;
-      double minY = player.getSpriteBase().getY();
+      double minY = player.getSpriteBase().getYCoordinate();
       double maxY = minY + Settings.SPRITE_SIZE;
       if (checkPlayerCollision(minX, maxX, minY, maxY) && !player.getIsDelayed()) {
         player.die();
@@ -104,18 +106,18 @@ public class EnemyBubble extends Bubble {
                                        double playerMinY, 
                                        double playerMaxY) {
     if (right) {
-      if (getSpriteBase().getX() + Settings.SPRITE_SIZE >= playerMinX 
-          && getSpriteBase().getX() <= playerMaxX 
-          && playerMinY <= getSpriteBase().getY() + Settings.SPRITE_SIZE 
-          && playerMaxY >= getSpriteBase().getY()) {
+      if (getSpriteBase().getXCoordinate() + Settings.SPRITE_SIZE >= playerMinX 
+          && getSpriteBase().getXCoordinate() <= playerMaxX 
+          && playerMinY <= getSpriteBase().getYCoordinate() + Settings.SPRITE_SIZE 
+          && playerMaxY >= getSpriteBase().getYCoordinate()) {
         this.setIsPopped(true);
         return true;
       }
     } else if (!right) {
-      if (getSpriteBase().getX() <= playerMaxX 
-          && getSpriteBase().getX() + Settings.SPRITE_SIZE >= playerMinX 
-          && playerMinY <= getSpriteBase().getY() + Settings.SPRITE_SIZE 
-          && playerMaxY >= getSpriteBase().getY()) {
+      if (getSpriteBase().getXCoordinate() <= playerMaxX 
+          && getSpriteBase().getXCoordinate() + Settings.SPRITE_SIZE >= playerMinX 
+          && playerMinY <= getSpriteBase().getYCoordinate() + Settings.SPRITE_SIZE 
+          && playerMaxY >= getSpriteBase().getYCoordinate()) {
         this.setIsPopped(true);
         return true;
       }

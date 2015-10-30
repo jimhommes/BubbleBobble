@@ -64,9 +64,9 @@ public class SpriteBaseTest {
 	@Test
 	public void testCheckBoundsX() {
 		sb.setWidth(1);
-		sb.setX(1);
+		sb.setXCoordinate(1);
 		sb.checkBounds(0, 1, 1, 1, lc);
-		assertEquals(0, sb.getX(), 0);
+		assertEquals(0, sb.getXCoordinate(), 0);
 	}
 	
 	/**
@@ -75,9 +75,9 @@ public class SpriteBaseTest {
 	@Test
 	public void testCheckBoundsY() {
 		sb.setHeight(1);
-		sb.setY(1);
+		sb.setYCoordinate(1);
 		sb.checkBounds(0, 1, 0, 3, lc);
-		assertEquals(1, sb.getY(), 0);
+		assertEquals(1, sb.getYCoordinate(), 0);
 	}
 
 
