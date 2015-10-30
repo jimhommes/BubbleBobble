@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 /**
  * This class creates the final enemy.
- * @author jeffr_000
  *
  */
 public class BossEnemy extends Monster {
