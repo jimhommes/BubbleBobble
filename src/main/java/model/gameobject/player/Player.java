@@ -1,6 +1,5 @@
 package model.gameobject.player;
 
-import controller.HighscoreEntryController;
 import controller.LevelController;
 import javafx.animation.AnimationTimer;
 import model.gameobject.GravityObject;
@@ -118,7 +117,6 @@ public class Player extends GravityObject {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
 
@@ -171,13 +169,13 @@ public class Player extends GravityObject {
      */
     public void processInput() {
         if (!noLivesLeft() && !isDelayed) {
-            if (isJumping && spriteBase.getDy() <= 0) {
-                spriteBase.setDy(spriteBase.getDy() + 0.6);
-            } else if (isJumping && spriteBase.getDy() > 0) {
-                spriteBase.setDy(spriteBase.getDy() + 0.6);
+            if (isJumping && spriteBase.getDyCoordinate() <= 0) {
+                spriteBase.setDyCoordinate(spriteBase.getDyCoordinate() + 0.6);
+            } else if (isJumping && spriteBase.getDyCoordinate() > 0) {
+                spriteBase.setDyCoordinate(spriteBase.getDyCoordinate() + 0.6);
                 setJumping(false);
             } else {
-                spriteBase.setDy(0);
+                spriteBase.setDyCoordinate(0);
             }
 
             moveVertical();
@@ -225,12 +223,12 @@ public class Player extends GravityObject {
      * This function returns the player if it is out of bounds.
      */
     public void checkBounds() {
-        double x = spriteBase.getX();
-        double y = spriteBase.getY();
+        double x = spriteBase.getXCoordinate();
+        double y = spriteBase.getYCoordinate();
         if (x < playerMinX) {
-            spriteBase.setX(playerMinX);
+            spriteBase.setXCoordinate(playerMinX);
         } else if (x + width > playerMaxX) {
-            spriteBase.setX(playerMaxX - width);
+            spriteBase.setXCoordinate(playerMaxX - width);
         }
 
         if (y < playerMinY) {
@@ -238,12 +236,12 @@ public class Player extends GravityObject {
                     x + width,
                     y,
                     y + height, levelController)) {
-                spriteBase.setY(playerMaxY - height);
+                spriteBase.setYCoordinate(playerMaxY - height);
             } else {
-                spriteBase.setY(playerMinY);
+                spriteBase.setYCoordinate(playerMinY);
             }
         } else if (y + height > playerMaxY) {
-            spriteBase.setY(playerMinY);
+            spriteBase.setYCoordinate(playerMinY);
         }
     }
 
@@ -275,12 +273,12 @@ public class Player extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!wallCollision(spriteBase.getX(),
-                spriteBase.getX() + width,
-                spriteBase.getY() - calculateGravity(),
-                spriteBase.getY() + height - calculateGravity(), levelController)) {
+        if (!wallCollision(spriteBase.getXCoordinate(),
+                spriteBase.getXCoordinate() + width,
+                spriteBase.getYCoordinate() - calculateGravity(),
+                spriteBase.getYCoordinate() + height - calculateGravity(), levelController)) {
             if (!jumping) {
-                spriteBase.setDy(spriteBase.getDy() - calculateGravity());
+                spriteBase.setDyCoordinate(spriteBase.getDyCoordinate() - calculateGravity());
             }
             setAbleToJump(false);
         } else {
@@ -304,12 +302,12 @@ public class Player extends GravityObject {
         applyGravity();
         spriteBase.move();
 
-        Double newX = spriteBase.getX() + spriteBase.getDx();
-        Double newY = spriteBase.getY() + spriteBase.getDy();
+        Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
+        Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
+        if (!newX.equals(spriteBase.getXCoordinate()) || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Player moved from (%f, %f) to (%f, %f)",
-                    spriteBase.getX(), spriteBase.getY(), newX, newY));
+                    spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
 
     }
@@ -318,8 +316,8 @@ public class Player extends GravityObject {
      * This function applies gravity.
      */
     public void applyGravity() {
-        double x = spriteBase.getX();
-        double y = spriteBase.getY();
+        double x = spriteBase.getXCoordinate();
+        double y = spriteBase.getYCoordinate();
         if (!wallCollision(x, x + width,
                 y - calculateGravity(), y + height - calculateGravity(),
                 levelController)
@@ -333,7 +331,7 @@ public class Player extends GravityObject {
                 } else if (isAbleToDoubleJump) {
                     setAbleToJump(false);
                 }
-                spriteBase.setDy(-calculateGravity());
+                spriteBase.setDyCoordinate(-calculateGravity());
             } else {
                 setAbleToJump(false);
             }
@@ -350,12 +348,11 @@ public class Player extends GravityObject {
      *
      * @return True if collision.
      */
-    @SuppressWarnings("unchecked")
     public boolean causesBubbleCollision() {
         ArrayList<Bubble> bubbles = levelController.getBubbles();
-        double x = spriteBase.getX();
+        double x = spriteBase.getXCoordinate();
         double x1 = x + width;
-        double y = spriteBase.getY();
+        double y = spriteBase.getYCoordinate();
         double y2 = y + height;
 
         if (bubbles.size() == 0) {
@@ -378,8 +375,8 @@ public class Player extends GravityObject {
      * @param monster is the monster that is being checked for collisions.
      */
     public void checkCollideMonster(final Monster monster) {
-        double x = spriteBase.getX();
-        double y = spriteBase.getY();
+        double x = spriteBase.getXCoordinate();
+        double y = spriteBase.getYCoordinate();
         
         if (monster.getSpriteBase().causesCollision(x, x + width,
                 y, y + height)
@@ -402,15 +399,14 @@ public class Player extends GravityObject {
         isDead = true;
     	this.loseLife();
     	this.scorePoints(Settings.POINTS_PLAYER_DIE);
-    	spriteBase.setDx(0);
-    	spriteBase.setDy(0);
+    	spriteBase.setDxCoordinate(0);
+    	spriteBase.setDyCoordinate(0);
 
     	if (this.getLives() == 0) {
     		counter = 0;
     		setChanged();
     		notifyObservers();
     		destroy();
-            addHighscore();
     	} else {
     		isDelayed = true;
     		delayRespawn();
@@ -421,15 +417,7 @@ public class Player extends GravityObject {
      * Add the final score to the highscoresList.
      */
     public void addHighscore() {
-        ArrayList<HighscoreEntryController> highscores = Settings.getHighscores();
-        highscores.add(new HighscoreEntryController(Settings.getName(playerNumber - 1),
-                Integer.toString(this.getScore())));
-        highscores.sort((HighscoreEntryController o1,
-                         HighscoreEntryController o2)->o2.getScore() - o1.getScore());
-        while (highscores.size() > 10) {
-            highscores.remove(10);
-        }
-        Settings.setHighscores(highscores);
+        Settings.setHighscores(playerNumber, this.getScore());
     }
 
     private void delayRespawn() {
@@ -448,10 +436,10 @@ public class Player extends GravityObject {
         isDelayed = false;
         this.addPowerup(Immortality::new);
 
-        spriteBase.setDx(0);
-        spriteBase.setDy(0);
-        spriteBase.setX(xStartLocation);
-        spriteBase.setY(yStartLocation);
+        spriteBase.setDxCoordinate(0);
+        spriteBase.setDyCoordinate(0);
+        spriteBase.setXCoordinate(xStartLocation);
+        spriteBase.setYCoordinate(yStartLocation);
         isDead = false;
     }
 
@@ -467,7 +455,7 @@ public class Player extends GravityObject {
     private void jump() {
         setAbleToJump(false);
         setJumping(true);
-        spriteBase.setDy(-Settings.JUMP_SPEED);
+        spriteBase.setDyCoordinate(-Settings.JUMP_SPEED);
     }
 
 
@@ -480,7 +468,7 @@ public class Player extends GravityObject {
         } else if (input.isMoveRight()) {
             moveRight();
         } else {
-            spriteBase.setDx(0d);
+            spriteBase.setDxCoordinate(0d);
         }
     }
 
@@ -488,19 +476,19 @@ public class Player extends GravityObject {
      * This function handles moving to the right.
      */
     private void moveRight() {
-        double x = spriteBase.getX();
-        double y = spriteBase.getY();
+        double x = spriteBase.getXCoordinate();
+        double y = spriteBase.getYCoordinate();
 
         if (!wallCollision(x + speed,
                 x + width + speed,
                 y, y + height, levelController)) {
-            spriteBase.setDx(speed);
+            spriteBase.setDxCoordinate(speed);
         } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
-            spriteBase.setDx(speed);
+            spriteBase.setDxCoordinate(speed);
         } else {
             if (!isJumping) {
-                spriteBase.setDx(0);
+                spriteBase.setDxCoordinate(0);
             }
         }
         isFacingRight = true;
@@ -510,20 +498,20 @@ public class Player extends GravityObject {
      * This function handles moving to the left.
      */
     private void moveLeft() {
-        double x = spriteBase.getX();
-        double y = spriteBase.getY();
+        double x = spriteBase.getXCoordinate();
+        double y = spriteBase.getYCoordinate();
 
         if (!wallCollision(x - speed,
                 x + width - speed,
                 y,
                 y + height, levelController)) {
-            spriteBase.setDx(-speed);
+            spriteBase.setDxCoordinate(-speed);
         } else if (wallCollision(x, x + width,
                 y, y + height, levelController)) {
-            spriteBase.setDx(-speed);
+            spriteBase.setDxCoordinate(-speed);
         } else {
             if (!isJumping) {
-                spriteBase.setDx(0);
+                spriteBase.setDxCoordinate(0);
             }
         }
         setFacingRight(false);
@@ -535,7 +523,7 @@ public class Player extends GravityObject {
     public void checkFirePrimary() {
         if (input.isFirePrimaryWeapon() && counter > 30) {
         	Coordinates bubbleCoordinates = 
-        			new Coordinates(spriteBase.getX(), spriteBase.getY(), 0, 0, 0, 0);
+        			new Coordinates(spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), 0, 0, 0, 0);
             PlayerBubble bubble = new PlayerBubble(bubbleCoordinates,
                     isFacingRight, bubblePowerup, levelController);
             levelController.addBubble(bubble);

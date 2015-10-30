@@ -18,14 +18,14 @@ public class HighscoreEntryController extends GridPane {
     @FXML private Text entryScore;
 
     private String name;
-    private String score;
+    private int score;
 
     /**
      * Constructor for a highscore entry.
      * @param name Name of the player.
      * @param score Score of the player.
      */
-    public HighscoreEntryController(String name, String score) {
+    public HighscoreEntryController(String name, int score) {
         this.name = name;
         this.score = score;
 
@@ -47,7 +47,7 @@ public class HighscoreEntryController extends GridPane {
 
     private void setEntry() {
         entryName.setText(name);
-        entryScore.setText(score);
+        entryScore.setText(Integer.toString(score));
     }
 
     /**
@@ -67,18 +67,10 @@ public class HighscoreEntryController extends GridPane {
     }
 
     /**
-     * Get the score as a string.
-     * @return The score of the highscore entry.
-     */
-    public String getScoreString() {
-        return score;
-    }
-
-    /**
      * Get the score.
      * @return The score of the highscore entry.
      */
     public Integer getScore() {
-        return Integer.parseInt(score);
+        return score;
     }
 }

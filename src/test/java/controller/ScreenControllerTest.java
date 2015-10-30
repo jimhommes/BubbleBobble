@@ -56,8 +56,8 @@ public class ScreenControllerTest {
         screenController.setSprites(sprites);
         screenController.setImages(images);
         screenController.updateUI();
-        verify(sprite, atLeastOnce()).getY();
-        verify(sprite, atLeastOnce()).getX();
+        verify(sprite, atLeastOnce()).getYCoordinate();
+        verify(sprite, atLeastOnce()).getXCoordinate();
         verify(sprite, atLeastOnce()).getSpriteChanged();
         verify(image, atLeastOnce()).relocate(any(double.class), any(double.class));
     }

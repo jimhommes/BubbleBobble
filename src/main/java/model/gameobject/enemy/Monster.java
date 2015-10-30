@@ -22,7 +22,8 @@ public class Monster extends GravityObject {
     private Bubble prisonBubble;
     private boolean isCaughtByBubble;
     private boolean isDead;
-    private boolean isReducedSpeed;
+    @SuppressWarnings("unused")
+	private boolean isReducedSpeed;
     private SpriteBase spriteBase;
     private AnimationTimer timer;
 
@@ -57,7 +58,6 @@ public class Monster extends GravityObject {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if (!levelController.getLevelControllerMethods().getGamePaused()) {
@@ -78,12 +78,13 @@ public class Monster extends GravityObject {
     public void move() {
         spriteBase.move();
 
-        Double newX = spriteBase.getX() + spriteBase.getDx();
-        Double newY = spriteBase.getY() + spriteBase.getDy();
+        Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
+        Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
+        if (!newX.equals(spriteBase.getXCoordinate())
+                || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Monster moved from (%f, %f) to (%f, %f)",
-                    spriteBase.getX(), spriteBase.getY(), newX, newY));
+                    spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
     }
 
@@ -94,18 +95,18 @@ public class Monster extends GravityObject {
      */
     public void checkCollision(final Bubble bubble) {
         if (bubble.isAbleToCatch() && !isCaughtByBubble) {
-            double bubbleX = bubble.getSpriteBase().getX();
-            double bubbleY = bubble.getSpriteBase().getY();
+            double bubbleX = bubble.getSpriteBase().getXCoordinate();
+            double bubbleY = bubble.getSpriteBase().getYCoordinate();
             double bubbleX2 = bubbleX + bubble.getSpriteBase().getWidth();
             double bubbleY2 = bubbleY + bubble.getSpriteBase().getHeight();
-            if (((bubbleX >= spriteBase.getX()
-                    && bubbleX <= spriteBase.getX() + spriteBase.getWidth())
-                    || (bubbleX2 >= spriteBase.getX()
-                    && bubbleX2 <= spriteBase.getX() + spriteBase.getWidth()))
-                    && ((bubbleY >= spriteBase.getY()
-                    && bubbleY <= spriteBase.getY() + spriteBase.getHeight())
-                    || bubbleY2 >= spriteBase.getY()
-                    && bubbleY2 <= spriteBase.getY() + spriteBase.getHeight())) {
+            if (((bubbleX >= spriteBase.getXCoordinate()
+                    && bubbleX <= spriteBase.getXCoordinate() + spriteBase.getWidth())
+                    || (bubbleX2 >= spriteBase.getXCoordinate()
+                    && bubbleX2 <= spriteBase.getXCoordinate() + spriteBase.getWidth()))
+                    && ((bubbleY >= spriteBase.getYCoordinate()
+                    && bubbleY <= spriteBase.getYCoordinate() + spriteBase.getHeight())
+                    || bubbleY2 >= spriteBase.getYCoordinate()
+                    && bubbleY2 <= spriteBase.getYCoordinate() + spriteBase.getHeight())) {
                 prisonBubble = bubble;
                 prisonBubble.setAbleToCatch(false);
                 prisonBubble.setPrisonBubble(true);
@@ -154,12 +155,13 @@ public class Monster extends GravityObject {
      * @return The ableToJump variable.
      */
     public boolean moveCollisionChecker(boolean jumping, boolean ableToJump) {
-        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
-                spriteBase.getX() + spriteBase.getWidth(),
-                spriteBase.getY() - calculateGravity(),
-                spriteBase.getY() + spriteBase.getHeight() - calculateGravity(), levelController)) {
+        if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate(),
+                spriteBase.getXCoordinate() + spriteBase.getWidth(),
+                spriteBase.getYCoordinate() - calculateGravity(),
+                spriteBase.getYCoordinate()
+                        + spriteBase.getHeight() - calculateGravity(), levelController)) {
             if (!jumping) {
-                spriteBase.setY(spriteBase.getY() - calculateGravity());
+                spriteBase.setYCoordinate(spriteBase.getYCoordinate() - calculateGravity());
             }
             ableToJump = false;
         } else {

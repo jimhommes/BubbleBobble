@@ -65,23 +65,23 @@ public class PowerupTest {
      */
     @Test
     public void testMove() {
-        assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
-        assertEquals(0, powerup.getSpriteBase().getDy(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDxCoordinate(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDyCoordinate(), 0.1);
         assertFalse(powerup.isAbleToPickup());
 
         powerup.move();
 
-        assertEquals((destx - powerup.getSpriteBase().getX()) / 20.0,
-                powerup.getSpriteBase().getDx(), 0.1);
-        assertEquals((desty - powerup.getSpriteBase().getY()) / 20.0,
-                powerup.getSpriteBase().getDy(), 0.1);
+        assertEquals((destx - powerup.getSpriteBase().getXCoordinate()) / 20.0,
+                powerup.getSpriteBase().getDxCoordinate(), 0.1);
+        assertEquals((desty - powerup.getSpriteBase().getYCoordinate()) / 20.0,
+                powerup.getSpriteBase().getDyCoordinate(), 0.1);
 
         Coordinates coordinates = new Coordinates(0, 0, 0, 0, 0, 0);
         powerup = new Powerup(0, coordinates, 0, 0, levelController);
         powerup.move();
 
-        assertEquals(0, powerup.getSpriteBase().getDx(), 0.1);
-        assertEquals(0, powerup.getSpriteBase().getDy(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDxCoordinate(), 0.1);
+        assertEquals(0, powerup.getSpriteBase().getDyCoordinate(), 0.1);
         assertTrue(powerup.isAbleToPickup());
     }
 

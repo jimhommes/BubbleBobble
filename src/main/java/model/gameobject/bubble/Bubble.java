@@ -55,7 +55,6 @@ public class Bubble extends Observable {
      */
     public AnimationTimer createTimer() {
         return new AnimationTimer() {
-            @SuppressWarnings("unchecked")
             @Override
             public void handle(long now) {
                 if (!levelController.getLevelControllerMethods().getGamePaused()) {
@@ -97,12 +96,13 @@ public class Bubble extends Observable {
     }
 
     private void logMove() {
-        Double newX = spriteBase.getX() + spriteBase.getDx();
-        Double newY = spriteBase.getY() + spriteBase.getDy();
+        Double newX = spriteBase.getXCoordinate() + spriteBase.getDxCoordinate();
+        Double newY = spriteBase.getYCoordinate() + spriteBase.getDyCoordinate();
 
-        if (!newX.equals(spriteBase.getX()) || !newY.equals(spriteBase.getY())) {
+        if (!newX.equals(spriteBase.getXCoordinate())
+                || !newY.equals(spriteBase.getYCoordinate())) {
             Logger.log(String.format("Bubble moved from (%f, %f) to (%f, %f)",
-                    spriteBase.getX(), spriteBase.getY(), newX, newY));
+                    spriteBase.getXCoordinate(), spriteBase.getYCoordinate(), newX, newY));
         }
     }
 
@@ -111,18 +111,18 @@ public class Bubble extends Observable {
      * it allows the bubbles to float to the screen but stop there..
      */
     private void moveVertically() {
-        spriteBase.setDx(0);
-        if (!spriteBase.causesCollisionWall(spriteBase.getX(),
-                spriteBase.getX() + spriteBase.getWidth(),
-                spriteBase.getY() - Settings.BUBBLE_FLY_SPEED,
-                spriteBase.getY() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED,
+        spriteBase.setDxCoordinate(0);
+        if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate(),
+                spriteBase.getXCoordinate() + spriteBase.getWidth(),
+                spriteBase.getYCoordinate() - Settings.BUBBLE_FLY_SPEED,
+                spriteBase.getYCoordinate() + spriteBase.getHeight() - Settings.BUBBLE_FLY_SPEED,
                 levelController)) {
-            spriteBase.setDy(-Settings.BUBBLE_FLY_SPEED);
-            if (spriteBase.getY() < 0) {
-                spriteBase.setY(Settings.SCENE_HEIGHT);
+            spriteBase.setDyCoordinate(-Settings.BUBBLE_FLY_SPEED);
+            if (spriteBase.getYCoordinate() < 0) {
+                spriteBase.setYCoordinate(Settings.SCENE_HEIGHT);
             }
-        } else if (spriteBase.getY() <= 35) {
-            spriteBase.setDy(0);
+        } else if (spriteBase.getYCoordinate() <= 35) {
+            spriteBase.setDyCoordinate(0);
         }
         isAbleToCatch = false;
     }
@@ -132,22 +132,27 @@ public class Bubble extends Observable {
      */
     private void moveHorizontally() {
         if (firedRight) {
-            if (!spriteBase.causesCollisionWall(spriteBase.getX() + Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getX() + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getY(),
-                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
-                spriteBase.setDx(Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(spriteBase.getXCoordinate()
+                            + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getXCoordinate()
+                            + spriteBase.getWidth() + Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getYCoordinate(),
+                    spriteBase.getYCoordinate()
+                            + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDxCoordinate(Settings.BUBBLE_INIT_SPEED);
             } else {
-                spriteBase.setDx(0);
+                spriteBase.setDxCoordinate(0);
             }
         } else {
-            if (!spriteBase.causesCollisionWall(spriteBase.getX() - Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getX() + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
-                    spriteBase.getY(),
-                    spriteBase.getY() + spriteBase.getHeight(), levelController)) {
-                spriteBase.setDx(-Settings.BUBBLE_INIT_SPEED);
+            if (!spriteBase.causesCollisionWall(
+                    spriteBase.getXCoordinate() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getXCoordinate()
+                            + spriteBase.getWidth() - Settings.BUBBLE_INIT_SPEED,
+                    spriteBase.getYCoordinate(),
+                    spriteBase.getYCoordinate() + spriteBase.getHeight(), levelController)) {
+                spriteBase.setDxCoordinate(-Settings.BUBBLE_INIT_SPEED);
             } else {
-                spriteBase.setDx(0);
+                spriteBase.setDxCoordinate(0);
             }
         }
     }

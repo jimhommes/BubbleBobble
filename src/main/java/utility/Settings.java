@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
@@ -129,7 +130,7 @@ public final class Settings {
      * @param name the name of the player of the highscore.
      * @param score the score of the highscore.
      */
-    public static void setHighscore(String name, String score) {
+    public static void setHighscore(String name, int score) {
         setHighscoreProperty(name, score);
     }
 
@@ -148,22 +149,47 @@ public final class Settings {
      */
     public static ArrayList<HighscoreEntryController> getHighscores() {
         ArrayList<HighscoreEntryController> tempHighscores =
-                new ArrayList<HighscoreEntryController>();
+                new ArrayList<>();
         Set<String> keys = highscoreKeys();
         keys.forEach(key ->
                 tempHighscores.add(
-                        new HighscoreEntryController(key, Settings.getHighscore(key))));
+                        new HighscoreEntryController(key,
+                                Integer.parseInt(Settings.getHighscore(key)))));
+        tempHighscores.sort((HighscoreEntryController o1,
+                         HighscoreEntryController o2)->o2.getScore() - o1.getScore());
+        while (tempHighscores.size() > 10) {
+            tempHighscores.remove(10);
+        }
+        cleanUpHighscoresProp(tempHighscores);
         return tempHighscores;
+    }
+
+    private static void cleanUpHighscoresProp(ArrayList<HighscoreEntryController> list) {
+        List<String> keys = new ArrayList<>();
+        list.forEach((entry) -> keys.add(entry.getName()));
+
+        Set<String> keysToRemove = highscoreKeys();
+        keysToRemove.removeAll(keys);
+        keysToRemove.forEach(highscores::remove);
     }
 
     /**
      * Set the highscores property with the highscores.
-     * @param scoresList The ArrayList with the highscore entries.
+     * @param number Index of the player.
+     * @param score Score of the player.
      */
-    public static void setHighscores(ArrayList<HighscoreEntryController> scoresList) {
-        highscores.clear();
-        for (HighscoreEntryController entry : scoresList) {
-            setHighscore(entry.getName(), entry.getScoreString());
+    public static void setHighscores(int number, int score) {
+        String name = getName(number - 1);
+
+        String oldScoreString = getHighscore(name);
+        if (oldScoreString != null) {
+            int oldScore = Integer.parseInt(getHighscore(name));
+
+            if (score > oldScore) {
+                setHighscore(name, score);
+            }
+        } else {
+            setHighscore(name, score);
         }
     }
 
@@ -190,8 +216,8 @@ public final class Settings {
      * @param key the key of the property.
      * @param value the value of the property.
      */
-    public static void setHighscoreProperty(String key, String value) {
-        highscores.setProperty(key, value);
+    public static void setHighscoreProperty(String key, int value) {
+        highscores.setProperty(key, Integer.toString(value));
 
         try (FileOutputStream fos = new FileOutputStream(scoresFileName)) {
             SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss",
