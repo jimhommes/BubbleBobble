@@ -5,11 +5,7 @@ import javafx.scene.media.MediaPlayer;
 import utility.Settings;
 
 /**
- * Created by Jim on 10/27/2015.
- *
- * @author Jim
- * @version 1.0
- * @since 10/27/2015
+ * This class controls the music that is played.
  */
 public final class MusicController {
 
