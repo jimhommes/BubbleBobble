@@ -110,7 +110,8 @@ public class WalkerTest {
         walker.getSpriteBase().setHeight(32.0);
         walker.checkCollision(bubble);
         walker.move();
-        assertEquals(bubble.getSpriteBase().getXCoordinate(), walker.getSpriteBase().getXCoordinate(), 0);
+        assertEquals(bubble.getSpriteBase().getXCoordinate(), 
+        		walker.getSpriteBase().getXCoordinate(), 0);
 	}
 	
 	/**

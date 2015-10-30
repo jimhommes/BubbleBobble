@@ -87,7 +87,8 @@ public class BossEnemyTest {
    */
   @Test
   public void testFireLeft() {
-    Coordinates forPlayer = new Coordinates(0, bossEnemy.getSpriteBase().getYCoordinate(), 0, 0, 0, 0);
+    Coordinates forPlayer = new Coordinates(0, 
+    		bossEnemy.getSpriteBase().getYCoordinate(), 0, 0, 0, 0);
     SpriteBase spriteBasePlayer = new SpriteBase("testing", forPlayer);
     spriteBasePlayer.setYCoordinate(spriteBasePlayer.getYCoordinate() + 1);
     Player player = mock(Player.class);
@@ -104,7 +105,8 @@ public class BossEnemyTest {
    */
   @Test
   public void testFireRight() {
-    Coordinates forPlayer = new Coordinates(800, bossEnemy.getSpriteBase().getYCoordinate(), 0, 0, 0, 0);
+    Coordinates forPlayer = new Coordinates(800, 
+    		bossEnemy.getSpriteBase().getYCoordinate(), 0, 0, 0, 0);
     SpriteBase spriteBasePlayer = new SpriteBase("testing", forPlayer);
     spriteBasePlayer.setYCoordinate(spriteBasePlayer.getYCoordinate() + 1);
     ArrayList<Player> players = new ArrayList<>();

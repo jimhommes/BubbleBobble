@@ -124,7 +124,8 @@ public class PlayerTest {
         assertEquals(-Settings.PLAYER_SPEED, sprite.getDxCoordinate(), 0.001);
         assertEquals(0.0, sprite.getDyCoordinate(), 0.001);
         assertEquals(Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getYCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, 
+        		sprite.getYCoordinate(), 0.001);
     }
 
 
@@ -163,7 +164,8 @@ public class PlayerTest {
         player.move();
         SpriteBase sprite = player.getSpriteBase();
         assertEquals(-Settings.PLAYER_SPEED + Settings.SPRITE_SIZE, sprite.getXCoordinate(), 0.001);
-        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(), sprite.getYCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE - player.calculateGravity(), 
+        		sprite.getYCoordinate(), 0.001);
     }
 
     /**
@@ -227,8 +229,8 @@ public class PlayerTest {
     @Test
     public void testCollisionRight() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-        Coordinates coordinates = 
-        		new Coordinates(sprite.getXCoordinate() + player.getSpeed(), sprite.getYCoordinate(), 0, 0, 0, 0);
+        Coordinates coordinates = new Coordinates(sprite.getXCoordinate() + player.getSpeed(), 
+        		sprite.getYCoordinate(), 0, 0, 0, 0);
     	Wall wall = new Wall(coordinates);
     	walls.add(wall);
         when(input.isMoveRight()).thenReturn(true);
@@ -244,7 +246,8 @@ public class PlayerTest {
     @Test
     public void testCollisionLeft() throws Exception {
         SpriteBase sprite = player.getSpriteBase();
-        Coordinates coordinates = new Coordinates(sprite.getXCoordinate(), sprite.getYCoordinate(), 0, 0, 0, 0);
+        Coordinates coordinates = new Coordinates(sprite.getXCoordinate(), 
+        		sprite.getYCoordinate(), 0, 0, 0, 0);
     	Wall wall = new Wall(coordinates);
     	walls.add(wall);
     	when(input.isMoveLeft()).thenReturn(true);
@@ -260,11 +263,10 @@ public class PlayerTest {
     @Test
     public void testCollisionUp() throws Exception {
         when(input.isMoveUp()).thenReturn(true);
-        
         player.processInput();
         SpriteBase sprite = player.getSpriteBase();
-
-        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, sprite.getYCoordinate(), 0.001);
+        assertEquals(Settings.SPRITE_SIZE + Settings.GRAVITY_CONSTANT, 
+        		sprite.getYCoordinate(), 0.001);
     }
 
     /**
